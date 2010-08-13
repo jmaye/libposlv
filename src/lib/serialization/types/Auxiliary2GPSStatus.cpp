@@ -27,11 +27,11 @@ void Auxiliary2GPSStatus::read(Connection &stream) throw(IOException) {
   stream >> mi8NavigationSolutionStatus;
   stream >> mu8NumberOfSVTracked;
   stream >> mu16ChannelStatusByteCount;
-  if (u16ByteCount - mu16ChannelStatusByteCount < mcu16ByteCount)
+  if (u16ByteCount != mcu16ByteCount)
     throw IOException("Auxiliary2GPSStatus::read: Wrong byte count");
   mu32ChannelNumber = mu16ChannelStatusByteCount / 20;
-  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
-    stream >> maChannelStatusData[i];
+//  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
+//    stream >> maChannelStatusData[i];
   stream >> mf32HDOP;
   stream >> mf32VDOP;
   stream >> mf32DGPSCorrectionLatency;
@@ -53,9 +53,9 @@ void Auxiliary2GPSStatus::write(ofstream &stream) const {
   stream << mu16TypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mi8NavigationSolutionStatus;
+  stream << hex << (uint16_t)mi8NavigationSolutionStatus << dec;
   stream << " ";
-  stream << mu8NumberOfSVTracked;
+  stream << hex << (uint16_t)mu8NumberOfSVTracked << dec;
   stream << " ";
   stream << mu16ChannelStatusByteCount;
   stream << " ";
@@ -79,7 +79,7 @@ void Auxiliary2GPSStatus::write(ofstream &stream) const {
   stream << " ";
   stream << mu16NMEAMessageReceived;
   stream << " ";
-  stream << mu8Aux12InUse;
+  stream << hex << (uint16_t)mu8Aux12InUse << dec;
 }
 
 Auxiliary2GPSStatus* Auxiliary2GPSStatus::clone() const {

@@ -40,9 +40,9 @@ void UserTimeStatus::write(ofstream &stream) const {
   stream << " ";
   stream << mu32NumberOfUserTimeResynchronizations;
   stream << " ";
-  stream << mu8UserTimeValid;
+  stream << hex << (uint16_t)mu8UserTimeValid << dec;
   stream << " ";
-  stream << mu8TimeSynchMessageReceived;
+  stream << hex << (uint16_t)mu8TimeSynchMessageReceived << dec;
 }
 
 UserTimeStatus* UserTimeStatus::clone() const {

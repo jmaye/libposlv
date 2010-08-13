@@ -54,7 +54,7 @@ void IINSolutionStatus::write(ofstream &stream) const {
   stream << mu16IINProcessingStatus;
   stream << " ";
   for (uint8_t i = 0; i < 12; i++) {
-    stream << mau8PRNAssignment[i];
+    stream << hex << (uint16_t)mau8PRNAssignment[i] << dec;
     stream << " ";
   }
   stream << mu16L1CycleSlipFlag;

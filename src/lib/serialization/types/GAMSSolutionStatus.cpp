@@ -46,16 +46,16 @@ void GAMSSolutionStatus::write(ofstream &stream) const {
   stream << mu16TypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mu8NumberOfSatellites;
+  stream << (uint16_t)mu8NumberOfSatellites;
   stream << " ";
   stream << mf32APrioriPDOP;
   stream << " ";
   stream << mf32ComputedAntennaSeparation;
   stream << " ";
-  stream << mu8SolutionStatus;
+  stream << hex << (uint16_t)mu8SolutionStatus << dec;
   stream << " ";
   for (uint32_t i = 0; i < 12; i++) {
-    stream << mau8PRNAssignment[i];
+    stream << hex << (uint16_t)mau8PRNAssignment[i] << dec;
     stream << " ";
   }
   stream << mu16CycleSlipFlag;

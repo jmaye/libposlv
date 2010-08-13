@@ -44,13 +44,13 @@ void BaseGPS1DataStream::write(ofstream &stream) const {
   stream << " ";
   stream << mTimeDistance;
   for (uint32_t i = 0; i < 6; i++) {
-    stream << mau8Reserved[i];
+    stream << hex << (uint16_t)mau8Reserved[i] << dec;
     stream << " ";
   }
   stream << mu16VariableMsgByteCount;
   stream << " ";
   for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
-    stream << mau8GPSReceiverRawData[i];
+    stream << hex << (uint16_t)mau8GPSReceiverRawData[i] << dec;
     stream << " ";
   }
 }

@@ -49,11 +49,11 @@ void TimeTaggedDMIData::write(ofstream &stream) const {
   stream << " ";
   stream << mu16DMIScaleFactor;
   stream << " ";
-  stream << mu8DataStatus;
+  stream << hex << (uint16_t)mu8DataStatus << dec;
   stream << " ";
-  stream << mu8DMIType;
+  stream << hex << (uint16_t)mu8DMIType << dec;
   stream << " ";
-  stream << mu8DMIDataRate;
+  stream << hex << (uint16_t)mu8DMIDataRate << dec;
 }
 
 TimeTaggedDMIData* TimeTaggedDMIData::clone() const {

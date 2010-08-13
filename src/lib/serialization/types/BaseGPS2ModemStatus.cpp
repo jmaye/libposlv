@@ -47,11 +47,11 @@ void BaseGPS2ModemStatus::write(ofstream &stream) const {
   stream << " ";
   stream << mTimeDistance;
   for (uint32_t i = 0; i < 16; i++) {
-    stream << mau8ModemResponse[i];
+    stream << hex << (uint16_t)mau8ModemResponse[i] << dec;
     stream << " ";
   }
   for (uint32_t i = 0; i < 48; i++) {
-    stream << mau8ConnectionStatus[i];
+    stream << hex << (uint16_t)mau8ConnectionStatus[i] << dec;
     stream << " ";
   }
   stream << mu32NumberOfRedialsPerDisconnect;

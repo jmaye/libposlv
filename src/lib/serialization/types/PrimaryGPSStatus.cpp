@@ -22,15 +22,13 @@ PrimaryGPSStatus::~PrimaryGPSStatus() {
 void PrimaryGPSStatus::read(Connection &stream) throw(IOException) {
   uint16_t u16ByteCount;
   stream >> u16ByteCount;
-
   stream >> mTimeDistance;
   stream >> mi8NavigationSolutionStatus;
   stream >> mu8NumberOfSVTracked;
   stream >> mu16ChannelStatusByteCount;
-  if (u16ByteCount - mu16ChannelStatusByteCount < mcu16ByteCount)
+  if (u16ByteCount != mcu16ByteCount)
     throw IOException("PrimaryGPSStatus::read: Wrong byte count");
-  mu32ChannelNumber = mu16ChannelStatusByteCount / 20;
-  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
+  for (uint32_t i = 0; i < mu8NumberOfSVTracked; i ++)
     stream >> maChannelStatusData[i];
   stream >> mf32HDOP;
   stream >> mf32VDOP;
@@ -43,23 +41,23 @@ void PrimaryGPSStatus::read(Connection &stream) throw(IOException) {
   stream >> mu16GPSReceiverType;
   stream >> mu32GPSStatus;
 
-  uint16_t u16Pad;
-  stream >> u16Pad;
-  if (u16Pad != 0)
-    throw IOException("PrimaryGPSStatus::read: Wrong pad");
+  for (uint32_t i = 0; i < u16ByteCount - 74; i ++) {
+    uint8_t u8Byte;
+    stream >> u8Byte;
+  }
 }
 
 void PrimaryGPSStatus::write(ofstream &stream) const {
   stream << mu16TypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mi8NavigationSolutionStatus;
+  stream << hex << (uint16_t)mi8NavigationSolutionStatus << dec;
   stream << " ";
-  stream << mu8NumberOfSVTracked;
+  stream << (uint16_t)mu8NumberOfSVTracked;
   stream << " ";
   stream << mu16ChannelStatusByteCount;
   stream << " ";
-  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
+  for (uint32_t i = 0; i < mu8NumberOfSVTracked; i ++)
     stream << maChannelStatusData[i];
   stream << mf32HDOP;
   stream << " ";

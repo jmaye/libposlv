@@ -4,6 +4,7 @@
 #include "TypesFactory.h"
 
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -48,14 +49,14 @@ void VersionStatistics::write(ofstream &stream) const {
   stream << mu16TypeID;
   stream << " ";
   stream << mTimeDistance;
-  for (uint32_t i = 0; i < 120; i++)
-    stream << mau8SystemVersion[i];
+  string outputStr1((const char*)mau8SystemVersion);
+  stream << outputStr1;
   stream << " ";
-  for (uint32_t i = 0; i < 80; i++)
-    stream << mau8PrimaryGPSVersion[i];
+  string outputStr2((const char*)mau8PrimaryGPSVersion);
+  stream << outputStr2;
   stream << " ";
-  for (uint32_t i = 0; i < 80; i++)
-    stream << mau8SecondaryGPSversion[i];
+  string outputStr3((const char*)mau8SecondaryGPSversion);
+  stream << outputStr3;
   stream << " ";
   stream << mf32TotalHours;
   stream << " ";

@@ -19,7 +19,7 @@ class LoggingParamStatus : public Group {
   virtual void read(Connection &stream) throw(IOException);
   virtual void write(std::ofstream &stream) const;
 
-  static const uint16_t mcu16ByteCount = 4848;
+  static const uint16_t mcu16ByteCount = 48;
 
   TimeDistance mTimeDistance;
   uint32_t mu32DiskKbytesRemaining;

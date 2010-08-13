@@ -50,7 +50,7 @@ void LoggingParamStatus::write(ofstream &stream) const {
   stream << " ";
   stream << mu32DiskKbytesTotal;
   stream << " ";
-  stream << mu8LoggingState;
+  stream << hex << (uint16_t)mu8LoggingState << dec;
 }
 
 LoggingParamStatus* LoggingParamStatus::clone() const {

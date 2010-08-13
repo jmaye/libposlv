@@ -40,7 +40,7 @@ void PPSTimeRecoveryStatus::write(ofstream &stream) const {
   stream << " ";
   stream << mTimeDistance;
   stream << mu32PPSCount;
-  stream << mu8TimeSynchroStatus;
+  stream << hex << (uint16_t)mu8TimeSynchroStatus << dec;
 }
 
 PPSTimeRecoveryStatus* PPSTimeRecoveryStatus::clone() const {

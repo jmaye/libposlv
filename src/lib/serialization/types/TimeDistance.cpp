@@ -31,9 +31,9 @@ void TimeDistance::write(ofstream &stream) const {
   stream << " ";
   stream << mf64DistanceTag;
   stream << " ";
-  stream << mu8TimeType;
+  stream << hex << (uint16_t)mu8TimeType << dec;
   stream << " ";
-  stream << mu8DistanceType;
+  stream << hex << (uint16_t)mu8DistanceType << dec;
   stream << " ";
 }
 

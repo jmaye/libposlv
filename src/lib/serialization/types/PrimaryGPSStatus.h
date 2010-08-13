@@ -20,7 +20,7 @@ class PrimaryGPSStatus : public Group {
   virtual void read(Connection &stream) throw(IOException);
   virtual void write(std::ofstream &stream) const;
 
-  static const uint16_t mcu16ByteCount = 76;
+  static const uint16_t mcu16ByteCount = 676;
 
   TimeDistance mTimeDistance;
   int8_t mi8NavigationSolutionStatus;
@@ -37,7 +37,6 @@ class PrimaryGPSStatus : public Group {
   float mf32GeoidalSeparation;
   uint16_t mu16GPSReceiverType;
   uint32_t mu32GPSStatus;
-  uint32_t mu32ChannelNumber;
 
 public:
   ~PrimaryGPSStatus();

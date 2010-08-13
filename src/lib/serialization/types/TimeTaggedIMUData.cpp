@@ -59,13 +59,13 @@ void TimeTaggedIMUData::write(ofstream &stream) const {
   stream << " ";
   stream << mi32ZIncrementalAngle;
   stream << " ";
-  stream << mu8DataStatus;
+  stream << hex << (uint16_t)mu8DataStatus << dec;
   stream << " ";
-  stream << mu8IMUType;
+  stream << hex << (uint16_t)mu8IMUType << dec;
   stream << " ";
-  stream << mu8POSIMUDataRate;
+  stream << hex << (uint16_t)mu8POSIMUDataRate << dec;
   stream << " ";
-  stream << mu16IMUStatus;
+  stream << hex << mu16IMUStatus << dec;
 }
 
 TimeTaggedIMUData* TimeTaggedIMUData::clone() const {

@@ -24,7 +24,7 @@ void StationRecord::read(Connection &stream) throw(IOException) {
 }
 
 void StationRecord::write(ofstream &stream) const {
-  stream << mu8RecordIndexAndFlags;
+  stream << hex << (uint16_t)mu8RecordIndexAndFlags << dec;
   stream << " ";
   stream << mu16StationID;
   stream << " ";
@@ -34,11 +34,11 @@ void StationRecord::write(ofstream &stream) const {
   stream << " ";
   stream << mf32Range;
   stream << " ";
-  stream << mu8USCGIndex;
+  stream << hex << (uint16_t)mu8USCGIndex << dec;
   stream << " ";
   stream << mu64Seconds;
   stream << " ";
-  stream << mu8ModulationRate;
+  stream << hex << (uint16_t)mu8ModulationRate << dec;
   stream << " ";
 }
 

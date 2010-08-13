@@ -50,7 +50,7 @@ void RawIMUData::write(ofstream &stream) const {
   stream << mu16VariableMsgByteCount;
   stream << " ";
   for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
-    stream << mau8IMURawData[i];
+    stream << hex << (uint16_t)mau8IMURawData[i] << dec;
     stream << " ";
   }
 }

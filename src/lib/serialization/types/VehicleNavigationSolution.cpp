@@ -93,7 +93,7 @@ void VehicleNavigationSolution::write(ofstream &stream) const {
   stream << " ";
   stream << mf32AccDown;
   stream << " ";
-  stream << mu8AlignementStatus;
+  stream << hex << (uint16_t)mu8AlignementStatus << dec;
 }
 
 VehicleNavigationSolution* VehicleNavigationSolution::clone() const {
