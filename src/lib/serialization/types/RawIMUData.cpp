@@ -41,6 +41,18 @@ void RawIMUData::read(Connection &stream) throw(IOException) {
 }
 
 void RawIMUData::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  for (uint32_t i = 0; i < 6; i++)
+    stream << mau8IMUHeader[i];
+  stream << " ";
+  stream << mu16VariableMsgByteCount;
+  stream << " ";
+  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
+    stream << mau8IMURawData[i];
+    stream << " ";
+  }
 }
 
 RawIMUData* RawIMUData::clone() const {

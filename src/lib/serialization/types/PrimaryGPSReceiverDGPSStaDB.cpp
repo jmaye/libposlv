@@ -25,12 +25,18 @@ void PrimaryGPSReceiverDGPSStaDB::read(Connection &stream)
   uint16_t u16ByteCount;
   stream >> u16ByteCount;
 
-  uint32_t u32StationNbr = (u16ByteCount - 30) / 24;
-  for (uint32_t i = 0; i < u32StationNbr; i++)
+  stream >> mTimeDistance;
+  mu32StationNbr = (u16ByteCount - 30) / 24;
+  for (uint32_t i = 0; i < mu32StationNbr; i++)
     stream >> maStationRecord[i];
 }
 
 void PrimaryGPSReceiverDGPSStaDB::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  for (uint32_t i = 0; i < mu32StationNbr; i++)
+    stream << maStationRecord[i];
 }
 
 PrimaryGPSReceiverDGPSStaDB* PrimaryGPSReceiverDGPSStaDB::clone() const {

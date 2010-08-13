@@ -45,6 +45,27 @@ void VersionStatistics::read(Connection &stream) throw(IOException) {
 }
 
 void VersionStatistics::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  for (uint32_t i = 0; i < 120; i++)
+    stream << mau8SystemVersion[i];
+  stream << " ";
+  for (uint32_t i = 0; i < 80; i++)
+    stream << mau8PrimaryGPSVersion[i];
+  stream << " ";
+  for (uint32_t i = 0; i < 80; i++)
+    stream << mau8SecondaryGPSversion[i];
+  stream << " ";
+  stream << mf32TotalHours;
+  stream << " ";
+  stream << mu32NumberOfRuns;
+  stream << " ";
+  stream << mf32AverageLengthOfRun;
+  stream << " ";
+  stream << mf32LongestRun;
+  stream << " ";
+  stream << mf32CurrentRun;
 }
 
 VersionStatistics* VersionStatistics::clone() const {

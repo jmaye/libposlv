@@ -25,6 +25,7 @@ class PrimaryGPSReceiverDGPSStaDB : public Group {
 
   TimeDistance mTimeDistance;
   StationRecord maStationRecord[10];
+  uint32_t mu32StationNbr;
 
 public:
   ~PrimaryGPSReceiverDGPSStaDB();

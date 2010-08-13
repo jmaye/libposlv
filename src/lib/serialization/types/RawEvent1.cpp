@@ -34,6 +34,10 @@ void RawEvent1::read(Connection &stream) throw(IOException) {
 }
 
 void RawEvent1::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu32Event1PulseCount;
 }
 
 RawEvent1* RawEvent1::clone() const {

@@ -56,6 +56,7 @@ void VehicleNavigationSolution::read(Connection &stream) throw(IOException) {
 void VehicleNavigationSolution::write(ofstream &stream) const {
   stream << mu16TypeID;
   stream << " ";
+  stream << mTimeDistance;
   stream << mf64Latitude;
   stream << " ";
   stream << mf64Longitude;
@@ -93,7 +94,6 @@ void VehicleNavigationSolution::write(ofstream &stream) const {
   stream << mf32AccDown;
   stream << " ";
   stream << mu8AlignementStatus;
-  stream << endl;
 }
 
 VehicleNavigationSolution* VehicleNavigationSolution::clone() const {

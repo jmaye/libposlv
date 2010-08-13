@@ -29,8 +29,8 @@ void Auxiliary1GPSStatus::read(Connection &stream) throw(IOException) {
   stream >> mu16ChannelStatusByteCount;
   if (u16ByteCount - mu16ChannelStatusByteCount < mcu16ByteCount)
     throw IOException("Auxiliary1GPSStatus::read: Wrong byte count");
-  uint32_t u32ChannelNumber = mu16ChannelStatusByteCount / 20;
-  for (uint32_t i = 0; i < u32ChannelNumber; i ++)
+  mu32ChannelNumber = mu16ChannelStatusByteCount / 20;
+  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
     stream >> maChannelStatusData[i];
   stream >> mf32HDOP;
   stream >> mf32VDOP;
@@ -50,6 +50,36 @@ void Auxiliary1GPSStatus::read(Connection &stream) throw(IOException) {
 }
 
 void Auxiliary1GPSStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mi8NavigationSolutionStatus;
+  stream << " ";
+  stream << mu8NumberOfSVTracked;
+  stream << " ";
+  stream << mu16ChannelStatusByteCount;
+  stream << " ";
+  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
+    stream << maChannelStatusData[i];
+  stream << mf32HDOP;
+  stream << " ";
+  stream << mf32VDOP;
+  stream << " ";
+  stream << mf32DGPSCorrectionLatency;
+  stream << " ";
+  stream << mu16DGPSReferenceID;
+  stream << " ";
+  stream << mu32GPSUTCWeekNumber;
+  stream << " ";
+  stream << mf64GPSUTCTimeOffset;
+  stream << " ";
+  stream << mf32GPSNavigationMessageLatency;
+  stream << " ";
+  stream << mf32GeoidalSeparation;
+  stream << " ";
+  stream << mu16NMEAMessageReceived;
+  stream << " ";
+  stream << mu8Aux12InUse;
 }
 
 Auxiliary1GPSStatus* Auxiliary1GPSStatus::clone() const {

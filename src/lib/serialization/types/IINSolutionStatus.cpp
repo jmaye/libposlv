@@ -42,6 +42,24 @@ void IINSolutionStatus::read(Connection &stream) throw(IOException) {
 }
 
 void IINSolutionStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu16NumberOfSatellites;
+  stream << " ";
+  stream << mf32APrioriPDOP;
+  stream << " ";
+  stream << mf32BaselineLength;
+  stream << " ";
+  stream << mu16IINProcessingStatus;
+  stream << " ";
+  for (uint8_t i = 0; i < 12; i++) {
+    stream << mau8PRNAssignment[i];
+    stream << " ";
+  }
+  stream << mu16L1CycleSlipFlag;
+  stream << " ";
+  stream << mu16L2CycleSlipFlag;
 }
 
 IINSolutionStatus* IINSolutionStatus::clone() const {

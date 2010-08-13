@@ -47,6 +47,32 @@ void VehicleNavigationPerformance::read(Connection &stream) throw(IOException) {
 }
 
 void VehicleNavigationPerformance::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mf32NorthPositionRMSError;
+  stream << " ";
+  stream << mf32EastPositionRMSError;
+  stream << " ";
+  stream << mf32DownPositionRMSError;
+  stream << " ";
+  stream << mf32NorthVelocityRMSError;
+  stream << " ";
+  stream << mf32EastVelocityRMSError;
+  stream << " ";
+  stream << mf32DownVelocityRMSError;
+  stream << " ";
+  stream << mf32RollRMSError;
+  stream << " ";
+  stream << mf32PitchRMSError;
+  stream << " ";
+  stream << mf32HeadingRMSError;
+  stream << " ";
+  stream << mf32ErrorEllipsoidSemiMajor;
+  stream << " ";
+  stream << mf32ErrorEllipsoidSemiMinor;
+  stream << " ";
+  stream << mf32ErrorEllipsoidOrientation;
 }
 
 VehicleNavigationPerformance* VehicleNavigationPerformance::clone() const {

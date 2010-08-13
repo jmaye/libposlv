@@ -43,6 +43,19 @@ void Auxiliary1GPSDisplayData::read(Connection &stream) throw(IOException) {
 }
 
 void Auxiliary1GPSDisplayData::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  for (uint32_t i = 0; i < 6; i++) {
+    stream << mau8Reserved[i];
+    stream << " ";
+  }
+  stream << mu16VariableMsgByteCount;
+  stream << " ";
+  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
+    stream << mau8GPSRawData[i];
+    stream << " ";
+  }
 }
 
 Auxiliary1GPSDisplayData* Auxiliary1GPSDisplayData::clone() const {

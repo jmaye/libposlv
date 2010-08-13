@@ -43,6 +43,26 @@ void GAMSSolutionStatus::read(Connection &stream) throw(IOException) {
 }
 
 void GAMSSolutionStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu8NumberOfSatellites;
+  stream << " ";
+  stream << mf32APrioriPDOP;
+  stream << " ";
+  stream << mf32ComputedAntennaSeparation;
+  stream << " ";
+  stream << mu8SolutionStatus;
+  stream << " ";
+  for (uint32_t i = 0; i < 12; i++) {
+    stream << mau8PRNAssignment[i];
+    stream << " ";
+  }
+  stream << mu16CycleSlipFlag;
+  stream << " ";
+  stream << mf64GAMSHeading;
+  stream << " ";
+  stream << mf64GAMSHeadingRMSError;
 }
 
 GAMSSolutionStatus* GAMSSolutionStatus::clone() const {

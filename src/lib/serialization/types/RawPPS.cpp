@@ -35,6 +35,10 @@ void RawPPS::read(Connection &stream) throw(IOException) {
 }
 
 void RawPPS::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu16PPSPulseCount;
 }
 
 RawPPS* RawPPS::clone() const {

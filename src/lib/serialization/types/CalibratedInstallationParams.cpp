@@ -60,6 +60,58 @@ void CalibratedInstallationParams::read(Connection &stream) throw(IOException) {
 }
 
 void CalibratedInstallationParams::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu16CalibrationStatus;
+  stream << " ";
+  stream << mf32ReferenceToPrimaryGPSXLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToPrimaryGPSYLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToPrimaryGPSZLeverArm;
+  stream << " ";
+  stream << mu16ReferenceToPrimaryGPSLeverArmCalibrationFOM;
+  stream << " ";
+  stream << mf32ReferenceToAuxiliary1GPSXLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToAuxiliary1GPSYLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToAuxiliary1GPSZLeverArm;
+  stream << " ";
+  stream << mu16ReferenceToAuxiliary1GPSLeverArmCalibrationFOM;
+  stream << " ";
+  stream << mf32ReferenceToAuxiliary2GPSXLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToAuxiliary2GPSYLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToAuxiliary2GPSZLeverArm;
+  stream << " ";
+  stream << mu16ReferenceToAuxiliary2GPSLeverArmCalibrationFOM;
+  stream << " ";
+  stream << mf32ReferenceToDMIXLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToDMIYLeverArm;
+  stream << " ";
+  stream << mf32ReferenceToDMIZLeverArm;
+  stream << " ";
+  stream << mu16ReferenceToDMILeverArmCalibrationFOM;
+  stream << " ";
+  stream << mf32DMIScaleFactor;
+  stream << " ";
+  stream << mu16DMIScaleFactorCalibrationFOM;
+  stream << " ";
+  stream << mf32Reserved1;
+  stream << " ";
+  stream << mf32Reserved2;
+  stream << " ";
+  stream << mf32Reserved3;
+  stream << " ";
+  stream << mf32Reserved4;
+  stream << " ";
+  stream << mf32Reserved5;
+  stream << " ";
+  stream << mf32Reserved6;
 }
 
 CalibratedInstallationParams* CalibratedInstallationParams::clone() const {

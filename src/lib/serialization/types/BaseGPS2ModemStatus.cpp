@@ -43,6 +43,26 @@ void BaseGPS2ModemStatus::read(Connection &stream) throw(IOException) {
 }
 
 void BaseGPS2ModemStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  for (uint32_t i = 0; i < 16; i++) {
+    stream << mau8ModemResponse[i];
+    stream << " ";
+  }
+  for (uint32_t i = 0; i < 48; i++) {
+    stream << mau8ConnectionStatus[i];
+    stream << " ";
+  }
+  stream << mu32NumberOfRedialsPerDisconnect;
+  stream << " ";
+  stream << mu32MaximumNumberOfRedialsPerDisconnect;
+  stream << " ";
+  stream << mu32NumberOfDisconnects;
+  stream << " ";
+  stream << mu32DataGapLength;
+  stream << " ";
+  stream << mu32MaximumDataGapLength;
 }
 
 BaseGPS2ModemStatus* BaseGPS2ModemStatus::clone() const {

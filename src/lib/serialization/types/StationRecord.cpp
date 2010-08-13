@@ -24,6 +24,22 @@ void StationRecord::read(Connection &stream) throw(IOException) {
 }
 
 void StationRecord::write(ofstream &stream) const {
+  stream << mu8RecordIndexAndFlags;
+  stream << " ";
+  stream << mu16StationID;
+  stream << " ";
+  stream << mu16StationHealth;
+  stream << " ";
+  stream << mf32Distance;
+  stream << " ";
+  stream << mf32Range;
+  stream << " ";
+  stream << mu8USCGIndex;
+  stream << " ";
+  stream << mu64Seconds;
+  stream << " ";
+  stream << mu8ModulationRate;
+  stream << " ";
 }
 
 Connection& operator >> (Connection &stream, StationRecord &obj)

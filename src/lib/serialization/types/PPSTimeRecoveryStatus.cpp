@@ -36,6 +36,11 @@ void PPSTimeRecoveryStatus::read(Connection &stream) throw(IOException) {
 }
 
 void PPSTimeRecoveryStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu32PPSCount;
+  stream << mu8TimeSynchroStatus;
 }
 
 PPSTimeRecoveryStatus* PPSTimeRecoveryStatus::clone() const {

@@ -37,6 +37,7 @@ class Auxiliary1GPSStatus : public Group {
   float mf32GeoidalSeparation;
   uint16_t mu16NMEAMessageReceived;
   uint8_t mu8Aux12InUse;
+  uint32_t mu32ChannelNumber;
 
 public:
   ~Auxiliary1GPSStatus();

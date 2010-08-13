@@ -40,6 +40,19 @@ void SecondaryGPSDataStream::read(Connection &stream) throw(IOException) {
 }
 
 void SecondaryGPSDataStream::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  for (uint32_t i = 0; i < 6; i++) {
+    stream << mau8Reserved[i];
+    stream << " ";
+  }
+  stream << mu16VariableMsgByteCount;
+  stream << " ";
+  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
+    stream << mau8GPSReceiverRawData[i];
+    stream << " ";
+  }
 }
 
 SecondaryGPSDataStream* SecondaryGPSDataStream::clone() const {

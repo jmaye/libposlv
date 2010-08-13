@@ -33,6 +33,16 @@ void UserTimeStatus::read(Connection &stream) throw(IOException) {
 }
 
 void UserTimeStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu32NumberOfTimeSynchMessageRejections;
+  stream << " ";
+  stream << mu32NumberOfUserTimeResynchronizations;
+  stream << " ";
+  stream << mu8UserTimeValid;
+  stream << " ";
+  stream << mu8TimeSynchMessageReceived;
 }
 
 UserTimeStatus* UserTimeStatus::clone() const {

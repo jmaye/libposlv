@@ -26,7 +26,7 @@ class PrimaryGPSReceiverIntegratedDGPSStatus : public Group {
   TimeDistance mTimeDistance;
   uint8_t mu8MobileDifferentialMode;
   double mf64Frequency0;
-  uint8_t AcquisitionMode0;
+  uint8_t mu8AcquisitionMode0;
   uint8_t mu8ChannelStatus0;
   uint8_t mu8RCTMUsedFlag0;
   uint8_t mu8SNR0;
@@ -35,7 +35,7 @@ class PrimaryGPSReceiverIntegratedDGPSStatus : public Group {
   uint8_t mu8DGPSSourceAutoSwitching0;
   uint8_t mu8ServiceProvider0;
   double mf64Frequency1;
-  uint8_t AcquisitionMode1;
+  uint8_t mu8AcquisitionMode1;
   uint8_t mu8ChannelStatus1;
   uint8_t mu8RCTMUsedFlag1;
   uint8_t mu8SNR1;

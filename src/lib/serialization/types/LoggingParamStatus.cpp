@@ -39,6 +39,18 @@ void LoggingParamStatus::read(Connection &stream) throw(IOException) {
 }
 
 void LoggingParamStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu32DiskKbytesRemaining;
+  stream << " ";
+  stream << mu32DiskKbytesLogged;
+  stream << " ";
+  stream << mf32DiskLoggingTimeRemaining;
+  stream << " ";
+  stream << mu32DiskKbytesTotal;
+  stream << " ";
+  stream << mu8LoggingState;
 }
 
 LoggingParamStatus* LoggingParamStatus::clone() const {

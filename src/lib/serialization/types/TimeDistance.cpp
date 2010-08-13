@@ -25,6 +25,16 @@ void TimeDistance::read(Connection &stream) throw(IOException) {
 }
 
 void TimeDistance::write(ofstream &stream) const {
+  stream << mf64Time1;
+  stream << " ";
+  stream << mf64Time2;
+  stream << " ";
+  stream << mf64DistanceTag;
+  stream << " ";
+  stream << mu8TimeType;
+  stream << " ";
+  stream << mu8DistanceType;
+  stream << " ";
 }
 
 Connection& operator >> (Connection &stream, TimeDistance &obj)

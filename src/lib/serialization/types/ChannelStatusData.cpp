@@ -27,6 +27,17 @@ void ChannelStatusData::read(Connection &stream) throw(IOException) {
 }
 
 void ChannelStatusData::write(ofstream &stream) const {
+  stream << mu16SVPRN;
+  stream << " ";
+  stream << mu16ChannelTrackingStatus;
+  stream << " ";
+  stream << mf32SVAzimuth;
+  stream << " ";
+  stream << mf32SVElevation;
+  stream << " ";
+  stream << mf32SVL1SNR;
+  stream << " ";
+  stream << mf32SVL2SNR;
 }
 
 Connection& operator >> (Connection &stream, ChannelStatusData &obj)

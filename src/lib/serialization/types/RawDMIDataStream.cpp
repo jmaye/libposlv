@@ -38,6 +38,16 @@ void RawDMIDataStream::read(Connection &stream) throw(IOException) {
 }
 
 void RawDMIDataStream::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mi32UpDownPulseCount;
+  stream << " ";
+  stream << mu32RectifiedPulseCount;
+  stream << " ";
+  stream << mi32EventCount;
+  stream << " ";
+  stream << mu32ReservedCount;
 }
 
 RawDMIDataStream* RawDMIDataStream::clone() const {

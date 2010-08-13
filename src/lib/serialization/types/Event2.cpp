@@ -34,6 +34,10 @@ void Event2::read(Connection &stream) throw(IOException) {
 }
 
 void Event2::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu32EventPulseNumber;
 }
 
 Event2* Event2::clone() const {

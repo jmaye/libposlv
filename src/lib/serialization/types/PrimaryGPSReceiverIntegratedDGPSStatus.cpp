@@ -33,7 +33,7 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(Connection &stream)
   stream >> mTimeDistance;
   stream >> mu8MobileDifferentialMode;
   stream >> mf64Frequency0;
-  stream >> AcquisitionMode0;
+  stream >> mu8AcquisitionMode0;
   stream >> mu8ChannelStatus0;
   stream >> mu8RCTMUsedFlag0;
   stream >> mu8SNR0;
@@ -42,7 +42,7 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(Connection &stream)
   stream >> mu8DGPSSourceAutoSwitching0;
   stream >> mu8ServiceProvider0;
   stream >> mf64Frequency1;
-  stream >> AcquisitionMode1;
+  stream >> mu8AcquisitionMode1;
   stream >> mu8ChannelStatus1;
   stream >> mu8RCTMUsedFlag1;
   stream >> mu8SNR1;
@@ -61,6 +61,53 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(Connection &stream)
 }
 
 void PrimaryGPSReceiverIntegratedDGPSStatus::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu8MobileDifferentialMode;
+  stream << " ";
+  stream << mf64Frequency0;
+  stream << " ";
+  stream << mu8AcquisitionMode0;
+  stream << " ";
+  stream << mu8ChannelStatus0;
+  stream << " ";
+  stream << mu8RCTMUsedFlag0;
+  stream << " ";
+  stream << mu8SNR0;
+  stream << " ";
+  stream << mu8DataRateIndex0;
+  stream << " ";
+  stream << mu8LockIndicator0;
+  stream << " ";
+  stream << mu8DGPSSourceAutoSwitching0;
+  stream << " ";
+  stream << mu8ServiceProvider0;
+  stream << " ";
+  stream << mf64Frequency1;
+  stream << " ";
+  stream << mu8AcquisitionMode1;
+  stream << " ";
+  stream << mu8ChannelStatus1;
+  stream << " ";
+  stream << mu8RCTMUsedFlag1;
+  stream << " ";
+  stream << mu8SNR1;
+  stream << " ";
+  stream << " ";
+  stream << mu8DataRateIndex1;
+  stream << " ";
+  stream << mu8LockIndicator1;
+  stream << " ";
+  stream << mu8DGPSSourceAutoSwitching1;
+  stream << " ";
+  stream << mu8ServiceProvider1;
+  stream << " ";
+  stream << mu64UserIDCode;
+  stream << " ";
+  stream << mu8UserAccess;
+  stream << " ";
+  stream << mu8DecoderState;
 }
 
 PrimaryGPSReceiverIntegratedDGPSStatus*

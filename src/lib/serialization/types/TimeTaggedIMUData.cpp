@@ -44,6 +44,28 @@ void TimeTaggedIMUData::read(Connection &stream) throw(IOException) {
 }
 
 void TimeTaggedIMUData::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mi32XIncrementalVelocity;
+  stream << " ";
+  stream << mi32YIncrementalVelocity;
+  stream << " ";
+  stream << mi32ZIncrementalVelocity;
+  stream << " ";
+  stream << mi32XIncrementalAngle;
+  stream << " ";
+  stream << mi32YIncrementalAngle;
+  stream << " ";
+  stream << mi32ZIncrementalAngle;
+  stream << " ";
+  stream << mu8DataStatus;
+  stream << " ";
+  stream << mu8IMUType;
+  stream << " ";
+  stream << mu8POSIMUDataRate;
+  stream << " ";
+  stream << mu16IMUStatus;
 }
 
 TimeTaggedIMUData* TimeTaggedIMUData::clone() const {

@@ -37,6 +37,7 @@ class PrimaryGPSStatus : public Group {
   float mf32GeoidalSeparation;
   uint16_t mu16GPSReceiverType;
   uint32_t mu32GPSStatus;
+  uint32_t mu32ChannelNumber;
 
 public:
   ~PrimaryGPSStatus();

@@ -40,6 +40,20 @@ void TimeTaggedDMIData::read(Connection &stream) throw(IOException) {
 }
 
 void TimeTaggedDMIData::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mf64SignedDistanceTraveled;
+  stream << " ";
+  stream << mf64UnsignedDistanceTraveled;
+  stream << " ";
+  stream << mu16DMIScaleFactor;
+  stream << " ";
+  stream << mu8DataStatus;
+  stream << " ";
+  stream << mu8DMIType;
+  stream << " ";
+  stream << mu8DMIDataRate;
 }
 
 TimeTaggedDMIData* TimeTaggedDMIData::clone() const {

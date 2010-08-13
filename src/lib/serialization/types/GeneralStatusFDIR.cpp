@@ -39,6 +39,28 @@ void GeneralStatusFDIR::read(Connection &stream) throw(IOException) {
 }
 
 void GeneralStatusFDIR::write(ofstream &stream) const {
+  stream << mu16TypeID;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mu32GeneralStatusA;
+  stream << " ";
+  stream << mu32GeneralStatusB;
+  stream << " ";
+  stream << mu32GeneralStatusC;
+  stream << " ";
+  stream << mu32FDIRLevel1Status;
+  stream << " ";
+  stream << mu16FDIRLevel1Failures;
+  stream << " ";
+  stream << mu16FDIRLevel2Status;
+  stream << " ";
+  stream << mu16FDIRLevel3Status;
+  stream << " ";
+  stream << mu16FDIRLevel4Status;
+  stream << " ";
+  stream << mu16FDIRLevel5Status;
+  stream << " ";
+  stream << mu32ExtendedStatus;
 }
 
 GeneralStatusFDIR* GeneralStatusFDIR::clone() const {

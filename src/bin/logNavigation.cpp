@@ -29,8 +29,9 @@ int main(int argc, char **argv) {
   while (1) {
     const Group *result = com.readGroup();
     ofstream logFile(argv[3], ios_base::app);
-    logFile << seconds() << " ";
+    logFile << fixed << seconds() << " ";
     logFile << *result;
+    logFile << endl;
     logFile.close();
     delete result;
   }
