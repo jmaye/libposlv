@@ -45,6 +45,8 @@ public:
 
   const Group* readGroup() throw(IOException, GroupCreationException);
 
+  void sendControl() throw(IOException);
+
   Connection& operator >> (int8_t &i8Value) throw(IOException);
   Connection& operator >> (uint8_t &u8Value) throw(IOException);
   Connection& operator >> (int16_t &i16Value) throw(IOException);

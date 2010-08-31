@@ -8,6 +8,7 @@
 #include <sys/select.h>
 #include <sys/time.h>
 #include <arpa/inet.h>
+#include <netinet/tcp.h>
 #include <string.h>
 #include <math.h>
 
@@ -45,6 +46,11 @@ void Connection::open() throw(IOException) {
   mi32Socket = socket(AF_INET, SOCK_STREAM, 0);
   if (mi32Socket == -1)
     throw IOException("Connection::open: Socket creation failed");
+
+  int32_t i32Flag = 1;
+  if (setsockopt(mi32Socket, IPPROTO_TCP, TCP_NODELAY, (char*)&i32Flag,
+    sizeof(int32_t)) == -1)
+    throw IOException("doOpen: Set TCP_NODELAY failed");
 
   struct sockaddr_in server;
   memset(&server, 0, sizeof(struct sockaddr_in));
@@ -132,6 +138,12 @@ string Connection::readEndGroup() const throw(IOException) {
   outputString.push_back(readByte());
   outputString.push_back(readByte());
   return outputString;
+}
+
+void Connection::sendControl() throw(IOException) {
+  if(mi32Socket == 0)
+    open();
+  
 }
 
 Connection& Connection::operator >> (int8_t &i8Value) throw(IOException) {
