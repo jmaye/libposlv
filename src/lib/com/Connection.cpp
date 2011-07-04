@@ -1,3 +1,21 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "com/Connection.h"
 
 #include "serialization/TypesFactory.h"
@@ -16,9 +34,9 @@ using namespace std;
 Connection::Connection(const string &strHost, uint32_t u32Port,
   double f64Timeout)
  : mstrHost(strHost),
-   mu32Port(u32Port),
-   mf64Timeout(f64Timeout),
-   mi32Socket(0) {
+   mPort(u32Port),
+   mTimeout(f64Timeout),
+   mSocket(0) {
 }
 
 Connection::~Connection() {
@@ -30,24 +48,24 @@ const string& Connection::getHost() const {
 }
 
 uint32_t Connection::getPort() const {
-  return mu32Port;
+  return mPort;
 }
 
 double Connection::getTimeout() const {
-  return mf64Timeout;
+  return mTimeout;
 }
 
 void Connection::setTimeout(double f64Time) {
-  mf64Timeout = f64Time;
+  mTimeout = f64Time;
 }
 
 void Connection::open() throw(IOException) {
-  mi32Socket = socket(AF_INET, SOCK_STREAM, 0);
-  if (mi32Socket == -1)
+  mSocket = socket(AF_INET, SOCK_STREAM, 0);
+  if (mSocket == -1)
     throw IOException("Connection::open: Socket creation failed");
 
   int32_t i32Flag = 1;
-  if (setsockopt(mi32Socket, IPPROTO_TCP, TCP_NODELAY, (char*)&i32Flag,
+  if (setsockopt(mSocket, IPPROTO_TCP, TCP_NODELAY, (char*)&i32Flag,
     sizeof(int32_t)) == -1)
     throw IOException("doOpen: Set TCP_NODELAY failed");
 
@@ -55,41 +73,41 @@ void Connection::open() throw(IOException) {
   memset(&server, 0, sizeof(struct sockaddr_in));
   server.sin_family = AF_INET;
   server.sin_addr.s_addr = inet_addr(mstrHost.c_str());
-  server.sin_port = htons(mu32Port);
-  if (connect(mi32Socket, (struct sockaddr*)&server, sizeof(server)) == -1)
+  server.sin_port = htons(mPort);
+  if (connect(mSocket, (struct sockaddr*)&server, sizeof(server)) == -1)
     throw IOException("Connection::open: Socket connection failed");
 }
 
 void Connection::close() throw(IOException) {
-  if (mi32Socket != 0) {
-    int32_t i32Res = ::close(mi32Socket);
+  if (mSocket != 0) {
+    int32_t i32Res = ::close(mSocket);
     if (i32Res == -1)
       throw IOException("Connection::close: Socket closing failed");
   }
-  mi32Socket = 0;
+  mSocket = 0;
 }
 
 bool Connection::isOpen() const {
-  return (mi32Socket != 0);
+  return (mSocket != 0);
 }
 
 uint8_t Connection::readByte() const throw(IOException) {
   double f64IntPart;
-  double f64FractPart = modf(mf64Timeout , &f64IntPart);
+  double f64FractPart = modf(mTimeout , &f64IntPart);
   struct timeval waitd;
   waitd.tv_sec = f64IntPart;
   waitd.tv_usec = f64FractPart * 1000000;
   fd_set readFlags;
   FD_ZERO(&readFlags);
-  FD_SET(mi32Socket, &readFlags);
-  int32_t i32Res = select(mi32Socket + 1, &readFlags, (fd_set*)0,
+  FD_SET(mSocket, &readFlags);
+  int32_t i32Res = select(mSocket + 1, &readFlags, (fd_set*)0,
     (fd_set*)0, &waitd);
   if(i32Res < 0)
     throw IOException("Connection::readByte: Read select failed");
   uint8_t u8Byte;
-  if (FD_ISSET(mi32Socket, &readFlags)) {
-    FD_CLR(mi32Socket, &readFlags);
-    if (::read(mi32Socket, &u8Byte, 1) == -1)
+  if (FD_ISSET(mSocket, &readFlags)) {
+    FD_CLR(mSocket, &readFlags);
+    if (::read(mSocket, &u8Byte, 1) == -1)
       throw IOException("Connection::readByte: Read failed");
   }
   else
@@ -99,7 +117,7 @@ uint8_t Connection::readByte() const throw(IOException) {
 
 const Group* Connection::readGroup()
   throw(IOException, GroupCreationException) {
-  if(mi32Socket == 0)
+  if(mSocket == 0)
     open();
   string startString;
   do {
@@ -140,7 +158,7 @@ string Connection::readEndGroup() const throw(IOException) {
 }
 
 void Connection::sendControl() throw(IOException) {
-  if(mi32Socket == 0)
+  if(mSocket == 0)
     open();
   
 }

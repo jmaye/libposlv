@@ -16,43 +16,80 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file TypeCastException.h
-    \brief This file defines the TypeCastException class, which represents wrong
-           type casts
+/** \file UDPConnection.h
+    \brief This file defines the UDPConnection class, which is an interface
+           for a UDP connection
   */
 
-#ifndef TYPECASTEXCEPTION_H
-#define TYPECASTEXCEPTION_H
+#ifndef UDPCONNECTION_H
+#define UDPCONNECTION_H
 
-#include <stdexcept>
-#include <string>
+#include "exceptions/IOException.h"
 
-/** The class TypeCastException represents a wrong type cast.
-    \brief Type cast exception
+#include <stdint.h>
+
+/** The class UDPConnection is an interface for UDP communication.
+    \brief UDP communication interface
   */
-class TypeCastException :
-  public std::runtime_error {
+class UDPConnection {
   /** \name Private constructors
     @{
     */
+  /// Copy constructor
+  UDPConnection(const UDPConnection& other);
   /// Assignment operator
-  TypeCastException& operator = (const TypeCastException& other);
+  UDPConnection& operator = (const UDPConnection& other);
+  /** @}
+    */
+
+  /** \name Private members
+    @{
+    */
+  /// UDP port
+  uint16_t mPort;
+  /// Timeout of the port
+  double mTimeout;
+  /// Socket for the port
+  ssize_t mSocket;
   /** @}
     */
 
 public:
-  /** \name Constructors/Destructor
+  /** \name Constructors/destructor
     @{
     */
-  /// Constructs exception from message
-  TypeCastException(const std::string& msg = "");
-  /// Copy constructor
-  TypeCastException(const TypeCastException& other);
-  /** @}
+  /// Constructs UDP from parameters
+  UDPConnection(uint16_t u16Port = 2368, double timeout = 2.5);
+  /// Destructor
+  ~UDPConnection();
+ /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  double getTimeout() const;
+  uint16_t getPort() const;
+  void setTimeout(double f64Time);
+ /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
+  /// Open the connection
+  void open() throw (IOException);
+  /// Close the connection
+  void close() throw (IOException);
+  /// Test if the connection is open
+  bool isOpen() const;
+  /// Read buffer from UDP
+  void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) throw (IOException);
+ /** @}
     */
 
 protected:
 
 };
 
-#endif // TYPECASTEXCEPTION_H
+#endif // UDPCONNECTION_H

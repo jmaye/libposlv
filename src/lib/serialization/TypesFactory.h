@@ -20,6 +20,7 @@
     \brief This file defines the TypesFactory class, which implements the object
            factory design pattern
   */
+
 #ifndef TYPESFACTORY_H
 #define TYPESFACTORY_H
 
