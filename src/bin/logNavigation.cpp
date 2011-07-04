@@ -1,5 +1,5 @@
-#include "Connection.h"
-#include "Group.h"
+#include "com/Connection.h"
+#include "types/Group.h"
 
 #include <iostream>
 #include <fstream>

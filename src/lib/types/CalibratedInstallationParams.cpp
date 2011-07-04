@@ -1,7 +1,7 @@
 #include "types/CalibratedInstallationParams.h"
 
 #include "com/Connection.h"
-#include "serialization/TypesFactory.h"
+#include "utils/TypesFactory.h"
 
 #include <fstream>
 

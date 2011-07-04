@@ -1,6 +1,6 @@
 #include "com/Connection.h"
 
-#include "serialization/TypesFactory.h"
+#include "utils/TypesFactory.h"
 
 #include <sys/socket.h>
 #include <sys/types.h>

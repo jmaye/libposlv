@@ -6,7 +6,7 @@ remake_project(
   libposlv
   VERSION 0.1
   RELEASE alpha
-  SUMMARY "Applanix POS LV driver"
+  SUMMARY "A C++ based Applanix POS LV interfacing library"
   AUTHOR "Jerome Maye"
   CONTACT "jerome.maye@mavt.ethz.ch"
   HOME "http://aslforge.ethz.ch/projects/libposlv"
@@ -17,6 +17,8 @@ remake_project(
 
 remake_doc(
   html
+  latex
+  vendor
 )
 
 remake_pack_deb(
@@ -26,6 +28,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT dev
   DESCRIPTION "Development headers"
+  libposlv
 )
 
 remake_pack_deb(
@@ -37,4 +40,5 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT doc
   DESCRIPTION "Documentation"
+  libposlv
 )

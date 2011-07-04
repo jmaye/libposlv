@@ -1,2 +1,3 @@
-remake_include(../lib/exceptions ../lib/com ../lib/serialization ../lib/serialization/types)
+remake_include(../lib)
+
 remake_add_executables(LINK com)

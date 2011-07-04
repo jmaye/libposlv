@@ -1,4 +1,4 @@
-#include "serialization/TypesFactory.h"
+#include "utils/TypesFactory.h"
 
 #include "types/Group.h"
 
@@ -10,8 +10,8 @@ TypesFactory::TypesFactory() {
 }
 
 TypesFactory& TypesFactory::getInstance() {
-  static TypesFactory instance;
-  return instance;
+  static TypesFactory* instance = new TypesFactory();
+  return *instance;
 }
 
 void TypesFactory::registerType(const Group *groupPtr, uint16_t u16TypeID) {
