@@ -1,4 +1,4 @@
-#include "GroupCreationException.h"
+#include "exceptions/GroupCreationException.h"
 
 using namespace std;
 

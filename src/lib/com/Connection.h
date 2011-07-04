@@ -1,9 +1,9 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-#include "IOException.h"
-#include "GroupCreationException.h"
-#include "Group.h"
+#include "exceptions/IOException.h"
+#include "exceptions/GroupCreationException.h"
+#include "types/Group.h"
 
 #include <string>
 
