@@ -26,8 +26,7 @@
 
 #include "exceptions/TypeCastException.h"
 #include "exceptions/TypeCreationException.h"
-
-#include <iosfwd>
+#include "base/Serializable.h"
 
 #include <stdint.h>
 
@@ -36,58 +35,94 @@ class Connection;
 /** The class Group is the base class for all Applanix messages.
     \brief Base class for Applanix messages
   */
-class Group {
+class Group :
+  public virtual Serializable {
   /// Stream operator for reading from a connection
   friend Connection& operator >> (Connection& stream, Group& obj);
-   /// Stream operator for writing to a file
-  friend std::ofstream& operator << (std::ofstream& stream, const Group &obj);
-  /// Reads from a connection
-  virtual void read(Connection& stream) = 0;
-  /// Writes to a file
-  virtual void write(std::ofstream& stream) const = 0;
 
 public:
+  /** \name Constructors/Destructor
+    @{
+    */
+  /// Constructs a new group with given type ID
+  Group(uint16_t typeID);
+  /// Copy constructor
+  Group(const Group& other);
+  /// Assignement operator
+  Group& operator = (const Group& other);
+  /// Destructor
   virtual ~Group();
+  /** @}
+    */
 
+  /** \name Accessors
+    @{
+    */
+  /// Returns the type ID of the group
+  uint16_t getTypeID() const;
+  /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
+  /// Returns a new prototype of this group
   virtual Group* clone() const = 0;
-
-  virtual uint16_t getTypeID() const;
-
+  /// Cast the group into something else
   template<class O> const O& typeCast() const throw (TypeCastException) {
-    if (this->mu16TypeID == O::mProto.mu16TypeID)
+    if (this->mTypeID == O::mProto.mTypeID)
       return (const O&)*this;
     else
       throw TypeCastException("Group::typeCast(): cast failed");
   }
-
+  /// Cast the group into something else
   template<class O> O& typeCast() throw (TypeCastException) {
-    if (this->mu16TypeID == O::mProto.mu16TypeID)
+    if (this->mTypeID == O::mProto.mTypeID)
       return (O&)*this;
     else
       throw TypeCastException("Group::typeCast(): cast failed");
   }
-
+  /// Check if a group is an instance of something
   template<class O> bool instanceof() const {
-    if (this->mu16TypeID == O::mProto.mu16TypeID)
+    if (this->mTypeID == O::mProto.mTypeID)
       return true;
     else
       return false;
   }
-
+  /// Check if a group is an instance of something
   template<class O> bool instanceof() {
-    if (this->mu16TypeID == O::mProto.mu16TypeID)
+    if (this->mTypeID == O::mProto.mTypeID)
       return true;
     else
       return false;
   }
+  /** @}
+    */
 
 protected:
-  Group() throw (TypeCreationException<uint16_t>);
-  Group(uint16_t u16TypeID);
-  Group(const Group& other);
-  Group& operator = (const Group& other);
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from standard input
+  virtual void read(std::istream& stream) = 0;
+  /// Writes to standard output
+  virtual void write(std::ostream& stream) const = 0;
+  /// Reads from a file
+  virtual void read(std::ifstream& stream) = 0;
+  /// Writes to a file
+  virtual void write(std::ofstream& stream) const = 0;
+  /// Reads from the network
+  virtual void read(Connection& stream) = 0;
+  /** @}
+    */
 
-  const uint16_t mu16TypeID;
+  /** \name Protected members
+    @{
+    */
+  /// Type ID
+  uint16_t mTypeID;
+  /** @}
+    */
 
 };
 

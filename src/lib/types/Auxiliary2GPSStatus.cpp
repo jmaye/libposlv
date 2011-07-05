@@ -1,85 +1,130 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/Auxiliary2GPSStatus.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
-
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const Auxiliary2GPSStatus Auxiliary2GPSStatus::mProto;
 
-Auxiliary2GPSStatus::Auxiliary2GPSStatus() : Group(13) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+Auxiliary2GPSStatus::Auxiliary2GPSStatus() :
+  Group(13) {
 }
 
-Auxiliary2GPSStatus::Auxiliary2GPSStatus(const Auxiliary2GPSStatus &other)
-  : Group(other) {
+Auxiliary2GPSStatus::Auxiliary2GPSStatus(const Auxiliary2GPSStatus& other) :
+  Group(other) {
+}
+
+Auxiliary2GPSStatus& Auxiliary2GPSStatus::operator =
+  (const Auxiliary2GPSStatus& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 Auxiliary2GPSStatus::~Auxiliary2GPSStatus() {
 }
 
-void Auxiliary2GPSStatus::read(Connection &stream) throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
 
+void Auxiliary2GPSStatus::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
   stream >> mTimeDistance;
-  stream >> mi8NavigationSolutionStatus;
-  stream >> mu8NumberOfSVTracked;
-  stream >> mu16ChannelStatusByteCount;
-  if (u16ByteCount != mcu16ByteCount)
-    throw IOException("Auxiliary2GPSStatus::read: Wrong byte count");
-  mu32ChannelNumber = mu16ChannelStatusByteCount / 20;
+  stream >> mNavigationSolutionStatus;
+  stream >> mNumberOfSVTracked;
+  stream >> mChannelStatusByteCount;
+  if (byteCount != mByteCount)
+    throw IOException("Auxiliary2GPSStatus::read(): wrong byte count");
+  mChannelNumber = mChannelStatusByteCount / 20;
+  for (size_t i = 0; i < mChannelNumber; i ++)
+    stream >> maChannelStatusData[i];
+  stream >> mHDOP;
+  stream >> mVDOP;
+  stream >> mDGPSCorrectionLatency;
+  stream >> mDGPSReferenceID;
+  stream >> mGPSUTCWeekNumber;
+  stream >> mGPSUTCTimeOffset;
+  stream >> mGPSNavigationMessageLatency;
+  stream >> mGeoidalSeparation;
+  stream >> mNMEAMessageReceived;
+  stream >> mAux12InUse;
+
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("Auxiliary2GPSStatus::read(): wrong pad");
+}
+
+void Auxiliary2GPSStatus::read(std::istream& stream) {
+}
+
+void Auxiliary2GPSStatus::write(std::ostream& stream) const {
+}
+
+void Auxiliary2GPSStatus::read(std::ifstream& stream) {
+}
+
+void Auxiliary2GPSStatus::write(std::ofstream& stream) const {
+//  stream << mu16TypeID;
+//  stream << " ";
+//  stream << mTimeDistance;
+//  stream << hex << (uint16_t)mi8NavigationSolutionStatus << dec;
+//  stream << " ";
+//  stream << hex << (uint16_t)mu8NumberOfSVTracked << dec;
+//  stream << " ";
+//  stream << mu16ChannelStatusByteCount;
+//  stream << " ";
 //  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
-//    stream >> maChannelStatusData[i];
-  stream >> mf32HDOP;
-  stream >> mf32VDOP;
-  stream >> mf32DGPSCorrectionLatency;
-  stream >> mu16DGPSReferenceID;
-  stream >> mu32GPSUTCWeekNumber;
-  stream >> mf64GPSUTCTimeOffset;
-  stream >> mf32GPSNavigationMessageLatency;
-  stream >> mf32GeoidalSeparation;
-  stream >> mu16NMEAMessageReceived;
-  stream >> mu8Aux12InUse;
-
-  uint8_t u8Pad;
-  stream >> u8Pad;
-  if (u8Pad != 0)
-    throw IOException("Auxiliary2GPSStatus::read: Wrong pad");
+//    stream << maChannelStatusData[i];
+//  stream << mf32HDOP;
+//  stream << " ";
+//  stream << mf32VDOP;
+//  stream << " ";
+//  stream << mf32DGPSCorrectionLatency;
+//  stream << " ";
+//  stream << mu16DGPSReferenceID;
+//  stream << " ";
+//  stream << mu32GPSUTCWeekNumber;
+//  stream << " ";
+//  stream << mf64GPSUTCTimeOffset;
+//  stream << " ";
+//  stream << mf32GPSNavigationMessageLatency;
+//  stream << " ";
+//  stream << mf32GeoidalSeparation;
+//  stream << " ";
+//  stream << mu16NMEAMessageReceived;
+//  stream << " ";
+//  stream << hex << (uint16_t)mu8Aux12InUse << dec;
 }
 
-void Auxiliary2GPSStatus::write(ofstream &stream) const {
-  stream << mu16TypeID;
-  stream << " ";
-  stream << mTimeDistance;
-  stream << hex << (uint16_t)mi8NavigationSolutionStatus << dec;
-  stream << " ";
-  stream << hex << (uint16_t)mu8NumberOfSVTracked << dec;
-  stream << " ";
-  stream << mu16ChannelStatusByteCount;
-  stream << " ";
-  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
-    stream << maChannelStatusData[i];
-  stream << mf32HDOP;
-  stream << " ";
-  stream << mf32VDOP;
-  stream << " ";
-  stream << mf32DGPSCorrectionLatency;
-  stream << " ";
-  stream << mu16DGPSReferenceID;
-  stream << " ";
-  stream << mu32GPSUTCWeekNumber;
-  stream << " ";
-  stream << mf64GPSUTCTimeOffset;
-  stream << " ";
-  stream << mf32GPSNavigationMessageLatency;
-  stream << " ";
-  stream << mf32GeoidalSeparation;
-  stream << " ";
-  stream << mu16NMEAMessageReceived;
-  stream << " ";
-  stream << hex << (uint16_t)mu8Aux12InUse << dec;
-}
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 Auxiliary2GPSStatus* Auxiliary2GPSStatus::clone() const {
   return new Auxiliary2GPSStatus(*this);

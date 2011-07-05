@@ -113,6 +113,9 @@ bool TCPConnectionServer::isOpen() const {
 
 void TCPConnectionServer::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes)
   throw (IOException) {
+//newsockfd = accept(sockfd,
+//                 (struct sockaddr *) &cli_addr,
+//                 &clilen);
 //  if (isOpen() == false)
 //    open();
 //  double intPart;

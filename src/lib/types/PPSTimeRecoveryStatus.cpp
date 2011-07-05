@@ -1,46 +1,93 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/PPSTimeRecoveryStatus.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
-
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const PPSTimeRecoveryStatus PPSTimeRecoveryStatus::mProto;
 
-PPSTimeRecoveryStatus::PPSTimeRecoveryStatus() : Group(7) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+PPSTimeRecoveryStatus::PPSTimeRecoveryStatus() :
+  Group(7) {
 }
 
-PPSTimeRecoveryStatus::
-  PPSTimeRecoveryStatus(const PPSTimeRecoveryStatus &other) : Group(other) {
+PPSTimeRecoveryStatus::PPSTimeRecoveryStatus(const PPSTimeRecoveryStatus&
+  other) :
+  Group(other) {
+}
+
+PPSTimeRecoveryStatus& PPSTimeRecoveryStatus::operator =
+  (const PPSTimeRecoveryStatus& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 PPSTimeRecoveryStatus::~PPSTimeRecoveryStatus() {
 }
 
-void PPSTimeRecoveryStatus::read(Connection &stream) throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
-  if (u16ByteCount != mcu16ByteCount)
-    throw IOException("PPSTimeRecoveryStatus::read: Wrong byte count");
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void PPSTimeRecoveryStatus::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("PPSTimeRecoveryStatus::read(): wrong byte count");
 
   stream >> mTimeDistance;
-  stream >> mu32PPSCount;
-  stream >> mu8TimeSynchroStatus;
+  stream >> mPPSCount;
+  stream >> mTimeSynchroStatus;
 
-  uint8_t u8Pad;
-  stream >> u8Pad;
-  if (u8Pad != 0)
-    throw IOException("PPSTimeRecoveryStatus::read: Wrong pad");
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("PPSTimeRecoveryStatus::read(): wrong pad");
 }
 
-void PPSTimeRecoveryStatus::write(ofstream &stream) const {
-  stream << mu16TypeID;
-  stream << " ";
-  stream << mTimeDistance;
-  stream << mu32PPSCount;
-  stream << hex << (uint16_t)mu8TimeSynchroStatus << dec;
+void PPSTimeRecoveryStatus::read(std::istream& stream) {
 }
+
+void PPSTimeRecoveryStatus::write(std::ostream& stream) const {
+}
+
+void PPSTimeRecoveryStatus::read(std::ifstream& stream) {
+}
+
+void PPSTimeRecoveryStatus::write(std::ofstream& stream) const {
+//  stream << mu16TypeID;
+//  stream << " ";
+//  stream << mTimeDistance;
+//  stream << mu32PPSCount;
+//  stream << hex << (uint16_t)mu8TimeSynchroStatus << dec;
+}
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 PPSTimeRecoveryStatus* PPSTimeRecoveryStatus::clone() const {
   return new PPSTimeRecoveryStatus(*this);

@@ -1,18 +1,47 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/PrimaryGPSDataStream.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
-
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const PrimaryGPSDataStream PrimaryGPSDataStream::mProto;
 
-PrimaryGPSDataStream::PrimaryGPSDataStream() : Group(10001) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+PrimaryGPSDataStream::PrimaryGPSDataStream() :
+  Group(10001) {
 }
 
-PrimaryGPSDataStream::PrimaryGPSDataStream(const PrimaryGPSDataStream &other)
-  : Group(other) {
+PrimaryGPSDataStream::PrimaryGPSDataStream(const PrimaryGPSDataStream& other) :
+  Group(other) {
+}
+
+PrimaryGPSDataStream& PrimaryGPSDataStream::operator =
+  (const PrimaryGPSDataStream& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 PrimaryGPSDataStream::~PrimaryGPSDataStream() {
@@ -20,39 +49,55 @@ PrimaryGPSDataStream::~PrimaryGPSDataStream() {
     delete mau8GPSReceiverRawData;
 }
 
-void PrimaryGPSDataStream::read(Connection &stream) throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void PrimaryGPSDataStream::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
   stream >> mTimeDistance;
-  stream >> mu16GPSReceiverType;
-  stream >> mu32Reserved;
-  stream >> mu16VariableMsgByteCount;
-  mau8GPSReceiverRawData = new uint8_t[mu16VariableMsgByteCount];
-  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++)
+  stream >> mGPSReceiverType;
+  stream >> mReserved;
+  stream >> mVariableMsgByteCount;
+  mau8GPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
+  for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mau8GPSReceiverRawData[i];
-  uint32_t u32PadSize = u16ByteCount - 26 - 2 - 4 - 2 -
-    mu16VariableMsgByteCount - 2 - 2;
+  uint32_t padSize = byteCount - 26 - 2 - 4 - 2 - mVariableMsgByteCount - 2 - 2;
 
-  uint8_t u8Pad;
-  for (uint32_t i = 0; i < u32PadSize; i++)
-    stream >> u8Pad;
+  uint8_t pad;
+  for (size_t i = 0; i < padSize; i++)
+    stream >> pad;
 }
 
-void PrimaryGPSDataStream::write(ofstream &stream) const {
-  stream << mu16TypeID;
-  stream << " ";
-  stream << mTimeDistance;
-  stream << mu16GPSReceiverType;
-  stream << " ";
-  stream << mu32Reserved;
-  stream << " ";
-  stream << mu16VariableMsgByteCount;
-  stream << " ";
-  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
-    stream << hex << (uint16_t)mau8GPSReceiverRawData[i] << dec;
-    stream << " ";
-  }
+void PrimaryGPSDataStream::read(std::istream& stream) {
 }
+
+void PrimaryGPSDataStream::write(std::ostream& stream) const {
+}
+
+void PrimaryGPSDataStream::read(std::ifstream& stream) {
+}
+
+void PrimaryGPSDataStream::write(std::ofstream& stream) const {
+//  stream << mu16TypeID;
+//  stream << " ";
+//  stream << mTimeDistance;
+//  stream << mu16GPSReceiverType;
+//  stream << " ";
+//  stream << mu32Reserved;
+//  stream << " ";
+//  stream << mu16VariableMsgByteCount;
+//  stream << " ";
+//  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
+//    stream << hex << (uint16_t)mau8GPSReceiverRawData[i] << dec;
+//    stream << " ";
+//  }
+}
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 PrimaryGPSDataStream* PrimaryGPSDataStream::clone() const {
   return new PrimaryGPSDataStream(*this);

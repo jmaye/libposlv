@@ -1,36 +1,59 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/Group.h"
 
 #include "base/Factory.h"
 
-#include <fstream>
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-Group::Group() throw (TypeCreationException<uint16_t>) :
-  mu16TypeID(0xffff) {
-  throw TypeCreationException<uint16_t>(mu16TypeID, "Group::Group(): invalid type creation");
-}
-
-Group::Group(uint16_t u16TypeID) :
-  mu16TypeID(u16TypeID) {
-  Factory<uint16_t, Group>::getInstance().registerType(this, u16TypeID);
+Group::Group(uint16_t typeID) :
+  mTypeID(typeID) {
+  Factory<uint16_t, Group>::getInstance().registerType(this, mTypeID);
 }
 
 Group::Group(const Group& other) :
-  mu16TypeID(other.mu16TypeID) {
+  mTypeID(other.mTypeID) {
+}
+
+Group& Group::operator = (const Group& other) {
+  mTypeID = other.mTypeID;
+  return *this;
 }
 
 Group::~Group() {
 }
 
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
+
 uint16_t Group::getTypeID() const {
-  return mu16TypeID;
+  return mTypeID;
 }
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 Connection& operator >> (Connection& stream, Group& obj) {
   obj.read(stream);
-  return stream;
-}
-
-std::ofstream& operator << (std::ofstream& stream, const Group& obj) {
-  obj.write(stream);
   return stream;
 }
