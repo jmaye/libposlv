@@ -18,7 +18,7 @@
 
 #include "com/Connection.h"
 
-#include "serialization/TypesFactory.h"
+#include "base/Factory.h"
 
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -127,7 +127,7 @@ const Group* Connection::readGroup()
   uint16_t u16GroupID;
   *this >> u16GroupID;
 
-  Group *groupRead = TypesFactory::createGroup(u16GroupID);
+  Group *groupRead = Factory<uint16_t, Group>::getInstance().create(u16GroupID);
   *this >> *groupRead;
 
   uint16_t u16Checksum;

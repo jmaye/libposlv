@@ -1,7 +1,6 @@
 #include "types/Auxiliary1GPSStatus.h"
 
 #include "com/Connection.h"
-#include "serialization/TypesFactory.h"
 
 #include <fstream>
 

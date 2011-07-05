@@ -1,7 +1,6 @@
 #include "types/VehicleNavigationSolution.h"
 
 #include "com/Connection.h"
-#include "serialization/TypesFactory.h"
 
 #include <fstream>
 

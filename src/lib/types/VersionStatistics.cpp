@@ -1,7 +1,6 @@
 #include "types/VersionStatistics.h"
 
 #include "com/Connection.h"
-#include "serialization/TypesFactory.h"
 
 #include <fstream>
 #include <string>
