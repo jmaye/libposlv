@@ -16,65 +16,89 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file TypesFactory.h
-    \brief This file defines the TypesFactory class, which implements the object
+/** \file Factory.h
+    \brief This file defines the Factory class, which implements the object
            factory design pattern
   */
 
-#ifndef TYPESFACTORY_H
-#define TYPESFACTORY_H
+#ifndef FACTORY_H
+#define FACTORY_H
 
-#include "exceptions/GroupCreationException.h"
+#include "base/Singleton.h"
+#include "base/Serializable.h"
+#include "exceptions/TypeCreationException.h"
 
 #include <map>
 
-class Group;
-
-/** The class TypesFactory implements the object factory design pattern.
-    \brief Types factory design pattern
+/** The class Factory implements the object factory design pattern.
+    \brief Object factory design pattern
   */
-class TypesFactory {
-  /** \name Private members
-    @{
-    */
-  /// Contains the mapping between types and ID
-  static std::map<size_t, const Group*> mTypesMap;
-  /** @}
-    */
-
-  /** \name Private constructors/destructor
-    @{
-    */
-  /// Default constructor
-  TypesFactory();
-  /// Destructor
-  ~TypesFactory();
-  /** @}
-    */
-
+template <typename T, typename C>
+class Factory :
+  public Singleton<Factory<T, C> >,
+  public virtual Serializable {
+friend class Singleton<Factory<T, C> >;
 public:
   /** \name Accessors
     @{
     */
-  /// Access the static instance of the factory
-  static TypesFactory& getInstance();
-  /// Gets the number of types
-  static size_t get
+  /// Returns the number of registered types
+  size_t getNumTypes() const;
   /** @}
     */
 
   /** \name Methods
     @{
     */
+  /// Clear factory
+  void clear();
+  /// Create prototyped instance of the specified type
+  C* create(const T& typeID) const throw (TypeCreationException<T>);
   /// Register a type to the factory
-  static void registerType(const Group* groupPtr, size_t typeID);
-  /// Creates a group from a typeID
-  static Group* createGroup(size_t typeID) throw (GroupCreationException);
+  void registerType(const C* object, const T& typeID)
+    throw (TypeCreationException<T>);
+  /// Unregister a type from the factory
+  void unregisterType(const T& typeID) throw (TypeCreationException<T>);
+  /// Check if type is registered
+  bool isRegistered(const T& typeID) const;
   /** @}
     */
 
 protected:
+  /** \name Protected constructors/destructor
+    @{
+    */
+  /// Default constructor
+  Factory();
+  /// Destructor
+  virtual ~Factory();
+  /** @}
+    */
+
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from standard input
+  virtual void read(std::istream& stream);
+  /// Writes to standard output
+  virtual void write(std::ostream& stream) const ;
+  /// Reads from a file
+  virtual void read(std::ifstream& stream);
+  /// Writes to a file
+  virtual void write(std::ofstream& stream) const;
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Contains the mapping between types and ID
+  std::map<T, const C*> mTypesMap;
+  /** @}
+    */
 
 };
 
-#endif // TYPESFACTORY_H
+#include "base/Factory.tpp"
+
+#endif // FACTORY_H

@@ -9,65 +9,62 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Singleton.h
-    \brief This file defines the Singleton class, which implements the singleton
-           design pattern
+/** \file TypeCreationException.h
+    \brief This file defines the TypeCreationException class, which
+           is thrown whenever an exception occured when creating a type
   */
 
-#ifndef SINGLETON_H
-#define SINGLETON_H
+#ifndef TYPECREATIONEXCEPTION_H
+#define TYPECREATIONEXCEPTION_H
 
-#include "exceptions/InvalidOperationException.h"
+#include <exception>
+#include <string>
 
-/** The class Singleton implements the singleton design pattern.
-    \brief Singleton design pattern
+/** The class TypeCreationException represents any exceptions occuring when
+    creating a type.
+    \brief Type creation exception
   */
-template <class C> class Singleton {
+template <typename X> class TypeCreationException :
+  public std::exception {
 public:
-  /** \name Accessors
+  /** \name Constructors/destructor
     @{
     */
-  /// Access the static instance
-  static C& getInstance();
+  /// Constructs exception from argument and string
+  TypeCreationException(const X& argument, const std::string& msg);
+  /// Copy constructor
+  TypeCreationException(const TypeCreationException& other) throw();
+  /// Assignment operator
+  TypeCreationException& operator = (const TypeCreationException& other)
+    throw();
+  /// Destructor
+  virtual ~TypeCreationException() throw();
   /** @}
     */
 
-  /** \name Methods
+  /** \name Accessors
     @{
     */
-  /// Check if the object exists
-  static bool exists();
+  /// Access the exception string
+  virtual const char* what() const throw();
   /** @}
     */
 
 protected:
-  /** \name Protected constructors/destructor
-    @{
-    */
-  /// Default constructor
-  Singleton() throw (InvalidOperationException);
-  /// Destructor
-  virtual ~Singleton();
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Instance of the object
-  static C* instance;
-  /** @}
-    */
+  /// Message in the exception
+  std::string mMsg;
+  /// Argument that causes the exception
+  X mArg;
 
 };
 
-#include "Singleton.tpp"
+#include "exceptions/TypeCreationException.tpp"
 
-#endif
+#endif // TYPECREATIONEXCEPTION_H

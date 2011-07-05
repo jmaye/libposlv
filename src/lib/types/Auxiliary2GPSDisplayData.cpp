@@ -1,4 +1,4 @@
-#include "types/Auxiliary1GPSDisplayData.h"
+#include "types/Auxiliary2GPSDisplayData.h"
 
 #include "com/Connection.h"
 #include "serialization/TypesFactory.h"
@@ -7,22 +7,22 @@
 
 using namespace std;
 
-const Auxiliary1GPSDisplayData Auxiliary1GPSDisplayData::mProto;
+const Auxiliary2GPSDisplayData Auxiliary2GPSDisplayData::mProto;
 
-Auxiliary1GPSDisplayData::Auxiliary1GPSDisplayData() : Group(10007) {
+Auxiliary2GPSDisplayData::Auxiliary2GPSDisplayData() : Group(24) {
 }
 
-Auxiliary1GPSDisplayData::
-  Auxiliary1GPSDisplayData(const Auxiliary1GPSDisplayData &other)
+Auxiliary2GPSDisplayData::
+  Auxiliary2GPSDisplayData(const Auxiliary2GPSDisplayData &other)
   : Group(other) {
 }
 
-Auxiliary1GPSDisplayData::~Auxiliary1GPSDisplayData() {
+Auxiliary2GPSDisplayData::~Auxiliary2GPSDisplayData() {
   if (mau8GPSRawData)
     delete mau8GPSRawData;
 }
 
-void Auxiliary1GPSDisplayData::read(Connection &stream) throw(IOException) {
+void Auxiliary2GPSDisplayData::read(Connection &stream) throw(IOException) {
   uint16_t u16ByteCount;
   stream >> u16ByteCount;
 
@@ -42,7 +42,7 @@ void Auxiliary1GPSDisplayData::read(Connection &stream) throw(IOException) {
     stream >> u8Pad;
 }
 
-void Auxiliary1GPSDisplayData::write(ofstream &stream) const {
+void Auxiliary2GPSDisplayData::write(ofstream &stream) const {
   stream << mu16TypeID;
   stream << " ";
   stream << mTimeDistance;
@@ -58,6 +58,6 @@ void Auxiliary1GPSDisplayData::write(ofstream &stream) const {
   }
 }
 
-Auxiliary1GPSDisplayData* Auxiliary1GPSDisplayData::clone() const {
-  return new Auxiliary1GPSDisplayData(*this);
+Auxiliary2GPSDisplayData* Auxiliary2GPSDisplayData::clone() const {
+  return new Auxiliary2GPSDisplayData(*this);
 }

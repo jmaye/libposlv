@@ -31,12 +31,21 @@
     \brief Serializable class
   */
 class Serializable {
+  /** \name Stream methods
+    @{
+    */
+  /// Writes object to standard output
   friend std::ostream& operator << (std::ostream& stream,
     const Serializable& obj);
+  /// Reads object from standard input
   friend std::istream& operator >> (std::istream& stream, Serializable& obj);
+  /// Writes object to file
   friend std::ofstream& operator << (std::ofstream& stream,
     const Serializable& obj);
+  /// Reads object from file
   friend std::ifstream& operator >> (std::ifstream& stream, Serializable& obj);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor

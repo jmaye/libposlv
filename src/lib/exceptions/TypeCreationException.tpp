@@ -16,63 +16,44 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file TypesFactory.h
-    \brief This file defines the TypesFactory class, which implements the object
-           factory design pattern
-  */
+#include <sstream>
 
-#ifndef TYPESFACTORY_H
-#define TYPESFACTORY_H
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#include "exceptions/GroupCreationException.h"
+template <typename X>
+TypeCreationException<X>::TypeCreationException(const X& argument,
+  const std::string& msg) :
+  mMsg(msg),
+  mArg(argument) {
+}
 
-#include <map>
+template <typename X>
+TypeCreationException<X>::TypeCreationException(const TypeCreationException<X>&
+  other) throw() :
+  mMsg(other.mMsg),
+  mArg(other.mArg) {
+}
 
-class Group;
+template <typename X>
+TypeCreationException<X>& TypeCreationException<X>::operator =
+  (const TypeCreationException<X>& other) throw() {
+  mMsg = other.mMsg;
+  mArg = other.mArg;
+  return *this;
+}
 
-/** The class TypesFactory implements the object factory design pattern.
-    \brief Types factory design pattern
-  */
-class TypesFactory {
-  /** \name Private members
-    @{
-    */
-  /// Contains the mapping between types and ID
-  static std::map<size_t, const Group*> mTypesMap;
-  /** @}
-    */
+template <typename X>
+TypeCreationException<X>::~TypeCreationException() throw() {
+}
 
-  /** \name Private constructors/destructor
-    @{
-    */
-  /// Default constructor
-  TypesFactory();
-  /// Destructor
-  ~TypesFactory();
-  /** @}
-    */
-
-public:
-  /** \name Accessors
-    @{
-    */
-  /// Access the static instance of the factory
-  static TypesFactory& getInstance();
-  /** @}
-    */
-
-  /** \name Methods
-    @{
-    */
-  /// Register a type to the factory
-  static void registerType(const Group* groupPtr, size_t typeID);
-  /// Creates a group from a typeID
-  static Group* createGroup(size_t typeID) throw (GroupCreationException);
-  /** @}
-    */
-
-protected:
-
-};
-
-#endif // TYPESFACTORY_H
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
+template <typename X>
+const char* TypeCreationException<X>::what() const throw() {
+  std::stringstream stream;
+  stream << mMsg << " [argument = " << mArg << "]";
+  return stream.str().c_str();
+}
