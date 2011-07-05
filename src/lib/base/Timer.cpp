@@ -1,98 +1,108 @@
-/***************************************************************************
- *   Copyright (C) 2004 by Ralf Kaestner                                   *
- *   ralf.kaestner@gmail.com                                               *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
 
-#include <sys/time.h>
+#include "base/Timer.h"
+
+#include "base/Threads.h"
+
 #include <limits>
 
-#include "timer.hpp"
+#include <time.h>
 
-#include "inputstream.hpp"
-#include "outputstream.hpp"
-#include "threads.hpp"
-
-/*****************************************************************************/
-/* Constructors and Destructor                                               */
-/*****************************************************************************/
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
 Timer::Timer(bool start) :
-  startTime(0.0),
-  period(0.0) {
+  mStartTime(0.0),
+  mPeriod(0.0) {
   if (start) this->start();
 }
 
-Timer::Timer(const Timer& src) :
-  startTime(src.startTime),
-  period(src.period) {
+Timer::Timer(const Timer& other) :
+  mStartTime(other.mStartTime),
+  mPeriod(other.mPeriod) {
+}
+
+Timer& Timer::operator = (const Timer& other) {
+  mStartTime = other.mStartTime;
+  mPeriod = other.mPeriod;
+  return *this;
 }
 
 Timer::~Timer() {
 }
 
-/*****************************************************************************/
-/* Accessors                                                                 */
-/*****************************************************************************/
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void Timestamp::read(std::istream& stream) {
+}
+
+void Timestamp::write(std::ostream& stream) const {
+  stream << "start time: " << mStartTime << std::endl
+    "period: " << mPeriod;
+}
+
+void Timestamp::read(std::ifstream& stream) {
+}
+
+void Timestamp::write(std::ofstream& stream) const {
+}
+
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
 
 double Timer::getPeriod() const {
-  return period;
+  return mPeriod;
 }
 
 double Timer::getFrequency() const {
-  return 1.0/period;
+  return 1.0 / mPeriod;
 }
 
 const Timestamp& Timer::getStartTime() const {
-  return startTime;
+  return mStartTime;
 }
 
 double Timer::getLeft(double period) const {
-  return startTime+period-Timestamp::now();
+  return mStartTime + period - Timestamp::now();
 }
 
-/*****************************************************************************/
-/* Methods                                                                   */
-/*****************************************************************************/
-
-Timer& Timer::assign(const Timer& src) {
-  startTime = src.startTime;
-  period = src.period;
-
-  return *this;
-}
-
-Timer& Timer::operator=(const Timer& src) {
-  return assign(src);
-}
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 void Timer::start(bool reset) {
   if (reset) this->reset();
-  startTime = Timestamp::now();
+  mStartTime = Timestamp::now();
 }
 
 void Timer::stop(double period) {
   sleep(getLeft(period));
-  this->period += Timestamp::now()-startTime;
+  this->mPeriod += Timestamp::now() - mStartTime;
 }
 
 void Timer::reset() {
-  startTime = 0.0;
-  period = 0.0;
+  mStartTime = 0.0;
+  mPeriod = 0.0;
 }
 
 void Timer::wait(double period) const {
@@ -122,20 +132,4 @@ void Timer::sleep(double period) {
 
 double Timer::eternal() {
   return std::numeric_limits<double>::max();
-}
-
-void Timer::read(InputStream& stream) {
-  stream.begin(StreamContext::allocate);
-  stream >> startTime >> period;
-  stream.end(StreamContext::allocate);
-}
-
-void Timer::write(OutputStream& stream) const {
-  stream.begin(StreamContext::allocate);
-  stream << startTime << period;
-  stream.end(StreamContext::allocate);
-}
-
-bool Timer::hasBase(const TypeInfo& type) const {
-  return Type<Timer>::hasBase<Class>(type);
 }
