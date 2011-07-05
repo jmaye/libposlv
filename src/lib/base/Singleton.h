@@ -1,64 +1,71 @@
-/***************************************************************************
- *   Copyright (C) 2004 by Ralf Kaestner                                   *
- *   ralf.kaestner@gmail.com                                               *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
 
-#ifndef SINGLETON_HPP
-#define SINGLETON_HPP
-
-/** Singleton type template
-  * @author Ralf Kaestner SU Computer Science Dept.
+/** \file Singleton.h
+    \brief This file defines the Singleton class, which implements the singleton
+           design pattern
   */
 
-#include "exceptiontype.hpp"
+#ifndef SINGLETON_H
+#define SINGLETON_H
 
-template <class C> class Singleton :
-  public ClassType<C> {
+/** The class Singleton implements the singleton design pattern.
+    \brief Singleton design pattern
+  */
+template <class C> class Singleton {
 public:
-  /** Types and non-static subclasses
+  /** \name Accessors
+    @{
     */
-  class BadInstantiation :
-    public ExceptionType<BadInstantiation> {
-  public:
-    /** Constructors
-      */
-    BadInstantiation();
-  };
-
-  /** Access the static instance
-    */
+  /// Access the static instance
   static C& getInstance();
-
-  /** Singleton queries
+  /** @}
     */
+
+  /** \name Methods
+    @{
+    */
+  /// Check if the object exists
   static bool exists();
+  /** @}
+    */
+
 protected:
-  static C* instance;
-
-  /** Constructors
+  /** \name Protected constructors/destructor
+    @{
     */
+  /// Default constructor
   Singleton();
-
-  /** Destructor
-    */
+  /// Destructor
   virtual ~Singleton();
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Instance of the object
+  static C* instance;
+  /** @}
+    */
+
 };
 
-#include "singleton.tpp"
+#include "Singleton.tpp"
 
 #endif
