@@ -32,14 +32,6 @@
   */
 class IOException :
   public std::runtime_error {
-  /** \name Private constructors
-    @{
-    */
-  /// Assignment operator
-  IOException& operator = (const IOException& other);
-  /** @}
-    */
-
 public:
   /** \name Constructors/Destructor
     @{
@@ -47,7 +39,9 @@ public:
   /// Constructs exception from message
   IOException(const std::string& msg = "");
   /// Copy constructor
-  IOException(const IOException& other);
+  IOException(const IOException& other) throw ();
+  /// Destructor
+  virtual ~IOException() throw ();
   /** @}
     */
 

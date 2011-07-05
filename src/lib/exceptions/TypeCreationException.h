@@ -40,12 +40,12 @@ public:
   /// Constructs exception from argument and string
   TypeCreationException(const X& argument, const std::string& msg);
   /// Copy constructor
-  TypeCreationException(const TypeCreationException& other) throw();
+  TypeCreationException(const TypeCreationException& other) throw ();
   /// Assignment operator
   TypeCreationException& operator = (const TypeCreationException& other)
-    throw();
+    throw ();
   /// Destructor
-  virtual ~TypeCreationException() throw();
+  virtual ~TypeCreationException() throw ();
   /** @}
     */
 
@@ -53,7 +53,7 @@ public:
     @{
     */
   /// Access the exception string
-  virtual const char* what() const throw();
+  virtual const char* what() const throw ();
   /** @}
     */
 

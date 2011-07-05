@@ -31,28 +31,28 @@ TypeCreationException<X>::TypeCreationException(const X& argument,
 
 template <typename X>
 TypeCreationException<X>::TypeCreationException(const TypeCreationException<X>&
-  other) throw() :
+  other) throw () :
   mMsg(other.mMsg),
   mArg(other.mArg) {
 }
 
 template <typename X>
 TypeCreationException<X>& TypeCreationException<X>::operator =
-  (const TypeCreationException<X>& other) throw() {
+  (const TypeCreationException<X>& other) throw () {
   mMsg = other.mMsg;
   mArg = other.mArg;
   return *this;
 }
 
 template <typename X>
-TypeCreationException<X>::~TypeCreationException() throw() {
+TypeCreationException<X>::~TypeCreationException() throw () {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 template <typename X>
-const char* TypeCreationException<X>::what() const throw() {
+const char* TypeCreationException<X>::what() const throw () {
   std::stringstream stream;
   stream << mMsg << " [argument = " << mArg << "]";
   return stream.str().c_str();

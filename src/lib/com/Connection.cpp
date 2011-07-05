@@ -116,7 +116,7 @@ uint8_t Connection::readByte() const throw(IOException) {
 }
 
 const Group* Connection::readGroup()
-  throw(IOException, GroupCreationException) {
+  throw(IOException) {
   if(mSocket == 0)
     open();
   string startString;

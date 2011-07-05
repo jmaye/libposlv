@@ -26,7 +26,6 @@
 #define CONNECTION_H
 
 #include "exceptions/IOException.h"
-#include "exceptions/GroupCreationException.h"
 #include "types/Group.h"
 
 #include <string>
@@ -92,7 +91,7 @@ public:
 
   bool isOpen() const;
 
-  const Group* readGroup() throw(IOException, GroupCreationException);
+  const Group* readGroup() throw(IOException);
 
   void sendControl() throw(IOException);
 

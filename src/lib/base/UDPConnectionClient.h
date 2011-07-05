@@ -16,61 +16,51 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file TCPConnection.h
-    \brief This file defines the TCPConnection class, which is an interface
-           for a UDP connection
+/** \file UDPConnectionClient.h
+    \brief This file defines the UDPConnectionClient class, which is an
+           interface for a client UDP connection
   */
 
-#ifndef TCPCONNECTION_H
-#define TCPCONNECTION_H
+#ifndef UDPCONNECTIONCLIENT_H
+#define UDPCONNECTIONCLIENT_H
 
 #include "exceptions/IOException.h"
+#include "base/Serializable.h"
 
+#include <string>
+
+#include <arpa/inet.h>
 #include <stdint.h>
 
-/** The class TCPConnection is an interface for UDP communication.
-    \brief UDP communication interface
+/** The class UDPConnectionClient is an interface for a client UDP
+    communication.
+    \brief Client UDP communication interface
   */
-class TCPConnection {
-  /** \name Private constructors
-    @{
-    */
-  /// Copy constructor
-  TCPConnection(const TCPConnection& other);
-  /// Assignment operator
-  TCPConnection& operator = (const TCPConnection& other);
-  /** @}
-    */
-
-  /** \name Private members
-    @{
-    */
-  /// UDP port
-  uint16_t mPort;
-  /// Timeout of the port
-  double mTimeout;
-  /// Socket for the port
-  ssize_t mSocket;
-  /** @}
-    */
-
+class UDPConnectionClient :
+  public Serializable {
 public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs UDP from parameters
-  TCPConnection(uint16_t u16Port = 2368, double timeout = 2.5);
+  /// Constructs UDP connection from parameters
+  UDPConnectionClient(const std::string& serverIP, uint16_t u16Port,
+    double timeout = 2.5);
   /// Destructor
-  ~TCPConnection();
+  virtual ~UDPConnectionClient();
  /** @}
     */
 
   /** \name Accessors
     @{
     */
+  /// Sets the timeout of the connection
+  void setTimeout(double timeout);
+  /// Returns the timeout of the connection
   double getTimeout() const;
+  /// Returns the port
   uint16_t getPort() const;
-  void setTimeout(double f64Time);
+  /// Returns the server IP
+  const std::string& getServerIP() const;
  /** @}
     */
 
@@ -85,11 +75,53 @@ public:
   bool isOpen() const;
   /// Read buffer from UDP
   void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) throw (IOException);
+  /// Write buffer to UDP
+  void writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes)
+    throw (IOException);
  /** @}
     */
 
 protected:
+  /** \name Protected constructors
+    @{
+    */
+  /// Copy constructor
+  UDPConnectionClient(const UDPConnectionClient& other);
+  /// Assignment operator
+  UDPConnectionClient& operator = (const UDPConnectionClient& other);
+  /** @}
+    */
+
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from standard input
+  virtual void read(std::istream& stream);
+  /// Writes to standard output
+  virtual void write(std::ostream& stream) const;
+  /// Reads from a file
+  virtual void read(std::ifstream& stream);
+  /// Writes to a file
+  virtual void write(std::ofstream& stream) const;
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Server IP
+  std::string mServerIP;
+  /// Server network structure
+  struct sockaddr_in mServer;
+  /// UDP port
+  uint16_t mPort;
+  /// Timeout of the port
+  double mTimeout;
+  /// Socket for the port
+  ssize_t mSocket;
+  /** @}
+    */
 
 };
 
-#endif // TCPCONNECTION_H
+#endif // UDPCONNECTIONCLIENT_H
