@@ -32,14 +32,6 @@
   */
 class TypeCastException :
   public std::runtime_error {
-  /** \name Private constructors
-    @{
-    */
-  /// Assignment operator
-  TypeCastException& operator = (const TypeCastException& other);
-  /** @}
-    */
-
 public:
   /** \name Constructors/Destructor
     @{
@@ -47,7 +39,9 @@ public:
   /// Constructs exception from message
   TypeCastException(const std::string& msg = "");
   /// Copy constructor
-  TypeCastException(const TypeCastException& other);
+  TypeCastException(const TypeCastException& other) throw ();
+  /// Destructor
+  virtual ~TypeCastException() throw ();
   /** @}
     */
 

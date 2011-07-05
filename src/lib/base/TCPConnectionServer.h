@@ -16,61 +16,47 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file UDPConnection.h
-    \brief This file defines the UDPConnection class, which is an interface
-           for a UDP connection
+/** \file TCPConnectionServer.h
+    \brief This file defines the TCPConnectionServer class, which is an
+           interface for a server TCP connection
   */
 
-#ifndef UDPCONNECTION_H
-#define UDPCONNECTION_H
+#ifndef TCPCONNECTIONSERVER_H
+#define TCPCONNECTIONSERVER_H
 
 #include "exceptions/IOException.h"
+#include "base/Serializable.h"
+
+#include <string>
 
 #include <stdint.h>
 
-/** The class UDPConnection is an interface for UDP communication.
-    \brief UDP communication interface
+/** The class TCPConnectionServer is an interface for a server TCP
+    communication.
+    \brief Server TCP communication interface
   */
-class UDPConnection {
-  /** \name Private constructors
-    @{
-    */
-  /// Copy constructor
-  UDPConnection(const UDPConnection& other);
-  /// Assignment operator
-  UDPConnection& operator = (const UDPConnection& other);
-  /** @}
-    */
-
-  /** \name Private members
-    @{
-    */
-  /// UDP port
-  uint16_t mPort;
-  /// Timeout of the port
-  double mTimeout;
-  /// Socket for the port
-  ssize_t mSocket;
-  /** @}
-    */
-
+class TCPConnectionServer :
+  public Serializable {
 public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs UDP from parameters
-  UDPConnection(uint16_t u16Port = 2368, double timeout = 2.5);
+  /// Constructs UDP connection from parameters
+  TCPConnectionServer(uint16_t u16Port, double timeout = 2.5);
   /// Destructor
-  ~UDPConnection();
+  virtual ~TCPConnectionServer();
  /** @}
     */
 
   /** \name Accessors
     @{
     */
+  /// Sets the timeout of the connection
+  void setTimeout(double timeout);
+  /// Returns the timeout of the connection
   double getTimeout() const;
+  /// Returns the binded port
   uint16_t getPort() const;
-  void setTimeout(double f64Time);
  /** @}
     */
 
@@ -85,11 +71,49 @@ public:
   bool isOpen() const;
   /// Read buffer from UDP
   void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) throw (IOException);
+  /// Write buffer to UDP
+  void writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes)
+    throw (IOException);
  /** @}
     */
 
 protected:
+  /** \name Protected constructors
+    @{
+    */
+  /// Copy constructor
+  TCPConnectionServer(const TCPConnectionServer& other);
+  /// Assignment operator
+  TCPConnectionServer& operator = (const TCPConnectionServer& other);
+  /** @}
+    */
+
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from standard input
+  virtual void read(std::istream& stream);
+  /// Writes to standard output
+  virtual void write(std::ostream& stream) const;
+  /// Reads from a file
+  virtual void read(std::ifstream& stream);
+  /// Writes to a file
+  virtual void write(std::ofstream& stream) const;
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// UDP port
+  uint16_t mPort;
+  /// Timeout of the port
+  double mTimeout;
+  /// Socket for the port
+  ssize_t mSocket;
+  /** @}
+    */
 
 };
 
-#endif // UDPCONNECTION_H
+#endif // TCPCONNECTIONSERVER_H

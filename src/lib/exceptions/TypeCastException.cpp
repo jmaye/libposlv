@@ -25,3 +25,10 @@
 TypeCastException::TypeCastException(const std::string& msg) :
   std::runtime_error(msg) {
 }
+
+TypeCastException::TypeCastException(const TypeCastException& other) throw () :
+  std::runtime_error(other) {
+}
+
+TypeCastException::~TypeCastException() throw () {
+}

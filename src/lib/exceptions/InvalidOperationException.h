@@ -33,15 +33,6 @@
   */
 class InvalidOperationException :
   public std::runtime_error {
-  /** \name Private constructors
-    @{
-    */
-  /// Assignment operator
-  InvalidOperationException& operator =
-    (const InvalidOperationException& other);
-  /** @}
-    */
-
 public:
   /** \name Constructors/Destructor
     @{
@@ -49,7 +40,9 @@ public:
   /// Constructs exception from message
   InvalidOperationException(const std::string& msg = "");
   /// Copy constructor
-  InvalidOperationException(const InvalidOperationException& other);
+  InvalidOperationException(const InvalidOperationException& other) throw ();
+  /// Destructor
+  virtual ~InvalidOperationException() throw ();
   /** @}
     */
 
