@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-
 #include "types/PrimaryGPSReceiverDGPSStaDB.h"
 
 #include "com/Connection.h"
@@ -73,10 +72,10 @@ void PrimaryGPSReceiverDGPSStaDB::read(std::ifstream& stream) {
 
 void PrimaryGPSReceiverDGPSStaDB::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  for (uint32_t i = 0; i < mu32StationNbr; i++)
-//    stream << maStationRecord[i];
+  stream << " ";
+  stream << mTimeDistance;
+  for (size_t i = 0; i < mStationNbr; i++)
+    stream << maStationRecord[i];
 }
 
 /******************************************************************************/

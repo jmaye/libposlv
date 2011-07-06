@@ -37,6 +37,7 @@ template <typename T, typename C>
 class Factory :
   public Singleton<Factory<T, C> >,
   public virtual Serializable {
+/// Lets the access for Singleton class
 friend class Singleton<Factory<T, C> >;
 public:
   /** \name Accessors

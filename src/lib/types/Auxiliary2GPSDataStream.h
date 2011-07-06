@@ -62,12 +62,14 @@ public:
     */
   /// Time/Distance field of the message
   TimeDistance mTimeDistance;
-  //// Reserved stuff
+  /// Reserved stuff
   uint8_t mau8Reserved[6];
   /// Variable message length
   uint16_t mVariableMsgByteCount;
   /// Data
   uint8_t* mau8GPSReceiverRawData;
+  /// Prototype for this group
+  static const Auxiliary2GPSDataStream mProto;
  /** @}
     */
 
@@ -85,14 +87,6 @@ public:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const Auxiliary2GPSDataStream mProto;
   /** @}
     */
 

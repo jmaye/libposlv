@@ -70,6 +70,8 @@ public:
   StationRecord maStationRecord[10];
   /// Number of stations
   uint32_t mStationNbr;
+  /// Prototype for this group
+  static const PrimaryGPSReceiverDGPSStaDB mProto;
   /** @}
     */
 
@@ -87,14 +89,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const PrimaryGPSReceiverDGPSStaDB mProto;
   /** @}
     */
 

@@ -28,6 +28,9 @@
 #include "types/TimeDistance.h"
 #include "exceptions/IOException.h"
 
+/** The class RawIMUData represents the Raw IMU Data message from the Applanix.
+    \brief Raw IMU Data message
+  */
 class RawIMUData :
   public Group {
 public:
@@ -66,6 +69,8 @@ public:
   uint8_t* mau8IMURawData;
   /// Checksum
   uint16_t mDataChecksum;
+  /// Prototype for this group
+  static const RawIMUData mProto;
   /** @}
     */
 
@@ -83,14 +88,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const RawIMUData mProto;
   /** @}
     */
 

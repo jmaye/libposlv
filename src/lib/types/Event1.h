@@ -65,6 +65,8 @@ public:
   TimeDistance mTimeDistance;
   /// Pulse number
   uint32_t mEventPulseNumber;
+  /// Prototype for this group
+  static const Event1 mProto;
   /** @}
     */
 
@@ -82,14 +84,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const Event1 mProto;
   /** @}
     */
 

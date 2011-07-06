@@ -76,8 +76,8 @@ void Diagnostic::read(std::ifstream& stream) {
 
 void Diagnostic::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
+  stream << " ";
+  stream << mTimeDistance;
 }
 
 /******************************************************************************/

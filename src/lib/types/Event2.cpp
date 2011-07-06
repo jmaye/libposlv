@@ -76,9 +76,9 @@ void Event2::read(std::ifstream& stream) {
 
 void Event2::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << mu32EventPulseNumber;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mEventPulseNumber;
 }
 
 /******************************************************************************/

@@ -89,6 +89,8 @@ public:
   float mErrorEllipsoidSemiMinor;
   /// Error ellipsoid orientation
   float mErrorEllipsoidOrientation;
+  /// Prototype for this group
+  static const VehicleNavigationPerformance mProto;
   /** @}
     */
 
@@ -106,14 +108,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const VehicleNavigationPerformance mProto;
   /** @}
     */
 

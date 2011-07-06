@@ -78,6 +78,8 @@ public:
   uint32_t mDataGapLength;
   /// Maximum data gap length
   uint32_t mMaximumDataGapLength;
+  /// Prototype for this group
+  static const BaseGPS2ModemStatus mProto;
  /** @}
     */
 
@@ -95,14 +97,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const BaseGPS2ModemStatus mProto;
   /** @}
     */
 

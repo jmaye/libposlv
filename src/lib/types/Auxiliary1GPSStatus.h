@@ -29,12 +29,13 @@
 #include "types/ChannelStatusData.h"
 #include "exceptions/IOException.h"
 
-/** The class Auxiliary2GPSStatus represents the Auxiliary 1 GPS Status message
+/** The class Auxiliary1GPSStatus represents the Auxiliary 1 GPS Status message
     from the Applanix.
     \brief Auxiliary 1 GPS Status message
   */
 class Auxiliary1GPSStatus :
   public Group {
+public:
   /** \name Constructors/Destructor
     @{
     */

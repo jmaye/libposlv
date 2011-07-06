@@ -74,6 +74,8 @@ public:
   uint32_t mDiskKbytesTotal;
   /// Logging state
   uint8_t mLoggingState;
+  /// Prototype for this group
+  static const LoggingParamStatus mProto;
   /** @}
     */
 
@@ -91,14 +93,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const LoggingParamStatus mProto;
   /** @}
     */
 

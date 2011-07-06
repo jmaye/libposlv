@@ -95,6 +95,8 @@ public:
   uint8_t mAux12InUse;
   /// Number of channels
   uint32_t mChannelNumber;
+  /// Prototype for this group
+  static const Auxiliary2GPSStatus mProto;
   /** @}
     */
 
@@ -112,14 +114,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const Auxiliary2GPSStatus mProto;
   /** @}
     */
 

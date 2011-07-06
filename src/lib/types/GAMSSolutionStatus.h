@@ -80,6 +80,10 @@ public:
   double mGAMSHeading;
   /// GAMS heading RMS error
   double mGAMSHeadingRMSError;
+  /// Prototype for this group
+  static const GAMSSolutionStatus mProto;
+  /** @}
+    */
 
 protected:
   /** \name Stream methods
@@ -95,14 +99,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const GAMSSolutionStatus mProto;
   /** @}
     */
 

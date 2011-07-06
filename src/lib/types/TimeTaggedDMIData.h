@@ -76,6 +76,8 @@ public:
   uint8_t mDMIType;
   /// DMI data rate
   uint8_t mDMIDataRate;
+  /// Prototype for this group
+  static const TimeTaggedDMIData mProto;
   /** @}
     */
 
@@ -93,14 +95,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const TimeTaggedDMIData mProto;
   /** @}
     */
 

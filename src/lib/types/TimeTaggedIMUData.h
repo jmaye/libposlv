@@ -84,6 +84,8 @@ public:
   uint8_t mPOSIMUDataRate;
   /// IMU status
   uint16_t mIMUStatus;
+  /// Prototype for this group
+  static const TimeTaggedIMUData mProto;
   /** @}
     */
 
@@ -101,14 +103,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const TimeTaggedIMUData mProto;
   /** @}
     */
 

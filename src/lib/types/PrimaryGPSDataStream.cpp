@@ -63,11 +63,13 @@ void PrimaryGPSDataStream::read(Connection& stream) throw (IOException) {
   mau8GPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mau8GPSReceiverRawData[i];
-  uint32_t padSize = byteCount - 26 - 2 - 4 - 2 - mVariableMsgByteCount - 2 - 2;
+  uint32_t padSize = byteCount - mVariableMsgByteCount - 38;
 
   uint8_t pad;
-  for (size_t i = 0; i < padSize; i++)
+  for (size_t i = 0; i < padSize; i++) {
     stream >> pad;
+    throw IOException("PrimaryGPSDataStream::read(): wrong pad");
+  }
 }
 
 void PrimaryGPSDataStream::read(std::istream& stream) {

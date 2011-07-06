@@ -66,11 +66,14 @@ void Auxiliary1GPSDisplayData::read(Connection& stream) throw(IOException) {
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mau8GPSRawData[i];
 
-  uint32_t padSize = byteCount - 26 - 4 - 6 - 2 - mVariableMsgByteCount;
+  uint32_t padSize = byteCount - mVariableMsgByteCount -38;
 
   uint8_t pad;
-  for (size_t i = 0; i < padSize; i++)
+  for (size_t i = 0; i < padSize; i++) {
     stream >> pad;
+    if (pad != 0)
+      throw IOException("Auxiliary1GPSDisplayData::read(): wrong pad");
+  }
 }
 
 void Auxiliary1GPSDisplayData::read(std::istream& stream) {
@@ -84,18 +87,18 @@ void Auxiliary1GPSDisplayData::read(std::ifstream& stream) {
 
 void Auxiliary1GPSDisplayData::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  for (uint32_t i = 0; i < 6; i++) {
-//    stream << hex << (uint16_t)mau8Reserved[i] << dec;
-//    stream << " ";
-//  }
-//  stream << mu16VariableMsgByteCount;
-//  stream << " ";
-//  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
-//    stream << hex << (uint16_t)mau8GPSRawData[i] << dec;
-//    stream << " ";
-//  }
+  stream << " ";
+  stream << mTimeDistance;
+  for (size_t i = 0; i < 6; i++) {
+    stream << std::hex << (uint16_t)mau8Reserved[i] << std::dec;
+    stream << " ";
+  }
+  stream << mVariableMsgByteCount;
+  stream << " ";
+  for (size_t i = 0; i < mVariableMsgByteCount; i++) {
+    stream << std::hex << (uint16_t)mau8GPSRawData[i] << std::dec;
+    stream << " ";
+  }
 }
 
 /******************************************************************************/

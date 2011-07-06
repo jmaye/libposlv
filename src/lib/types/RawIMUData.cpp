@@ -63,11 +63,14 @@ void RawIMUData::read(Connection& stream) throw (IOException) {
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mau8IMURawData[i];
   stream >> mDataChecksum;
-  uint32_t padSize = byteCount - 26 - 6 - 2 - mVariableMsgByteCount - 2 - 2 - 2;
+  uint32_t padSize = byteCount - mVariableMsgByteCount - 40;
 
   uint8_t pad;
-  for (size_t i = 0; i < padSize; i++)
+  for (size_t i = 0; i < padSize; i++) {
     stream >> pad;
+    if (pad != 0)
+      throw IOException("RawIMUData::read(): wrong pad");
+  }
 }
 
 void RawIMUData::read(std::istream& stream) {

@@ -103,6 +103,8 @@ public:
   float mAccDown;
   /// Alignment status
   uint8_t mAlignementStatus;
+  /// Prototype for this group
+  static const VehicleNavigationSolution mProto;
   /** @}
     */
 
@@ -120,14 +122,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const VehicleNavigationSolution mProto;
   /** @}
     */
 

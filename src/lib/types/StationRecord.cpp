@@ -63,22 +63,22 @@ void StationRecord::read(std::ifstream& stream) {
 }
 
 void StationRecord::write(std::ofstream& stream) const {
-//  stream << hex << (uint16_t)mu8RecordIndexAndFlags << dec;
-//  stream << " ";
-//  stream << mu16StationID;
-//  stream << " ";
-//  stream << mu16StationHealth;
-//  stream << " ";
-//  stream << mf32Distance;
-//  stream << " ";
-//  stream << mf32Range;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8USCGIndex << dec;
-//  stream << " ";
-//  stream << mu64Seconds;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8ModulationRate << dec;
-//  stream << " ";
+  stream << (uint16_t)mRecordIndexAndFlags;
+  stream << " ";
+  stream << mStationID;
+  stream << " ";
+  stream << mStationHealth;
+  stream << " ";
+  stream << mDistance;
+  stream << " ";
+  stream << mRange;
+  stream << " ";
+  stream << (uint16_t)mUSCGIndex;
+  stream << " ";
+  stream << mSeconds;
+  stream << " ";
+  stream << (uint16_t)mModulationRate;
+  stream << " ";
 }
 
 Connection& operator >> (Connection& stream, StationRecord& obj) {

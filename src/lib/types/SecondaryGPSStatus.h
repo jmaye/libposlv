@@ -35,6 +35,7 @@
   */
 class SecondaryGPSStatus :
   public Group {
+public:
   /** \name Constructors/Destructor
     @{
     */
@@ -94,6 +95,8 @@ class SecondaryGPSStatus :
   uint32_t mGPSStatus;
   /// Number of channels
   uint32_t mChannelNumber;
+  /// Prototype for this group
+  static const SecondaryGPSStatus mProto;
   /** @}
     */
 
@@ -111,14 +114,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const SecondaryGPSStatus mProto;
   /** @}
     */
 

@@ -80,6 +80,8 @@ public:
   float mLongestRun;
   /// Current run
   float mCurrentRun;
+  /// Prototype for this group
+  static const VersionStatistics mProto;
   /** @}
     */
 
@@ -97,14 +99,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const VersionStatistics mProto;
   /** @}
     */
 

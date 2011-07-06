@@ -63,6 +63,8 @@ public:
   static const uint16_t mByteCount = 276;
   /// Time/Distance field
   TimeDistance mTimeDistance;
+  /// Prototype for this group
+  static const Diagnostic mProto;
   /** @}
     */
 
@@ -81,14 +83,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const Diagnostic mProto;
   /** @}
     */
 

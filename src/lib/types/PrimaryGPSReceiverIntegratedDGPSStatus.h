@@ -111,6 +111,8 @@ public:
   uint8_t mUserAccess;
   /// Decoder state
   uint8_t mDecoderState;
+  /// Prototype for this group
+  static const PrimaryGPSReceiverIntegratedDGPSStatus mProto;
   /** @}
     */
 
@@ -128,14 +130,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const PrimaryGPSReceiverIntegratedDGPSStatus mProto;
   /** @}
     */
 

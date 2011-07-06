@@ -83,14 +83,14 @@ public:
       throw TypeCastException("Group::typeCast(): cast failed");
   }
   /// Check if a group is an instance of something
-  template<class O> bool instanceof() const {
+  template<class O> bool instanceOf() const {
     if (this->mTypeID == O::mProto.mTypeID)
       return true;
     else
       return false;
   }
   /// Check if a group is an instance of something
-  template<class O> bool instanceof() {
+  template<class O> bool instanceOf() {
     if (this->mTypeID == O::mProto.mTypeID)
       return true;
     else

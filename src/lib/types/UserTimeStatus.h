@@ -72,6 +72,8 @@ public:
   uint8_t mUserTimeValid;
   /// Time Sync message received
   uint8_t mTimeSynchMessageReceived;
+  /// Prototype for this group
+  static const UserTimeStatus mProto;
   /** @}
     */
 
@@ -89,14 +91,6 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Prototype for this group
-  static const UserTimeStatus mProto;
   /** @}
     */
 
