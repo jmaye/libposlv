@@ -59,7 +59,7 @@ void Auxiliary2GPSStatus::read(Connection& stream) throw (IOException) {
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
   mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
-  for (size_t i = 0; i < mChannelNumber; i ++)
+  for (size_t i = 0; i < mChannelNumber; i++)
     stream >> maChannelStatusData[i];
   stream >> mHDOP;
   stream >> mVDOP;
@@ -97,7 +97,7 @@ void Auxiliary2GPSStatus::write(std::ofstream& stream) const {
 //  stream << " ";
 //  stream << mu16ChannelStatusByteCount;
 //  stream << " ";
-//  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
+//  for (uint32_t i = 0; i < mu32ChannelNumber; i++)
 //    stream << maChannelStatusData[i];
 //  stream << mf32HDOP;
 //  stream << " ";

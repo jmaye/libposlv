@@ -75,15 +75,15 @@ void UserTimeStatus::read(std::ifstream& stream) {
 
 void UserTimeStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << mu32NumberOfTimeSynchMessageRejections;
-//  stream << " ";
-//  stream << mu32NumberOfUserTimeResynchronizations;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8UserTimeValid << dec;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8TimeSynchMessageReceived << dec;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mNumberOfTimeSynchMessageRejections;
+  stream << " ";
+  stream << mNumberOfUserTimeResynchronizations;
+  stream << " ";
+  stream << (uint16_t)mUserTimeValid;
+  stream << " ";
+  stream << (uint16_t)mTimeSynchMessageReceived;
 }
 
 /******************************************************************************/

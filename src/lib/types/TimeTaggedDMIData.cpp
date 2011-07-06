@@ -90,11 +90,11 @@ void TimeTaggedDMIData::write(std::ofstream& stream) const {
   stream << " ";
   stream << mDMIScaleFactor;
   stream << " ";
-  stream << std::hex << (uint16_t)mDataStatus << std::dec;
+  stream << (uint16_t)mDataStatus;
   stream << " ";
-  stream << std::hex << (uint16_t)mDMIType << std::dec;
+  stream << (uint16_t)mDMIType;
   stream << " ";
-  stream << std::hex << (uint16_t)mDMIDataRate << std::dec;
+  stream << (uint16_t)mDMIDataRate;
 }
 
 /******************************************************************************/

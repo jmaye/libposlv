@@ -61,17 +61,17 @@ void ChannelStatusData::read(std::ifstream& stream) {
 }
 
 void ChannelStatusData::write(std::ofstream& stream) const {
-//  stream << mu16SVPRN;
-//  stream << " ";
-//  stream << mu16ChannelTrackingStatus;
-//  stream << " ";
-//  stream << mf32SVAzimuth;
-//  stream << " ";
-//  stream << mf32SVElevation;
-//  stream << " ";
-//  stream << mf32SVL1SNR;
-//  stream << " ";
-//  stream << mf32SVL2SNR;
+  stream << mSVPRN;
+  stream << " ";
+  stream << mChannelTrackingStatus;
+  stream << " ";
+  stream << mSVAzimuth;
+  stream << " ";
+  stream << mSVElevation;
+  stream << " ";
+  stream << mSVL1SNR;
+  stream << " ";
+  stream << mSVL2SNR;
 }
 
 Connection& operator >> (Connection& stream, ChannelStatusData& obj) {

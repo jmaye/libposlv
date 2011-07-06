@@ -135,7 +135,7 @@ void VehicleNavigationSolution::write(std::ofstream& stream) const {
   stream << " ";
   stream << mAccDown;
   stream << " ";
-  stream << std::hex << (uint16_t)mAlignementStatus << std::dec;
+  stream << (uint16_t)mAlignementStatus;
 }
 
 /******************************************************************************/

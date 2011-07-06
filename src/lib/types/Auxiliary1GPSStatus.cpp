@@ -59,7 +59,7 @@ void Auxiliary1GPSStatus::read(Connection& stream) throw (IOException) {
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
   mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
-  for (size_t i = 0; i < mChannelNumber; i ++)
+  for (size_t i = 0; i < mChannelNumber; i++)
     stream >> maChannelStatusData[i];
   stream >> mHDOP;
   stream >> mVDOP;
@@ -89,35 +89,36 @@ void Auxiliary1GPSStatus::read(std::ifstream& stream) {
 
 void Auxiliary1GPSStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << hex << (uint16_t)mi8NavigationSolutionStatus << dec;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8NumberOfSVTracked << dec;
-//  stream << " ";
-//  stream << mu16ChannelStatusByteCount;
-//  stream << " ";
-//  for (uint32_t i = 0; i < mu32ChannelNumber; i ++)
-//    stream << maChannelStatusData[i];
-//  stream << mf32HDOP;
-//  stream << " ";
-//  stream << mf32VDOP;
-//  stream << " ";
-//  stream << mf32DGPSCorrectionLatency;
-//  stream << " ";
-//  stream << mu16DGPSReferenceID;
-//  stream << " ";
-//  stream << mu32GPSUTCWeekNumber;
-//  stream << " ";
-//  stream << mf64GPSUTCTimeOffset;
-//  stream << " ";
-//  stream << mf32GPSNavigationMessageLatency;
-//  stream << " ";
-//  stream << mf32GeoidalSeparation;
-//  stream << " ";
-//  stream << mu16NMEAMessageReceived;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8Aux12InUse << dec;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << (uint16_t)mNavigationSolutionStatus;
+  stream << " ";
+  stream << (uint16_t)mNumberOfSVTracked;
+  stream << " ";
+  stream << mChannelStatusByteCount;
+  stream << " ";
+  stream << mChannelNumber << " ";
+  for (size_t i = 0; i < mChannelNumber; i++)
+    stream << maChannelStatusData[i];
+  stream << mHDOP;
+  stream << " ";
+  stream << mVDOP;
+  stream << " ";
+  stream << mDGPSCorrectionLatency;
+  stream << " ";
+  stream << mDGPSReferenceID;
+  stream << " ";
+  stream << mGPSUTCWeekNumber;
+  stream << " ";
+  stream << mGPSUTCTimeOffset;
+  stream << " ";
+  stream << mGPSNavigationMessageLatency;
+  stream << " ";
+  stream << mGeoidalSeparation;
+  stream << " ";
+  stream << mNMEAMessageReceived;
+  stream << " ";
+  stream << (uint16_t)mAux12InUse;
 }
 
 /******************************************************************************/

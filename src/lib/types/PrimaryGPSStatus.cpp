@@ -59,7 +59,7 @@ void PrimaryGPSStatus::read(Connection& stream) throw (IOException) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  mChannelNumber = mChannelStatusByteCount / 20;
   for (size_t i = 0; i < mChannelNumber; i++)
     stream >> maChannelStatusData[i];
   stream >> mHDOP;
@@ -72,11 +72,10 @@ void PrimaryGPSStatus::read(Connection& stream) throw (IOException) {
   stream >> mGeoidalSeparation;
   stream >> mGPSReceiverType;
   stream >> mGPSStatus;
-  byteCount -= 74;
-  for (size_t i = 0; i < byteCount; i++) {
-    uint8_t byte;
-    stream >> byte;
-  }
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException(" PrimaryGPSStatus::read(): wrong pad");
 }
 
 void PrimaryGPSStatus::read(std::istream& stream) {
@@ -90,36 +89,36 @@ void PrimaryGPSStatus::read(std::ifstream& stream) {
 
 void PrimaryGPSStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << " ";
-//  stream << hex << (uint16_t)mi8NavigationSolutionStatus << dec;
-//  stream << " ";
-//  stream << (uint16_t)mu8NumberOfSVTracked;
-//  stream << " ";
-//  stream << mu16ChannelStatusByteCount;
-//  stream << " ";
-//  for (uint32_t i = 0; i < mu8NumberOfSVTracked; i ++)
-//    stream << maChannelStatusData[i];
-//  stream << mf32HDOP;
-//  stream << " ";
-//  stream << mf32VDOP;
-//  stream << " ";
-//  stream << mf32DGPSCorrectionLatency;
-//  stream << " ";
-//  stream << mu16DGPSReferenceID;
-//  stream << " ";
-//  stream << mu32GPSUTCWeekNumber;
-//  stream << " ";
-//  stream << mf64GPSUTCTimeOffset;
-//  stream << " ";
-//  stream << mf32GPSNavigationMessageLatency;
-//  stream << " ";
-//  stream << mf32GeoidalSeparation;
-//  stream << " ";
-//  stream << mu16GPSReceiverType;
-//  stream << " ";
-//  stream << mu32GPSStatus;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << " ";
+  stream << (uint16_t)mNavigationSolutionStatus;
+  stream << " ";
+  stream << (uint16_t)mNumberOfSVTracked;
+  stream << " ";
+  stream << mChannelStatusByteCount;
+  stream << " ";
+  for (size_t i = 0; i < mChannelNumber; i++)
+    stream << maChannelStatusData[i];
+  stream << mHDOP;
+  stream << " ";
+  stream << mVDOP;
+  stream << " ";
+  stream << mDGPSCorrectionLatency;
+  stream << " ";
+  stream << mDGPSReferenceID;
+  stream << " ";
+  stream << mGPSUTCWeekNumber;
+  stream << " ";
+  stream << mGPSUTCTimeOffset;
+  stream << " ";
+  stream << mGPSNavigationMessageLatency;
+  stream << " ";
+  stream << mGeoidalSeparation;
+  stream << " ";
+  stream << mGPSReceiverType;
+  stream << " ";
+  stream << mGPSStatus;
 }
 
 /******************************************************************************/

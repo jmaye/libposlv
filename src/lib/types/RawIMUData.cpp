@@ -59,6 +59,7 @@ void RawIMUData::read(Connection& stream) throw (IOException) {
   for (size_t i = 0; i < 6; i++)
     stream >> mau8IMUHeader[i];
   stream >> mVariableMsgByteCount;
+  std::cout << mVariableMsgByteCount << std::endl;
   mau8IMURawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mau8IMURawData[i];

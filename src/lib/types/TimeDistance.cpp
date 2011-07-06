@@ -59,16 +59,16 @@ void TimeDistance::read(std::ifstream& stream) {
 }
 
 void TimeDistance::write(std::ofstream& stream) const {
-//  stream << mf64Time1;
-//  stream << " ";
-//  stream << mf64Time2;
-//  stream << " ";
-//  stream << mf64DistanceTag;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8TimeType << dec;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8DistanceType << dec;
-//  stream << " ";
+  stream << mTime1;
+  stream << " ";
+  stream << mTime2;
+  stream << " ";
+  stream << mDistanceTag;
+  stream << " ";
+  stream << (uint16_t)mTimeType;
+  stream << " ";
+  stream << (uint16_t)mDistanceType;
+  stream << " ";
 }
 
 Connection& operator >> (Connection& stream, TimeDistance& obj) {

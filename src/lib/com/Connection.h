@@ -52,7 +52,7 @@ class Connection {
   /// Reads a byte from the device
   uint8_t readByte() const throw (IOException);
   /// Reads the start of a group
-  std::string readStartGroup() const throw (IOException);
+  void readStartGroup() const throw (IOException);
   /// Read the end of a group
   std::string readEndGroup() const throw (IOException);
   /** @}
@@ -73,7 +73,7 @@ class Connection {
     */
 
 public:
-  Connection(const std::string &strHost, uint32_t u32Port,
+  Connection(const std::string& strHost, uint32_t u32Port,
     double f64Timeout = 2.5);
   ~Connection();
 
@@ -85,27 +85,27 @@ public:
 
   void setTimeout(double f64Time);
 
-  void open() throw(IOException);
+  void open() throw (IOException);
 
-  void close() throw(IOException);
+  void close() throw (IOException);
 
   bool isOpen() const;
 
-  const Group* readGroup() throw(IOException);
+  const Group* readGroup() throw (IOException);
 
-  void sendControl() throw(IOException);
+  void sendControl() throw (IOException);
 
-  Connection& operator >> (int8_t &i8Value) throw(IOException);
-  Connection& operator >> (uint8_t &u8Value) throw(IOException);
-  Connection& operator >> (int16_t &i16Value) throw(IOException);
-  Connection& operator >> (uint16_t &u16Value) throw(IOException);
-  Connection& operator >> (int32_t &i32Value) throw(IOException);
-  Connection& operator >> (uint32_t &u32Value) throw(IOException);
-  Connection& operator >> (int64_t &i64Value) throw(IOException);
-  Connection& operator >> (uint64_t &u64Value) throw(IOException);
-  Connection& operator >> (std::string &strValue) throw(IOException);
-  Connection& operator >> (float &f32Value) throw(IOException);
-  Connection& operator >> (double &f64Value) throw(IOException);
+  Connection& operator >> (int8_t& i8Value) throw(IOException);
+  Connection& operator >> (uint8_t& u8Value) throw(IOException);
+  Connection& operator >> (int16_t& i16Value) throw(IOException);
+  Connection& operator >> (uint16_t& u16Value) throw(IOException);
+  Connection& operator >> (int32_t& i32Value) throw(IOException);
+  Connection& operator >> (uint32_t& u32Value) throw(IOException);
+  Connection& operator >> (int64_t& i64Value) throw(IOException);
+  Connection& operator >> (uint64_t& u64Value) throw(IOException);
+  Connection& operator >> (std::string& strValue) throw(IOException);
+  Connection& operator >> (float& f32Value) throw(IOException);
+  Connection& operator >> (double& f64Value) throw(IOException);
 
 protected:
 

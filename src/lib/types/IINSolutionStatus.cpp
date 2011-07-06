@@ -84,23 +84,23 @@ void IINSolutionStatus::read(std::ifstream& stream) {
 
 void IINSolutionStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << mu16NumberOfSatellites;
-//  stream << " ";
-//  stream << mf32APrioriPDOP;
-//  stream << " ";
-//  stream << mf32BaselineLength;
-//  stream << " ";
-//  stream << mu16IINProcessingStatus;
-//  stream << " ";
-//  for (uint8_t i = 0; i < 12; i++) {
-//    stream << hex << (uint16_t)mau8PRNAssignment[i] << dec;
-//    stream << " ";
-//  }
-//  stream << mu16L1CycleSlipFlag;
-//  stream << " ";
-//  stream << mu16L2CycleSlipFlag;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mNumberOfSatellites;
+  stream << " ";
+  stream << mAPrioriPDOP;
+  stream << " ";
+  stream << mBaselineLength;
+  stream << " ";
+  stream << mIINProcessingStatus;
+  stream << " ";
+  for (size_t i = 0; i < 12; i++) {
+    stream << (uint16_t)mau8PRNAssignment[i];
+    stream << " ";
+  }
+  stream << mL1CycleSlipFlag;
+  stream << " ";
+  stream << mL2CycleSlipFlag;
 }
 
 /******************************************************************************/

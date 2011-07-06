@@ -31,7 +31,7 @@
 
 using namespace std;
 
-Connection::Connection(const string &strHost, uint32_t u32Port,
+Connection::Connection(const string& strHost, uint32_t u32Port,
   double f64Timeout)
  : mstrHost(strHost),
    mPort(u32Port),
@@ -59,7 +59,7 @@ void Connection::setTimeout(double f64Time) {
   mTimeout = f64Time;
 }
 
-void Connection::open() throw(IOException) {
+void Connection::open() throw (IOException) {
   mSocket = socket(AF_INET, SOCK_STREAM, 0);
   if (mSocket == -1)
     throw IOException("Connection::open: Socket creation failed");
@@ -78,7 +78,7 @@ void Connection::open() throw(IOException) {
     throw IOException("Connection::open: Socket connection failed");
 }
 
-void Connection::close() throw(IOException) {
+void Connection::close() throw (IOException) {
   if (mSocket != 0) {
     int32_t i32Res = ::close(mSocket);
     if (i32Res == -1)
@@ -91,7 +91,7 @@ bool Connection::isOpen() const {
   return (mSocket != 0);
 }
 
-uint8_t Connection::readByte() const throw(IOException) {
+uint8_t Connection::readByte() const throw (IOException) {
   double f64IntPart;
   double f64FractPart = modf(mTimeout , &f64IntPart);
   struct timeval waitd;
@@ -119,13 +119,13 @@ const Group* Connection::readGroup()
   throw(IOException) {
   if(mSocket == 0)
     open();
-  string startString;
-  do {
-    startString = readStartGroup();
-  } while (startString != "$GRP");
+  readStartGroup();
 
   uint16_t u16GroupID;
   *this >> u16GroupID;
+
+  if (Factory<uint16_t, Group>::getInstance().isRegistered(u16GroupID) == false)
+    return NULL;
 
   Group *groupRead = Factory<uint16_t, Group>::getInstance().create(u16GroupID);
   *this >> *groupRead;
@@ -141,51 +141,62 @@ const Group* Connection::readGroup()
   return groupRead;
 }
 
-string Connection::readStartGroup() const throw(IOException) {
+void Connection::readStartGroup() const throw (IOException) {
+  uint8_t control;
+  while (true) {
+    do {
+      control = readByte();
+    }
+    while (control != '$');
+    control = readByte();
+    if (control != 'G')
+      continue;
+    control = readByte();
+    if (control != 'R')
+      continue;
+    control = readByte();
+    if (control != 'P')
+      continue;
+    break;
+  }
+}
+
+string Connection::readEndGroup() const throw (IOException) {
   string outputString;
-  outputString.push_back(readByte());
-  outputString.push_back(readByte());
   outputString.push_back(readByte());
   outputString.push_back(readByte());
   return outputString;
 }
 
-string Connection::readEndGroup() const throw(IOException) {
-  string outputString;
-  outputString.push_back(readByte());
-  outputString.push_back(readByte());
-  return outputString;
-}
-
-void Connection::sendControl() throw(IOException) {
+void Connection::sendControl() throw (IOException) {
   if(mSocket == 0)
     open();
   
 }
 
-Connection& Connection::operator >> (int8_t &i8Value) throw(IOException) {
+Connection& Connection::operator >> (int8_t &i8Value) throw (IOException) {
   i8Value = (int8_t)readByte();
   return *this;
 }
 
-Connection& Connection::operator >> (uint8_t &u8Value) throw(IOException) {
+Connection& Connection::operator >> (uint8_t &u8Value) throw (IOException) {
   u8Value = readByte();
   return *this;
 }
 
-Connection& Connection::operator >> (int16_t &i16Value) throw(IOException) {
+Connection& Connection::operator >> (int16_t &i16Value) throw (IOException) {
   ((uint8_t*)&i16Value)[0] = readByte();
   ((uint8_t*)&i16Value)[1] = readByte();
   return *this;
 }
 
-Connection& Connection::operator >> (uint16_t &u16Value) throw(IOException) {
+Connection& Connection::operator >> (uint16_t &u16Value) throw (IOException) {
   ((uint8_t*)&u16Value)[0] = readByte();
   ((uint8_t*)&u16Value)[1] = readByte();
   return *this;
 }
 
-Connection& Connection::operator >> (int32_t &i32Value) throw(IOException) {
+Connection& Connection::operator >> (int32_t &i32Value) throw (IOException) {
   ((uint8_t*)&i32Value)[0] = readByte();
   ((uint8_t*)&i32Value)[1] = readByte();
   ((uint8_t*)&i32Value)[2] = readByte();
@@ -193,7 +204,7 @@ Connection& Connection::operator >> (int32_t &i32Value) throw(IOException) {
   return *this;
 }
 
-Connection& Connection::operator >> (uint32_t &u32Value) throw(IOException) {
+Connection& Connection::operator >> (uint32_t &u32Value) throw (IOException) {
   ((uint8_t*)&u32Value)[0] = readByte();
   ((uint8_t*)&u32Value)[1] = readByte();
   ((uint8_t*)&u32Value)[2] = readByte();
@@ -201,7 +212,7 @@ Connection& Connection::operator >> (uint32_t &u32Value) throw(IOException) {
   return *this;
 }
 
-Connection& Connection::operator >> (int64_t &i64Value) throw(IOException) {
+Connection& Connection::operator >> (int64_t &i64Value) throw (IOException) {
   ((uint8_t*)&i64Value)[0] = readByte();
   ((uint8_t*)&i64Value)[1] = readByte();
   ((uint8_t*)&i64Value)[2] = readByte();
@@ -213,7 +224,7 @@ Connection& Connection::operator >> (int64_t &i64Value) throw(IOException) {
   return *this;
 }
 
-Connection& Connection::operator >> (uint64_t &u64Value) throw(IOException) {
+Connection& Connection::operator >> (uint64_t &u64Value) throw (IOException) {
   ((uint8_t*)&u64Value)[0] = readByte();
   ((uint8_t*)&u64Value)[1] = readByte();
   ((uint8_t*)&u64Value)[2] = readByte();
@@ -226,7 +237,7 @@ Connection& Connection::operator >> (uint64_t &u64Value) throw(IOException) {
 }
 
 
-Connection& Connection::operator >> (std::string &strValue) throw(IOException) {
+Connection& Connection::operator >> (std::string &strValue) throw (IOException) {
   uint32_t u32Length;
   ((uint8_t*)&u32Length)[0] = readByte();
   ((uint8_t*)&u32Length)[1] = readByte();
@@ -237,7 +248,7 @@ Connection& Connection::operator >> (std::string &strValue) throw(IOException) {
   return *this;
 }
 
-Connection& Connection::operator >> (float &f32Value) throw(IOException) {
+Connection& Connection::operator >> (float &f32Value) throw (IOException) {
   ((uint8_t*)&f32Value)[0] = readByte();
   ((uint8_t*)&f32Value)[1] = readByte();
   ((uint8_t*)&f32Value)[2] = readByte();
@@ -245,7 +256,7 @@ Connection& Connection::operator >> (float &f32Value) throw(IOException) {
   return *this;
 }
 
-Connection& Connection::operator >> (double &f64Value) throw(IOException) {
+Connection& Connection::operator >> (double &f64Value) throw (IOException) {
   ((uint8_t*)&f64Value)[0] = readByte();
   ((uint8_t*)&f64Value)[1] = readByte();
   ((uint8_t*)&f64Value)[2] = readByte();
