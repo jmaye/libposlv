@@ -83,25 +83,25 @@ void GeneralStatusFDIR::write(std::ofstream& stream) const {
   stream << mTypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mGeneralStatusA;
+  stream << std::hex << mGeneralStatusA << std::dec;
   stream << " ";
-  stream << mGeneralStatusB;
+  stream << std::hex << mGeneralStatusB << std::dec;
   stream << " ";
-  stream << mGeneralStatusC;
+  stream << std::hex << mGeneralStatusC << std::dec;
   stream << " ";
-  stream << mFDIRLevel1Status;
+  stream << std::hex << mFDIRLevel1Status << std::dec;
   stream << " ";
-  stream << mFDIRLevel1Failures;
+  stream << std::hex << mFDIRLevel1Failures << std::dec;
   stream << " ";
-  stream << mFDIRLevel2Status;
+  stream << std::hex << mFDIRLevel2Status << std::dec;
   stream << " ";
-  stream << mFDIRLevel3Status;
+  stream << std::hex << mFDIRLevel3Status << std::dec;
   stream << " ";
-  stream << mFDIRLevel4Status;
+  stream << std::hex << mFDIRLevel4Status << std::dec;
   stream << " ";
-  stream << mFDIRLevel5Status;
+  stream << std::hex << mFDIRLevel5Status << std::dec;
   stream << " ";
-  stream << mExtendedStatus;
+  stream << std::hex << mExtendedStatus << std::dec;
 }
 
 /******************************************************************************/

@@ -91,7 +91,7 @@ void Auxiliary1GPSStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << (uint16_t)mNavigationSolutionStatus;
+  stream << (int16_t)mNavigationSolutionStatus;
   stream << " ";
   stream << (uint16_t)mNumberOfSVTracked;
   stream << " ";

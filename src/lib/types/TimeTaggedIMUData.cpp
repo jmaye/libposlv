@@ -102,9 +102,9 @@ void TimeTaggedIMUData::write(std::ofstream& stream) const {
   stream << " ";
   stream << std::hex << (uint16_t)mDataStatus << std::dec;
   stream << " ";
-  stream << std::hex << (uint16_t)mIMUType << std::dec;
+  stream << (uint16_t)mIMUType;
   stream << " ";
-  stream << std::hex << (uint16_t)mPOSIMUDataRate << std::dec;
+  stream << (uint16_t)mPOSIMUDataRate;
   stream << " ";
   stream << std::hex << mIMUStatus << std::dec;
 }

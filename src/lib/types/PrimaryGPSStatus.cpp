@@ -92,7 +92,7 @@ void PrimaryGPSStatus::write(std::ofstream& stream) const {
   stream << " ";
   stream << mTimeDistance;
   stream << " ";
-  stream << (uint16_t)mNavigationSolutionStatus;
+  stream << (int16_t)mNavigationSolutionStatus;
   stream << " ";
   stream << (uint16_t)mNumberOfSVTracked;
   stream << " ";
