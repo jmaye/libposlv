@@ -85,25 +85,25 @@ void BaseGPS2ModemStatus::read(std::ifstream& stream) {
 
 void BaseGPS2ModemStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " " ;
-//  stream << mTimeDistance;
-//  for (uint32_t i = 0; i < 16; i++) {
-//    stream << hex << (uint16_t)mau8ModemResponse[i] << dec;
-//    stream << " " ;
-//  }
-//  for (uint32_t i = 0; i < 48; i++) {
-//    stream << hex << (uint16_t)mau8ConnectionStatus[i] << dec;
-//    stream << " " ;
-//  }
-//  stream << mu32NumberOfRedialsPerDisconnect;
-//  stream << " " ;
-//  stream << mu32MaximumNumberOfRedialsPerDisconnect;
-//  stream << " " ;
-//  stream << mu32NumberOfDisconnects;
-//  stream << " " ;
-//  stream << mu32DataGapLength;
-//  stream << " " ;
-//  stream << mu32MaximumDataGapLength;
+  stream << " " ;
+  stream << mTimeDistance;
+  for (size_t i = 0; i < 16; i++) {
+    stream << (uint16_t)mau8ModemResponse[i];
+    stream << " " ;
+  }
+  for (size_t i = 0; i < 48; i++) {
+    stream << (uint16_t)mau8ConnectionStatus[i];
+    stream << " " ;
+  }
+  stream << mNumberOfRedialsPerDisconnect;
+  stream << " " ;
+  stream << mMaximumNumberOfRedialsPerDisconnect;
+  stream << " " ;
+  stream << mNumberOfDisconnects;
+  stream << " " ;
+  stream << mDataGapLength;
+  stream << " " ;
+  stream << mMaximumDataGapLength;
 }
 
 /******************************************************************************/

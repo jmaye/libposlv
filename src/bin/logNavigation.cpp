@@ -27,13 +27,12 @@ int main(int argc, char **argv) {
   Connection com(argv[1], atoi(argv[2]));
   com.open();
   uint32_t i = 0;
-  while (i++ < 1000) {
+  while (i++ < 10000) {
     const Group *result = com.readGroup();
     if (result == NULL) {
       std::cout << "Dropping message..." << std::endl;
       continue;
     }
-    std::cout << result->getTypeID() << std::endl;
     ofstream logFile(argv[3], ios_base::app);
     logFile << fixed << seconds() << " ";
     logFile << *result;

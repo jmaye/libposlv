@@ -81,18 +81,18 @@ void PrimaryGPSDataStream::read(std::ifstream& stream) {
 
 void PrimaryGPSDataStream::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << mu16GPSReceiverType;
-//  stream << " ";
-//  stream << mu32Reserved;
-//  stream << " ";
-//  stream << mu16VariableMsgByteCount;
-//  stream << " ";
-//  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
-//    stream << hex << (uint16_t)mau8GPSReceiverRawData[i] << dec;
-//    stream << " ";
-//  }
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mGPSReceiverType;
+  stream << " ";
+  stream << mReserved;
+  stream << " ";
+  stream << mVariableMsgByteCount;
+  stream << " ";
+  for (size_t i = 0; i < mVariableMsgByteCount; i++) {
+    stream << std::hex << (uint16_t)mau8GPSReceiverRawData[i] << std::dec;
+    stream << " ";
+  }
 }
 
 /******************************************************************************/

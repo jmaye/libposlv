@@ -87,26 +87,26 @@ void VersionStatistics::read(std::ifstream& stream) {
 
 void VersionStatistics::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  string outputStr1((const char*)mau8SystemVersion);
-//  stream << outputStr1;
-//  stream << " ";
-//  string outputStr2((const char*)mau8PrimaryGPSVersion);
-//  stream << outputStr2;
-//  stream << " ";
-//  string outputStr3((const char*)mau8SecondaryGPSversion);
-//  stream << outputStr3;
-//  stream << " ";
-//  stream << mf32TotalHours;
-//  stream << " ";
-//  stream << mu32NumberOfRuns;
-//  stream << " ";
-//  stream << mf32AverageLengthOfRun;
-//  stream << " ";
-//  stream << mf32LongestRun;
-//  stream << " ";
-//  stream << mf32CurrentRun;
+  stream << " ";
+  stream << mTimeDistance;
+  std::string outputStr1((const char*)mau8SystemVersion);
+  stream << outputStr1;
+  stream << " ";
+  std::string outputStr2((const char*)mau8PrimaryGPSVersion);
+  stream << outputStr2;
+  stream << " ";
+  std::string outputStr3((const char*)mau8SecondaryGPSversion);
+  stream << outputStr3;
+  stream << " ";
+  stream << mTotalHours;
+  stream << " ";
+  stream << mNumberOfRuns;
+  stream << " ";
+  stream << mAverageLengthOfRun;
+  stream << " ";
+  stream << mLongestRun;
+  stream << " ";
+  stream << mCurrentRun;
 }
 
 /******************************************************************************/

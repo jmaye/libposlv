@@ -59,7 +59,6 @@ void RawIMUData::read(Connection& stream) throw (IOException) {
   for (size_t i = 0; i < 6; i++)
     stream >> mau8IMUHeader[i];
   stream >> mVariableMsgByteCount;
-  std::cout << mVariableMsgByteCount << std::endl;
   mau8IMURawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mau8IMURawData[i];
@@ -82,17 +81,17 @@ void RawIMUData::read(std::ifstream& stream) {
 
 void RawIMUData::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  for (uint32_t i = 0; i < 6; i++)
-//    stream << mau8IMUHeader[i];
-//  stream << " ";
-//  stream << mu16VariableMsgByteCount;
-//  stream << " ";
-//  for (uint16_t i = 0; i < mu16VariableMsgByteCount; i++) {
-//    stream << hex << (uint16_t)mau8IMURawData[i] << dec;
-//    stream << " ";
-//  }
+  stream << " ";
+  stream << mTimeDistance;
+  for (size_t i = 0; i < 6; i++)
+    stream << mau8IMUHeader[i];
+  stream << " ";
+  stream << mVariableMsgByteCount;
+  stream << " ";
+  for (size_t i = 0; i < mVariableMsgByteCount; i++) {
+    stream << std::hex << (uint16_t)mau8IMURawData[i] << std::dec;
+    stream << " ";
+  }
 }
 
 /******************************************************************************/

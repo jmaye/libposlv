@@ -81,27 +81,27 @@ void GeneralStatusFDIR::read(std::ifstream& stream) {
 
 void GeneralStatusFDIR::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << mu32GeneralStatusA;
-//  stream << " ";
-//  stream << mu32GeneralStatusB;
-//  stream << " ";
-//  stream << mu32GeneralStatusC;
-//  stream << " ";
-//  stream << mu32FDIRLevel1Status;
-//  stream << " ";
-//  stream << mu16FDIRLevel1Failures;
-//  stream << " ";
-//  stream << mu16FDIRLevel2Status;
-//  stream << " ";
-//  stream << mu16FDIRLevel3Status;
-//  stream << " ";
-//  stream << mu16FDIRLevel4Status;
-//  stream << " ";
-//  stream << mu16FDIRLevel5Status;
-//  stream << " ";
-//  stream << mu32ExtendedStatus;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mGeneralStatusA;
+  stream << " ";
+  stream << mGeneralStatusB;
+  stream << " ";
+  stream << mGeneralStatusC;
+  stream << " ";
+  stream << mFDIRLevel1Status;
+  stream << " ";
+  stream << mFDIRLevel1Failures;
+  stream << " ";
+  stream << mFDIRLevel2Status;
+  stream << " ";
+  stream << mFDIRLevel3Status;
+  stream << " ";
+  stream << mFDIRLevel4Status;
+  stream << " ";
+  stream << mFDIRLevel5Status;
+  stream << " ";
+  stream << mExtendedStatus;
 }
 
 /******************************************************************************/

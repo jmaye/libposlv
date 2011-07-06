@@ -81,17 +81,17 @@ void LoggingParamStatus::read(std::ifstream& stream) {
 
 void LoggingParamStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << mu32DiskKbytesRemaining;
-//  stream << " ";
-//  stream << mu32DiskKbytesLogged;
-//  stream << " ";
-//  stream << mf32DiskLoggingTimeRemaining;
-//  stream << " ";
-//  stream << mu32DiskKbytesTotal;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8LoggingState << dec;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mDiskKbytesRemaining;
+  stream << " ";
+  stream << mDiskKbytesLogged;
+  stream << " ";
+  stream << mDiskLoggingTimeRemaining;
+  stream << " ";
+  stream << mDiskKbytesTotal;
+  stream << " ";
+  stream << (uint16_t)mLoggingState;
 }
 
 
