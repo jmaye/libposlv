@@ -78,7 +78,7 @@ void PPSTimeRecoveryStatus::read(std::ifstream& stream) {
 }
 
 void PPSTimeRecoveryStatus::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu32PPSCount;

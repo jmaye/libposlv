@@ -58,9 +58,7 @@ void Auxiliary2GPSStatus::read(Connection& stream) throw (IOException) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  if (byteCount != mByteCount)
-    throw IOException("Auxiliary2GPSStatus::read(): wrong byte count");
-  mChannelNumber = mChannelStatusByteCount / 20;
+  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
   for (size_t i = 0; i < mChannelNumber; i ++)
     stream >> maChannelStatusData[i];
   stream >> mHDOP;
@@ -90,7 +88,7 @@ void Auxiliary2GPSStatus::read(std::ifstream& stream) {
 }
 
 void Auxiliary2GPSStatus::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << hex << (uint16_t)mi8NavigationSolutionStatus << dec;

@@ -80,7 +80,7 @@ void PrimaryGPSDataStream::read(std::ifstream& stream) {
 }
 
 void PrimaryGPSDataStream::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu16GPSReceiverType;

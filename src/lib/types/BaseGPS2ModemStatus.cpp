@@ -84,7 +84,7 @@ void BaseGPS2ModemStatus::read(std::ifstream& stream) {
 }
 
 void BaseGPS2ModemStatus::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " " ;
 //  stream << mTimeDistance;
 //  for (uint32_t i = 0; i < 16; i++) {

@@ -27,13 +27,18 @@ int main(int argc, char **argv) {
   Connection com(argv[1], atoi(argv[2]));
   com.open();
   while (1) {
-    const Group *result = com.readGroup();
-    ofstream logFile(argv[3], ios_base::app);
-    logFile << fixed << seconds() << " ";
-    logFile << *result;
-    logFile << endl;
-    logFile.close();
-    delete result;
+    try {
+      const Group *result = com.readGroup();
+      ofstream logFile(argv[3], ios_base::app);
+      logFile << fixed << seconds() << " ";
+      logFile << *result;
+      logFile << endl;
+      logFile.close();
+      delete result;
+    }
+    catch (TypeCreationException<uint16_t>& e) {
+      std::cout << e.what() << std::endl;
+    }
   }
   com.close();
   return 0;

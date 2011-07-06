@@ -85,7 +85,7 @@ void GAMSSolutionStatus::read(std::ifstream& stream) {
 }
 
 void GAMSSolutionStatus::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << (uint16_t)mu8NumberOfSatellites;

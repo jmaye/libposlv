@@ -76,7 +76,7 @@ void RawPPS::read(std::ifstream& stream) {
 }
 
 void RawPPS::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu16PPSPulseCount;

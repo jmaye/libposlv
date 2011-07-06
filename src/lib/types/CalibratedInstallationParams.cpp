@@ -101,7 +101,7 @@ void CalibratedInstallationParams::read(std::ifstream& stream) {
 }
 
 void CalibratedInstallationParams::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu16CalibrationStatus;

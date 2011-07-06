@@ -80,7 +80,7 @@ void BaseGPS1DataStream::read(std::ifstream& stream) {
 }
 
 void BaseGPS1DataStream::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  for (uint32_t i = 0; i < 6; i++) {

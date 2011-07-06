@@ -103,7 +103,7 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(std::ifstream& stream) {
 
 void PrimaryGPSReceiverIntegratedDGPSStatus::write(std::ofstream& stream)
   const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << hex << (uint16_t)mu8MobileDifferentialMode << dec;

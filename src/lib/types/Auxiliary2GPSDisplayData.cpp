@@ -83,7 +83,7 @@ void Auxiliary2GPSDisplayData::read(std::ifstream& stream) {
 }
 
 void Auxiliary2GPSDisplayData::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  for (uint32_t i = 0; i < 6; i++) {

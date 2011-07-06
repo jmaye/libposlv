@@ -61,7 +61,7 @@ class SecondaryGPSStatus :
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 676;
+  static const uint16_t mByteCount = 76;
   /// Time/Distance field
   TimeDistance mTimeDistance;
   /// Navigation solution status
@@ -92,6 +92,8 @@ class SecondaryGPSStatus :
   uint16_t mGPSReceiverType;
   /// GPS status
   uint32_t mGPSStatus;
+  /// Number of channels
+  uint32_t mChannelNumber;
   /** @}
     */
 

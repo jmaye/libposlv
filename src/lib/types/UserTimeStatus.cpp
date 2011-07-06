@@ -74,7 +74,7 @@ void UserTimeStatus::read(std::ifstream& stream) {
 }
 
 void UserTimeStatus::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu32NumberOfTimeSynchMessageRejections;

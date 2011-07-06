@@ -59,9 +59,8 @@ void SecondaryGPSStatus::read(Connection& stream) throw (IOException) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  if (byteCount != mByteCount)
-    throw IOException("SecondaryGPSStatus::read(): wrong byte count");
-  for (size_t i = 0; i < mNumberOfSVTracked; i ++)
+  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  for (size_t i = 0; i < mChannelNumber; i++)
     stream >> maChannelStatusData[i];
   stream >> mHDOP;
   stream >> mVDOP;
@@ -90,7 +89,7 @@ void SecondaryGPSStatus::read(std::ifstream& stream) {
 }
 
 void SecondaryGPSStatus::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << " ";

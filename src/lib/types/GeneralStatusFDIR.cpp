@@ -80,7 +80,7 @@ void GeneralStatusFDIR::read(std::ifstream& stream) {
 }
 
 void GeneralStatusFDIR::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu32GeneralStatusA;

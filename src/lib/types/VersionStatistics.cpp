@@ -86,7 +86,7 @@ void VersionStatistics::read(std::ifstream& stream) {
 }
 
 void VersionStatistics::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  string outputStr1((const char*)mau8SystemVersion);

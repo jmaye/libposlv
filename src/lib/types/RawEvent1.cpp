@@ -74,7 +74,7 @@ void RawEvent1::read(std::ifstream& stream) {
 }
 
 void RawEvent1::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu32Event1PulseCount;

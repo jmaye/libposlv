@@ -80,7 +80,7 @@ void LoggingParamStatus::read(std::ifstream& stream) {
 }
 
 void LoggingParamStatus::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  stream << mu32DiskKbytesRemaining;

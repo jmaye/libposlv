@@ -72,7 +72,7 @@ void PrimaryGPSReceiverDGPSStaDB::read(std::ifstream& stream) {
 }
 
 void PrimaryGPSReceiverDGPSStaDB::write(std::ofstream& stream) const {
-//  stream << mu16TypeID;
+  stream << mTypeID;
 //  stream << " ";
 //  stream << mTimeDistance;
 //  for (uint32_t i = 0; i < mu32StationNbr; i++)
