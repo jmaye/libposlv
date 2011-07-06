@@ -69,7 +69,7 @@ public:
   /// Variable message length
   uint16_t mVariableMsgByteCount;
   /// Data
-  uint8_t *mau8GPSReceiverRawData;
+  uint8_t* mau8GPSReceiverRawData;
   /// Prototype of this group
   static const PrimaryGPSDataStream mProto;
   /** @}

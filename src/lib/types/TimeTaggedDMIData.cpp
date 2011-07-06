@@ -1,59 +1,105 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/TimeTaggedDMIData.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
-
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const TimeTaggedDMIData TimeTaggedDMIData::mProto;
 
-TimeTaggedDMIData::TimeTaggedDMIData() : Group(15) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+TimeTaggedDMIData::TimeTaggedDMIData() :
+ Group(15) {
 }
 
-TimeTaggedDMIData::TimeTaggedDMIData(const TimeTaggedDMIData &other)
-  : Group(other) {
+TimeTaggedDMIData::TimeTaggedDMIData(const TimeTaggedDMIData& other) :
+  Group(other) {
+}
+
+TimeTaggedDMIData& TimeTaggedDMIData::operator =
+  (const TimeTaggedDMIData& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 TimeTaggedDMIData::~TimeTaggedDMIData() {
 }
 
-void TimeTaggedDMIData::read(Connection &stream) throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
-  if (u16ByteCount != mcu16ByteCount)
-    throw IOException("TimeTaggedDMIData::read: Wrong byte count");
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void TimeTaggedDMIData::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("TimeTaggedDMIData::read(): wrong byte count");
 
   stream >> mTimeDistance;
-  stream >> mf64SignedDistanceTraveled;
-  stream >> mf64UnsignedDistanceTraveled;
-  stream >> mu16DMIScaleFactor;
-  stream >> mu8DataStatus;
-  stream >> mu8DMIType;
-  stream >> mu8DMIDataRate;
+  stream >> mSignedDistanceTraveled;
+  stream >> mUnsignedDistanceTraveled;
+  stream >> mDMIScaleFactor;
+  stream >> mDataStatus;
+  stream >> mDMIType;
+  stream >> mDMIDataRate;
 
-  uint8_t u8Pad;
-  stream >> u8Pad;
-  if (u8Pad != 0)
-    throw IOException("TimeTaggedDMIData::read: Wrong pad");
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("TimeTaggedDMIData::read(): wrong pad");
 }
 
-void TimeTaggedDMIData::write(ofstream &stream) const {
-  stream << mu16TypeID;
+void TimeTaggedDMIData::read(std::istream& stream) {
+}
+
+void TimeTaggedDMIData::write(std::ostream& stream) const {
+}
+
+void TimeTaggedDMIData::read(std::ifstream& stream) {
+}
+
+void TimeTaggedDMIData::write(std::ofstream& stream) const {
+  stream << mTypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mf64SignedDistanceTraveled;
+  stream << mSignedDistanceTraveled;
   stream << " ";
-  stream << mf64UnsignedDistanceTraveled;
+  stream << mUnsignedDistanceTraveled;
   stream << " ";
-  stream << mu16DMIScaleFactor;
+  stream << mDMIScaleFactor;
   stream << " ";
-  stream << hex << (uint16_t)mu8DataStatus << dec;
+  stream << std::hex << (uint16_t)mDataStatus << std::dec;
   stream << " ";
-  stream << hex << (uint16_t)mu8DMIType << dec;
+  stream << std::hex << (uint16_t)mDMIType << std::dec;
   stream << " ";
-  stream << hex << (uint16_t)mu8DMIDataRate << dec;
+  stream << std::hex << (uint16_t)mDMIDataRate << std::dec;
 }
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 TimeTaggedDMIData* TimeTaggedDMIData::clone() const {
   return new TimeTaggedDMIData(*this);

@@ -68,8 +68,6 @@ public:
   uint32_t mPPSCount;
   /// Time synchro
   uint8_t mTimeSynchroStatus;
-  /// Prototype of this group
-  static const PPSTimeRecoveryStatus mProto;
   /** @}
     */
 
@@ -87,6 +85,14 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Prototype for this group
+  static const PPSTimeRecoveryStatus mProto;
   /** @}
     */
 

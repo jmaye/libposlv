@@ -1,37 +1,98 @@
-#ifndef Event2_H
-#define Event2_H
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
+/** \file Event2.h
+    \brief This file defines the Event2 class, which represents the Event 2
+           message from the Applanix
+  */
+
+#ifndef EVENT2_H
+#define EVENT2_H
 
 #include "types/Group.h"
-#include "exceptions/IOException.h"
 #include "types/TimeDistance.h"
+#include "exceptions/IOException.h"
 
-#include <iosfwd>
-
-#include <stdint.h>
-
-class Connection;
-
-class Event2 : public Group {
-  Event2();
-  Event2(const Event2 &other);
-  Event2& operator = (const Event2 &other);
-
-  virtual void read(Connection &stream) throw(IOException);
-  virtual void write(std::ofstream &stream) const;
-
-  static const uint16_t mcu16ByteCount = 36;
-
-  TimeDistance mTimeDistance;
-  uint32_t mu32EventPulseNumber;
-
+/** The class Event2 represents the Event 2 message from the Applanix.
+    \brief Event 2 message
+  */
+class Event2 :
+  public Group {
 public:
-  ~Event2();
+  /** \name Constructors/Destructor
+    @{
+    */
+  /// Default constructor
+  Event2();
+  /// Copy constructor
+  Event2(const Event2& other);
+  /// Assignement operator
+  Event2& operator = (const Event2& other);
+  /// Destructor
+  virtual ~Event2();
+  /** @}
+    */
 
+  /** \name Methods
+    @{
+    */
+  /// Returns a new prototype of this group
   virtual Event2* clone() const;
+  /** @}
+    */
 
-  static const Event2 mProto;
+  /** \name Members
+    @{
+    */
+  /// Nominal number of bytes in the message
+  static const uint16_t mByteCount = 36;
+  /// Time/Distance field
+  TimeDistance mTimeDistance;
+  /// Pulse number
+  uint32_t mEventPulseNumber;
+  /** @}
+    */
 
 protected:
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from standard input
+  virtual void read(std::istream& stream);
+  /// Writes to standard output
+  virtual void write(std::ostream& stream) const ;
+  /// Reads from a file
+  virtual void read(std::ifstream& stream);
+  /// Writes to a file
+  virtual void write(std::ofstream& stream) const;
+  /// Reads from the network
+  virtual void read(Connection& stream) throw (IOException);
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Prototype for this group
+  static const Event2 mProto;
+  /** @}
+    */
+
 };
 
-#endif // Event2_H
+#endif // EVENT2_H

@@ -1,99 +1,146 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/VehicleNavigationSolution.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
-
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const VehicleNavigationSolution VehicleNavigationSolution::mProto;
 
-VehicleNavigationSolution::VehicleNavigationSolution() : Group(1) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+VehicleNavigationSolution::VehicleNavigationSolution() :
+  Group(1) {
 }
 
-VehicleNavigationSolution::
-  VehicleNavigationSolution(const VehicleNavigationSolution &other)
-  : Group(other) {
+VehicleNavigationSolution::VehicleNavigationSolution(const
+  VehicleNavigationSolution &other) :
+  Group(other) {
+}
+
+VehicleNavigationSolution& VehicleNavigationSolution::operator =
+  (const VehicleNavigationSolution& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 VehicleNavigationSolution::~VehicleNavigationSolution() {
 }
 
-void VehicleNavigationSolution::read(Connection &stream) throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
-  if (u16ByteCount != mcu16ByteCount)
-    throw IOException("VehicleNavigationSolution::read: Wrong byte count");
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+
+void VehicleNavigationSolution::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("VehicleNavigationSolution::read(): wrong byte count");
 
   stream >> mTimeDistance;
-  stream >> mf64Latitude;
-  stream >> mf64Longitude;
-  stream >> mf64Altitude;
-  stream >> mf32NorthVelocity;
-  stream >> mf32EastVelocity;
-  stream >> mf32DownVelocity;
-  stream >> mf64Roll;
-  stream >> mf64Pitch;
-  stream >> mf64Heading;
-  stream >> mf64WanderAngle;
-  stream >> mf32TrackAngle;
-  stream >> mf32Speed;
-  stream >> mf32AngularRateLong;
-  stream >> mf32AngularRateTrans;
-  stream >> mf32AngularRateDown;
-  stream >> mf32AccLong;
-  stream >> mf32AccTrans;
-  stream >> mf32AccDown;
-  stream >> mu8AlignementStatus;
+  stream >> mLatitude;
+  stream >> mLongitude;
+  stream >> mAltitude;
+  stream >> mNorthVelocity;
+  stream >> mEastVelocity;
+  stream >> mDownVelocity;
+  stream >> mRoll;
+  stream >> mPitch;
+  stream >> mHeading;
+  stream >> mWanderAngle;
+  stream >> mTrackAngle;
+  stream >> mSpeed;
+  stream >> mAngularRateLong;
+  stream >> mAngularRateTrans;
+  stream >> mAngularRateDown;
+  stream >> mAccLong;
+  stream >> mAccTrans;
+  stream >> mAccDown;
+  stream >> mAlignementStatus;
 
-  uint8_t u8Pad;
-  stream >> u8Pad;
-  if (u8Pad != 0)
-    throw IOException("VehicleNavigationSolution::read: Wrong pad");
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("VehicleNavigationSolution::read(): wrong pad");
 }
 
-void VehicleNavigationSolution::write(ofstream &stream) const {
-  stream << mu16TypeID;
+void VehicleNavigationSolution::read(std::istream& stream) {
+}
+
+void VehicleNavigationSolution::write(std::ostream& stream) const {
+}
+
+void VehicleNavigationSolution::read(std::ifstream& stream) {
+}
+
+void VehicleNavigationSolution::write(std::ofstream& stream) const {
+  stream << mTypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mf64Latitude;
+  stream << mLatitude;
   stream << " ";
-  stream << mf64Longitude;
+  stream << mLongitude;
   stream << " ";
-  stream << mf64Altitude;
+  stream << mAltitude;
   stream << " ";
-  stream << mf32NorthVelocity;
+  stream << mNorthVelocity;
   stream << " ";
-  stream << mf32EastVelocity;
+  stream << mEastVelocity;
   stream << " ";
-  stream << mf32DownVelocity;
+  stream << mDownVelocity;
   stream << " ";
-  stream << mf64Roll;
+  stream << mRoll;
   stream << " ";
-  stream << mf64Pitch;
+  stream << mPitch;
   stream << " ";
-  stream << mf64Heading;
+  stream << mHeading;
   stream << " ";
-  stream << mf64WanderAngle;
+  stream << mWanderAngle;
   stream << " ";
-  stream << mf32TrackAngle;
+  stream << mTrackAngle;
   stream << " ";
-  stream << mf32Speed;
+  stream << mSpeed;
   stream << " ";
-  stream << mf32AngularRateLong;
+  stream << mAngularRateLong;
   stream << " ";
-  stream << mf32AngularRateTrans;
+  stream << mAngularRateTrans;
   stream << " ";
-  stream << mf32AngularRateDown;
+  stream << mAngularRateDown;
   stream << " ";
-  stream << mf32AccLong;
+  stream << mAccLong;
   stream << " ";
-  stream << mf32AccTrans;
+  stream << mAccTrans;
   stream << " ";
-  stream << mf32AccDown;
+  stream << mAccDown;
   stream << " ";
-  stream << hex << (uint16_t)mu8AlignementStatus << dec;
+  stream << std::hex << (uint16_t)mAlignementStatus << std::dec;
 }
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 VehicleNavigationSolution* VehicleNavigationSolution::clone() const {
   return new VehicleNavigationSolution(*this);

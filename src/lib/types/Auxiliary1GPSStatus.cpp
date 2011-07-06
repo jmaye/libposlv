@@ -31,7 +31,7 @@ const Auxiliary1GPSStatus Auxiliary1GPSStatus::mProto;
 /******************************************************************************/
 
 Auxiliary1GPSStatus::Auxiliary1GPSStatus() :
-  Group(13) {
+  Group(12) {
 }
 
 Auxiliary1GPSStatus::Auxiliary1GPSStatus(const Auxiliary1GPSStatus& other) :

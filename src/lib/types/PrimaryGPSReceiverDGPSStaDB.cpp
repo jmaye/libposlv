@@ -1,42 +1,87 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
+
 #include "types/PrimaryGPSReceiverDGPSStaDB.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
-
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const PrimaryGPSReceiverDGPSStaDB PrimaryGPSReceiverDGPSStaDB::mProto;
 
-PrimaryGPSReceiverDGPSStaDB::PrimaryGPSReceiverDGPSStaDB() : Group(26) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+PrimaryGPSReceiverDGPSStaDB::PrimaryGPSReceiverDGPSStaDB() :
+  Group(26) {
 }
 
-PrimaryGPSReceiverDGPSStaDB::
-  PrimaryGPSReceiverDGPSStaDB(const PrimaryGPSReceiverDGPSStaDB &other)
-  : Group(other) {
+PrimaryGPSReceiverDGPSStaDB::PrimaryGPSReceiverDGPSStaDB(const
+  PrimaryGPSReceiverDGPSStaDB& other) : Group(other) {
+}
+
+PrimaryGPSReceiverDGPSStaDB& PrimaryGPSReceiverDGPSStaDB::operator =
+  (const PrimaryGPSReceiverDGPSStaDB& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 PrimaryGPSReceiverDGPSStaDB::~PrimaryGPSReceiverDGPSStaDB() {
 }
 
-void PrimaryGPSReceiverDGPSStaDB::read(Connection &stream)
-  throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void PrimaryGPSReceiverDGPSStaDB::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
 
   stream >> mTimeDistance;
-  mu32StationNbr = (u16ByteCount - 30) / 24;
-  for (uint32_t i = 0; i < mu32StationNbr; i++)
+  mStationNbr = (byteCount - mByteCount) / 24;
+  for (size_t i = 0; i < mStationNbr; i++)
     stream >> maStationRecord[i];
 }
 
-void PrimaryGPSReceiverDGPSStaDB::write(ofstream &stream) const {
-  stream << mu16TypeID;
-  stream << " ";
-  stream << mTimeDistance;
-  for (uint32_t i = 0; i < mu32StationNbr; i++)
-    stream << maStationRecord[i];
+void PrimaryGPSReceiverDGPSStaDB::read(std::istream& stream) {
 }
+
+void PrimaryGPSReceiverDGPSStaDB::write(std::ostream& stream) const {
+}
+
+void PrimaryGPSReceiverDGPSStaDB::read(std::ifstream& stream) {
+}
+
+void PrimaryGPSReceiverDGPSStaDB::write(std::ofstream& stream) const {
+//  stream << mu16TypeID;
+//  stream << " ";
+//  stream << mTimeDistance;
+//  for (uint32_t i = 0; i < mu32StationNbr; i++)
+//    stream << maStationRecord[i];
+}
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 PrimaryGPSReceiverDGPSStaDB* PrimaryGPSReceiverDGPSStaDB::clone() const {
   return new PrimaryGPSReceiverDGPSStaDB(*this);

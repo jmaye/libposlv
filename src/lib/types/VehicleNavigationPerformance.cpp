@@ -1,78 +1,125 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/VehicleNavigationPerformance.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
-
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const VehicleNavigationPerformance VehicleNavigationPerformance::mProto;
 
-VehicleNavigationPerformance::VehicleNavigationPerformance() : Group(2) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+VehicleNavigationPerformance::VehicleNavigationPerformance() :
+  Group(2) {
 }
 
-VehicleNavigationPerformance::
-  VehicleNavigationPerformance(const VehicleNavigationPerformance &other)
-  : Group(other) {
+VehicleNavigationPerformance::VehicleNavigationPerformance(const
+  VehicleNavigationPerformance &other) :
+  Group(other) {
+}
+
+VehicleNavigationPerformance& VehicleNavigationPerformance::operator =
+  (const VehicleNavigationPerformance& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 VehicleNavigationPerformance::~VehicleNavigationPerformance() {
 }
 
-void VehicleNavigationPerformance::read(Connection &stream) throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
-  if (u16ByteCount != mcu16ByteCount)
-    throw IOException("VehicleNavigationPerformance::read: Wrong byte count");
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void VehicleNavigationPerformance::read(Connection& stream)
+  throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("VehicleNavigationPerformance::read(): wrong byte count");
 
   stream >> mTimeDistance;
-  stream >> mf32NorthPositionRMSError;
-  stream >> mf32EastPositionRMSError;
-  stream >> mf32DownPositionRMSError;
-  stream >> mf32NorthVelocityRMSError;
-  stream >> mf32EastVelocityRMSError;
-  stream >> mf32DownVelocityRMSError;
-  stream >> mf32RollRMSError;
-  stream >> mf32PitchRMSError;
-  stream >> mf32HeadingRMSError;
-  stream >> mf32ErrorEllipsoidSemiMajor;
-  stream >> mf32ErrorEllipsoidSemiMinor;
-  stream >> mf32ErrorEllipsoidOrientation;
+  stream >> mNorthPositionRMSError;
+  stream >> mEastPositionRMSError;
+  stream >> mDownPositionRMSError;
+  stream >> mNorthVelocityRMSError;
+  stream >> mEastVelocityRMSError;
+  stream >> mDownVelocityRMSError;
+  stream >> mRollRMSError;
+  stream >> mPitchRMSError;
+  stream >> mHeadingRMSError;
+  stream >> mErrorEllipsoidSemiMajor;
+  stream >> mErrorEllipsoidSemiMinor;
+  stream >> mErrorEllipsoidOrientation;
 
-  uint16_t u16Pad;
-  stream >> u16Pad;
-  if (u16Pad != 0)
-    throw IOException("VehicleNavigationPerformance::read: Wrong pad");
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("VehicleNavigationPerformance::read(): wrong pad");
 }
 
-void VehicleNavigationPerformance::write(ofstream &stream) const {
-  stream << mu16TypeID;
+void VehicleNavigationPerformance::read(std::istream& stream) {
+}
+
+void VehicleNavigationPerformance::write(std::ostream& stream) const {
+}
+
+void VehicleNavigationPerformance::read(std::ifstream& stream) {
+}
+
+void VehicleNavigationPerformance::write(std::ofstream& stream) const {
+  stream << mTypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mf32NorthPositionRMSError;
+  stream << mNorthPositionRMSError;
   stream << " ";
-  stream << mf32EastPositionRMSError;
+  stream << mEastPositionRMSError;
   stream << " ";
-  stream << mf32DownPositionRMSError;
+  stream << mDownPositionRMSError;
   stream << " ";
-  stream << mf32NorthVelocityRMSError;
+  stream << mNorthVelocityRMSError;
   stream << " ";
-  stream << mf32EastVelocityRMSError;
+  stream << mEastVelocityRMSError;
   stream << " ";
-  stream << mf32DownVelocityRMSError;
+  stream << mDownVelocityRMSError;
   stream << " ";
-  stream << mf32RollRMSError;
+  stream << mRollRMSError;
   stream << " ";
-  stream << mf32PitchRMSError;
+  stream << mPitchRMSError;
   stream << " ";
-  stream << mf32HeadingRMSError;
+  stream << mHeadingRMSError;
   stream << " ";
-  stream << mf32ErrorEllipsoidSemiMajor;
+  stream << mErrorEllipsoidSemiMajor;
   stream << " ";
-  stream << mf32ErrorEllipsoidSemiMinor;
+  stream << mErrorEllipsoidSemiMinor;
   stream << " ";
-  stream << mf32ErrorEllipsoidOrientation;
+  stream << mErrorEllipsoidOrientation;
 }
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 VehicleNavigationPerformance* VehicleNavigationPerformance::clone() const {
   return new VehicleNavigationPerformance(*this);

@@ -1,38 +1,99 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
+/** \file RawIMUData.h
+    \brief This file defines the RawIMUData class, which
+           represents the Raw IMU Data message from the Applanix
+  */
+
 #ifndef RAWIMUDATA_H
 #define RAWIMUDATA_H
 
 #include "types/Group.h"
-#include "exceptions/IOException.h"
 #include "types/TimeDistance.h"
+#include "exceptions/IOException.h"
 
-#include <iosfwd>
-
-#include <stdint.h>
-
-class Connection;
-
-class RawIMUData : public Group {
-  RawIMUData();
-  RawIMUData(const RawIMUData &other);
-  RawIMUData& operator = (const RawIMUData &other);
-
-  virtual void read(Connection &stream) throw(IOException);
-  virtual void write(std::ofstream &stream) const;
-
-  TimeDistance mTimeDistance;
-  uint8_t mau8IMUHeader[6];
-  uint16_t mu16VariableMsgByteCount;
-  uint8_t *mau8IMURawData;
-  uint16_t mu16DataChecksum;
-
+class RawIMUData :
+  public Group {
 public:
-  ~RawIMUData();
+  /** \name Constructors/Destructor
+    @{
+    */
+  /// Default constructor
+  RawIMUData();
+  /// Copy constructor
+  RawIMUData(const RawIMUData& other);
+  /// Assignement operator
+  RawIMUData& operator = (const RawIMUData& other);
+  /// Destructor
+  virtual ~RawIMUData();
+  /** @}
+    */
 
+  /** \name Methods
+    @{
+    */
+  /// Returns a new prototype of this group
   virtual RawIMUData* clone() const;
+  /** @}
+    */
 
-  static const RawIMUData mProto;
+  /** \name Members
+    @{
+    */
+  /// Time/Distance field
+  TimeDistance mTimeDistance;
+  /// IMU header
+  uint8_t mau8IMUHeader[6];
+  /// Variable message length
+  uint16_t mVariableMsgByteCount;
+  /// Raw data
+  uint8_t* mau8IMURawData;
+  /// Checksum
+  uint16_t mDataChecksum;
+  /** @}
+    */
 
 protected:
+  /** \name Stream methods
+    @{
+    */
+  /// Reads from standard input
+  virtual void read(std::istream& stream);
+  /// Writes to standard output
+  virtual void write(std::ostream& stream) const ;
+  /// Reads from a file
+  virtual void read(std::ifstream& stream);
+  /// Writes to a file
+  virtual void write(std::ofstream& stream) const;
+  /// Reads from the network
+  virtual void read(Connection& stream) throw (IOException);
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Prototype for this group
+  static const RawIMUData mProto;
+  /** @}
+    */
+
 };
 
 #endif // RAWIMUDATA_H

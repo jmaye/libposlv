@@ -1,71 +1,118 @@
+/******************************************************************************
+ * Copyright (C) 2011 by Jerome Maye                                          *
+ * jerome.maye@gmail.com                                                      *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or modify       *
+ * it under the terms of the Lesser GNU General Public License as published by*
+ * the Free Software Foundation; either version 3 of the License, or          *
+ * (at your option) any later version.                                        *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * Lesser GNU General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the Lesser GNU General Public License   *
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
+ ******************************************************************************/
+
 #include "types/TimeTaggedIMUData.h"
 
 #include "com/Connection.h"
 
-#include <fstream>
 
-using namespace std;
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
 
 const TimeTaggedIMUData TimeTaggedIMUData::mProto;
 
-TimeTaggedIMUData::TimeTaggedIMUData() : Group(4) {
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
+
+TimeTaggedIMUData::TimeTaggedIMUData() :
+  Group(4) {
 }
 
-TimeTaggedIMUData::TimeTaggedIMUData(const TimeTaggedIMUData &other)
-  : Group(other) {
+TimeTaggedIMUData::TimeTaggedIMUData(const TimeTaggedIMUData& other) :
+  Group(other) {
+}
+
+TimeTaggedIMUData& TimeTaggedIMUData::operator =
+  (const TimeTaggedIMUData& other) {
+  this->Group::operator=(other);
+  return *this;
 }
 
 TimeTaggedIMUData::~TimeTaggedIMUData() {
 }
 
-void TimeTaggedIMUData::read(Connection &stream) throw(IOException) {
-  uint16_t u16ByteCount;
-  stream >> u16ByteCount;
-  if (u16ByteCount != mcu16ByteCount)
-    throw IOException("TimeTaggedIMUData::read: Wrong byte count");
+/******************************************************************************/
+/* Stream operations                                                          */
+/******************************************************************************/
+
+void TimeTaggedIMUData::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("TimeTaggedIMUData::read(): wrong byte count");
 
   stream >> mTimeDistance;
-  stream >> mi32XIncrementalVelocity;
-  stream >> mi32YIncrementalVelocity;
-  stream >> mi32ZIncrementalVelocity;
-  stream >> mi32XIncrementalAngle;
-  stream >> mi32YIncrementalAngle;
-  stream >> mi32ZIncrementalAngle;
-  stream >> mu8DataStatus;
-  stream >> mu8IMUType;
-  stream >> mu8POSIMUDataRate;
-  stream >> mu16IMUStatus;
+  stream >> mXIncrementalVelocity;
+  stream >> mYIncrementalVelocity;
+  stream >> mZIncrementalVelocity;
+  stream >> mXIncrementalAngle;
+  stream >> mYIncrementalAngle;
+  stream >> mZIncrementalAngle;
+  stream >> mDataStatus;
+  stream >> mIMUType;
+  stream >> mPOSIMUDataRate;
+  stream >> mIMUStatus;
 
-  uint8_t u8Pad;
-  stream >> u8Pad;
-  if (u8Pad != 0)
-    throw IOException("TimeTaggedIMUData::read: Wrong pad");
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("TimeTaggedIMUData::read(): wrong pad");
 }
 
-void TimeTaggedIMUData::write(ofstream &stream) const {
-  stream << mu16TypeID;
+void TimeTaggedIMUData::read(std::istream& stream) {
+}
+
+void TimeTaggedIMUData::write(std::ostream& stream) const {
+}
+
+void TimeTaggedIMUData::read(std::ifstream& stream) {
+}
+
+void TimeTaggedIMUData::write(std::ofstream& stream) const {
+  stream << mTypeID;
   stream << " ";
   stream << mTimeDistance;
-  stream << mi32XIncrementalVelocity;
+  stream << mXIncrementalVelocity;
   stream << " ";
-  stream << mi32YIncrementalVelocity;
+  stream << mYIncrementalVelocity;
   stream << " ";
-  stream << mi32ZIncrementalVelocity;
+  stream << mZIncrementalVelocity;
   stream << " ";
-  stream << mi32XIncrementalAngle;
+  stream << mXIncrementalAngle;
   stream << " ";
-  stream << mi32YIncrementalAngle;
+  stream << mYIncrementalAngle;
   stream << " ";
-  stream << mi32ZIncrementalAngle;
+  stream << mZIncrementalAngle;
   stream << " ";
-  stream << hex << (uint16_t)mu8DataStatus << dec;
+  stream << std::hex << (uint16_t)mDataStatus << std::dec;
   stream << " ";
-  stream << hex << (uint16_t)mu8IMUType << dec;
+  stream << std::hex << (uint16_t)mIMUType << std::dec;
   stream << " ";
-  stream << hex << (uint16_t)mu8POSIMUDataRate << dec;
+  stream << std::hex << (uint16_t)mPOSIMUDataRate << std::dec;
   stream << " ";
-  stream << hex << mu16IMUStatus << dec;
+  stream << std::hex << mIMUStatus << std::dec;
 }
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
 TimeTaggedIMUData* TimeTaggedIMUData::clone() const {
   return new TimeTaggedIMUData(*this);
