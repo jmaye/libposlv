@@ -21,15 +21,15 @@
            POS LV.
   */
 
-#include "visualization/LiveViewWindow.h"
+#include "visualization/MainWindow.h"
 
 #include <QtGui/QApplication>
 
 int main(int argc, char** argv) {
   QApplication application(argc, argv);
-  LiveViewWindow liveViewWindow(5600, 2.5, 10.0);
+  MainWindow mainWindow;
 
-  liveViewWindow.show();
+  mainWindow.show();
 
   return application.exec();
 }

@@ -16,28 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file LiveViewWindow.h
-    \brief This file defines the LiveViewWindow class which is the main window
+/** \file MainWindow.h
+    \brief This file defines the MainWindow class which is the main window
            for live visualization of Applanix data
   */
 
-#ifndef LIVEVIEWWINDOW_H
-#define LIVEVIEWWINDOW_H
-
-#include "com/POSLVDisplay.h"
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
 #include <QtCore/QTimer>
 
-class Ui_LiveViewWindow;
+class Ui_MainWindow;
 
-/** The LiveViewWindow class is the main window for live visualization of
+/** The MainWindow class is the main window for live visualization of
     Applanix data.
     \brief Live visualization of Applanix data
   */
-class LiveViewWindow :
-  public QMainWindow,
-  public POSLVDisplay {
+class MainWindow :
+  public QMainWindow {
 Q_OBJECT
 
 public:
@@ -45,10 +42,9 @@ public:
     @{
     */
   /// Default constructor
-  LiveViewWindow(uint16_t port = 5600, double timeout = 2.5,
-    double readTime = 10.0);
+  MainWindow(double readTime = 1.0);
   /// Destructor
-  ~LiveViewWindow();
+  ~MainWindow();
   /** @}
     */
 
@@ -56,24 +52,24 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Read update
-  double mReadTime;
   /// Pointer to the UI
-  Ui_LiveViewWindow* mpUi;
-  /// Timer for reading the port
-  QTimer* mTimer;
+  Ui_MainWindow* mpUi;
+  /// Timer for reading through network
+  QTimer* mpTimer;
+  /// Time for reading
+  double mReadTime;
   /** @}
     */
 
 protected slots:
-  /** \name Protected slots
+  /** \name Protected members
     @{
     */
-  /// Triggered by the timer
+  /// Update function for the timer
   void update();
   /** @}
     */
 
 };
 
-#endif // LIVEVIEWWINDOW_H
+#endif // MAINWINDOW_H

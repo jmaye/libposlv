@@ -16,28 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/LiveViewWindow.h"
+#include "visualization/MainWindow.h"
 
-#include "ui_LiveViewWindow.h"
-#include "types/VehicleNavigationSolution.h"
+#include "ui_MainWindow.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-LiveViewWindow::LiveViewWindow(uint16_t port, double timeout, double readTime) :
-  POSLVDisplay(port, timeout),
-  mReadTime(readTime),
-  mpUi(new Ui_LiveViewWindow()) {
+MainWindow::MainWindow(double readTime) :
+  mpUi(new Ui_MainWindow()),
+  mReadTime(readTime) {
   mpUi->setupUi(this);
-  open();
-  mTimer = new QTimer(this);
-  connect(mTimer, SIGNAL(timeout()), this, SLOT(update()));
-  mTimer->start(mReadTime);
+  mpTimer = new QTimer(this);
+  connect(mpTimer, SIGNAL(timeout()), this, SLOT(update()));
+  mpTimer->start(mReadTime);
+  mpUi->statusbar->showMessage(tr("Disconnected"));
 }
 
-LiveViewWindow::~LiveViewWindow() {
-  delete mTimer;
+MainWindow::~MainWindow() {
+  delete mpTimer;
   delete mpUi;
 }
 
@@ -49,15 +47,5 @@ LiveViewWindow::~LiveViewWindow() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void LiveViewWindow::update() {
-  const Group* read = readGroup();
-  if (read != NULL) {
-    if (read->instanceOf<VehicleNavigationSolution>() == true) {
-      const VehicleNavigationSolution& msg =
-        read->typeCast<VehicleNavigationSolution>();
-      mpUi->latitudeSpinBox->setValue(msg.mLatitude);
-      mpUi->longitudeSpinBox->setValue(msg.mLongitude);
-    }
-    delete read;
-  }
+void MainWindow::update() {
 }
