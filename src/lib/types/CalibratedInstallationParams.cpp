@@ -18,7 +18,6 @@
 
 #include "types/CalibratedInstallationParams.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -52,46 +51,6 @@ CalibratedInstallationParams::~CalibratedInstallationParams() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void CalibratedInstallationParams::read(Connection& stream)
-  throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("CalibratedInstallationParams::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mCalibrationStatus;
-  stream >> mReferenceToPrimaryGPSXLeverArm;
-  stream >> mReferenceToPrimaryGPSYLeverArm;
-  stream >> mReferenceToPrimaryGPSZLeverArm;
-  stream >> mReferenceToPrimaryGPSLeverArmCalibrationFOM;
-  stream >> mReferenceToAuxiliary1GPSXLeverArm;
-  stream >> mReferenceToAuxiliary1GPSYLeverArm;
-  stream >> mReferenceToAuxiliary1GPSZLeverArm;
-  stream >> mReferenceToAuxiliary1GPSLeverArmCalibrationFOM;
-  stream >> mReferenceToAuxiliary2GPSXLeverArm;
-  stream >> mReferenceToAuxiliary2GPSYLeverArm;
-  stream >> mReferenceToAuxiliary2GPSZLeverArm;
-  stream >> mReferenceToAuxiliary2GPSLeverArmCalibrationFOM;
-  stream >> mReferenceToDMIXLeverArm;
-  stream >> mReferenceToDMIYLeverArm;
-  stream >> mReferenceToDMIZLeverArm;
-  stream >> mReferenceToDMILeverArmCalibrationFOM;
-  stream >> mDMIScaleFactor;
-  stream >> mDMIScaleFactorCalibrationFOM;
-  stream >> mReserved1;
-  stream >> mReserved2;
-  stream >> mReserved3;
-  stream >> mReserved4;
-  stream >> mReserved5;
-  stream >> mReserved6;
-
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("CalibratedInstallationParams::read(): wrong pad");
-}
 
 void CalibratedInstallationParams::read(POSLVGroupRead& stream)
   throw (IOException) {

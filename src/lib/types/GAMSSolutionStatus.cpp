@@ -18,7 +18,6 @@
 
 #include "types/GAMSSolutionStatus.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -51,29 +50,6 @@ GAMSSolutionStatus::~GAMSSolutionStatus() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void GAMSSolutionStatus::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("GAMSSolutionStatus::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mNumberOfSatellites;
-  stream >> mAPrioriPDOP;
-  stream >> mComputedAntennaSeparation;
-  stream >> mSolutionStatus;
-  for (size_t i = 0; i < 12; i++)
-    stream >> mau8PRNAssignment[i];
-  stream >> mCycleSlipFlag;
-  stream >> mGAMSHeading;
-  stream >> mGAMSHeadingRMSError;
-
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("GAMSSolutionStatus::read(): wrong pad");
-}
 
 void GAMSSolutionStatus::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
@@ -109,25 +85,25 @@ void GAMSSolutionStatus::read(std::ifstream& stream) {
 
 void GAMSSolutionStatus::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << (uint16_t)mu8NumberOfSatellites;
-//  stream << " ";
-//  stream << mf32APrioriPDOP;
-//  stream << " ";
-//  stream << mf32ComputedAntennaSeparation;
-//  stream << " ";
-//  stream << hex << (uint16_t)mu8SolutionStatus << dec;
-//  stream << " ";
-//  for (uint32_t i = 0; i < 12; i++) {
-//    stream << hex << (uint16_t)mau8PRNAssignment[i] << dec;
-//    stream << " ";
-//  }
-//  stream << mu16CycleSlipFlag;
-//  stream << " ";
-//  stream << mf64GAMSHeading;
-//  stream << " ";
-//  stream << mf64GAMSHeadingRMSError;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << (uint16_t)mNumberOfSatellites;
+  stream << " ";
+  stream << mAPrioriPDOP;
+  stream << " ";
+  stream << mComputedAntennaSeparation;
+  stream << " ";
+  stream << (uint16_t)mSolutionStatus;
+  stream << " ";
+  for (uint32_t i = 0; i < 12; i++) {
+    stream << (uint16_t)mau8PRNAssignment[i];
+    stream << " ";
+  }
+  stream << std::hex << mCycleSlipFlag << std::dec;
+  stream << " ";
+  stream << mGAMSHeading;
+  stream << " ";
+  stream << mGAMSHeadingRMSError;
 }
 
 /******************************************************************************/

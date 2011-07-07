@@ -18,7 +18,6 @@
 
 #include "types/TimeTaggedDMIData.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -51,26 +50,6 @@ TimeTaggedDMIData::~TimeTaggedDMIData() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void TimeTaggedDMIData::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("TimeTaggedDMIData::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mSignedDistanceTraveled;
-  stream >> mUnsignedDistanceTraveled;
-  stream >> mDMIScaleFactor;
-  stream >> mDataStatus;
-  stream >> mDMIType;
-  stream >> mDMIDataRate;
-
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("TimeTaggedDMIData::read(): wrong pad");
-}
 
 void TimeTaggedDMIData::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;

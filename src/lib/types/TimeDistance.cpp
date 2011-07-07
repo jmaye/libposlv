@@ -18,7 +18,6 @@
 
 #include "types/TimeDistance.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -41,14 +40,6 @@ TimeDistance::~TimeDistance() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void TimeDistance::read(Connection& stream) {
-  stream >> mTime1;
-  stream >> mTime2;
-  stream >> mDistanceTag;
-  stream >> mTimeType;
-  stream >> mDistanceType;
-}
 
 void TimeDistance::read(POSLVGroupRead& stream) {
   stream >> mTime1;
@@ -78,11 +69,6 @@ void TimeDistance::write(std::ofstream& stream) const {
   stream << " ";
   stream << (uint16_t)mDistanceType;
   stream << " ";
-}
-
-Connection& operator >> (Connection& stream, TimeDistance& obj) {
-  obj.read(stream);
-  return stream;
 }
 
 POSLVGroupRead& operator >> (POSLVGroupRead& stream, TimeDistance& obj) {

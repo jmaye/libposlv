@@ -18,7 +18,6 @@
 
 #include "types/BaseGPS2DataStream.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -53,26 +52,6 @@ BaseGPS2DataStream::~BaseGPS2DataStream() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void BaseGPS2DataStream::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  stream >> mTimeDistance;
-  for (size_t i = 0; i < 6; i++)
-    stream >> mau8Reserved[i];
-  stream >> mVariableMsgByteCount;
-  mau8GPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
-  for (size_t i = 0; i < mVariableMsgByteCount; i++)
-    stream >> mau8GPSReceiverRawData[i];
-  size_t padSize = byteCount - mVariableMsgByteCount - 38;
-
-  uint8_t pad;
-  for (size_t i = 0; i < padSize; i++) {
-    stream >> pad;
-    if (pad != 0)
-      throw IOException("BaseGPS2DataStream::read(): wrong pad");
-  }
-}
 
 void BaseGPS2DataStream::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;

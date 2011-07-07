@@ -16,44 +16,58 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/Group.h"
+/** \file POSLVData.h
+    \brief This file defines the POSLVData class which implements the
+           Ethernet Real-Time and Logging Data communication with the POS LV
+  */
 
-#include "base/Factory.h"
+#ifndef POSLVDATA_H
+#define POSLVDATA_H
 
-/******************************************************************************/
-/* Constructors and Destructor                                                */
-/******************************************************************************/
+#include "base/TCPConnectionClient.h"
+#include "com/POSLVGroupRead.h"
 
-Group::Group(uint16_t typeID) :
-  mTypeID(typeID) {
-  Factory<uint16_t, Group>::getInstance().registerType(this, mTypeID);
-}
+/** The POSLVData class implements the Ethernet Real-Time and Logging Data
+    communication with the Applanix POS LV device.
+    \brief Applanix POS LV Ethernet Real-Time and Logging
+  */
+class POSLVData :
+  public TCPConnectionClient,
+  public POSLVGroupRead {
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Constructs the connection with the given parameters
+  POSLVData(const std::string& serverIP, uint16_t port,
+    double timeout = 2.5);
+  /// Destructor
+  virtual ~POSLVData();
+  /** @}
+    */
 
-Group::Group(const Group& other) :
-  mTypeID(other.mTypeID) {
-}
+protected:
+  /** \name Protected constructors
+    @{
+    */
+  /// Copy constructor
+  POSLVData(const POSLVData& other);
+  /// Assignment operator
+  POSLVData& operator = (const POSLVData& other);
+  /** @}
+    */
 
-Group& Group::operator = (const Group& other) {
-  mTypeID = other.mTypeID;
-  return *this;
-}
+  /** \name Protected methods
+    @{
+    */
+  virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes);
+  /// Reads the start of a group
+  void readStartGroup();
+  /// Reads the end of a group
+  std::string readEndGroup();
+  /** @}
+    */
 
-Group::~Group() {
-}
+};
 
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-uint16_t Group::getTypeID() const {
-  return mTypeID;
-}
-
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-POSLVGroupRead& operator >> (POSLVGroupRead& stream, Group& obj) {
-  obj.read(stream);
-  return stream;
-}
+#endif // POSLVDATA_H

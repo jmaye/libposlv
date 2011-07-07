@@ -16,58 +16,40 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file POSLVEthernet.h
-    \brief This file defines the POSLVEthernet class which implements the
-           Ethernet Real-Time and Logging Data communication with the POS LV
+/** \file logDataPort.cpp
+    \brief This file is a testing binary for logging data from the TCP Ethernet
+           Real-Time and Logging ports.
   */
 
-#ifndef POSLVETHERNET_H
-#define POSLVETHERNET_H
+#include "com/POSLVData.h"
+#include "base/Timestamp.h"
 
-#include "base/TCPConnectionClient.h"
-#include "com/POSLVGroupRead.h"
+#include <cstdlib>
 
-/** The POSLVEthernet class implements the Ethernet Real-Time and Logging Data
-    communication with the Applanix POS LV device.
-    \brief Applanix POS LV Ethernet Real-Time and Logging
-  */
-class POSLVEthernet :
-  public TCPConnectionClient,
-  public POSLVGroupRead {
-public:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Constructs the connection with the given parameters
-  POSLVEthernet(const std::string& serverIP, uint16_t port,
-    double timeout = 2.5);
-  /// Destructor
-  virtual ~POSLVEthernet();
-  /** @}
-    */
+int main(int argc, char** argv) {
+  if (argc != 4) {
+    std::cerr << "Usage: " << argv[0] << " <IP> <Port> <LogFilename>" << std::endl;
+    return -1;
+  }
 
-protected:
-  /** \name Protected constructors
-    @{
-    */
-  /// Copy constructor
-  POSLVEthernet(const POSLVEthernet& other);
-  /// Assignment operator
-  POSLVEthernet& operator = (const POSLVEthernet& other);
-  /** @}
-    */
+  POSLVData device(argv[1], atoi(argv[2]));
+  device.open();
 
-  /** \name Protected methods
-    @{
-    */
-  virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes);
-  /// Reads the start of a group
-  void readStartGroup();
-  /// Reads the end of a group
-  std::string readEndGroup();
-  /** @}
-    */
+  while (true) {
+    const Group* read = device.readGroup();
+    if (read == NULL) {
+      std::cout << "Dropping message..." << std::endl;
+      continue;
+    }
+    std::ofstream logFile(argv[3], std::ios_base::app);
+    logFile << std::fixed << Timestamp::now() << " ";
+    logFile << *read;
+    logFile << std::endl;
+    logFile.close();
+    delete read;
+  }
 
-};
+  device.close();
 
-#endif // POSLVETHERNET_H
+  return 0;
+}

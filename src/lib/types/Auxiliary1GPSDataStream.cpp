@@ -18,7 +18,6 @@
 
 #include "types/Auxiliary1GPSDataStream.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -55,29 +54,10 @@ Auxiliary1GPSDataStream::~Auxiliary1GPSDataStream() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Auxiliary1GPSDataStream::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  stream >> mTimeDistance;
-  for (size_t i = 0; i < 6; i++)
-    stream >> mau8Reserved[i];
-  stream >> mVariableMsgByteCount;
-  mau8GPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
-  for (size_t i = 0; i < mVariableMsgByteCount; i++)
-    stream >> mau8GPSReceiverRawData[i];
-  size_t padSize = byteCount - mVariableMsgByteCount - 38;
-
-  uint8_t pad;
-  for (size_t i = 0; i < padSize; i++) {
-    stream >> pad;
-    if (pad != 0)
-      throw IOException("Auxiliary1GPSDataStream::read(): wrong pad");
-  }
-}
-
 void Auxiliary1GPSDataStream::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
+
   stream >> mTimeDistance;
   for (size_t i = 0; i < 6; i++)
     stream >> mau8Reserved[i];
@@ -85,6 +65,7 @@ void Auxiliary1GPSDataStream::read(POSLVGroupRead& stream) throw (IOException) {
   mau8GPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mau8GPSReceiverRawData[i];
+
   size_t padSize = byteCount - mVariableMsgByteCount - 38;
 
   uint8_t pad;

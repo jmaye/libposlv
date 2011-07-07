@@ -30,7 +30,6 @@
 
 #include <stdint.h>
 
-class Connection;
 class POSLVGroupRead;
 
 /** The class Group is the base class for all Applanix messages.
@@ -38,8 +37,6 @@ class POSLVGroupRead;
   */
 class Group :
   public virtual Serializable {
-  /// Stream operator for reading from a connection
-  friend Connection& operator >> (Connection& stream, Group& obj);
   /// Stream operator for reading from a connection
   friend POSLVGroupRead& operator >> (POSLVGroupRead& stream, Group& obj);
 public:
@@ -113,8 +110,6 @@ protected:
   virtual void read(std::ifstream& stream) = 0;
   /// Writes to a file
   virtual void write(std::ofstream& stream) const = 0;
-  /// Reads from the network
-  virtual void read(Connection& stream) = 0;
   /// Reads from the network
   virtual void read(POSLVGroupRead& stream) = 0;
   /** @}

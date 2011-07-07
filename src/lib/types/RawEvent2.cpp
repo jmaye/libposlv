@@ -18,7 +18,6 @@
 
 #include "types/RawEvent2.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -50,21 +49,6 @@ RawEvent2::~RawEvent2() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void RawEvent2::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("RawEvent2::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mEvent2PulseCount;
-
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("RawEvent2::read(): wrong pad");
-}
-
 void RawEvent2::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
@@ -91,9 +75,9 @@ void RawEvent2::read(std::ifstream& stream) {
 
 void RawEvent2::write(std::ofstream& stream) const {
   stream << mTypeID;
-//  stream << " ";
-//  stream << mTimeDistance;
-//  stream << mu32Event1PulseCount;
+  stream << " ";
+  stream << mTimeDistance;
+  stream << mEvent2PulseCount;
 }
 
 /******************************************************************************/

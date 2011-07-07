@@ -18,7 +18,6 @@
 
 #include "types/UserTimeStatus.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -51,19 +50,6 @@ UserTimeStatus::~UserTimeStatus() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void UserTimeStatus::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("UserTimeStatus::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mNumberOfTimeSynchMessageRejections;
-  stream >> mNumberOfUserTimeResynchronizations;
-  stream >> mUserTimeValid;
-  stream >> mTimeSynchMessageReceived;
-}
 
 void UserTimeStatus::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;

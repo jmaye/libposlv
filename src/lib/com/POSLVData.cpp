@@ -9,47 +9,40 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file logEthernetPort.cpp
-    \brief This file is a testing binary for logging data from the TCP Ethernet
-           Real-Time and Logging ports.
-  */
+#include "com/POSLVData.h"
 
-#include "com/POSLVEthernet.h"
-#include "base/Timestamp.h"
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#include <cstdlib>
+POSLVData::POSLVData(const std::string& serverIP, uint16_t port,
+  double timeout) :
+  TCPConnectionClient(serverIP, port, timeout) {
+}
 
-int main(int argc, char** argv) {
-  if (argc != 4) {
-    std::cerr << "Usage: " << argv[0] << " <IP> <Port> <LogFilename>" << std::endl;
-    return -1;
-  }
+POSLVData::POSLVData(const POSLVData& other) :
+  TCPConnectionClient(other) {
+}
 
-  POSLVEthernet device(argv[1], atoi(argv[2]));
-  device.open();
+POSLVData& POSLVData::operator = (const POSLVData& other) {
+  this->TCPConnectionClient::operator=(other);
+  return *this;
+}
 
-  while (true) {
-    const Group* read = device.readGroup();
-    if (read == NULL) {
-      std::cout << "Dropping message..." << std::endl;
-      continue;
-    }
-    std::ofstream logFile(argv[3], std::ios_base::app);
-    logFile << std::fixed << Timestamp::now() << " ";
-    logFile << *read;
-    logFile << std::endl;
-    logFile.close();
-    delete read;
-  }
+POSLVData::~POSLVData() {
+}
 
-  device.close();
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
-  return 0;
+void POSLVData::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) {
+  TCPConnectionClient::readBuffer(au8Buffer, nbBytes);
 }

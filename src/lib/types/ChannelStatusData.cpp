@@ -18,7 +18,6 @@
 
 #include "types/ChannelStatusData.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -42,16 +41,6 @@ ChannelStatusData::~ChannelStatusData() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void ChannelStatusData::read(Connection& stream) {
-  stream >> mSVPRN;
-  stream >> mChannelTrackingStatus;
-  stream >> mSVAzimuth;
-  stream >> mSVElevation;
-  stream >> mSVL1SNR;
-  stream >> mSVL2SNR;
-}
-
 void ChannelStatusData::read(POSLVGroupRead& stream) {
   stream >> mSVPRN;
   stream >> mChannelTrackingStatus;
@@ -82,11 +71,6 @@ void ChannelStatusData::write(std::ofstream& stream) const {
   stream << mSVL1SNR;
   stream << " ";
   stream << mSVL2SNR;
-}
-
-Connection& operator >> (Connection& stream, ChannelStatusData& obj) {
-  obj.read(stream);
-  return stream;
 }
 
 POSLVGroupRead& operator >> (POSLVGroupRead& stream, ChannelStatusData& obj) {

@@ -18,7 +18,6 @@
 
 #include "types/Diagnostic.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -50,20 +49,6 @@ Diagnostic::~Diagnostic() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void Diagnostic::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("Diagnostic::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-
-  uint8_t byte;
-  byteCount -= 30;
-  for (size_t i = 0; i < byteCount; i++)
-    stream >> byte;
-}
 
 void Diagnostic::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;

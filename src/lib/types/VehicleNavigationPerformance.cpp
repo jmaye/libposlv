@@ -18,7 +18,6 @@
 
 #include "types/VehicleNavigationPerformance.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -52,33 +51,6 @@ VehicleNavigationPerformance::~VehicleNavigationPerformance() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void VehicleNavigationPerformance::read(Connection& stream)
-  throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("VehicleNavigationPerformance::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mNorthPositionRMSError;
-  stream >> mEastPositionRMSError;
-  stream >> mDownPositionRMSError;
-  stream >> mNorthVelocityRMSError;
-  stream >> mEastVelocityRMSError;
-  stream >> mDownVelocityRMSError;
-  stream >> mRollRMSError;
-  stream >> mPitchRMSError;
-  stream >> mHeadingRMSError;
-  stream >> mErrorEllipsoidSemiMajor;
-  stream >> mErrorEllipsoidSemiMinor;
-  stream >> mErrorEllipsoidOrientation;
-
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("VehicleNavigationPerformance::read(): wrong pad");
-}
 
 void VehicleNavigationPerformance::read(POSLVGroupRead& stream)
   throw (IOException) {

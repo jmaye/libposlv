@@ -18,7 +18,6 @@
 
 #include "types/TimeTaggedIMUData.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -51,30 +50,6 @@ TimeTaggedIMUData::~TimeTaggedIMUData() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void TimeTaggedIMUData::read(Connection& stream) throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("TimeTaggedIMUData::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mXIncrementalVelocity;
-  stream >> mYIncrementalVelocity;
-  stream >> mZIncrementalVelocity;
-  stream >> mXIncrementalAngle;
-  stream >> mYIncrementalAngle;
-  stream >> mZIncrementalAngle;
-  stream >> mDataStatus;
-  stream >> mIMUType;
-  stream >> mPOSIMUDataRate;
-  stream >> mIMUStatus;
-
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("TimeTaggedIMUData::read(): wrong pad");
-}
 
 void TimeTaggedIMUData::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;

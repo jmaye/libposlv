@@ -32,8 +32,6 @@
 class ChannelStatusData :
   public virtual Serializable {
   /// Reads from UDP connection
-  friend Connection& operator >> (Connection& stream, ChannelStatusData& obj);
-  /// Reads from UDP connection
   friend POSLVGroupRead& operator >> (POSLVGroupRead& stream,
     ChannelStatusData& obj);
 public:
@@ -81,8 +79,6 @@ protected:
   virtual void read(std::ifstream& stream);
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
-  /// Reads from the network
-  virtual void read(Connection& stream);
   /// Reads from the network
   virtual void read(POSLVGroupRead& stream);
   /** @}

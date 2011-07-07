@@ -32,8 +32,6 @@
 class StationRecord :
   public Serializable {
   /// Reads from UDP
-  friend Connection& operator >> (Connection& stream, StationRecord& obj);
-  /// Reads from UDP
   friend POSLVGroupRead& operator >> (POSLVGroupRead& stream,
     StationRecord& obj);
 public:
@@ -85,8 +83,6 @@ protected:
   virtual void read(std::ifstream& stream);
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
-  /// Reads from the network
-  virtual void read(Connection& stream);
   /// Reads from the network
   virtual void read(POSLVGroupRead& stream);
   /** @}

@@ -18,7 +18,6 @@
 
 #include "types/PrimaryGPSReceiverIntegratedDGPSStatus.h"
 
-#include "com/Connection.h"
 #include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
@@ -55,43 +54,6 @@ PrimaryGPSReceiverIntegratedDGPSStatus::
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-
-void PrimaryGPSReceiverIntegratedDGPSStatus::read(Connection& stream)
-  throw (IOException) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("PrimaryGPSReceiverIntegratedDGPSStatus::read(): wrong byte count");
-
-  stream >> mTimeDistance;
-  stream >> mMobileDifferentialMode;
-  stream >> mFrequency0;
-  stream >> mAcquisitionMode0;
-  stream >> mChannelStatus0;
-  stream >> mRCTMUsedFlag0;
-  stream >> mSNR0;
-  stream >> mDataRateIndex0;
-  stream >> mLockIndicator0;
-  stream >> mDGPSSourceAutoSwitching0;
-  stream >> mServiceProvider0;
-  stream >> mFrequency1;
-  stream >> mAcquisitionMode1;
-  stream >> mChannelStatus1;
-  stream >> mRCTMUsedFlag1;
-  stream >> mSNR1;
-  stream >> mDataRateIndex1;
-  stream >> mLockIndicator1;
-  stream >> mDGPSSourceAutoSwitching1;
-  stream >> mServiceProvider1;
-  stream >> mUserIDCode;
-  stream >> mUserAccess;
-  stream >> mDecoderState;
-
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("PrimaryGPSReceiverIntegratedDGPSStatus::read(): wrong pad");
-}
 
 void PrimaryGPSReceiverIntegratedDGPSStatus::read(POSLVGroupRead& stream)
   throw (IOException) {
