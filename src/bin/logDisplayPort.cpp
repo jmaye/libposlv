@@ -27,12 +27,13 @@
 #include <cstdlib>
 
 int main(int argc, char** argv) {
-  if (argc != 3) {
-    std::cerr << "Usage: " << argv[0] << " <Port> <LogFilename>" << std::endl;
+  if (argc != 4) {
+    std::cerr << "Usage: " << argv[0] << " <IP> <Port> <LogFilename>"
+      << std::endl;
     return -1;
   }
 
-  POSLVDisplay device(atoi(argv[1]));
+  POSLVDisplay device(argv[1], atoi(argv[2]));
   device.open();
 
   while (true) {
@@ -41,7 +42,7 @@ int main(int argc, char** argv) {
       std::cout << "Dropping message..." << std::endl;
       continue;
     }
-    std::ofstream logFile(argv[2], std::ios_base::app);
+    std::ofstream logFile(argv[3], std::ios_base::app);
     logFile << std::fixed << Timestamp::now() << " ";
     logFile << *read;
     logFile << std::endl;

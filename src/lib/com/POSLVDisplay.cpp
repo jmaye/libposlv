@@ -22,16 +22,17 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-POSLVDisplay::POSLVDisplay(uint16_t port, double timeout) :
-  UDPConnectionServer(port, timeout) {
+POSLVDisplay::POSLVDisplay(const std::string& serverIP, uint16_t port, double
+  timeout) :
+  UDPConnectionClient(serverIP, port, timeout) {
 }
 
 POSLVDisplay::POSLVDisplay(const POSLVDisplay& other) :
-  UDPConnectionServer(other) {
+  UDPConnectionClient(other) {
 }
 
 POSLVDisplay& POSLVDisplay::operator = (const POSLVDisplay& other) {
-  this->UDPConnectionServer::operator=(other);
+  this->UDPConnectionClient::operator=(other);
   return *this;
 }
 
@@ -43,5 +44,5 @@ POSLVDisplay::~POSLVDisplay() {
 /******************************************************************************/
 
 void POSLVDisplay::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) {
-  UDPConnectionServer::readBuffer(au8Buffer, nbBytes);
+  UDPConnectionClient::readBuffer(au8Buffer, nbBytes);
 }
