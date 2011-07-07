@@ -31,7 +31,8 @@ const PrimaryGPSStatus PrimaryGPSStatus::mProto;
 /******************************************************************************/
 
 PrimaryGPSStatus::PrimaryGPSStatus() :
-  Group(3) {
+  Group(3),
+  maChannelStatusData(0) {
 }
 
 PrimaryGPSStatus::PrimaryGPSStatus(const PrimaryGPSStatus& other) :
@@ -45,6 +46,8 @@ PrimaryGPSStatus& PrimaryGPSStatus::operator =
 }
 
 PrimaryGPSStatus::~PrimaryGPSStatus() {
+  if (maChannelStatusData != 0)
+    delete maChannelStatusData;
 }
 
 /******************************************************************************/
@@ -60,6 +63,9 @@ void PrimaryGPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
   mChannelNumber = mChannelStatusByteCount / 20;
+  if (mNumberOfSVTracked != mChannelNumber)
+    throw IOException("PrimaryGPSStatus::read(): wrong number of satellites");
+  maChannelStatusData = new ChannelStatusData[mChannelNumber];
   for (size_t i = 0; i < mChannelNumber; i++)
     stream >> maChannelStatusData[i];
   stream >> mHDOP;

@@ -31,7 +31,8 @@ const Auxiliary2GPSDataStream Auxiliary2GPSDataStream::mProto;
 /******************************************************************************/
 
 Auxiliary2GPSDataStream::Auxiliary2GPSDataStream() :
-  Group(10008) {
+  Group(10008),
+  mau8GPSReceiverRawData(0) {
 }
 
 Auxiliary2GPSDataStream::Auxiliary2GPSDataStream(const Auxiliary2GPSDataStream&

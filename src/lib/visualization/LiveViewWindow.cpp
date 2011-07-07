@@ -25,9 +25,8 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-LiveViewWindow::LiveViewWindow(const std::string& serverIP, uint16_t port,
-  double timeout, double readTime) :
-  POSLVDisplay(serverIP, port, timeout),
+LiveViewWindow::LiveViewWindow(uint16_t port, double timeout, double readTime) :
+  POSLVDisplay(port, timeout),
   mReadTime(readTime),
   mpUi(new Ui_LiveViewWindow()) {
   mpUi->setupUi(this);

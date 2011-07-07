@@ -27,7 +27,7 @@
 
 int main(int argc, char** argv) {
   QApplication application(argc, argv);
-  LiveViewWindow liveViewWindow("129.132.39.171", 5600, 2.5, 10.0);
+  LiveViewWindow liveViewWindow(5600, 2.5, 10.0);
 
   liveViewWindow.show();
 

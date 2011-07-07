@@ -31,7 +31,8 @@ const Auxiliary2GPSDisplayData Auxiliary2GPSDisplayData::mProto;
 /******************************************************************************/
 
 Auxiliary2GPSDisplayData::Auxiliary2GPSDisplayData() :
-  Group(24) {
+  Group(24),
+  mau8GPSRawData(0) {
 }
 
 Auxiliary2GPSDisplayData::Auxiliary2GPSDisplayData(const

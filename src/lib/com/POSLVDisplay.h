@@ -24,7 +24,7 @@
 #ifndef POSLVDISPLAY_H
 #define POSLVDISPLAY_H
 
-#include "base/UDPConnectionClient.h"
+#include "base/UDPConnectionServer.h"
 #include "com/POSLVGroupRead.h"
 
 /** The POSLVDisplay class implements the UDP communication with the Applanix
@@ -32,15 +32,14 @@
     \brief Applanix POS LV display
   */
 class POSLVDisplay :
-  public UDPConnectionClient,
+  public UDPConnectionServer,
   public POSLVGroupRead {
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Constructs the connection with the given parameters
-  POSLVDisplay(const std::string& serverIP, uint16_t port = 5600,
-    double timeout = 2.5);
+  POSLVDisplay(uint16_t port = 5600, double timeout = 2.5);
   /// Destructor
   virtual ~POSLVDisplay();
   /** @}

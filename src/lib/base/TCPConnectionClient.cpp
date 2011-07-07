@@ -34,16 +34,16 @@ TCPConnectionClient::TCPConnectionClient(const std::string& serverIP, uint16_t
   mSocket(0) {
 }
 
-TCPConnectionClient::~TCPConnectionClient() {
-  close();
-}
-
 TCPConnectionClient::TCPConnectionClient(const TCPConnectionClient& other) {
 }
 
 TCPConnectionClient& TCPConnectionClient::operator =
   (const TCPConnectionClient& other) {
   return *this;
+}
+
+TCPConnectionClient::~TCPConnectionClient() {
+  close();
 }
 
 /******************************************************************************/
@@ -91,7 +91,7 @@ double TCPConnectionClient::getTimeout() const {
 
 void TCPConnectionClient::open() throw (IOException) {
   mSocket = socket(AF_INET, SOCK_STREAM, 0);
-  if (mSocket == -1)
+  if (mSocket < 0)
     throw IOException("TCPConnectionClient::open(): socket creation failed");
 
   struct sockaddr_in server;
@@ -106,7 +106,7 @@ void TCPConnectionClient::open() throw (IOException) {
 void TCPConnectionClient::close() throw (IOException) {
   if (mSocket != 0) {
     ssize_t res = ::close(mSocket);
-    if (res == -1)
+    if (res < 0)
       throw IOException("TCPConnectionClient::close(): socket closing failed");
   }
   mSocket = 0;
@@ -120,47 +120,58 @@ void TCPConnectionClient::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes)
   throw (IOException) {
   if (isOpen() == false)
     open();
-  double intPart;
-  double fracPart = modf(mTimeout, &intPart);
-  struct timeval waitd;
-  waitd.tv_sec = intPart;
-  waitd.tv_usec = fracPart * 1e6;
-  fd_set readFlags;
-  FD_ZERO(&readFlags);
-  FD_SET(mSocket, &readFlags);
-  ssize_t res = select(mSocket + 1, &readFlags, (fd_set*)0, (fd_set*)0, &waitd);
-  if(res < 0)
-    throw IOException("TCPConnectionClient::readBuffer(): read select failed");
-  if (FD_ISSET(mSocket, &readFlags)) {
-    FD_CLR(mSocket, &readFlags);
-    if (::read(mSocket, au8Buffer, nbBytes) != nbBytes)
-      throw IOException("TCPConnectionClient::readBuffer(): read failed");
+  ssize_t bytesRead = 0;
+  while (bytesRead != nbBytes) {
+    double intPart;
+    double fracPart = modf(mTimeout, &intPart);
+    struct timeval waitd;
+    waitd.tv_sec = intPart;
+    waitd.tv_usec = fracPart * 1e6;
+    fd_set readFlags;
+    FD_ZERO(&readFlags);
+    FD_SET(mSocket, &readFlags);
+    ssize_t res = select(mSocket + 1, &readFlags, (fd_set*)0, (fd_set*)0,
+      &waitd);
+    if(res < 0)
+      throw IOException("TCPConnectionClient::readBuffer(): read select failed");
+    if (FD_ISSET(mSocket, &readFlags)) {
+      FD_CLR(mSocket, &readFlags);
+      res = ::read(mSocket, &au8Buffer[bytesRead], nbBytes - bytesRead);
+      if (res < 0)
+        throw IOException("TCPConnectionClient::readBuffer(): read failed");
+      bytesRead += res;
+    }
+    else
+      throw IOException("TCPConnectionClient::readBuffer(): read timeout");
   }
-  else
-    throw IOException("TCPConnectionClient::readBuffer(): read timeout");
 }
 
 void TCPConnectionClient::writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes)
   throw (IOException) {
   if (isOpen() == false)
     open();
-  double intPart;
-  double fracPart = modf(mTimeout, &intPart);
-  struct timeval waitd;
-  waitd.tv_sec = intPart;
-  waitd.tv_usec = fracPart * 1e6;
-  fd_set writeFlags;
-  FD_ZERO(&writeFlags);
-  FD_SET(mSocket, &writeFlags);
-  ssize_t res = select(mSocket + 1, (fd_set*)0, &writeFlags, (fd_set*)0,
-    &waitd);
-  if(res < 0)
-    throw IOException("TCPConnectionClient::writeBuffer(): write select failed");
-  if (FD_ISSET(mSocket, &writeFlags)) {
-    FD_CLR(mSocket, &writeFlags);
-    if (::write(mSocket, au8Buffer, nbBytes) != nbBytes)
-      throw IOException("TCPConnectionClient::writeBuffer(): write failed");
+  ssize_t bytesWritten = 0;
+  while (bytesWritten != nbBytes) {
+    double intPart;
+    double fracPart = modf(mTimeout, &intPart);
+    struct timeval waitd;
+    waitd.tv_sec = intPart;
+    waitd.tv_usec = fracPart * 1e6;
+    fd_set writeFlags;
+    FD_ZERO(&writeFlags);
+    FD_SET(mSocket, &writeFlags);
+    ssize_t res = select(mSocket + 1, (fd_set*)0, &writeFlags, (fd_set*)0,
+      &waitd);
+    if(res < 0)
+      throw IOException("TCPConnectionClient::writeBuffer(): write select failed");
+    if (FD_ISSET(mSocket, &writeFlags)) {
+      FD_CLR(mSocket, &writeFlags);
+      res = ::write(mSocket, &au8Buffer[bytesWritten], nbBytes - bytesWritten);
+      if (res < 0)
+        throw IOException("TCPConnectionClient::writeBuffer(): write failed");
+      bytesWritten += res;
+    }
+    else
+      throw IOException("TCPConnectionClient::writeBuffer(): write timeout");
   }
-  else
-    throw IOException("TCPConnectionClient::writeBuffer(): write timeout");
 }

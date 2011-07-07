@@ -31,7 +31,8 @@ const PrimaryGPSDataStream PrimaryGPSDataStream::mProto;
 /******************************************************************************/
 
 PrimaryGPSDataStream::PrimaryGPSDataStream() :
-  Group(10001) {
+  Group(10001),
+  mau8GPSReceiverRawData(0) {
 }
 
 PrimaryGPSDataStream::PrimaryGPSDataStream(const PrimaryGPSDataStream& other) :

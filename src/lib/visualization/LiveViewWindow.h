@@ -45,8 +45,8 @@ public:
     @{
     */
   /// Default constructor
-  LiveViewWindow(const std::string& serverIP, uint16_t port = 5600,
-    double timeout = 2.5, double readTime = 10.0);
+  LiveViewWindow(uint16_t port = 5600, double timeout = 2.5,
+    double readTime = 10.0);
   /// Destructor
   ~LiveViewWindow();
   /** @}

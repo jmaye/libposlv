@@ -31,7 +31,8 @@ const SecondaryGPSDataStream SecondaryGPSDataStream::mProto;
 /******************************************************************************/
 
 SecondaryGPSDataStream::SecondaryGPSDataStream() :
-  Group(10009) {
+  Group(10009),
+  mau8GPSReceiverRawData(0) {
 }
 
 SecondaryGPSDataStream::SecondaryGPSDataStream(const SecondaryGPSDataStream&

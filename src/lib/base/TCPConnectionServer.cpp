@@ -32,16 +32,16 @@ TCPConnectionServer::TCPConnectionServer(uint16_t port, double timeout) :
   mSocket(0) {
 }
 
-TCPConnectionServer::~TCPConnectionServer() {
-  close();
-}
-
 TCPConnectionServer::TCPConnectionServer(const TCPConnectionServer& other) {
 }
 
 TCPConnectionServer& TCPConnectionServer::operator =
   (const TCPConnectionServer& other) {
   return *this;
+}
+
+TCPConnectionServer::~TCPConnectionServer() {
+  close();
 }
 
 /******************************************************************************/
@@ -101,7 +101,7 @@ void TCPConnectionServer::open() throw (IOException) {
 void TCPConnectionServer::close() throw (IOException) {
   if (mSocket != 0) {
     ssize_t res = ::close(mSocket);
-    if (res == -1)
+    if (res < 0)
       throw IOException("TCPConnectionServer::close(): socket closing failed");
   }
   mSocket = 0;
