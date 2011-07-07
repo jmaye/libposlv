@@ -69,7 +69,8 @@ void PrimaryGPSDataStream::read(Connection& stream) throw (IOException) {
   uint8_t pad;
   for (size_t i = 0; i < padSize; i++) {
     stream >> pad;
-    throw IOException("PrimaryGPSDataStream::read(): wrong pad");
+    if (pad != 0)
+      throw IOException("PrimaryGPSDataStream::read(): wrong pad");
   }
 }
 
@@ -88,7 +89,8 @@ void PrimaryGPSDataStream::read(POSLVGroupRead& stream) throw (IOException) {
   uint8_t pad;
   for (size_t i = 0; i < padSize; i++) {
     stream >> pad;
-    throw IOException("PrimaryGPSDataStream::read(): wrong pad");
+    if (pad != 0)
+      throw IOException("PrimaryGPSDataStream::read(): wrong pad");
   }
 }
 
