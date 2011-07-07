@@ -19,6 +19,7 @@
 #include "types/IINSolutionStatus.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -51,7 +52,29 @@ IINSolutionStatus::~IINSolutionStatus() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void IINSolutionStatus::read(Connection& stream) throw(IOException) {
+void IINSolutionStatus::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("IINSolutionStatus::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  stream >> mNumberOfSatellites;
+  stream >> mAPrioriPDOP;
+  stream >> mBaselineLength;
+  stream >> mIINProcessingStatus;
+  for (size_t i = 0; i < 12; i++)
+    stream >> mau8PRNAssignment[i];
+  stream >> mL1CycleSlipFlag;
+  stream >> mL2CycleSlipFlag;
+
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("IINSolutionStatus::read(): wrong pad");
+}
+
+void IINSolutionStatus::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)

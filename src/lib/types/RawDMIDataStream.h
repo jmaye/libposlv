@@ -92,6 +92,8 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream) throw (IOException);
+  /// Reads from the network
+  virtual void read(POSLVGroupRead& stream) throw (IOException);
   /** @}
     */
 

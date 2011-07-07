@@ -19,6 +19,7 @@
 #include "types/VersionStatistics.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,6 +53,31 @@ VersionStatistics::~VersionStatistics() {
 /******************************************************************************/
 
 void VersionStatistics::read(Connection &stream) throw(IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("VersionStatistics::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  for (size_t i = 0; i < 120; i++)
+    stream >> mau8SystemVersion[i];
+  for (size_t i = 0; i < 80; i++)
+    stream >> mau8PrimaryGPSVersion[i];
+  for (size_t i = 0; i < 80; i++)
+    stream >> mau8SecondaryGPSversion[i];
+  stream >> mTotalHours;
+  stream >> mNumberOfRuns;
+  stream >> mAverageLengthOfRun;
+  stream >> mLongestRun;
+  stream >> mCurrentRun;
+
+  uint16_t u16Pad;
+  stream >> u16Pad;
+  if (u16Pad != 0)
+    throw IOException("VersionStatistics::read(): wrong pad");
+}
+
+void VersionStatistics::read(POSLVGroupRead &stream) throw(IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)

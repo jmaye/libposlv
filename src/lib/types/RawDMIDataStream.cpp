@@ -19,6 +19,7 @@
 #include "types/RawDMIDataStream.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,6 +53,24 @@ RawDMIDataStream::~RawDMIDataStream() {
 /******************************************************************************/
 
 void RawDMIDataStream::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("RawDMIDataStream::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  stream >> mUpDownPulseCount;
+  stream >> mRectifiedPulseCount;
+  stream >> mEventCount;
+  stream >> mReservedCount;
+
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("RawDMIDataStream::read(): wrong pad");
+}
+
+void RawDMIDataStream::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)

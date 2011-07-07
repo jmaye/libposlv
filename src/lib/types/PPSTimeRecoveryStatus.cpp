@@ -19,6 +19,7 @@
 #include "types/PPSTimeRecoveryStatus.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -53,6 +54,22 @@ PPSTimeRecoveryStatus::~PPSTimeRecoveryStatus() {
 /******************************************************************************/
 
 void PPSTimeRecoveryStatus::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("PPSTimeRecoveryStatus::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  stream >> mPPSCount;
+  stream >> mTimeSynchroStatus;
+
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("PPSTimeRecoveryStatus::read(): wrong pad");
+}
+
+void PPSTimeRecoveryStatus::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)

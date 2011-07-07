@@ -19,6 +19,7 @@
 #include "types/PrimaryGPSReceiverDGPSStaDB.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,6 +53,17 @@ PrimaryGPSReceiverDGPSStaDB::~PrimaryGPSReceiverDGPSStaDB() {
 /******************************************************************************/
 
 void PrimaryGPSReceiverDGPSStaDB::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+
+  stream >> mTimeDistance;
+  mStationNbr = (byteCount - mByteCount) / 24;
+  for (size_t i = 0; i < mStationNbr; i++)
+    stream >> maStationRecord[i];
+}
+
+void PrimaryGPSReceiverDGPSStaDB::read(POSLVGroupRead& stream)
+  throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
 

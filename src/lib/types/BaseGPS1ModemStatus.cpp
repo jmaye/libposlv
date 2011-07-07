@@ -19,6 +19,7 @@
 #include "types/BaseGPS1ModemStatus.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,6 +53,29 @@ BaseGPS1ModemStatus::~BaseGPS1ModemStatus() {
 /******************************************************************************/
 
 void BaseGPS1ModemStatus::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("BaseGPS1ModemStatus::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  for (size_t i = 0; i < 16; i++)
+    stream >> mau8ModemResponse[i];
+  for (size_t i = 0; i < 48; i++)
+    stream >> mau8ConnectionStatus[i];
+  stream >> mNumberOfRedialsPerDisconnect;
+  stream >> mMaximumNumberOfRedialsPerDisconnect;
+  stream >> mNumberOfDisconnects;
+  stream >> mDataGapLength;
+  stream >> mMaximumDataGapLength;
+
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("BaseGPS1ModemStatus::read(): wrong pad");
+}
+
+void BaseGPS1ModemStatus::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)

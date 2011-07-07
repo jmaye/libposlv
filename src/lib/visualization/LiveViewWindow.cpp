@@ -53,7 +53,10 @@ void LiveViewWindow::update() {
   const Group* read = readGroup();
   if (read != NULL) {
     if (read->instanceOf<VehicleNavigationSolution>() == true) {
-      
+      const VehicleNavigationSolution& msg =
+        read->typeCast<VehicleNavigationSolution>();
+      mpUi->latitudeSpinBox->setValue(msg.mLatitude);
+      mpUi->longitudeSpinBox->setValue(msg.mLongitude);
     }
     delete read;
   }

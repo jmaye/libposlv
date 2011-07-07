@@ -19,6 +19,7 @@
 #include "types/Auxiliary2GPSStatus.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,6 +53,33 @@ Auxiliary2GPSStatus::~Auxiliary2GPSStatus() {
 /******************************************************************************/
 
 void Auxiliary2GPSStatus::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  stream >> mTimeDistance;
+  stream >> mNavigationSolutionStatus;
+  stream >> mNumberOfSVTracked;
+  stream >> mChannelStatusByteCount;
+  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  for (size_t i = 0; i < mChannelNumber; i++)
+    stream >> maChannelStatusData[i];
+  stream >> mHDOP;
+  stream >> mVDOP;
+  stream >> mDGPSCorrectionLatency;
+  stream >> mDGPSReferenceID;
+  stream >> mGPSUTCWeekNumber;
+  stream >> mGPSUTCTimeOffset;
+  stream >> mGPSNavigationMessageLatency;
+  stream >> mGeoidalSeparation;
+  stream >> mNMEAMessageReceived;
+  stream >> mAux12InUse;
+
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("Auxiliary2GPSStatus::read(): wrong pad");
+}
+
+void Auxiliary2GPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;

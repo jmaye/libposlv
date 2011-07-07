@@ -19,7 +19,7 @@
 #include "types/StationRecord.h"
 
 #include "com/Connection.h"
-
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -43,6 +43,17 @@ StationRecord::~StationRecord() {
 /******************************************************************************/
 
 void StationRecord::read(Connection& stream) {
+  stream >> mRecordIndexAndFlags;
+  stream >> mStationID;
+  stream >> mStationHealth;
+  stream >> mDistance;
+  stream >> mRange;
+  stream >> mUSCGIndex;
+  stream >> mSeconds;
+  stream >> mModulationRate;
+}
+
+void StationRecord::read(POSLVGroupRead& stream) {
   stream >> mRecordIndexAndFlags;
   stream >> mStationID;
   stream >> mStationHealth;
@@ -82,6 +93,11 @@ void StationRecord::write(std::ofstream& stream) const {
 }
 
 Connection& operator >> (Connection& stream, StationRecord& obj) {
+  obj.read(stream);
+  return stream;
+}
+
+POSLVGroupRead& operator >> (POSLVGroupRead& stream, StationRecord& obj) {
   obj.read(stream);
   return stream;
 }

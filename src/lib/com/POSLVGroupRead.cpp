@@ -129,7 +129,7 @@ const Group* POSLVGroupRead::readGroup() throw(IOException) {
     return NULL;
 
   Group* groupRead = Factory<uint16_t, Group>::getInstance().create(groupID);
-  //*this >> *groupRead;
+  *this >> *groupRead;
 
   uint16_t checksum;
   *this >> checksum;

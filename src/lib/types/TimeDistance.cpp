@@ -19,6 +19,7 @@
 #include "types/TimeDistance.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -49,6 +50,14 @@ void TimeDistance::read(Connection& stream) {
   stream >> mDistanceType;
 }
 
+void TimeDistance::read(POSLVGroupRead& stream) {
+  stream >> mTime1;
+  stream >> mTime2;
+  stream >> mDistanceTag;
+  stream >> mTimeType;
+  stream >> mDistanceType;
+}
+
 void TimeDistance::read(std::istream& stream) {
 }
 
@@ -72,6 +81,11 @@ void TimeDistance::write(std::ofstream& stream) const {
 }
 
 Connection& operator >> (Connection& stream, TimeDistance& obj) {
+  obj.read(stream);
+  return stream;
+}
+
+POSLVGroupRead& operator >> (POSLVGroupRead& stream, TimeDistance& obj) {
   obj.read(stream);
   return stream;
 }

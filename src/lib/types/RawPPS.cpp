@@ -19,7 +19,7 @@
 #include "types/RawPPS.h"
 
 #include "com/Connection.h"
-
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,6 +52,21 @@ RawPPS::~RawPPS() {
 /******************************************************************************/
 
 void RawPPS::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("RawPPS::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  stream >> mPPSPulseCount;
+
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("RawPPS::read(): wrong pad");
+}
+
+void RawPPS::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)

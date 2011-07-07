@@ -19,6 +19,7 @@
 #include "types/GeneralStatusFDIR.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -69,6 +70,26 @@ void GeneralStatusFDIR::read(Connection& stream) throw (IOException) {
   stream >> mFDIRLevel5Status;
   stream >> mExtendedStatus;
 }
+
+void GeneralStatusFDIR::read(POSLVGroupRead& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("GeneralStatusFDIR::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  stream >> mGeneralStatusA;
+  stream >> mGeneralStatusB;
+  stream >> mGeneralStatusC;
+  stream >> mFDIRLevel1Status;
+  stream >> mFDIRLevel1Failures;
+  stream >> mFDIRLevel2Status;
+  stream >> mFDIRLevel3Status;
+  stream >> mFDIRLevel4Status;
+  stream >> mFDIRLevel5Status;
+  stream >> mExtendedStatus;
+}
+
 
 void GeneralStatusFDIR::read(std::istream& stream) {
 }

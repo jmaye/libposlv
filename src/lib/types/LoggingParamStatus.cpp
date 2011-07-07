@@ -19,6 +19,7 @@
 #include "types/LoggingParamStatus.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -69,6 +70,26 @@ void LoggingParamStatus::read(Connection& stream) throw (IOException) {
   if (pad != 0)
     throw IOException("LoggingParamStatus::read(): wrong pad");
 }
+
+void LoggingParamStatus::read(POSLVGroupRead& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("LoggingParamStatus::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  stream >> mDiskKbytesRemaining;
+  stream >> mDiskKbytesLogged;
+  stream >> mDiskLoggingTimeRemaining;
+  stream >> mDiskKbytesTotal;
+  stream >> mLoggingState;
+
+  uint8_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("LoggingParamStatus::read(): wrong pad");
+}
+
 
 void LoggingParamStatus::read(std::istream& stream) {
 }

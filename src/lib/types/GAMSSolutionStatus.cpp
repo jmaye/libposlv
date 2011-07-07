@@ -19,6 +19,7 @@
 #include "types/GAMSSolutionStatus.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -74,6 +75,28 @@ void GAMSSolutionStatus::read(Connection& stream) throw (IOException) {
     throw IOException("GAMSSolutionStatus::read(): wrong pad");
 }
 
+void GAMSSolutionStatus::read(POSLVGroupRead& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("GAMSSolutionStatus::read(): wrong byte count");
+
+  stream >> mTimeDistance;
+  stream >> mNumberOfSatellites;
+  stream >> mAPrioriPDOP;
+  stream >> mComputedAntennaSeparation;
+  stream >> mSolutionStatus;
+  for (size_t i = 0; i < 12; i++)
+    stream >> mau8PRNAssignment[i];
+  stream >> mCycleSlipFlag;
+  stream >> mGAMSHeading;
+  stream >> mGAMSHeadingRMSError;
+
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException("GAMSSolutionStatus::read(): wrong pad");
+}
 
 void GAMSSolutionStatus::read(std::istream& stream) {
 }

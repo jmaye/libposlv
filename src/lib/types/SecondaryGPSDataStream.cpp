@@ -19,6 +19,7 @@
 #include "types/SecondaryGPSDataStream.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -54,6 +55,26 @@ SecondaryGPSDataStream::~SecondaryGPSDataStream() {
 /******************************************************************************/
 
 void SecondaryGPSDataStream::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  stream >> mTimeDistance;
+  stream >> mGPSReceiverType;
+  stream >> mReserved;
+  stream >> mVariableMsgByteCount;
+  mau8GPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
+  for (size_t i = 0; i < mVariableMsgByteCount; i++)
+    stream >> mau8GPSReceiverRawData[i];
+  uint32_t padSize = byteCount - mVariableMsgByteCount - 38;
+
+  uint8_t pad;
+  for (size_t i = 0; i < padSize; i++) {
+    stream >> pad;
+    if (pad != 0)
+      throw IOException("SecondaryGPSDataStream::read(): wrong pad");
+  }
+}
+
+void SecondaryGPSDataStream::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;

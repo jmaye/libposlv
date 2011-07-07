@@ -33,6 +33,9 @@ class TimeDistance :
   public Serializable {
   /// Reads from UDP
   friend Connection& operator >> (Connection& stream, TimeDistance& obj);
+  /// Reads from UDP
+  friend POSLVGroupRead& operator >> (POSLVGroupRead& stream,
+    TimeDistance& obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -78,6 +81,8 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(Connection& stream);
+  /// Reads from the network
+  virtual void read(POSLVGroupRead& stream);
   /** @}
     */
 

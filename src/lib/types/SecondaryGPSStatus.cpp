@@ -19,6 +19,7 @@
 #include "types/SecondaryGPSStatus.h"
 
 #include "com/Connection.h"
+#include "com/POSLVGroupRead.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,6 +53,33 @@ SecondaryGPSStatus::~SecondaryGPSStatus() {
 /******************************************************************************/
 
 void SecondaryGPSStatus::read(Connection& stream) throw (IOException) {
+  uint16_t byteCount;
+  stream >> byteCount;
+
+  stream >> mTimeDistance;
+  stream >> mNavigationSolutionStatus;
+  stream >> mNumberOfSVTracked;
+  stream >> mChannelStatusByteCount;
+  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  for (size_t i = 0; i < mChannelNumber; i++)
+    stream >> maChannelStatusData[i];
+  stream >> mHDOP;
+  stream >> mVDOP;
+  stream >> mDGPSCorrectionLatency;
+  stream >> mDGPSReferenceID;
+  stream >> mGPSUTCWeekNumber;
+  stream >> mGPSUTCTimeOffset;
+  stream >> mGPSNavigationMessageLatency;
+  stream >> mGeoidalSeparation;
+  stream >> mGPSReceiverType;
+  stream >> mGPSStatus;
+  uint16_t pad;
+  stream >> pad;
+  if (pad != 0)
+    throw IOException(" SecondaryGPSStatus::read(): wrong pad");
+}
+
+void SecondaryGPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
 

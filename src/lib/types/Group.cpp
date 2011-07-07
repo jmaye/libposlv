@@ -57,3 +57,8 @@ Connection& operator >> (Connection& stream, Group& obj) {
   obj.read(stream);
   return stream;
 }
+
+POSLVGroupRead& operator >> (POSLVGroupRead& stream, Group& obj) {
+  obj.read(stream);
+  return stream;
+}
