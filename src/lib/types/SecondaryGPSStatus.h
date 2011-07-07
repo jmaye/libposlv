@@ -72,7 +72,7 @@ public:
   /// Number of bytes for channel status
   uint16_t mChannelStatusByteCount;
   /// Channel status data
-  ChannelStatusData maChannelStatusData[12];
+  ChannelStatusData maChannelStatusData[64];
   /// HDOP
   float mHDOP;
   /// VDOP
