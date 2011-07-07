@@ -36,13 +36,13 @@
     \brief Server UDP communication interface
   */
 class UDPConnectionServer :
-  public Serializable {
+  public virtual Serializable {
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Constructs UDP connection from parameters
-  UDPConnectionServer(uint16_t u16Port, double timeout = 2.5);
+  UDPConnectionServer(uint16_t port, double timeout = 2.5);
   /// Destructor
   virtual ~UDPConnectionServer();
  /** @}

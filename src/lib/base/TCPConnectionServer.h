@@ -36,13 +36,13 @@
     \brief Server TCP communication interface
   */
 class TCPConnectionServer :
-  public Serializable {
+  public virtual Serializable {
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Constructs UDP connection from parameters
-  TCPConnectionServer(uint16_t u16Port, double timeout = 2.5);
+  TCPConnectionServer(uint16_t port, double timeout = 2.5);
   /// Destructor
   virtual ~TCPConnectionServer();
  /** @}

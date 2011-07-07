@@ -24,14 +24,30 @@
 #ifndef POSLVETHERNET_H
 #define POSLVETHERNET_H
 
-#include <iosfwd>
+#include "base/TCPConnectionClient.h"
+#include "com/POSLVGroupRead.h"
 
 /** The POSLVEthernet class implements the Ethernet Real-Time and Logging Data
     communication with the Applanix POS LV device.
     \brief Applanix POS LV Ethernet Real-Time and Logging
   */
-class POSLVEthernet {
-  /** \name Private constructors
+class POSLVEthernet :
+  public TCPConnectionClient,
+  public POSLVGroupRead {
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Constructs the connection with the given parameters
+  POSLVEthernet(const std::string& serverIP, uint16_t port,
+    double timeout = 2.5);
+  /// Destructor
+  virtual ~POSLVEthernet();
+  /** @}
+    */
+
+protected:
+  /** \name Protected constructors
     @{
     */
   /// Copy constructor
@@ -41,46 +57,16 @@ class POSLVEthernet {
   /** @}
     */
 
-  /** \name Private methods
+  /** \name Protected methods
     @{
     */
-
+  virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes);
+  /// Reads the start of a group
+  void readStartGroup();
+  /// Reads the end of a group
+  std::string readEndGroup();
   /** @}
     */
-
-  /** \name Private members
-    @{
-    */
-
-  /** @}
-    */
-
-public:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Default constructor
-  POSLVEthernet();
-  /// Destructor
-  ~POSLVEthernet();
-  /** @}
-    */
-
-  /** \name Accessors
-    @{
-    */
-
-  /** @}
-    */
-
-  /** \name Methods
-    @{
-    */
-
-  /** @}
-    */
-
-protected:
 
 };
 

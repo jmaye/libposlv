@@ -24,63 +24,48 @@
 #ifndef POSLVDISPLAY_H
 #define POSLVDISPLAY_H
 
+#include "base/UDPConnectionServer.h"
+#include "com/POSLVGroupRead.h"
 
 /** The POSLVDisplay class implements the UDP communication with the Applanix
     POS LV device, mainly intended for displaying data in a GUI.
     \brief Applanix POS LV display
   */
-class POSLVDisplay {
-  /** \name Private constructors
+class POSLVDisplay :
+  public UDPConnectionServer,
+  public POSLVGroupRead {
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Constructs the connection with the given parameters
+  POSLVDisplay(uint16_t port = 5600, double timeout = 2.5);
+  /// Destructor
+  virtual ~POSLVDisplay();
+  /** @}
+    */
+
+protected:
+  /** \name Protected constructors
     @{
     */
   /// Copy constructor
   POSLVDisplay(const POSLVDisplay& other);
-
   /// Assignment operator
   POSLVDisplay& operator = (const POSLVDisplay& other);
   /** @}
     */
 
-  /** \name Private methods
+  /** \name Protected methods
     @{
     */
-
+  virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes);
+  /// Reads the start of a group
+  void readStartGroup();
+  /// Reads the end of a group
+  std::string readEndGroup();
   /** @}
     */
-
-  /** \name Private members
-    @{
-    */
-
-  /** @}
-    */
-
-public:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Default constructor
-  POSLVDisplay();
-  /// Destructor
-  ~POSLVDisplay();
-  /** @}
-    */
-
-  /** \name Accessors
-    @{
-    */
-
-  /** @}
-    */
-
-  /** \name Methods
-    @{
-    */
-
-  /** @}
-    */
-
-protected:
 
 };
 

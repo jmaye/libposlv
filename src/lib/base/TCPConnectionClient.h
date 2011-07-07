@@ -36,13 +36,13 @@
     \brief Client TCP communication interface
   */
 class TCPConnectionClient :
-  public Serializable {
+  public virtual Serializable {
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Constructs UDP connection from parameters
-  TCPConnectionClient(const std::string& serverIP, uint16_t u16Port,
+  TCPConnectionClient(const std::string& serverIP, uint16_t port,
     double timeout = 2.5);
   /// Destructor
   virtual ~TCPConnectionClient();

@@ -22,13 +22,17 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-POSLVEthernet::POSLVEthernet() {
+POSLVEthernet::POSLVEthernet(const std::string& serverIP, uint16_t port,
+  double timeout) :
+  TCPConnectionClient(serverIP, port, timeout) {
 }
 
-POSLVEthernet::POSLVEthernet(const POSLVEthernet& other) {
+POSLVEthernet::POSLVEthernet(const POSLVEthernet& other) :
+  TCPConnectionClient(other) {
 }
 
 POSLVEthernet& POSLVEthernet::operator = (const POSLVEthernet& other) {
+  this->TCPConnectionClient::operator=(other);
   return *this;
 }
 
@@ -36,15 +40,9 @@ POSLVEthernet::~POSLVEthernet() {
 }
 
 /******************************************************************************/
-/* Stream operations                                                          */
-/******************************************************************************/
-
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-/******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
+void POSLVEthernet::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) {
+  TCPConnectionClient::readBuffer(au8Buffer, nbBytes);
+}
