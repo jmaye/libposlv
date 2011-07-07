@@ -143,11 +143,10 @@ const Group* Connection::readGroup()
 
 void Connection::readStartGroup() const throw (IOException) {
   uint8_t control;
+  control = readByte();
   while (true) {
-    do {
+    while (control != '$')
       control = readByte();
-    }
-    while (control != '$');
     control = readByte();
     if (control != 'G')
       continue;
