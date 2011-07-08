@@ -9,45 +9,34 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file liveView.cpp
-    \brief This file is a testing binary for live visualization of the Applanix
-           POS LV.
-  */
+#include "visualization/Control.h"
 
-#include "visualization/MainWindow.h"
-#include "visualization/NavigationControl.h"
-#include "visualization/PrimaryGPSControl.h"
-#include "visualization/SecondaryGPSControl.h"
-#include "visualization/Aux1GPSControl.h"
-#include "visualization/Aux2GPSControl.h"
-#include "visualization/NetworkProcess.h"
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#include <QtGui/QApplication>
+Control::Control() :
+  mMenu(this) {
+}
 
-int main(int argc, char** argv) {
-  QApplication application(argc, argv);
-  MainWindow mainWindow;
-  NavigationControl navigationControl;
-  PrimaryGPSControl primaryGPSControl;
-  SecondaryGPSControl secondaryGPSControl;
-  Aux1GPSControl aux1GPSControl;
-  Aux2GPSControl aux2GPSControl;
-  NetworkProcess networkProcess;
+Control::~Control() {
+}
 
-  mainWindow.addControl("Navigation", navigationControl);
-  mainWindow.addControl("Primary GPS", primaryGPSControl);
-  mainWindow.addControl("Secondary GPS", secondaryGPSControl);
-  mainWindow.addControl("Auxiliary 1 GPS", aux1GPSControl);
-  mainWindow.addControl("Auxiliary 2 GPS", aux2GPSControl);
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
 
-  mainWindow.show();
+QMenu& Control::getMenu() {
+  return mMenu;
+}
 
-  return application.exec();
+const QMenu& Control::getMenu() const {
+  return mMenu;
 }

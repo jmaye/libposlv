@@ -62,7 +62,7 @@ public:
     */
   /// Time/Distance field of the message
   TimeDistance mTimeDistance;
-  //// Reserved stuff
+  /// Reserved stuff
   uint8_t mau8Reserved[6];
   /// Variable message length
   uint16_t mVariableMsgByteCount;

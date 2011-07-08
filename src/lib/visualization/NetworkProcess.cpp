@@ -16,35 +16,46 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/MainWindow.h"
+#include "visualization/NetworkProcess.h"
 
-#include "ui_MainWindow.h"
+#include <iostream>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-MainWindow::MainWindow() :
-  mpUi(new Ui_MainWindow()) {
-  mpUi->setupUi(this);
-  while (mpUi->tabsWidget->count())
-    mpUi->tabsWidget->removeTab(0);
+NetworkProcess::NetworkProcess(double pollTime) :
+  mPollTime(pollTime) {
+  mpPollTimer = new QTimer(this);
+  connect(mpPollTimer, SIGNAL(timeout()), this, SLOT(update()));
+  mpPollTimer->start(mPollTime);
 }
 
-MainWindow::~MainWindow() {
-  delete mpUi;
+NetworkProcess::~NetworkProcess() {
+  delete mpPollTimer;
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
+double NetworkProcess::getPollTime() const {
+  return mPollTime;
+}
+
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void MainWindow::addControl(const QString& title, Control& control) {
-  mpUi->tabsWidget->addTab(&control, title);
-  if (!control.getMenu().isEmpty())
-    mpUi->menuBar->addMenu(&control.getMenu())->setText(title);
+void NetworkProcess::update() {
+  try {
+    const Group* group = mDevice.readGroup();
+    if (group == NULL)
+      return;
+    emit groupRead(group);
+    delete group;
+  }
+  catch (const IOException& e) {
+    std::cout << e.what() << std::endl;
+  }
 }

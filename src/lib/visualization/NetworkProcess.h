@@ -16,35 +16,72 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/MainWindow.h"
+/** \file NetworkProcess.h
+    \brief This file defines the NetworkProcess class which handles the
+           communication with the Applanix
+  */
 
-#include "ui_MainWindow.h"
+#ifndef NETWORKPROCESS_H
+#define NETWORKPROCESS_H
 
-/******************************************************************************/
-/* Constructors and Destructor                                                */
-/******************************************************************************/
+#include "base/Singleton.h"
+#include "types/Group.h"
+#include "com/POSLVDisplay.h"
 
-MainWindow::MainWindow() :
-  mpUi(new Ui_MainWindow()) {
-  mpUi->setupUi(this);
-  while (mpUi->tabsWidget->count())
-    mpUi->tabsWidget->removeTab(0);
-}
+#include <QtGui/QWidget>
+#include <QtCore/QTimer>
 
-MainWindow::~MainWindow() {
-  delete mpUi;
-}
+/** The NetworkProcess class handles the communication with the Applanix.
+    \brief Network process
+  */
+class NetworkProcess :
+  public QWidget,
+  public Singleton<NetworkProcess> {
+Q_OBJECT
 
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Default constructor
+  NetworkProcess(double pollTime = 1.0);
+  /// Destructor
+  virtual ~NetworkProcess();
+  /** @}
+    */
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
+  /** \name Accessors
+    @{
+    */
+  double getPollTime() const;
+  /** @}
+    */
 
-void MainWindow::addControl(const QString& title, Control& control) {
-  mpUi->tabsWidget->addTab(&control, title);
-  if (!control.getMenu().isEmpty())
-    mpUi->menuBar->addMenu(&control.getMenu())->setText(title);
-}
+protected:
+  /** \name Protected members
+    @{
+    */
+  /// Timer for polling the network
+  QTimer* mpPollTimer;
+  /// Time frequency [s] to poll the network
+  double mPollTime;
+  /// Device for reading through the network
+  POSLVDisplay mDevice;
+  /** @}
+    */
+
+protected slots:
+  /** \name Protected slots
+    @{
+    */
+  /// Processing function
+  void update();
+  /** @}
+    */
+
+signals:
+  void groupRead(const Group* group);
+
+};
+
+#endif // NETWORKPROCESS_H

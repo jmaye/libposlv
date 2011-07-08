@@ -9,45 +9,55 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file liveView.cpp
-    \brief This file is a testing binary for live visualization of the Applanix
-           POS LV.
+/** \file PrimaryGPSControl.h
+    \brief This file defines the PrimaryGPSControl class which is the control
+           for the primary GPS
   */
 
-#include "visualization/MainWindow.h"
-#include "visualization/NavigationControl.h"
-#include "visualization/PrimaryGPSControl.h"
-#include "visualization/SecondaryGPSControl.h"
-#include "visualization/Aux1GPSControl.h"
-#include "visualization/Aux2GPSControl.h"
-#include "visualization/NetworkProcess.h"
+#ifndef PRIMARYGPSCONTROL_H
+#define PRIMARYGPSCONTROL_H
 
-#include <QtGui/QApplication>
+#include "visualization/Control.h"
+#include "base/Singleton.h"
 
-int main(int argc, char** argv) {
-  QApplication application(argc, argv);
-  MainWindow mainWindow;
-  NavigationControl navigationControl;
-  PrimaryGPSControl primaryGPSControl;
-  SecondaryGPSControl secondaryGPSControl;
-  Aux1GPSControl aux1GPSControl;
-  Aux2GPSControl aux2GPSControl;
-  NetworkProcess networkProcess;
+class Ui_PrimaryGPSControl;
 
-  mainWindow.addControl("Navigation", navigationControl);
-  mainWindow.addControl("Primary GPS", primaryGPSControl);
-  mainWindow.addControl("Secondary GPS", secondaryGPSControl);
-  mainWindow.addControl("Auxiliary 1 GPS", aux1GPSControl);
-  mainWindow.addControl("Auxiliary 2 GPS", aux2GPSControl);
+/** The PrimaryGPSControl class is the control for the primary GPS of the
+    Applanix.
+    \brief Primary GPS control
+  */
+class PrimaryGPSControl :
+  public Control,
+  public Singleton<PrimaryGPSControl> {
+Q_OBJECT
 
-  mainWindow.show();
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Default constructor
+  PrimaryGPSControl();
+  /// Destructor
+  virtual ~PrimaryGPSControl();
+  /** @}
+    */
 
-  return application.exec();
-}
+protected:
+  /** \name Protected members
+    @{
+    */
+  /// Pointer to the UI
+  Ui_PrimaryGPSControl* mpUi;
+  /** @}
+    */
+
+};
+
+#endif // PRIMARYGPSCONTROL_H

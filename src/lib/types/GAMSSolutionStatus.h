@@ -30,7 +30,7 @@
 
 /** The class GAMSSolutionStatus represents the GAMS Solution Status message
     from the Applanix.
-    \brief IIN Solution Status message
+    \brief GAMS Solution Status message
   */
 class GAMSSolutionStatus :
   public Group {

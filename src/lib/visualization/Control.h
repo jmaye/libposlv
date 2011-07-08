@@ -9,45 +9,62 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file liveView.cpp
-    \brief This file is a testing binary for live visualization of the Applanix
-           POS LV.
+/** \file Control.h
+    \brief This file defines the Control class which is an interface for all
+           controls to be added to the main window
   */
 
-#include "visualization/MainWindow.h"
-#include "visualization/NavigationControl.h"
-#include "visualization/PrimaryGPSControl.h"
-#include "visualization/SecondaryGPSControl.h"
-#include "visualization/Aux1GPSControl.h"
-#include "visualization/Aux2GPSControl.h"
-#include "visualization/NetworkProcess.h"
+#ifndef CONTROL_H
+#define CONTROL_H
 
-#include <QtGui/QApplication>
+#include <QtGui/QWidget>
+#include <QtGui/QMenu>
 
-int main(int argc, char** argv) {
-  QApplication application(argc, argv);
-  MainWindow mainWindow;
-  NavigationControl navigationControl;
-  PrimaryGPSControl primaryGPSControl;
-  SecondaryGPSControl secondaryGPSControl;
-  Aux1GPSControl aux1GPSControl;
-  Aux2GPSControl aux2GPSControl;
-  NetworkProcess networkProcess;
+/** The Control class is an interface for all controls to be added to the main
+    window.
+    \brief Control for the main window
+  */
+class Control :
+  public QWidget {
+Q_OBJECT
 
-  mainWindow.addControl("Navigation", navigationControl);
-  mainWindow.addControl("Primary GPS", primaryGPSControl);
-  mainWindow.addControl("Secondary GPS", secondaryGPSControl);
-  mainWindow.addControl("Auxiliary 1 GPS", aux1GPSControl);
-  mainWindow.addControl("Auxiliary 2 GPS", aux2GPSControl);
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Default constructor
+  Control();
+  /// Destructor
+  virtual ~Control();
+  /** @}
+    */
 
-  mainWindow.show();
+  /** \name Accessors
+    @{
+    */
+  /// Returns the control menu
+  QMenu& getMenu();
+  /// Returns the control menu (const)
+  const QMenu& getMenu() const;
+  /** @}
+    */
 
-  return application.exec();
-}
+protected:
+  /** \name Protected members
+    @{
+    */
+  /// Menu of the control
+  QMenu mMenu;
+  /** @}
+    */
+
+};
+
+#endif // CONTROL_H

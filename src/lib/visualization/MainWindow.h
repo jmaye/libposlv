@@ -24,8 +24,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "visualization/Control.h"
+
 #include <QtGui/QMainWindow>
-#include <QtCore/QTimer>
+#include <QtCore/QString>
 
 class Ui_MainWindow;
 
@@ -42,9 +44,17 @@ public:
     @{
     */
   /// Default constructor
-  MainWindow(double readTime = 1.0);
+  MainWindow();
   /// Destructor
-  ~MainWindow();
+  virtual ~MainWindow();
+  /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
+  /// Adds a control to the main window
+  void addControl(const QString& title, Control& control);
   /** @}
     */
 
@@ -54,19 +64,6 @@ protected:
     */
   /// Pointer to the UI
   Ui_MainWindow* mpUi;
-  /// Timer for reading through network
-  QTimer* mpTimer;
-  /// Time for reading
-  double mReadTime;
-  /** @}
-    */
-
-protected slots:
-  /** \name Protected members
-    @{
-    */
-  /// Update function for the timer
-  void update();
   /** @}
     */
 
