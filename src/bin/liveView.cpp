@@ -27,7 +27,7 @@
 #include "visualization/SecondaryGPSControl.h"
 #include "visualization/Aux1GPSControl.h"
 #include "visualization/Aux2GPSControl.h"
-#include "visualization/NetworkProcess.h"
+#include "visualization/ReadThread.h"
 
 #include <QtGui/QApplication>
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
   SecondaryGPSControl secondaryGPSControl;
   Aux1GPSControl aux1GPSControl;
   Aux2GPSControl aux2GPSControl;
-  NetworkProcess networkProcess;
+  ReadThread::getInstance().start();
 
   mainWindow.addControl("Navigation", navigationControl);
   mainWindow.addControl("Primary GPS", primaryGPSControl);

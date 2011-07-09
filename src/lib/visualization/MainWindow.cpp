@@ -18,6 +18,7 @@
 
 #include "visualization/MainWindow.h"
 
+#include "visualization/ReadThread.h"
 #include "ui_MainWindow.h"
 
 /******************************************************************************/
@@ -29,6 +30,11 @@ MainWindow::MainWindow() :
   mpUi->setupUi(this);
   while (mpUi->tabsWidget->count())
     mpUi->tabsWidget->removeTab(0);
+
+  mpUi->statusBar->showMessage("Disconnected");
+
+  connect(&ReadThread::getInstance(), SIGNAL(deviceConnected(bool)), this,
+    SLOT(deviceConnected(bool)));
 }
 
 MainWindow::~MainWindow() {
@@ -47,4 +53,11 @@ void MainWindow::addControl(const QString& title, Control& control) {
   mpUi->tabsWidget->addTab(&control, title);
   if (!control.getMenu().isEmpty())
     mpUi->menuBar->addMenu(&control.getMenu())->setText(title);
+}
+
+void MainWindow::deviceConnected(bool connected) {
+  if (connected == true)
+    mpUi->statusBar->showMessage("Connected");
+  else
+    mpUi->statusBar->showMessage("Disconnected");
 }

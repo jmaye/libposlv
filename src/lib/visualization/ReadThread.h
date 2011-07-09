@@ -16,27 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationControl.h
-    \brief This file defines the NavigationControl class which is the control
-           for the navigation
+/** \file ReadThread.h
+    \brief This file defines the ReadThread class which handles the
+           communication with the Applanix
   */
 
-#ifndef NAVIGATIONCONTROL_H
-#define NAVIGATIONCONTROL_H
+#ifndef READTHREAD_H
+#define READTHREAD_H
 
-#include "visualization/Control.h"
 #include "base/Singleton.h"
 #include "types/Group.h"
+#include "com/POSLVDisplay.h"
 
-class Ui_NavigationControl;
+#include <QtCore/QThread>
 
-/** The NavigationControl class is the control for the navigation of the
-    Applanix.
-    \brief Navigation control
+/** The ReadThread class handles the communication with the Applanix.
+    \brief Read thread
   */
-class NavigationControl :
-  public Control,
-  public Singleton<NavigationControl> {
+class ReadThread :
+  public QThread,
+  public Singleton<ReadThread> {
 Q_OBJECT
 
 public:
@@ -44,30 +43,49 @@ public:
     @{
     */
   /// Default constructor
-  NavigationControl();
+  ReadThread(double pollTime = 1.0);
   /// Destructor
-  virtual ~NavigationControl();
+  virtual ~ReadThread();
+  /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  double getPollTime() const;
   /** @}
     */
 
 protected:
-  /** \name Protected members
+  /** \name Protected methods
     @{
     */
-  /// Pointer to the UI
-  Ui_NavigationControl* mpUi;
+  /// Processing function
+  void run();
   /** @}
     */
 
-protected slots:
-  /** \name Protected slots
+  /** \name Protected members
     @{
     */
-  /// Applanix group read
+  /// Time frequency [s] to poll the network
+  double mPollTime;
+  /// Device for reading through the network
+  POSLVDisplay mDevice;
+  /** @}
+    */
+
+signals:
+  /** \name Protected members
+    @{
+    */
+  /// Emitted when an Applanix group is read
   void groupRead(const Group* group);
+  /// Emitted when the device is connected or disconnected
+  void deviceConnected(bool connected);
   /** @}
     */
 
 };
 
-#endif // NAVIGATIONCONTROL_H
+#endif // READTHREAD_H

@@ -16,72 +16,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NetworkProcess.h
-    \brief This file defines the NetworkProcess class which handles the
-           communication with the Applanix
-  */
+#include "visualization/ReadThread.h"
 
-#ifndef NETWORKPROCESS_H
-#define NETWORKPROCESS_H
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#include "base/Singleton.h"
-#include "types/Group.h"
-#include "com/POSLVDisplay.h"
+ReadThread::ReadThread(double pollTime) :
+  mPollTime(pollTime) {
+}
 
-#include <QtGui/QWidget>
-#include <QtCore/QTimer>
+ReadThread::~ReadThread() {
+}
 
-/** The NetworkProcess class handles the communication with the Applanix.
-    \brief Network process
-  */
-class NetworkProcess :
-  public QWidget,
-  public Singleton<NetworkProcess> {
-Q_OBJECT
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
 
-public:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Default constructor
-  NetworkProcess(double pollTime = 1.0);
-  /// Destructor
-  virtual ~NetworkProcess();
-  /** @}
-    */
+double ReadThread::getPollTime() const {
+  return mPollTime;
+}
 
-  /** \name Accessors
-    @{
-    */
-  double getPollTime() const;
-  /** @}
-    */
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
-protected:
-  /** \name Protected members
-    @{
-    */
-  /// Timer for polling the network
-  QTimer* mpPollTimer;
-  /// Time frequency [s] to poll the network
-  double mPollTime;
-  /// Device for reading through the network
-  POSLVDisplay mDevice;
-  /** @}
-    */
-
-protected slots:
-  /** \name Protected slots
-    @{
-    */
-  /// Processing function
-  void update();
-  /** @}
-    */
-
-signals:
-  void groupRead(const Group* group);
-
-};
-
-#endif // NETWORKPROCESS_H
+void ReadThread::run() {
+  while (true) {
+    try {
+      const Group* group = mDevice.readGroup();
+      if (group == NULL)
+        return;
+      emit groupRead(group);
+      emit deviceConnected(true);
+      delete group;
+    }
+    catch (const IOException& e) {
+      std::cout << e.what() << std::endl;
+      emit deviceConnected(false);
+    }
+    usleep(mPollTime * 1e6);
+  }
+}

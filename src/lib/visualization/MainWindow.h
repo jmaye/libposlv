@@ -67,6 +67,15 @@ protected:
   /** @}
     */
 
+protected slots:
+  /** \name Protected slots
+    @{
+    */
+  /// Is the Applanix connected?
+  void deviceConnected(bool connected);
+  /** @}
+    */
+
 };
 
 #endif // MAINWINDOW_H
