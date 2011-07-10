@@ -27,6 +27,13 @@
 #include "visualization/SecondaryGPSControl.h"
 #include "visualization/Aux1GPSControl.h"
 #include "visualization/Aux2GPSControl.h"
+#include "visualization/GAMSControl.h"
+#include "visualization/IMUControl.h"
+#include "visualization/DMIControl.h"
+#include "visualization/IINControl.h"
+#include "visualization/StatusControl.h"
+#include "visualization/CalibrationControl.h"
+#include "visualization/VersionControl.h"
 #include "visualization/ReadThread.h"
 
 #include <QtGui/QApplication>
@@ -39,6 +46,13 @@ int main(int argc, char** argv) {
   SecondaryGPSControl secondaryGPSControl;
   Aux1GPSControl aux1GPSControl;
   Aux2GPSControl aux2GPSControl;
+  GAMSControl gamsControl;
+  IMUControl imuControl;
+  DMIControl dmiControl;
+  IINControl iinControl;
+  StatusControl statusControl;
+  CalibrationControl calibrationControl;
+  VersionControl versionControl;
   ReadThread::getInstance().start();
 
   mainWindow.addControl("Navigation", navigationControl);
@@ -46,6 +60,13 @@ int main(int argc, char** argv) {
   mainWindow.addControl("Secondary GPS", secondaryGPSControl);
   mainWindow.addControl("Auxiliary 1 GPS", aux1GPSControl);
   mainWindow.addControl("Auxiliary 2 GPS", aux2GPSControl);
+  mainWindow.addControl("GAMS", gamsControl);
+  mainWindow.addControl("IMU", imuControl);
+  mainWindow.addControl("DMI", dmiControl);
+  mainWindow.addControl("IIN", iinControl);
+  mainWindow.addControl("Status", statusControl);
+  mainWindow.addControl("Calibration", calibrationControl);
+  mainWindow.addControl("Version", versionControl);
 
   mainWindow.show();
 

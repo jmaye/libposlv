@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DMIControl</class>
+ <widget class="QWidget" name="DMIControl">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>839</width>
+    <height>670</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>511</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="dmiLayout">
+    <item row="12" column="0">
+     <widget class="QLabel" name="unsignedLabel">
+      <property name="text">
+       <string>Unsigned Distance:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="0">
+     <widget class="QLabel" name="scaleLabel">
+      <property name="text">
+       <string>DMI Scale Factor:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="signedLabel">
+      <property name="text">
+       <string>Signed Distance:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="1">
+     <widget class="QDoubleSpinBox" name="unsignedSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="signedSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="1">
+     <widget class="QSpinBox" name="scaleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="1">
+     <widget class="QTextBrowser" name="statusText"/>
+    </item>
+    <item row="21" column="0">
+     <widget class="QLabel" name="statusLabel">
+      <property name="text">
+       <string>Data Status:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="24" column="0">
+     <widget class="QLabel" name="typeLabel">
+      <property name="text">
+       <string>DMI Type:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="24" column="1">
+     <widget class="QTextBrowser" name="typeText"/>
+    </item>
+    <item row="25" column="0">
+     <widget class="QLabel" name="rateLabel">
+      <property name="text">
+       <string>Data Rate:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="25" column="1">
+     <widget class="QSpinBox" name="rateSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <zorder>gridLayoutWidget_2</zorder>
+  <zorder>signedSpinBox</zorder>
+  <zorder>unsignedSpinBox</zorder>
+  <zorder>scaleLabel</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

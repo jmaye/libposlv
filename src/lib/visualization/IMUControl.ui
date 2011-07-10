@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Aux2GPSControl</class>
- <widget class="QWidget" name="Aux2GPSControl">
+ <class>IMUControl</class>
+ <widget class="QWidget" name="IMUControl">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -19,46 +19,29 @@
      <x>10</x>
      <y>10</y>
      <width>511</width>
-     <height>121</height>
+     <height>101</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="aux2GPSLayout">
-    <item row="1" column="0">
-     <widget class="QLabel" name="satAux2GPSLabel">
-      <property name="text">
-       <string>Number of Satellites:</string>
-      </property>
-     </widget>
-    </item>
+   <layout class="QGridLayout" name="imuLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="navAux2GPSLabel">
+     <widget class="QLabel" name="statusLabel">
       <property name="text">
-       <string>Navigation Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="satAux2GPSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
+       <string>Data Status:</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QTextBrowser" name="navAux2GPSText"/>
+     <widget class="QTextBrowser" name="statusText"/>
     </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="geoidalAux2GPSLabel">
+    <item row="1" column="0">
+     <widget class="QLabel" name="typeLabel">
       <property name="text">
-       <string>Geoidal Separation:</string>
+       <string>IMU Type:</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="geoidalAux2GPSSpinBox">
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="typeSpinBox">
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -68,12 +51,19 @@
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QCheckBox" name="activeAux2CheckBox">
+     <widget class="QLabel" name="rateLabel">
       <property name="text">
-       <string>Active</string>
+       <string>IMU Data Rate: </string>
       </property>
-      <property name="checkable">
-       <bool>false</bool>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QSpinBox" name="rateSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
      </widget>
     </item>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Aux2GPSControl</class>
- <widget class="QWidget" name="Aux2GPSControl">
+ <class>IINControl</class>
+ <widget class="QWidget" name="IINControl">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -19,26 +19,19 @@
      <x>10</x>
      <y>10</y>
      <width>511</width>
-     <height>121</height>
+     <height>101</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="aux2GPSLayout">
-    <item row="1" column="0">
-     <widget class="QLabel" name="satAux2GPSLabel">
+   <layout class="QGridLayout" name="iinLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="satIINLabel">
       <property name="text">
        <string>Number of Satellites:</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="navAux2GPSLabel">
-      <property name="text">
-       <string>Navigation Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="satAux2GPSSpinBox">
+    <item row="0" column="1">
+     <widget class="QSpinBox" name="satIINSpinBox">
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -47,18 +40,15 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QTextBrowser" name="navAux2GPSText"/>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="geoidalAux2GPSLabel">
+    <item row="1" column="0">
+     <widget class="QLabel" name="baselineLabel">
       <property name="text">
-       <string>Geoidal Separation:</string>
+       <string>Baseline Length:</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="geoidalAux2GPSSpinBox">
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="baselineSpinBox">
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -68,14 +58,14 @@
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QCheckBox" name="activeAux2CheckBox">
+     <widget class="QLabel" name="statusLabel">
       <property name="text">
-       <string>Active</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
+       <string>Processing Status:</string>
       </property>
      </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QTextBrowser" name="statusText"/>
     </item>
    </layout>
   </widget>
