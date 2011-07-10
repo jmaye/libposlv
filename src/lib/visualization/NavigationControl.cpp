@@ -33,6 +33,16 @@ NavigationControl::NavigationControl() :
 
   connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
     SLOT(groupRead(const Group*)));
+
+  mStatusMsg[0] = "Full navigation";
+  mStatusMsg[1] = "Fine alignment active";
+  mStatusMsg[2] = "GC CHI 2";
+  mStatusMsg[3] = "PC CHI 2";
+  mStatusMsg[4] = "GC CHI 1";
+  mStatusMsg[5] = "PC CHI 1";
+  mStatusMsg[6] = "Coarse leveling active";
+  mStatusMsg[7] = "Initial solution assigned";
+  mStatusMsg[8] = "No valid solution";
 }
 
 NavigationControl::~NavigationControl() {
@@ -69,7 +79,7 @@ void NavigationControl::groupRead(const Group* group) {
     mpUi->accLongSpinBox->setValue(msg.mAccLong);
     mpUi->accTransSpinBox->setValue(msg.mAccTrans);
     mpUi->accDownSpinBox->setValue(msg.mAccDown);
-    mpUi->alignmentSpinBox->setValue(msg.mAlignementStatus);
+    mpUi->alignmentText->setText(mStatusMsg[msg.mAlignementStatus].c_str());
   }
   else if (group->instanceOf<VehicleNavigationPerformance>() == true) {
     const VehicleNavigationPerformance& msg =

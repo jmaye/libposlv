@@ -18,6 +18,8 @@
 
 #include "visualization/Aux1GPSControl.h"
 
+#include "types/Auxiliary1GPSStatus.h"
+#include "visualization/ReadThread.h"
 #include "ui_Aux1GPSControl.h"
 
 /******************************************************************************/
@@ -27,6 +29,20 @@
 Aux1GPSControl::Aux1GPSControl() :
   mpUi(new Ui_Aux1GPSControl()) {
   mpUi->setupUi(this);
+
+  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
+    SLOT(groupRead(const Group*)));
+
+  mStatusMsg[-1] = "Unknown";
+  mStatusMsg[0] = "No data from receiver";
+  mStatusMsg[1] = "Horizontal C/A mode";
+  mStatusMsg[2] = "3-dimension C/A mode";
+  mStatusMsg[3] = "Horizontal DGPS mode";
+  mStatusMsg[4] = "3-dimension DGPS mode";
+  mStatusMsg[5] = "Float RTK mode";
+  mStatusMsg[6] = "Integer wide lane RTK mode";
+  mStatusMsg[7] = "Integer narrow lane RTK mode";
+  mStatusMsg[8] = "P-code";
 }
 
 Aux1GPSControl::~Aux1GPSControl() {
@@ -41,3 +57,16 @@ Aux1GPSControl::~Aux1GPSControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
+void Aux1GPSControl::groupRead(const Group* group) {
+  if (group->instanceOf<Auxiliary1GPSStatus>() == true) {
+    const Auxiliary1GPSStatus& msg = group->typeCast<Auxiliary1GPSStatus>();
+    mpUi->navAux1GPSText->setText(
+      mStatusMsg[msg.mNavigationSolutionStatus].c_str());
+    mpUi->satAux1GPSSpinBox->setValue(msg.mNumberOfSVTracked);
+    mpUi->geoidalAux1GPSSpinBox->setValue(msg.mGeoidalSeparation);
+    if (msg.mAux12InUse == 1)
+      mpUi->activeAux1CheckBox->setChecked(true);
+    else
+      mpUi->activeAux1CheckBox->setChecked(false);
+  }
+}

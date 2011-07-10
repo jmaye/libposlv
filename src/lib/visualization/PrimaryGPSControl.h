@@ -26,6 +26,7 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
+#include "types/Group.h"
 
 class Ui_PrimaryGPSControl;
 
@@ -55,6 +56,21 @@ protected:
     */
   /// Pointer to the UI
   Ui_PrimaryGPSControl* mpUi;
+  /// Mapping for the status messages
+  std::map<int8_t, std::string> mStatusMsg;
+  /// Mapping for the GPS type messages
+  std::map<uint16_t, std::string> mGPSTypeMsg;
+  /// Mapping for time sync. messages
+  std::map<uint8_t, std::string> mTimeSyncMsg;
+  /** @}
+    */
+
+protected slots:
+  /** \name Protected slots
+    @{
+    */
+  /// Applanix group read
+  void groupRead(const Group* group);
   /** @}
     */
 

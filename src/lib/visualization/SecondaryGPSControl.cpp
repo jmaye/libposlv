@@ -18,6 +18,8 @@
 
 #include "visualization/SecondaryGPSControl.h"
 
+#include "visualization/ReadThread.h"
+#include "types/SecondaryGPSStatus.h"
 #include "ui_SecondaryGPSControl.h"
 
 /******************************************************************************/
@@ -27,6 +29,33 @@
 SecondaryGPSControl::SecondaryGPSControl() :
   mpUi(new Ui_SecondaryGPSControl()) {
   mpUi->setupUi(this);
+
+  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
+    SLOT(groupRead(const Group*)));
+
+  mStatusMsg[-1] = "Unknown";
+  mStatusMsg[0] = "No data from receiver";
+  mStatusMsg[1] = "Horizontal C/A mode";
+  mStatusMsg[2] = "3-dimension C/A mode";
+  mStatusMsg[3] = "Horizontal DGPS mode";
+  mStatusMsg[4] = "3-dimension DGPS mode";
+  mStatusMsg[5] = "Float RTK mode";
+  mStatusMsg[6] = "Integer wide lane RTK mode";
+  mStatusMsg[7] = "Integer narrow lane RTK mode";
+  mStatusMsg[8] = "P-code";
+
+  mGPSTypeMsg[0] = "No receiver";
+  for (size_t i = 1; i <= 7; i++)
+    mGPSTypeMsg[i] = "Reserved";
+  mGPSTypeMsg[8] = "Trimble BD112";
+  mGPSTypeMsg[9] = "Trimble BD750";
+  mGPSTypeMsg[10] = "Reserved";
+  mGPSTypeMsg[11] = "Reserved";
+  mGPSTypeMsg[12] = "Trimble BD132";
+  mGPSTypeMsg[13] = "Trimble BD950";
+  mGPSTypeMsg[14] = "Reserved";
+  mGPSTypeMsg[15] = "Reserved";
+  mGPSTypeMsg[16] = "Trimble BD960";
 }
 
 SecondaryGPSControl::~SecondaryGPSControl() {
@@ -41,3 +70,13 @@ SecondaryGPSControl::~SecondaryGPSControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
+void SecondaryGPSControl::groupRead(const Group* group) {
+  if (group->instanceOf<SecondaryGPSStatus>() == true) {
+    const SecondaryGPSStatus& msg = group->typeCast<SecondaryGPSStatus>();
+    mpUi->navSecGPSText->setText(
+      mStatusMsg[msg.mNavigationSolutionStatus].c_str());
+    mpUi->satSecGPSSpinBox->setValue(msg.mNumberOfSVTracked);
+    mpUi->secGPSTypeText->setText(mGPSTypeMsg[msg.mGPSReceiverType].c_str());
+    mpUi->geoidalSecGPSSpinBox->setValue(msg.mGeoidalSeparation);
+  }
+}

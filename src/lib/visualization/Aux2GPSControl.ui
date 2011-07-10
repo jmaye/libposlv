@@ -6,30 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>914</width>
-    <height>612</height>
+    <width>839</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="gridLayoutWidget_5">
+  <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>911</width>
-     <height>611</height>
+     <x>10</x>
+     <y>10</y>
+     <width>511</width>
+     <height>121</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="aux2GPSLayout">
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="satAux2GPSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
+   <layout class="QGridLayout" name="aux1GPSLayout">
+    <item row="1" column="0">
+     <widget class="QLabel" name="satAux2GPSLabel">
+      <property name="text">
+       <string>Number of Satellites:</string>
       </property>
      </widget>
     </item>
@@ -40,8 +37,8 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QSpinBox" name="navAux2GPSSpinBox">
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="satAux2GPSSpinBox">
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -50,10 +47,33 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="satAux2GPSLabel">
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="navAux2GPSText"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="geoidalAux2GPSLabel">
       <property name="text">
-       <string>Number of Satellites:</string>
+       <string>Geoidal Separation:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="geoidalAux2GPSSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QCheckBox" name="activeAux2CheckBox">
+      <property name="text">
+       <string>Active</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
      </widget>
     </item>

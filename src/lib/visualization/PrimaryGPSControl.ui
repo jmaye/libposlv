@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>914</width>
-    <height>612</height>
+    <width>839</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,25 +16,15 @@
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>911</width>
-     <height>611</height>
+     <x>10</x>
+     <y>10</y>
+     <width>511</width>
+     <height>161</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="PrimaryGPSLayout">
-    <item row="0" column="1">
-     <widget class="QSpinBox" name="navPrimSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
+   <layout class="QGridLayout" name="primaryGPSLayout">
     <item row="1" column="0">
-     <widget class="QLabel" name="satPrimLabel">
+     <widget class="QLabel" name="satPrimGPSLabel">
       <property name="text">
        <string>Number of Satellites:</string>
       </property>
@@ -48,7 +38,7 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QSpinBox" name="satPrimSpinBox">
+     <widget class="QSpinBox" name="satPrimGPSSpinBox">
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -56,6 +46,46 @@
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
      </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="navPrimGPSText"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="primGPSTypelabel">
+      <property name="text">
+       <string>GPS Type:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QTextBrowser" name="primGPSTypeText"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="geoidalPrimGPSLabel">
+      <property name="text">
+       <string>Geoidal Separation:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="geoidalPrimGPSSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="timeStatusLabel">
+      <property name="text">
+       <string>Time Sync. Status:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QTextBrowser" name="timeStatusText"/>
     </item>
    </layout>
   </widget>

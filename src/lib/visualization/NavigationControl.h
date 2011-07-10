@@ -28,6 +28,9 @@
 #include "base/Singleton.h"
 #include "types/Group.h"
 
+#include <map>
+#include <string>
+
 class Ui_NavigationControl;
 
 /** The NavigationControl class is the control for the navigation of the
@@ -56,6 +59,8 @@ protected:
     */
   /// Pointer to the UI
   Ui_NavigationControl* mpUi;
+  /// Mapping for the status messages
+  std::map<uint8_t, std::string> mStatusMsg;
   /** @}
     */
 

@@ -6,39 +6,39 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>914</width>
-    <height>612</height>
+    <width>839</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="gridLayoutWidget_3">
+  <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>911</width>
-     <height>611</height>
+     <x>10</x>
+     <y>10</y>
+     <width>511</width>
+     <height>131</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="secondaryGPSLayout">
-    <item row="2" column="0">
-     <widget class="QLabel" name="navSecGPSLabel">
-      <property name="text">
-       <string>Navigation Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
+    <item row="1" column="0">
      <widget class="QLabel" name="satSecGPSLabel">
       <property name="text">
        <string>Number of Satellites:</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QSpinBox" name="navSecGPSSpinBox">
+    <item row="0" column="0">
+     <widget class="QLabel" name="navSecGPSLabel">
+      <property name="text">
+       <string>Navigation Status:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="satSecGPSSpinBox">
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -47,8 +47,28 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
-     <widget class="QSpinBox" name="satSecGPSSpinBox">
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="navSecGPSText"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="secGPSTypelabel">
+      <property name="text">
+       <string>GPS Type:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QTextBrowser" name="secGPSTypeText"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="geoidalSecGPSLabel">
+      <property name="text">
+       <string>Geoidal Separation:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="geoidalSecGPSSpinBox">
       <property name="readOnly">
        <bool>true</bool>
       </property>

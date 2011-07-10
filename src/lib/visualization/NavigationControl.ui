@@ -6,562 +6,579 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>910</width>
-    <height>645</height>
+    <width>839</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="gridLayoutWidget">
+  <widget class="QGroupBox" name="solutionGroupBox">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>911</width>
-     <height>646</height>
+     <x>10</x>
+     <y>10</y>
+     <width>441</width>
+     <height>781</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="navigationLayout">
-    <item row="2" column="0">
-     <widget class="QLabel" name="latLabel">
-      <property name="text">
-       <string>Latitude:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="latSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="longLabel">
-      <property name="text">
-       <string>Longitude:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="longSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="altLabel">
-      <property name="text">
-       <string>Altitude:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="altSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="velNorthLabel">
-      <property name="text">
-       <string>North Velocity:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QDoubleSpinBox" name="velNorthSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="velEastLabel">
-      <property name="text">
-       <string>East Velocity:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QDoubleSpinBox" name="velEastSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
-     <widget class="QDoubleSpinBox" name="velDownSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="1">
-     <widget class="QDoubleSpinBox" name="rollSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="velDownLabel">
-      <property name="text">
-       <string>Down Velocity:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="rollLabel">
-      <property name="text">
-       <string>Vehicle Roll:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0">
-     <widget class="QLabel" name="pitchLabel">
-      <property name="text">
-       <string>Vehicle Pitch:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="1">
-     <widget class="QDoubleSpinBox" name="pitchSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="0">
-     <widget class="QLabel" name="hadingLabel">
-      <property name="text">
-       <string>Vehicle Heading:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="1">
-     <widget class="QDoubleSpinBox" name="headingSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="1">
-     <widget class="QDoubleSpinBox" name="wanderSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="0">
-     <widget class="QLabel" name="wanderLabel">
-      <property name="text">
-       <string>Vehicle Wander Angle:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="0">
-     <widget class="QLabel" name="trackLabel">
-      <property name="text">
-       <string>Vehicle Track Angle:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="1">
-     <widget class="QDoubleSpinBox" name="trackSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0">
-     <widget class="QLabel" name="speedLabel">
-      <property name="text">
-       <string>Vehicle Speed:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="1">
-     <widget class="QDoubleSpinBox" name="speedSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="0">
-     <widget class="QLabel" name="rateLongLabel">
-      <property name="text">
-       <string>Vehicle Ang. Rate Long.:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="1">
-     <widget class="QDoubleSpinBox" name="rateLongSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="0">
-     <widget class="QLabel" name="rateTransLabel">
-      <property name="text">
-       <string>Vehicle Ang. Rate Trans:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="1">
-     <widget class="QDoubleSpinBox" name="rateTransSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="0">
-     <widget class="QLabel" name="rateDownLabel">
-      <property name="text">
-       <string>Vehicle Ang. Rate Down:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="1">
-     <widget class="QDoubleSpinBox" name="rateDownSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="0">
-     <widget class="QLabel" name="accLongLabel">
-      <property name="text">
-       <string>Vehicle Acc. Long.:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="1">
-     <widget class="QDoubleSpinBox" name="accLongSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="18" column="0">
-     <widget class="QLabel" name="accTransLabel">
-      <property name="text">
-       <string>Vehicle Acc. Trans.:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="18" column="1">
-     <widget class="QDoubleSpinBox" name="accTransSpinBox">
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="19" column="0">
-     <widget class="QLabel" name="accDownLabel">
-      <property name="text">
-       <string>Vehicle Acc. Down:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="19" column="1">
-     <widget class="QDoubleSpinBox" name="accDownSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="2">
-     <widget class="QLabel" name="rollRMSLabel">
-      <property name="text">
-       <string>Roll RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="2">
-     <widget class="QLabel" name="pitchRMSLabel">
-      <property name="text">
-       <string>Pitch RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="2">
-     <widget class="QLabel" name="headingRMSLabel">
-      <property name="text">
-       <string>Heading RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <widget class="QLabel" name="velNorthRMSLabel">
-      <property name="text">
-       <string>North Vel. RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="2">
-     <widget class="QLabel" name="velEastRMSLabel">
-      <property name="text">
-       <string>East Vel. RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="2">
-     <widget class="QLabel" name="velDownRMSLabel">
-      <property name="text">
-       <string>Down Vel. RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QLabel" name="posNorthLabel">
-      <property name="text">
-       <string>North Pos. RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="posEastLabel">
-      <property name="text">
-       <string>East Pos. RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QLabel" name="posDownLabel">
-      <property name="text">
-       <string>Down Pos. RMS Error:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="3">
-     <widget class="QDoubleSpinBox" name="posNorthRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3">
-     <widget class="QDoubleSpinBox" name="posEastRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3">
-     <widget class="QDoubleSpinBox" name="posDownRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="3">
-     <widget class="QDoubleSpinBox" name="velNorthRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="3">
-     <widget class="QDoubleSpinBox" name="velEastRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="3">
-     <widget class="QDoubleSpinBox" name="velDownRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="3">
-     <widget class="QDoubleSpinBox" name="rollRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="3">
-     <widget class="QDoubleSpinBox" name="pitchRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="3">
-     <widget class="QDoubleSpinBox" name="headingRMSSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="2">
-     <widget class="QLabel" name="semiMajorLabel">
-      <property name="text">
-       <string>Error Ellipsoid Semi-Major:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="2">
-     <widget class="QLabel" name="semiMinorLabel">
-      <property name="text">
-       <string>Error Ellipsoid Semi-Minor:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="2">
-     <widget class="QLabel" name="orientationLabel">
-      <property name="text">
-       <string>Error Ellipsoid Orientation:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="3">
-     <widget class="QDoubleSpinBox" name="semiMajorSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="3">
-     <widget class="QDoubleSpinBox" name="semiMinorSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="3">
-     <widget class="QDoubleSpinBox" name="orientationSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QLabel" name="solutionLabel">
-      <property name="text">
-       <string>Solution</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QLabel" name="performanceLabel">
-      <property name="text">
-       <string>Performance</string>
-      </property>
-     </widget>
-    </item>
-    <item row="20" column="0">
-     <widget class="QLabel" name="alignmentLabel">
-      <property name="text">
-       <string>Alignment Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="20" column="1">
-     <widget class="QSpinBox" name="alignmentSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="title">
+    <string>Solution</string>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>341</width>
+      <height>631</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="solutionLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="latLabel">
+       <property name="text">
+        <string>Latitude:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="latSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="longLabel">
+       <property name="text">
+        <string>Longitude:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="longSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="altLabel">
+       <property name="text">
+        <string>Altitude:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="altSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="velNorthLabel">
+       <property name="text">
+        <string>North Velocity:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="velEastLabel">
+       <property name="text">
+        <string>East Velocity:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="velEastSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QDoubleSpinBox" name="velDownSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QDoubleSpinBox" name="rollSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="velDownLabel">
+       <property name="text">
+        <string>Down Velocity:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="rollLabel">
+       <property name="text">
+        <string>Vehicle Roll:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="pitchLabel">
+       <property name="text">
+        <string>Vehicle Pitch:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QDoubleSpinBox" name="pitchSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="headingLabel">
+       <property name="text">
+        <string>Vehicle Heading:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QDoubleSpinBox" name="headingSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QDoubleSpinBox" name="wanderSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="wanderLabel">
+       <property name="text">
+        <string>Vehicle Wander Angle:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="trackLabel">
+       <property name="text">
+        <string>Vehicle Track Angle:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QDoubleSpinBox" name="trackSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="speedLabel">
+       <property name="text">
+        <string>Vehicle Speed:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QDoubleSpinBox" name="speedSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="rateLongLabel">
+       <property name="text">
+        <string>Vehicle Ang. Rate Long.:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="QDoubleSpinBox" name="rateLongSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="0">
+      <widget class="QLabel" name="rateTransLabel">
+       <property name="text">
+        <string>Vehicle Ang. Rate Trans:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="1">
+      <widget class="QDoubleSpinBox" name="rateTransSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="0">
+      <widget class="QLabel" name="rateDownLabel">
+       <property name="text">
+        <string>Vehicle Ang. Rate Down:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="1">
+      <widget class="QDoubleSpinBox" name="rateDownSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="0">
+      <widget class="QLabel" name="accLongLabel">
+       <property name="text">
+        <string>Vehicle Acc. Long.:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="1">
+      <widget class="QDoubleSpinBox" name="accLongSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="16" column="0">
+      <widget class="QLabel" name="accTransLabel">
+       <property name="text">
+        <string>Vehicle Acc. Trans.:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="16" column="1">
+      <widget class="QDoubleSpinBox" name="accTransSpinBox">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="17" column="0">
+      <widget class="QLabel" name="accDownLabel">
+       <property name="text">
+        <string>Vehicle Acc. Down:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="17" column="1">
+      <widget class="QDoubleSpinBox" name="accDownSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="18" column="0">
+      <widget class="QLabel" name="alignmentLabel">
+       <property name="text">
+        <string>Alignment Status:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="18" column="1">
+      <widget class="QTextBrowser" name="alignmentText"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="velNorthSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="performanceGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>10</y>
+     <width>481</width>
+     <height>631</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Performance</string>
+   </property>
+   <widget class="QWidget" name="gridLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>371</width>
+      <height>392</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="performanceLayout">
+     <item row="7" column="0">
+      <widget class="QLabel" name="rollRMSLabel">
+       <property name="text">
+        <string>Roll RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="pitchRMSLabel">
+       <property name="text">
+        <string>Pitch RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="headingRMSLabel">
+       <property name="text">
+        <string>Heading RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="velEastRMSLabel">
+       <property name="text">
+        <string>East Vel. RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="velDownRMSLabel">
+       <property name="text">
+        <string>Down Vel. RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="posNorthLabel">
+       <property name="text">
+        <string>North Pos. RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="posEastLabel">
+       <property name="text">
+        <string>East Pos. RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="posDownLabel">
+       <property name="text">
+        <string>Down Pos. RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="posNorthRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="posEastRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="posDownRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QDoubleSpinBox" name="velNorthRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QDoubleSpinBox" name="velEastRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QDoubleSpinBox" name="velDownRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QDoubleSpinBox" name="rollRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QDoubleSpinBox" name="pitchRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QDoubleSpinBox" name="headingRMSSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="semiMajorLabel">
+       <property name="text">
+        <string>Error Ellipsoid Semi-Major:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="semiMinorLabel">
+       <property name="text">
+        <string>Error Ellipsoid Semi-Minor:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0">
+      <widget class="QLabel" name="orientationLabel">
+       <property name="text">
+        <string>Error Ellipsoid Orientation:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QDoubleSpinBox" name="semiMajorSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QDoubleSpinBox" name="semiMinorSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="QDoubleSpinBox" name="orientationSpinBox">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="velNorthRMSLabel">
+       <property name="text">
+        <string>North Vel. RMS Error:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources/>
