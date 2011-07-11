@@ -34,8 +34,7 @@ BaseGPS1Setup::BaseGPS1Setup() :
   Message(37) {
 }
 
-BaseGPS1Setup::BaseGPS1Setup(const BaseGPS1Setup&
-  other) :
+BaseGPS1Setup::BaseGPS1Setup(const BaseGPS1Setup& other) :
   Message(other) {
 }
 
@@ -56,7 +55,7 @@ void BaseGPS1Setup::read(POSLVControl& stream) {
 }
 
 void BaseGPS1Setup::write(POSLVControl& stream) const {
-  uint16_t checksum = 9293 + 21319; // for $MSG
+  uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -67,35 +66,32 @@ void BaseGPS1Setup::write(POSLVControl& stream) const {
   checksum += mBaseGPSInputType;
   stream << mLineControl;
   stream << mModemControl;
-  checksum += (uint16_t)mLineControl << 8 | (uint16_t)mModemControl;
+  checksum += (mModemControl << 8 | mLineControl);
   stream << mConnectionControl;
   stream << mPhoneNumber[0];
-  checksum += (uint16_t)mConnectionControl << 8 | (uint16_t)mPhoneNumber[0];
+  checksum += (mPhoneNumber[0] << 8 | mConnectionControl);
   for (size_t i = 1; i < 32; i+=2) {
     stream << mPhoneNumber[i];
     if (i != 31) {
       stream << mPhoneNumber[i + 1];
-      checksum += (uint16_t)mPhoneNumber[i] << 8 |
-        (uint16_t)mPhoneNumber[i + 1];
+      checksum += (mPhoneNumber[i + 1] << 8 | mPhoneNumber[i]);
     }
   }
   stream << mRedialsNumber;
-  checksum += (uint16_t)mPhoneNumber[31] << 8 | (uint16_t)mRedialsNumber;
+  checksum += (mRedialsNumber << 8 | mPhoneNumber[31]);
   for (size_t i = 0; i < 64; i+=2) {
     stream << mModemCommandString[i];
     stream << mModemCommandString[i + 1];
-    checksum += (uint16_t)mModemCommandString[i] << 8 |
-      (uint16_t)mModemCommandString[i + 1];
+    checksum += (mModemCommandString[i + 1] << 8 | mModemCommandString[i]);
   }
   for (size_t i = 0; i < 128; i+=2) {
     stream << mModemInitString[i];
     stream << mModemInitString[i + 1];
-    checksum += (uint16_t)mModemInitString[i] << 8 |
-      (uint16_t)mModemInitString[i + 1];
+    checksum += (mModemInitString[i + 1] << 8 | mModemInitString[i]);
   }
   stream << mDataTimeout;
   checksum += mDataTimeout;
-  checksum += 9251; // for $#
+  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

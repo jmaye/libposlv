@@ -56,7 +56,7 @@ void ProgramControl::read(POSLVControl& stream) {
 }
 
 void ProgramControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 9293 + 21319; // for $MSG
+  uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -65,7 +65,7 @@ void ProgramControl::write(POSLVControl& stream) const {
   checksum += mTransactionNumber;
   stream << mControl;
   checksum += mControl;
-  checksum += 9251; // for $#
+  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

@@ -34,7 +34,8 @@ RawEvent2::RawEvent2() :
   Group(10005) {
 }
 
-RawEvent2::RawEvent2(const RawEvent2 &other) : Group(other) {
+RawEvent2::RawEvent2(const RawEvent2& other) :
+  Group(other) {
 }
 
 RawEvent2& RawEvent2::operator = (const RawEvent2& other) {

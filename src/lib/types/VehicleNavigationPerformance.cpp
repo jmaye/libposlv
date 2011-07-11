@@ -35,7 +35,7 @@ VehicleNavigationPerformance::VehicleNavigationPerformance() :
 }
 
 VehicleNavigationPerformance::VehicleNavigationPerformance(const
-  VehicleNavigationPerformance &other) :
+  VehicleNavigationPerformance& other) :
   Group(other) {
 }
 

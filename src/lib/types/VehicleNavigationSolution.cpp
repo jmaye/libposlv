@@ -35,7 +35,7 @@ VehicleNavigationSolution::VehicleNavigationSolution() :
 }
 
 VehicleNavigationSolution::VehicleNavigationSolution(const
-  VehicleNavigationSolution &other) :
+  VehicleNavigationSolution& other) :
   Group(other) {
 }
 

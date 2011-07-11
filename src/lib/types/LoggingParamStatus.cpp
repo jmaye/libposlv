@@ -34,7 +34,7 @@ LoggingParamStatus::LoggingParamStatus() :
   Group(8) {
 }
 
-LoggingParamStatus::LoggingParamStatus(const LoggingParamStatus &other) :
+LoggingParamStatus::LoggingParamStatus(const LoggingParamStatus& other) :
   Group(other) {
 }
 

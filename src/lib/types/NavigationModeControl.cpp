@@ -56,7 +56,7 @@ void NavigationModeControl::read(POSLVControl& stream) {
 }
 
 void NavigationModeControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 9293 + 21319; // for $MSG
+  uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -66,8 +66,8 @@ void NavigationModeControl::write(POSLVControl& stream) const {
   stream << mNavigationMode;
   uint8_t pad = 0;
   stream << pad;
-  checksum += ((uint16_t)mNavigationMode << 8) | (uint16_t)pad;
-  checksum += 9251; // for $#
+  checksum += ((pad << 8) | mNavigationMode);
+  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }
