@@ -46,7 +46,8 @@ POSLVControl::~POSLVControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void POSLVControl::sendMessage(const Message& message) throw (IOException) {
+const Message* POSLVControl::sendMessage(const Message& message)
+  throw (IOException) {
   std::string msgHeader = "$MSG";
   writeBuffer((const uint8_t*)msgHeader.c_str(), msgHeader.size());
   *this << message;
@@ -56,8 +57,7 @@ void POSLVControl::sendMessage(const Message& message) throw (IOException) {
   const Message* msgAck = readMessage();
   if (msgAck == NULL || msgAck->instanceOf<Acknowledge>() == false)
     throw IOException("POSLVControl::sendMessage(): wrong ack return");
-  const Acknowledge& msg = msgAck->typeCast<Acknowledge>();
-  delete msgAck;
+  return msgAck;
 }
 
 POSLVControl& POSLVControl::operator >> (int8_t& value) {

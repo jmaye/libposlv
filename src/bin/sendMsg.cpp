@@ -23,6 +23,7 @@
 #include "com/POSLVControl.h"
 #include "types/InstallationCalibrationControl.h"
 #include "base/Factory.h"
+#include "types/Acknowledge.h"
 
 #include <cstdlib>
 
@@ -41,7 +42,9 @@ int main(int argc, char** argv) {
   cal.mTransactionNumber = 10;
   cal.mCalibrationAction = 3;
   cal.mCalibrationSelect = 2;
-  device.sendMessage(cal);
+  const Acknowledge& ackMsg = device.sendMessage(cal)->typeCast<Acknowledge>();
+  std::cout << "Return status:" << ackMsg.mResponseCode << std::endl;
+  delete &ackMsg;
   delete msg;
 
   device.close();

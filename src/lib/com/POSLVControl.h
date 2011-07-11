@@ -60,9 +60,7 @@ public:
     @{
     */
   /// Sends a message to the Applanix
-  void sendMessage(const Message& message) throw (IOException);
-   /// Reads a Message from the network
-  const Message* readMessage() throw (IOException);
+  const Message* sendMessage(const Message& message) throw (IOException);
   /** @}
     */
 
@@ -116,6 +114,8 @@ protected:
   /** \name Protected methods
     @{
     */
+   /// Reads a Message from the network
+  const Message* readMessage() throw (IOException);
   /// Reads the start of a message
   void readStartMessage();
   /// Reads the end of a message
