@@ -37,18 +37,20 @@ Auxiliary1GPSDataStream::Auxiliary1GPSDataStream() :
 
 Auxiliary1GPSDataStream::Auxiliary1GPSDataStream(const Auxiliary1GPSDataStream&
   other) :
-  Group(other) {
+  Group(other),
+  mau8GPSReceiverRawData(other.mau8GPSReceiverRawData) {
 }
 
 Auxiliary1GPSDataStream& Auxiliary1GPSDataStream::operator =
   (const Auxiliary1GPSDataStream& other) {
   this->Group::operator=(other);
+  mau8GPSReceiverRawData = other.mau8GPSReceiverRawData;
   return *this;
 }
 
 Auxiliary1GPSDataStream::~Auxiliary1GPSDataStream() {
   if (mau8GPSReceiverRawData)
-    delete mau8GPSReceiverRawData;
+    delete []mau8GPSReceiverRawData;
 }
 
 /******************************************************************************/

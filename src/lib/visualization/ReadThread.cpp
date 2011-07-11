@@ -23,6 +23,7 @@
 /******************************************************************************/
 
 ReadThread::ReadThread(double pollTime) :
+  mDevice("129.132.39.171", 5603),
   mPollTime(pollTime) {
 }
 
@@ -46,7 +47,7 @@ void ReadThread::run() {
     try {
       const Group* group = mDevice.readGroup();
       if (group == NULL)
-        return;
+        continue;
       emit groupRead(group);
       emit deviceConnected(true);
       delete group;
@@ -55,6 +56,6 @@ void ReadThread::run() {
       std::cout << e.what() << std::endl;
       emit deviceConnected(false);
     }
-    usleep(mPollTime * 1e6);
+    //usleep(mPollTime * 1e6);
   }
 }

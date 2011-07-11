@@ -52,6 +52,12 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
      </widget>
     </item>
     <item row="4" column="1">
@@ -62,6 +68,12 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
      </widget>
     </item>
     <item row="16" column="1">
@@ -71,6 +83,12 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="minimum">
+       <number>-100000</number>
+      </property>
+      <property name="maximum">
+       <number>1000000</number>
       </property>
      </widget>
     </item>
@@ -109,14 +127,13 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="maximum">
+       <number>1000000</number>
+      </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <zorder>gridLayoutWidget_2</zorder>
-  <zorder>signedSpinBox</zorder>
-  <zorder>unsignedSpinBox</zorder>
-  <zorder>scaleLabel</zorder>
  </widget>
  <resources/>
  <connections/>

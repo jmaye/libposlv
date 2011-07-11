@@ -37,18 +37,20 @@ Auxiliary2GPSDisplayData::Auxiliary2GPSDisplayData() :
 
 Auxiliary2GPSDisplayData::Auxiliary2GPSDisplayData(const
   Auxiliary2GPSDisplayData& other) :
-  Group(other) {
+  Group(other),
+  mau8GPSRawData(other.mau8GPSRawData) {
 }
 
 Auxiliary2GPSDisplayData& Auxiliary2GPSDisplayData::operator =
   (const Auxiliary2GPSDisplayData& other) {
   this->Group::operator=(other);
+  mau8GPSRawData = other.mau8GPSRawData;
   return *this;
 }
 
 Auxiliary2GPSDisplayData::~Auxiliary2GPSDisplayData() {
   if (mau8GPSRawData)
-    delete mau8GPSRawData;
+    delete []mau8GPSRawData;
 }
 
 /******************************************************************************/

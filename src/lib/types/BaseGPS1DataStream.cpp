@@ -31,22 +31,25 @@ const BaseGPS1DataStream BaseGPS1DataStream::mProto;
 /******************************************************************************/
 
 BaseGPS1DataStream::BaseGPS1DataStream() :
-  Group(10011) {
+  Group(10011),
+  mau8GPSReceiverRawData(0) {
 }
 
 BaseGPS1DataStream::BaseGPS1DataStream(const BaseGPS1DataStream& other) :
-  Group(other) {
+  Group(other),
+  mau8GPSReceiverRawData(other.mau8GPSReceiverRawData) {
 }
 
 BaseGPS1DataStream& BaseGPS1DataStream::operator =
   (const BaseGPS1DataStream& other) {
   this->Group::operator=(other);
+  mau8GPSReceiverRawData = other.mau8GPSReceiverRawData;
   return *this;
 }
 
 BaseGPS1DataStream::~BaseGPS1DataStream() {
   if (mau8GPSReceiverRawData)
-    delete mau8GPSReceiverRawData;
+    delete []mau8GPSReceiverRawData;
 }
 
 /******************************************************************************/

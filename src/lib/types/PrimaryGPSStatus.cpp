@@ -36,18 +36,20 @@ PrimaryGPSStatus::PrimaryGPSStatus() :
 }
 
 PrimaryGPSStatus::PrimaryGPSStatus(const PrimaryGPSStatus& other) :
-  Group(other) {
+  Group(other),
+  maChannelStatusData(other.maChannelStatusData) {
 }
 
 PrimaryGPSStatus& PrimaryGPSStatus::operator =
   (const PrimaryGPSStatus& other) {
   this->Group::operator=(other);
+  maChannelStatusData = other.maChannelStatusData;
   return *this;
 }
 
 PrimaryGPSStatus::~PrimaryGPSStatus() {
   if (maChannelStatusData != 0)
-    delete maChannelStatusData;
+    delete []maChannelStatusData;
 }
 
 /******************************************************************************/
@@ -62,10 +64,9 @@ void PrimaryGPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = mChannelStatusByteCount / 20;
-  if (mNumberOfSVTracked != mChannelNumber)
-    throw IOException("PrimaryGPSStatus::read(): wrong number of satellites");
-  maChannelStatusData = new ChannelStatusData[mChannelNumber];
+  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  if (mChannelNumber > 0)
+    maChannelStatusData = new ChannelStatusData[mChannelNumber];
   for (size_t i = 0; i < mChannelNumber; i++)
     stream >> maChannelStatusData[i];
   stream >> mHDOP;

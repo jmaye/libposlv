@@ -31,21 +31,24 @@ const RawIMUData RawIMUData::mProto;
 /******************************************************************************/
 
 RawIMUData::RawIMUData() :
-  Group(10002) {
+  Group(10002),
+  mau8IMURawData(0) {
 }
 
 RawIMUData::RawIMUData(const RawIMUData& other) :
-  Group(other) {
+  Group(other),
+  mau8IMURawData(other.mau8IMURawData) {
 }
 
 RawIMUData& RawIMUData::operator = (const RawIMUData& other) {
   this->Group::operator=(other);
+  mau8IMURawData = other.mau8IMURawData;
   return *this;
 }
 
 RawIMUData::~RawIMUData() {
   if (mau8IMURawData)
-    delete mau8IMURawData;
+    delete []mau8IMURawData;
 }
 
 /******************************************************************************/
