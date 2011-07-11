@@ -25,9 +25,13 @@
 ReadThread::ReadThread(double pollTime) :
   mDevice("129.132.39.171", 5603),
   mPollTime(pollTime) {
+  mpTimer = new QTimer(this);
+  connect(mpTimer, SIGNAL(timeout()), this, SLOT(update()));
+  mpTimer->start(10);
 }
 
 ReadThread::~ReadThread() {
+  delete mpTimer;
 }
 
 /******************************************************************************/
@@ -50,12 +54,19 @@ void ReadThread::run() {
         continue;
       emit groupRead(group);
       emit deviceConnected(true);
-      //delete group;
+      mGroupPtrList.push_back(group);
     }
     catch (const IOException& e) {
       std::cout << e.what() << std::endl;
       emit deviceConnected(false);
     }
     //usleep(mPollTime * 1e6);
+  }
+}
+
+void ReadThread::update() {
+  if (mGroupPtrList.size()) {
+    delete mGroupPtrList.front();
+    mGroupPtrList.pop_front();
   }
 }

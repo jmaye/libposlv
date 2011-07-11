@@ -30,6 +30,7 @@
 #include "com/POSLVData.h"
 
 #include <QtCore/QThread>
+#include <QtCore/QTimer>
 
 /** The ReadThread class handles the communication with the Applanix.
     \brief Read thread
@@ -74,11 +75,24 @@ protected:
   /// Device for reading through the network
   //POSLVDisplay mDevice;
   POSLVData mDevice;
+  /// Storage for the Group pointers
+  std::list<const Group*> mGroupPtrList;
+  /// Timer for emptying the list
+  QTimer* mpTimer;
+  /** @}
+    */
+
+protected slots:
+  /** \name Slots
+    @{
+    */
+  /// Timer triggered
+  void update();
   /** @}
     */
 
 signals:
-  /** \name Protected members
+  /** \name Signals
     @{
     */
   /// Emitted when an Applanix group is read
