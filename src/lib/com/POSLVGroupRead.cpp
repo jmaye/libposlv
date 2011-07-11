@@ -42,93 +42,51 @@ POSLVGroupRead::~POSLVGroupRead() {
 
 POSLVGroupRead& POSLVGroupRead::operator >> (int8_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int8_t));
-  //readBuffer((uint8_t*)&value, sizeof(int8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (uint8_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint8_t));
-  //readBuffer((uint8_t*)&value, sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (int16_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int16_t));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (uint16_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint16_t));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (int32_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int32_t));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[2]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[3]), sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (uint32_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint32_t));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[2]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[3]), sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (int64_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int64_t));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[2]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[3]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[4]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[5]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[6]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[7]), sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (uint64_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint64_t));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[2]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[3]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[4]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[5]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[6]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[7]), sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (float& value) {
   readBuffer((uint8_t*)&value, sizeof(float));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[2]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[3]), sizeof(uint8_t));
   return *this;
 }
 
 POSLVGroupRead& POSLVGroupRead::operator >> (double& value) {
   readBuffer((uint8_t*)&value, sizeof(double));
-//  readBuffer(&(((uint8_t*)&value)[0]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[1]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[2]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[3]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[4]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[5]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[6]), sizeof(uint8_t));
-//  readBuffer(&(((uint8_t*)&value)[7]), sizeof(uint8_t));
   return *this;
 }
 
@@ -161,7 +119,7 @@ std::string POSLVGroupRead::readEndGroup() {
   return outputString;
 }
 
-const Group* POSLVGroupRead::readGroup() throw(IOException) {
+const Group* POSLVGroupRead::readGroup() throw (IOException) {
   readStartGroup();
 
   uint16_t groupID;
