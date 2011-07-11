@@ -21,6 +21,9 @@
            all classes reading from the Applanix device.
   */
 
+#ifndef POSLVGROUPREAD_H
+#define POSLVGROUPREAD_H
+
 #include "types/Group.h"
 #include "exceptions/IOException.h"
 
@@ -92,3 +95,5 @@ protected:
     */
 
 };
+
+#endif // POSLVGROUPREAD

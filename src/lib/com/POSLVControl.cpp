@@ -56,6 +56,7 @@ void POSLVControl::sendMessage(const Message& message) throw (IOException) {
   const Message* msgAck = readMessage();
   if (msgAck == NULL || msgAck->instanceOf<Acknowledge>() == false)
     throw IOException("POSLVControl::sendMessage(): wrong ack return");
+  const Acknowledge& msg = msgAck->typeCast<Acknowledge>();
   delete msgAck;
 }
 
@@ -190,19 +191,14 @@ std::string POSLVControl::readEndMessage() {
 
 const Message* POSLVControl::readMessage() throw (IOException) {
   readStartMessage();
-
   uint16_t msgID;
   *this >> msgID;
-
   if (Factory<uint16_t, Message>::getInstance().isRegistered(msgID) == false)
     return NULL;
-
   Message* msgRead = Factory<uint16_t, Message>::getInstance().create(msgID);
   *this >> *msgRead;
-
   uint16_t checksum;
   *this >> checksum;
-
   // TODO: Checksum control
 
   std::string endString = readEndMessage();

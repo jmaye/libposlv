@@ -16,46 +16,78 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/ReadThread.h"
+#include "types/InstallationCalibrationControl.h"
+
+#include "com/POSLVControl.h"
+
+/******************************************************************************/
+/* Statics                                                                    */
+/******************************************************************************/
+
+const InstallationCalibrationControl InstallationCalibrationControl::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-ReadThread::ReadThread(double pollTime) :
-  mDevice("129.132.39.171", 5603),
-  mPollTime(pollTime) {
+InstallationCalibrationControl::InstallationCalibrationControl() :
+  Message(57) {
 }
 
-ReadThread::~ReadThread() {
+InstallationCalibrationControl::InstallationCalibrationControl(const
+  InstallationCalibrationControl& other) :
+  Message(other) {
+}
+
+InstallationCalibrationControl& InstallationCalibrationControl::operator =
+  (const InstallationCalibrationControl& other) {
+  this->Message::operator=(other);
+  return *this;
+}
+
+InstallationCalibrationControl::~InstallationCalibrationControl() {
 }
 
 /******************************************************************************/
-/* Accessors                                                                  */
+/* Stream operations                                                          */
 /******************************************************************************/
 
-double ReadThread::getPollTime() const {
-  return mPollTime;
+void InstallationCalibrationControl::read(POSLVControl& stream) {
+}
+
+void InstallationCalibrationControl::write(POSLVControl& stream) const {
+  uint16_t checksum = 19748 + 18259; // for $MSG
+  stream << mTypeID;
+  checksum += mTypeID;
+  stream << mByteCount;
+  checksum += mByteCount;
+  stream << mTransactionNumber;
+  checksum += mTransactionNumber;
+  stream << mCalibrationAction;
+  stream << mCalibrationSelect;
+  checksum += ((mCalibrationSelect << 8) | mCalibrationAction);
+  checksum += 8996; // for $#
+  checksum = 65536 - checksum;
+  stream << checksum;
+}
+
+void InstallationCalibrationControl::read(std::istream& stream) {
+}
+
+void InstallationCalibrationControl::write(std::ostream& stream) const {
+}
+
+void InstallationCalibrationControl::read(std::ifstream& stream) {
+}
+
+void InstallationCalibrationControl::write(std::ofstream& stream) const {
+  stream << mTypeID;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void ReadThread::run() {
-  while (true) {
-    try {
-      const Group* group = mDevice.readGroup();
-      if (group == NULL)
-        continue;
-      emit groupRead(group);
-      emit deviceConnected(true);
-      //delete group;
-    }
-    catch (const IOException& e) {
-      std::cout << e.what() << std::endl;
-      emit deviceConnected(false);
-    }
-    //usleep(mPollTime * 1e6);
-  }
+InstallationCalibrationControl* InstallationCalibrationControl::clone() const {
+  return new InstallationCalibrationControl(*this);
 }
