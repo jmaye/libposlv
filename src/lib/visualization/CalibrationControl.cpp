@@ -22,6 +22,8 @@
 #include "types/CalibratedInstallationParams.h"
 #include "ui_CalibrationControl.h"
 
+#include <sstream>
+
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
@@ -67,7 +69,11 @@ void CalibrationControl::groupRead(const Group* group) {
   if (group->instanceOf<CalibratedInstallationParams>() == true) {
     const CalibratedInstallationParams& msg =
       group->typeCast<CalibratedInstallationParams>();
-    mpUi->statusText->setText(mStatusMsg[msg.mCalibrationStatus].c_str());
+    std::stringstream status;
+    for (size_t i = 0; i <= 15; i++)
+      if ((msg.mCalibrationStatus >> i) & 0x0001)
+        status << mStatusMsg[i] << std::endl;
+    mpUi->statusText->setText(status.str().c_str());
     mpUi->primGPSXSpinBox->setValue(msg.mReferenceToPrimaryGPSXLeverArm);
     mpUi->primGPSYSpinBox->setValue(msg.mReferenceToPrimaryGPSYLeverArm);
     mpUi->primGPSZSpinBox->setValue(msg.mReferenceToPrimaryGPSZLeverArm);

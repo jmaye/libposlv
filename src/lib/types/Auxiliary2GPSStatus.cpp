@@ -63,7 +63,7 @@ void Auxiliary2GPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  mChannelNumber = mNumberOfSVTracked;
   if (mChannelNumber > 0)
     maChannelStatusData = new ChannelStatusData[mChannelNumber];
   for (size_t i = 0; i < mChannelNumber; i++)

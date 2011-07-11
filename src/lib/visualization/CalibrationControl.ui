@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>641</width>
-     <height>621</height>
+     <height>611</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="calibrationLayout">

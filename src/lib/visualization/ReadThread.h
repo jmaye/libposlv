@@ -26,8 +26,7 @@
 
 #include "base/Singleton.h"
 #include "types/Group.h"
-//#include "com/POSLVDisplay.h"
-#include "com/POSLVData.h"
+#include "com/POSLVDisplay.h"
 
 #include <QtCore/QThread>
 
@@ -72,8 +71,7 @@ protected:
   /// Time frequency [s] to poll the network
   double mPollTime;
   /// Device for reading through the network
-  //POSLVDisplay mDevice;
-  POSLVData mDevice;
+  POSLVDisplay mDevice;
   /** @}
     */
 

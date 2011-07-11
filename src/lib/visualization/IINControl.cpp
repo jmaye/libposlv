@@ -60,5 +60,6 @@ void IINControl::groupRead(const Group* group) {
     const IINSolutionStatus& msg = group->typeCast<IINSolutionStatus>();
     mpUi->satIINSpinBox->setValue(msg.mNumberOfSatellites);
     mpUi->statusText->setText(mStatusMsg[msg.mIINProcessingStatus].c_str());
+    mpUi->baselineSpinBox->setValue(msg.mBaselineLength);
   }
 }
