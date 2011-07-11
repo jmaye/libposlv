@@ -18,8 +18,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>361</width>
-     <height>326</height>
+     <width>811</width>
+     <height>651</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="statusLayout">
@@ -27,16 +27,6 @@
      <widget class="QLabel" name="statusALabel">
       <property name="text">
        <string>General Status A:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QSpinBox" name="statusASpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
      </widget>
     </item>
@@ -54,40 +44,10 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="statusBSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QSpinBox" name="statusCSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="fdir1StatusLabel">
       <property name="text">
        <string>FDIR Level 1 Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QSpinBox" name="fdir1StatusSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
      </widget>
     </item>
@@ -115,83 +75,50 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
-     <widget class="QSpinBox" name="fdir2StatusSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="0">
-     <widget class="QLabel" name="fdir3StatusLabel">
-      <property name="text">
-       <string>FDIR Level 3 Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QSpinBox" name="fdir3StatusSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
      <widget class="QLabel" name="fdir4StatusLabel">
       <property name="text">
        <string>FDIR Level 4 Status:</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
-     <widget class="QSpinBox" name="fdir4StatusSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
+    <item row="7" column="0">
      <widget class="QLabel" name="fdir5StatusLabel">
       <property name="text">
        <string>FDIR Level 5 Status:</string>
       </property>
      </widget>
     </item>
-    <item row="8" column="1">
-     <widget class="QSpinBox" name="fdir5StatusSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0">
+    <item row="8" column="0">
      <widget class="QLabel" name="statusLabel">
       <property name="text">
        <string>Extended Status:</string>
       </property>
      </widget>
     </item>
-    <item row="9" column="1">
-     <widget class="QSpinBox" name="statusSpinBox">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
+    <item row="8" column="1">
+     <widget class="QTextBrowser" name="extStatusText"/>
+    </item>
+    <item row="7" column="1">
+     <widget class="QTextBrowser" name="fdir5Text"/>
+    </item>
+    <item row="6" column="1">
+     <widget class="QTextBrowser" name="fdir4Text"/>
+    </item>
+    <item row="5" column="1">
+     <widget class="QTextBrowser" name="fdir2Text"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QTextBrowser" name="fdir1Text"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QTextBrowser" name="statusCText"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QTextBrowser" name="statusBText"/>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="statusAText"/>
     </item>
    </layout>
   </widget>

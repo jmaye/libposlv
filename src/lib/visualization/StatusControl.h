@@ -55,6 +55,22 @@ protected:
     */
   /// Pointer to the UI
   Ui_StatusControl* mpUi;
+  /// Mapping for the status messages
+  std::map<uint8_t, std::string> mStatusAMsg;
+  /// Mapping for the status messages
+  std::map<uint8_t, std::string> mStatusBMsg;
+  /// Mapping for the status messages
+  std::map<uint8_t, std::string> mStatusCMsg;
+  /// Mapping for the failure messages
+  std::map<uint8_t, std::string> mFDIR1Msg;
+  /// Mapping for the failure messages
+  std::map<uint8_t, std::string> mFDIR2Msg;
+  /// Mapping for the failure messages
+  std::map<uint8_t, std::string> mFDIR4Msg;
+  /// Mapping for the failure messages
+  std::map<uint8_t, std::string> mFDIR5Msg;
+  /// Mapping for the extended status messages
+  std::map<uint8_t, std::string> mExtStatusMsg;
   /** @}
     */
 
