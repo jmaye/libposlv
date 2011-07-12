@@ -27,11 +27,15 @@ ReadThread::ReadThread(double pollTime) :
   mPollTime(pollTime) {
   mpTimer = new QTimer(this);
   connect(mpTimer, SIGNAL(timeout()), this, SLOT(update()));
-  mpTimer->start(10);
+  mpTimer->start(1);
 }
 
 ReadThread::~ReadThread() {
   delete mpTimer;
+  while (mGroupPtrList.size()) {
+    delete mGroupPtrList.front();
+    mGroupPtrList.pop_front();
+  }
 }
 
 /******************************************************************************/
@@ -65,7 +69,7 @@ void ReadThread::run() {
 }
 
 void ReadThread::update() {
-  if (mGroupPtrList.size()) {
+  while (mGroupPtrList.size() > 100) {
     delete mGroupPtrList.front();
     mGroupPtrList.pop_front();
   }
