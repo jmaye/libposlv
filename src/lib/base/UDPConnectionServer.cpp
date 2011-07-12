@@ -110,37 +110,34 @@ bool UDPConnectionServer::isOpen() const {
   return (mSocket != 0);
 }
 
-void UDPConnectionServer::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes)
+ssize_t UDPConnectionServer::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes)
   throw (IOException) {
   if (isOpen() == false)
     open();
-  ssize_t bytesRead = 0;
-  while (bytesRead != nbBytes) {
-    double intPart;
-    double fracPart = modf(mTimeout, &intPart);
-    struct timeval waitd;
-    waitd.tv_sec = intPart;
-    waitd.tv_usec = fracPart * 1e6;
-    fd_set readFlags;
-    FD_ZERO(&readFlags);
-    FD_SET(mSocket, &readFlags);
-    ssize_t res = select(mSocket + 1, &readFlags, (fd_set*)0, (fd_set*)0,
-      &waitd);
-    if(res < 0)
-      throw IOException("UDPConnectionServer::readBuffer(): read select failed");
-    if (FD_ISSET(mSocket, &readFlags)) {
-      FD_CLR(mSocket, &readFlags);
-      struct sockaddr_in client;
-      socklen_t size;
-      res = recvfrom(mSocket, &au8Buffer[bytesRead], nbBytes - bytesRead, 0,
-        (struct sockaddr*)&client, &size);
-      if (res < 0)
+  double intPart;
+  double fracPart = modf(mTimeout, &intPart);
+  struct timeval waitd;
+  waitd.tv_sec = intPart;
+  waitd.tv_usec = fracPart * 1e6;
+  fd_set readFlags;
+  FD_ZERO(&readFlags);
+  FD_SET(mSocket, &readFlags);
+  ssize_t res = select(mSocket + 1, &readFlags, (fd_set*)0, (fd_set*)0, &waitd);
+  if(res < 0)
+    throw IOException("UDPConnectionServer::readBuffer(): read select failed");
+  if (FD_ISSET(mSocket, &readFlags)) {
+    FD_CLR(mSocket, &readFlags);
+    struct sockaddr_in client;
+    socklen_t size;
+    res = recvfrom(mSocket, au8Buffer, nbBytes, 0, (struct sockaddr*)&client,
+      &size);
+    if (res < 0)
         throw IOException("UDPConnectionServer::readBuffer(): read failed");
-      bytesRead += res;
-    }
-    else
-      throw IOException("UDPConnectionServer::readBuffer(): read timeout");
+    return res;
   }
+  else
+    throw IOException("UDPConnectionServer::readBuffer(): read timeout");
+  return 0;
 }
 
 void UDPConnectionServer::writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes)

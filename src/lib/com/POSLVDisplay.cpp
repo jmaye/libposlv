@@ -43,5 +43,14 @@ POSLVDisplay::~POSLVDisplay() {
 /******************************************************************************/
 
 void POSLVDisplay::readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) {
-  UDPConnectionServer::readBuffer(au8Buffer, nbBytes);
+  if (mBytesBuffer.size() < (size_t)nbBytes) {
+    ssize_t numBytes = UDPConnectionServer::readBuffer(mPacketsBuffer,
+      mMaxPacketSize);
+    for (size_t i = 0; i < (size_t)numBytes; i++)
+      mBytesBuffer.push(mPacketsBuffer[i]);
+  }
+  for (size_t i = 0; i < (size_t)nbBytes; i++) {
+    au8Buffer[i] = mBytesBuffer.front();
+    mBytesBuffer.pop();
+  }
 }

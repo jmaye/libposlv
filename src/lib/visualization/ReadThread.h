@@ -27,7 +27,6 @@
 #include "base/Singleton.h"
 #include "types/Group.h"
 #include "com/POSLVDisplay.h"
-#include "com/POSLVData.h"
 
 #include <QtCore/QThread>
 #include <QtCore/QTimer>
@@ -45,7 +44,7 @@ public:
     @{
     */
   /// Default constructor
-  ReadThread(double pollTime = 1.0);
+  ReadThread(double pollTime = 0.1);
   /// Destructor
   virtual ~ReadThread();
   /** @}
@@ -54,6 +53,7 @@ public:
   /** \name Accessors
     @{
     */
+  /// Returns the polling time
   double getPollTime() const;
   /** @}
     */
@@ -73,8 +73,7 @@ protected:
   /// Time frequency [s] to poll the network
   double mPollTime;
   /// Device for reading through the network
-  //POSLVDisplay mDevice;
-  POSLVData mDevice;
+  POSLVDisplay mDevice;
   /// Storage for the Group pointers
   std::list<const Group*> mGroupPtrList;
   /// Timer for emptying the list

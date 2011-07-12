@@ -27,6 +27,8 @@
 #include "base/UDPConnectionServer.h"
 #include "com/POSLVGroupRead.h"
 
+#include <queue>
+
 /** The POSLVDisplay class implements the UDP communication with the Applanix
     POS LV device, mainly intended for displaying data in a GUI.
     \brief Applanix POS LV display
@@ -59,11 +61,20 @@ protected:
   /** \name Protected methods
     @{
     */
+  /// Reads a buffer of bytes
   virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes);
-  /// Reads the start of a group
-  void readStartGroup();
-  /// Reads the end of a group
-  std::string readEndGroup();
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Max packet size
+  static const size_t mMaxPacketSize = 1500;
+  /// Buffer for storing UDP bytes
+  std::queue<uint8_t> mBytesBuffer;
+  /// Buffer for fetching UDP packets
+  uint8_t mPacketsBuffer[mMaxPacketSize];
   /** @}
     */
 

@@ -60,11 +60,8 @@ protected:
   /** \name Protected methods
     @{
     */
+  /// Reads a buffer of bytes
   virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes);
-  /// Reads the start of a group
-  void readStartGroup();
-  /// Reads the end of a group
-  std::string readEndGroup();
   /** @}
     */
 

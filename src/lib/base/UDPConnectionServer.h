@@ -70,7 +70,7 @@ public:
   /// Test if the connection is open
   bool isOpen() const;
   /// Read buffer from UDP
-  void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) throw (IOException);
+  ssize_t readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) throw (IOException);
   /// Write buffer to UDP
   void writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes)
     throw (IOException);
