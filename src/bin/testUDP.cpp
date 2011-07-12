@@ -23,12 +23,12 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  char buffer[1500];
+  char buffer[15000];
 
   while (1) {
     struct sockaddr_in client;
     socklen_t size;
-    ssize_t res = recvfrom(sock, buffer, 1500, 0, (struct sockaddr*)&client,
+    ssize_t res = recvfrom(sock, buffer, 15000, 0, (struct sockaddr*)&client,
       &size);
     std::cout << res << std::endl;
   }
