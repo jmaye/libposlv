@@ -16,26 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file StatusControl.h
-    \brief This file defines the StatusControl class which is the control
-           for the status
+/** \file FDIRControl.h
+    \brief This file defines the FDIRControl class which is the control
+           for the FDIR
   */
 
-#ifndef STATUSCONTROL_H
-#define STATUSCONTROL_H
+#ifndef FDIRCONTROL_H
+#define FDIRCONTROL_H
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 #include "types/Group.h"
 
-class Ui_StatusControl;
+class Ui_FDIRControl;
 
-/** The StatusControl class is the control for the status of the Applanix.
-    \brief Status control
+/** The FDIRControl class is the control for the FDIR of the Applanix.
+    \brief FDIR control
   */
-class StatusControl :
+class FDIRControl :
   public Control,
-  public Singleton<StatusControl> {
+  public Singleton<FDIRControl> {
 Q_OBJECT
 
 public:
@@ -43,9 +43,9 @@ public:
     @{
     */
   /// Default constructor
-  StatusControl();
+  FDIRControl();
   /// Destructor
-  virtual ~StatusControl();
+  virtual ~FDIRControl();
   /** @}
     */
 
@@ -54,7 +54,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_StatusControl* mpUi;
+  Ui_FDIRControl* mpUi;
   /** @}
     */
 
@@ -69,4 +69,4 @@ protected slots:
 
 };
 
-#endif // STATUSCONTROL_H
+#endif // FDIRCONTROL_H

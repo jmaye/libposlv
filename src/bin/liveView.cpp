@@ -30,8 +30,10 @@
 #include "visualization/DMIControl.h"
 #include "visualization/IINControl.h"
 #include "visualization/StatusControl.h"
+#include "visualization/FDIRControl.h"
 #include "visualization/CalibrationControl.h"
 #include "visualization/VersionControl.h"
+#include "visualization/TimeControl.h"
 #include "visualization/ReadThread.h"
 
 #include <QtGui/QApplication>
@@ -47,8 +49,10 @@ int main(int argc, char** argv) {
   DMIControl dmiControl;
   IINControl iinControl;
   StatusControl statusControl;
+  FDIRControl fdirControl;
   CalibrationControl calibrationControl;
   VersionControl versionControl;
+  TimeControl timeControl;
   ReadThread::getInstance().start();
 
   mainWindow.addControl("Navigation", navigationControl);
@@ -59,8 +63,10 @@ int main(int argc, char** argv) {
   mainWindow.addControl("DMI", dmiControl);
   mainWindow.addControl("IIN", iinControl);
   mainWindow.addControl("Status", statusControl);
+  mainWindow.addControl("FDIR", fdirControl);
   mainWindow.addControl("Calibration", calibrationControl);
   mainWindow.addControl("Version", versionControl);
+  mainWindow.addControl("Time", timeControl);
 
   mainWindow.show();
 

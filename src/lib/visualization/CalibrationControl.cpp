@@ -22,7 +22,7 @@
 #include "types/CalibratedInstallationParams.h"
 #include "ui_CalibrationControl.h"
 
-#include <sstream>
+#include <bitset>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -35,22 +35,14 @@ CalibrationControl::CalibrationControl() :
   connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
     SLOT(groupRead(const Group*)));
 
-  mStatusMsg[0] = "Reference to Primary GPS lever arm calibration in progress";
-  mStatusMsg[1] = "Reference to Auxiliary 1 GPS lever arm calibration in progress";
-  mStatusMsg[2] = "Reference to Auxiliary 2 GPS lever arm calibration in progress";
-  mStatusMsg[3] = "Reference to DMI lever arm calibration in progress";
-  mStatusMsg[4] = "DMI scale factor calibration in progress";
-  mStatusMsg[5] = "Reserved";
-  mStatusMsg[6] = "Reference to Position Fix lever arm calibration in progress";
-  mStatusMsg[7] = "Reserved";
-  mStatusMsg[8] = "Reference to Primary GPS lever arm calibration completed";
-  mStatusMsg[9] = "Reference to Auxiliary 1 GPS lever arm calibration completed";
-  mStatusMsg[10] = "Reference to Auxiliary 2 GPS lever arm calibration completed";
-  mStatusMsg[11] = "Reference to DMI lever arm calibration completed";
-  mStatusMsg[12] = "DMI scale factor calibration completed";
-  mStatusMsg[13] = "Reserved";
-  mStatusMsg[14] = "Reference to Position Fix lever arm calibration completed";
-  mStatusMsg[15] = "Reserved";
+  mpUi->primGPSProgressLed->setColor(Qt::red);
+  mpUi->dmiLeverProgressLed->setColor(Qt::red);
+  mpUi->dmiScaleProgressLed->setColor(Qt::red);
+  mpUi->fixLeverProgressLed->setColor(Qt::red);
+  mpUi->primGPSCompleteLed->setColor(Qt::red);
+  mpUi->dmiLeverCompleteLed->setColor(Qt::red);
+  mpUi->dmiScaleCompleteLed->setColor(Qt::red);
+  mpUi->fixLeverCompleteLed->setColor(Qt::red);
 }
 
 CalibrationControl::~CalibrationControl() {
@@ -69,11 +61,6 @@ void CalibrationControl::groupRead(const Group* group) {
   if (group->instanceOf<CalibratedInstallationParams>() == true) {
     const CalibratedInstallationParams& msg =
       group->typeCast<CalibratedInstallationParams>();
-    std::stringstream status;
-    for (size_t i = 0; i <= 15; i++)
-      if ((msg.mCalibrationStatus >> i) & 0x0001)
-        status << mStatusMsg[i] << std::endl;
-    mpUi->statusText->setText(status.str().c_str());
     mpUi->primGPSXSpinBox->setValue(msg.mReferenceToPrimaryGPSXLeverArm);
     mpUi->primGPSYSpinBox->setValue(msg.mReferenceToPrimaryGPSYLeverArm);
     mpUi->primGPSZSpinBox->setValue(msg.mReferenceToPrimaryGPSZLeverArm);
@@ -95,5 +82,61 @@ void CalibrationControl::groupRead(const Group* group) {
     mpUi->dmiFOMSpinBox->setValue(msg.mReferenceToDMILeverArmCalibrationFOM);
     mpUi->dmiScaleSpinBox->setValue(msg.mDMIScaleFactor);
     mpUi->dmiScaleFOMSpinBox->setValue(msg.mDMIScaleFactorCalibrationFOM);
+
+    std::bitset<16> status(msg.mCalibrationStatus);
+    for (size_t i = 0; i < 16; i++) {
+      switch (i) {
+        case 0:
+          if (status.test(i))
+            mpUi->primGPSProgressLed->setColor(Qt::green);
+          else
+            mpUi->primGPSProgressLed->setColor(Qt::red);
+          break;
+        case 3:
+          if (status.test(i))
+            mpUi->dmiLeverProgressLed->setColor(Qt::green);
+          else
+            mpUi->dmiLeverProgressLed->setColor(Qt::red);
+          break;
+        case 4:
+          if (status.test(i))
+            mpUi->dmiScaleProgressLed->setColor(Qt::green);
+          else
+            mpUi->dmiScaleProgressLed->setColor(Qt::red);
+          break;
+        case 6:
+          if (status.test(i))
+            mpUi->fixLeverProgressLed->setColor(Qt::green);
+          else
+            mpUi->fixLeverProgressLed->setColor(Qt::red);
+          break;
+        case 8:
+          if (status.test(i))
+            mpUi->primGPSCompleteLed->setColor(Qt::green);
+          else
+            mpUi->primGPSCompleteLed->setColor(Qt::red);
+          break;
+        case 11:
+          if (status.test(i))
+            mpUi->dmiLeverCompleteLed->setColor(Qt::green);
+          else
+            mpUi->dmiLeverCompleteLed->setColor(Qt::red);
+          break;
+        case 12:
+          if (status.test(i))
+            mpUi->dmiScaleCompleteLed->setColor(Qt::green);
+          else
+            mpUi->dmiScaleCompleteLed->setColor(Qt::red);
+          break;
+        case 14:
+          if (status.test(i))
+            mpUi->fixLeverCompleteLed->setColor(Qt::green);
+          else
+            mpUi->fixLeverCompleteLed->setColor(Qt::red);
+          break;
+        default:
+          break;
+      }
+    }
   }
 }

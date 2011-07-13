@@ -18,29 +18,19 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>641</width>
-     <height>621</height>
+     <width>311</width>
+     <height>680</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="calibrationLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="statusLabel">
-      <property name="text">
-       <string>Calibration Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QTextBrowser" name="statusText"/>
-    </item>
-    <item row="1" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>Primary GPS X [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
+    <item row="0" column="1">
      <widget class="QDoubleSpinBox" name="primGPSXSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -59,14 +49,14 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="1" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>Primary GPS Y [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
+    <item row="1" column="1">
      <widget class="QDoubleSpinBox" name="primGPSYSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -85,14 +75,14 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
+    <item row="2" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
        <string>Primary GPS Z [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="2" column="1">
      <widget class="QDoubleSpinBox" name="primGPSZSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -111,14 +101,14 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
+    <item row="3" column="0">
      <widget class="QLabel" name="label_4">
       <property name="text">
        <string>Primary GPS FOM:</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="3" column="1">
      <widget class="QSpinBox" name="primGPSFOMSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -134,35 +124,35 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
+    <item row="4" column="0">
      <widget class="QLabel" name="label_5">
       <property name="text">
        <string>Aux. 1 GPS X [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
+    <item row="5" column="0">
      <widget class="QLabel" name="label_6">
       <property name="text">
        <string>Aux. 1 GPS Y [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="0">
+    <item row="6" column="0">
      <widget class="QLabel" name="label_7">
       <property name="text">
        <string>Aux. 1 GPS Z [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="8" column="0">
+    <item row="7" column="0">
      <widget class="QLabel" name="label_8">
       <property name="text">
        <string>Aux. 1 GPS FOM:</string>
       </property>
      </widget>
     </item>
-    <item row="8" column="1">
+    <item row="7" column="1">
      <widget class="QSpinBox" name="aux1GPSFOMSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -178,7 +168,7 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
+    <item row="6" column="1">
      <widget class="QDoubleSpinBox" name="aux1GPSZSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -197,7 +187,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
+    <item row="5" column="1">
      <widget class="QDoubleSpinBox" name="aux1GPSYSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -216,7 +206,7 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
+    <item row="4" column="1">
      <widget class="QDoubleSpinBox" name="aux1GPSXSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -235,35 +225,35 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="0">
+    <item row="8" column="0">
      <widget class="QLabel" name="label_9">
       <property name="text">
        <string>Aux. 2 GPS X [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="10" column="0">
+    <item row="9" column="0">
      <widget class="QLabel" name="label_10">
       <property name="text">
        <string>Aux. 2 GPS Y [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="11" column="0">
+    <item row="10" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
        <string>Aux. 2 GPS Z [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="0">
+    <item row="11" column="0">
      <widget class="QLabel" name="label_12">
       <property name="text">
        <string>Aux. 2 GPS FOM:</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="1">
+    <item row="11" column="1">
      <widget class="QSpinBox" name="aux2GPSFOMSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -279,7 +269,7 @@
       </property>
      </widget>
     </item>
-    <item row="11" column="1">
+    <item row="10" column="1">
      <widget class="QDoubleSpinBox" name="aux2GPSZSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -298,7 +288,7 @@
       </property>
      </widget>
     </item>
-    <item row="10" column="1">
+    <item row="9" column="1">
      <widget class="QDoubleSpinBox" name="aux2GPSYSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -317,7 +307,7 @@
       </property>
      </widget>
     </item>
-    <item row="9" column="1">
+    <item row="8" column="1">
      <widget class="QDoubleSpinBox" name="aux2GPSXSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -336,28 +326,28 @@
       </property>
      </widget>
     </item>
-    <item row="13" column="0">
+    <item row="12" column="0">
      <widget class="QLabel" name="label_13">
       <property name="text">
        <string>DMI X [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="14" column="0">
+    <item row="13" column="0">
      <widget class="QLabel" name="label_14">
       <property name="text">
        <string>DMI Y [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="16" column="0">
+    <item row="15" column="0">
      <widget class="QLabel" name="label_16">
       <property name="text">
        <string>DMI FOM:</string>
       </property>
      </widget>
     </item>
-    <item row="16" column="1">
+    <item row="15" column="1">
      <widget class="QSpinBox" name="dmiFOMSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -373,7 +363,7 @@
       </property>
      </widget>
     </item>
-    <item row="15" column="1">
+    <item row="14" column="1">
      <widget class="QDoubleSpinBox" name="dmiZSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -392,7 +382,7 @@
       </property>
      </widget>
     </item>
-    <item row="14" column="1">
+    <item row="13" column="1">
      <widget class="QDoubleSpinBox" name="dmiYSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -411,7 +401,7 @@
       </property>
      </widget>
     </item>
-    <item row="13" column="1">
+    <item row="12" column="1">
      <widget class="QDoubleSpinBox" name="dmiXSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -430,28 +420,28 @@
       </property>
      </widget>
     </item>
-    <item row="15" column="0">
+    <item row="14" column="0">
      <widget class="QLabel" name="label_15">
       <property name="text">
        <string>DMI Z [m]:</string>
       </property>
      </widget>
     </item>
-    <item row="17" column="0">
+    <item row="16" column="0">
      <widget class="QLabel" name="label_17">
       <property name="text">
        <string>DMI Scale Factor:</string>
       </property>
      </widget>
     </item>
-    <item row="18" column="0">
+    <item row="17" column="0">
      <widget class="QLabel" name="label_18">
       <property name="text">
        <string>DMI Scale FOM:</string>
       </property>
      </widget>
     </item>
-    <item row="18" column="1">
+    <item row="17" column="1">
      <widget class="QSpinBox" name="dmiScaleFOMSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -467,7 +457,7 @@
       </property>
      </widget>
     </item>
-    <item row="17" column="1">
+    <item row="16" column="1">
      <widget class="QDoubleSpinBox" name="dmiScaleSpinBox">
       <property name="readOnly">
        <bool>true</bool>
@@ -482,7 +472,199 @@
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="label_19">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>10</y>
+     <width>391</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reference to Primary GPS lever arm calibration in progress</string>
+   </property>
+  </widget>
+  <widget class="Led" name="dmiLeverProgressLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>30</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_20">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>30</y>
+     <width>381</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reference to DMI lever arm calibration in progress</string>
+   </property>
+  </widget>
+  <widget class="Led" name="fixLeverCompleteLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>150</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Led" name="dmiScaleCompleteLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>130</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Led" name="dmiLeverCompleteLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>110</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Led" name="primGPSCompleteLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>90</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Led" name="fixLeverProgressLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>70</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Led" name="dmiScaleProgressLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>50</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_21">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>50</y>
+     <width>341</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DMI scale factor calibration in progress</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_22">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>70</y>
+     <width>401</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reference to Position Fix lever arm calibration in progress</string>
+   </property>
+  </widget>
+  <widget class="Led" name="primGPSProgressLed" native="true">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>10</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>90</y>
+     <width>421</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reference to Primary GPS lever arm calibration completed</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_24">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>110</y>
+     <width>381</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reference to DMI lever arm calibration completed</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_25">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>130</y>
+     <width>351</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DMI scale factor calibration completed</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_26">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>150</y>
+     <width>401</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reference to Position Fix lever arm calibration completed</string>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Led</class>
+   <extends>QWidget</extends>
+   <header>visualization/Led.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

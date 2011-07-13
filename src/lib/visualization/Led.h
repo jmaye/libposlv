@@ -16,57 +16,64 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file StatusControl.h
-    \brief This file defines the StatusControl class which is the control
-           for the status
+/** \file Led.h
+    \brief This file defines the Led class which is a QWidget Led
   */
 
-#ifndef STATUSCONTROL_H
-#define STATUSCONTROL_H
+#ifndef LED_H
+#define LED_H
 
-#include "visualization/Control.h"
-#include "base/Singleton.h"
-#include "types/Group.h"
+#include <QWidget>
+#include <QEvent>
 
-class Ui_StatusControl;
-
-/** The StatusControl class is the control for the status of the Applanix.
-    \brief Status control
+/** The Led class is a QWidget Led.
+    \brief QWidget for Led
   */
-class StatusControl :
-  public Control,
-  public Singleton<StatusControl> {
+class Led :
+  public QWidget {
 Q_OBJECT
-
 public:
   /** \name Constructors/destructor
     @{
     */
-  /// Default constructor
-  StatusControl();
+  /// Constructs a Led object with given parent
+  Led(QWidget* parent = 0);
+  /// Constructs a Led object with given color
+  Led(const QColor& color, QWidget* parent = 0);
   /// Destructor
-  virtual ~StatusControl();
+  virtual ~Led();
+  /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  /// Access the LED's center
+  QPoint getCenter() const;
+  /// Access the LED's radius
+  int getRadius() const;
+  /// Sets the LED's color
+  void setColor(const QColor& color);
+  /// Returns the LED's color
+  const QColor& getColor() const;
+  /// Returns the size hint
+  virtual QSize sizeHint() const;
   /** @}
     */
 
 protected:
-  /** \name Protected members
+  /** \name Protected methods
     @{
     */
-  /// Pointer to the UI
-  Ui_StatusControl* mpUi;
-  /** @}
-    */
-
-protected slots:
-  /** \name Protected slots
-    @{
-    */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Update the LED's mask bitmap
+  void updateMask();
+  // Paint event
+  virtual void paintEvent(QPaintEvent* paintEvent);
+  // Event
+  virtual bool event(QEvent* event);
   /** @}
     */
 
 };
 
-#endif // STATUSCONTROL_H
+#endif // LED_H

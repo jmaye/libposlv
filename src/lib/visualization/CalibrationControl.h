@@ -56,8 +56,6 @@ protected:
     */
   /// Pointer to the UI
   Ui_CalibrationControl* mpUi;
-  /// Mapping for the status messages
-  std::map<uint8_t, std::string> mStatusMsg;
   /** @}
     */
 
