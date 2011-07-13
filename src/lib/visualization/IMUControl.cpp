@@ -22,6 +22,8 @@
 #include "types/TimeTaggedIMUData.h"
 #include "ui_IMUControl.h"
 
+#include <sstream>
+
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
@@ -33,10 +35,10 @@ IMUControl::IMUControl() :
   connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
     SLOT(groupRead(const Group*)));
 
-  mStatusMsg[0] = "OK";
-  mStatusMsg[1] = "1 bad raw IMU frame";
-  mStatusMsg[2] = "2 bad raw IMU frames";
-  mStatusMsg[3] = "3 bad raw IMU frames";
+  mStatusMsg[0] = "1 bad raw IMU frame";
+  mStatusMsg[1] = "2 bad raw IMU frames";
+  mStatusMsg[2] = "3 bad raw IMU frames";
+  mStatusMsg[3] = "OK";
 }
 
 IMUControl::~IMUControl() {
@@ -67,10 +69,14 @@ void IMUControl::groupRead(const Group* group) {
         break;
     }
     mpUi->rateSpinBox->setValue(dataRate);
-    size_t msgIdx = 0;
-    (msg.mDataStatus & 0x01) ? msgIdx = 1 : msgIdx = 0;
-    ((msg.mDataStatus >> 1) & 0x01) ? msgIdx = 2 : msgIdx = 0;
-    ((msg.mDataStatus >> 1) & 0x01) ? msgIdx = 3 : msgIdx = 0;
-    mpUi->statusText->setText(mStatusMsg[msgIdx].c_str());
+    std::stringstream status;
+    if (msg.mDataStatus) {
+      for (size_t i = 0; i <= 2; i++)
+        if ((msg.mDataStatus >> i) & 0x01)
+          status << mStatusMsg[i] << std::endl;
+    }
+    else
+      status << mStatusMsg[3];
+    mpUi->statusText->setText(status.str().c_str());
   }
 }

@@ -63,5 +63,6 @@ void GAMSControl::groupRead(const Group* group) {
     mpUi->antennaSpinBox->setValue(msg.mComputedAntennaSeparation);
     mpUi->headingSpinBox->setValue(msg.mGAMSHeading);
     mpUi->headingRMSSpinBox->setValue(msg.mGAMSHeadingRMSError);
+    mpUi->pdopSpinBox->setValue(msg.mAPrioriPDOP);
   }
 }

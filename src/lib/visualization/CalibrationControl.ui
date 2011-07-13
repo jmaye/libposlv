@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>641</width>
-     <height>611</height>
+     <height>621</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="calibrationLayout">
@@ -36,7 +36,7 @@
     <item row="1" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Primary GPS X:</string>
+       <string>Primary GPS X [m]:</string>
       </property>
      </widget>
     </item>
@@ -47,6 +47,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
@@ -59,7 +62,7 @@
     <item row="2" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Primary GPS Y:</string>
+       <string>Primary GPS Y [m]:</string>
       </property>
      </widget>
     </item>
@@ -70,6 +73,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
@@ -82,7 +88,7 @@
     <item row="3" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Primary GPS Z:</string>
+       <string>Primary GPS Z [m]:</string>
       </property>
      </widget>
     </item>
@@ -93,6 +99,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
@@ -128,21 +137,21 @@
     <item row="5" column="0">
      <widget class="QLabel" name="label_5">
       <property name="text">
-       <string>Aux. 1 GPS X:</string>
+       <string>Aux. 1 GPS X [m]:</string>
       </property>
      </widget>
     </item>
     <item row="6" column="0">
      <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>Aux. 1 GPS Y:</string>
+       <string>Aux. 1 GPS Y [m]:</string>
       </property>
      </widget>
     </item>
     <item row="7" column="0">
      <widget class="QLabel" name="label_7">
       <property name="text">
-       <string>Aux. 1 GPS Z:</string>
+       <string>Aux. 1 GPS Z [m]:</string>
       </property>
      </widget>
     </item>
@@ -177,6 +186,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
       </property>
@@ -192,6 +204,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
@@ -209,6 +224,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
       </property>
@@ -220,21 +238,21 @@
     <item row="9" column="0">
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>Aux. 2 GPS X:</string>
+       <string>Aux. 2 GPS X [m]:</string>
       </property>
      </widget>
     </item>
     <item row="10" column="0">
      <widget class="QLabel" name="label_10">
       <property name="text">
-       <string>Aux. 2 GPS Y:</string>
+       <string>Aux. 2 GPS Y [m]:</string>
       </property>
      </widget>
     </item>
     <item row="11" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
-       <string>Aux. 2 GPS Z:</string>
+       <string>Aux. 2 GPS Z [m]:</string>
       </property>
      </widget>
     </item>
@@ -269,6 +287,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
       </property>
@@ -284,6 +305,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
@@ -301,6 +325,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
       </property>
@@ -312,14 +339,14 @@
     <item row="13" column="0">
      <widget class="QLabel" name="label_13">
       <property name="text">
-       <string>DMI X:</string>
+       <string>DMI X [m]:</string>
       </property>
      </widget>
     </item>
     <item row="14" column="0">
      <widget class="QLabel" name="label_14">
       <property name="text">
-       <string>DMI Y:</string>
+       <string>DMI Y [m]:</string>
       </property>
      </widget>
     </item>
@@ -354,6 +381,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
       </property>
@@ -369,6 +399,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
@@ -386,6 +419,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
       </property>
@@ -397,7 +433,7 @@
     <item row="15" column="0">
      <widget class="QLabel" name="label_15">
       <property name="text">
-       <string>DMI Z:</string>
+       <string>DMI Z [m]:</string>
       </property>
      </widget>
     </item>
@@ -438,6 +474,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
      </widget>
     </item>

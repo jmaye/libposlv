@@ -61,5 +61,6 @@ void IINControl::groupRead(const Group* group) {
     mpUi->satIINSpinBox->setValue(msg.mNumberOfSatellites);
     mpUi->statusText->setText(mStatusMsg[msg.mIINProcessingStatus].c_str());
     mpUi->baselineSpinBox->setValue(msg.mBaselineLength);
+    mpUi->pdopSpinBox->setValue(msg.mAPrioriPDOP);
   }
 }

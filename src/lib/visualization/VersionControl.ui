@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>811</width>
-     <height>431</height>
+     <height>261</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="versionLayout">
@@ -56,7 +56,7 @@
     <item row="3" column="0">
      <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Total Hours:</string>
+       <string>Total Hours [h]:</string>
       </property>
      </widget>
     </item>
@@ -67,6 +67,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -96,7 +99,7 @@
     <item row="5" column="0">
      <widget class="QLabel" name="label_5">
       <property name="text">
-       <string>Avg. Run Length:</string>
+       <string>Avg. Run Length [h]:</string>
       </property>
      </widget>
     </item>
@@ -108,6 +111,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
       </property>
@@ -116,7 +122,7 @@
     <item row="6" column="0">
      <widget class="QLabel" name="label_6">
       <property name="text">
-       <string>Longest Run:</string>
+       <string>Longest Run [h]:</string>
       </property>
      </widget>
     </item>
@@ -128,6 +134,9 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
       </property>
@@ -136,7 +145,7 @@
     <item row="7" column="0">
      <widget class="QLabel" name="label_7">
       <property name="text">
-       <string>Current Run:</string>
+       <string>Current Run [h]:</string>
       </property>
      </widget>
     </item>
@@ -147,6 +156,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>

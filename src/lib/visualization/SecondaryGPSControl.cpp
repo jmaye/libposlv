@@ -78,5 +78,12 @@ void SecondaryGPSControl::groupRead(const Group* group) {
     mpUi->satSecGPSSpinBox->setValue(msg.mNumberOfSVTracked);
     mpUi->secGPSTypeText->setText(mGPSTypeMsg[msg.mGPSReceiverType].c_str());
     mpUi->geoidalSecGPSSpinBox->setValue(msg.mGeoidalSeparation);
+    mpUi->hdopSpinBox->setValue(msg.mHDOP);
+    mpUi->vdopSpinBox->setValue(msg.mVDOP);
+    mpUi->dgpsIDSpinBox->setValue(msg.mDGPSReferenceID);
+    mpUi->corrLatencySpinBox->setValue(msg.mDGPSCorrectionLatency);
+    mpUi->navLatencySpinBox->setValue(msg.mGPSNavigationMessageLatency);
+    mpUi->weekSpinBox->setValue(msg.mGPSUTCWeekNumber);
+    mpUi->offsetSpinBox->setValue(msg.mGPSUTCTimeOffset);
   }
 }

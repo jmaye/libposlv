@@ -26,21 +26,21 @@
     <item row="12" column="0">
      <widget class="QLabel" name="unsignedLabel">
       <property name="text">
-       <string>Unsigned Distance:</string>
+       <string>Unsigned Distance [m]:</string>
       </property>
      </widget>
     </item>
     <item row="16" column="0">
      <widget class="QLabel" name="scaleLabel">
       <property name="text">
-       <string>DMI Scale Factor:</string>
+       <string>DMI Scale Factor [m/p]:</string>
       </property>
      </widget>
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="signedLabel">
       <property name="text">
-       <string>Signed Distance:</string>
+       <string>Signed Distance [m]:</string>
       </property>
      </widget>
     </item>
@@ -51,6 +51,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>
@@ -67,6 +70,9 @@
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
       </property>
       <property name="minimum">
        <double>-1000000.000000000000000</double>

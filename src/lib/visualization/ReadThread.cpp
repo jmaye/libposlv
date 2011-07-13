@@ -23,7 +23,8 @@
 /******************************************************************************/
 
 ReadThread::ReadThread(double pollTime) :
-  mPollTime(pollTime) {
+  mPollTime(pollTime),
+  mDevice("129.132.39.171", 5602) {
   mpTimer = new QTimer(this);
   connect(mpTimer, SIGNAL(timeout()), this, SLOT(update()));
   mpTimer->start(1);

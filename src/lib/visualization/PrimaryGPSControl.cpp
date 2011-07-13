@@ -84,9 +84,17 @@ void PrimaryGPSControl::groupRead(const Group* group) {
     mpUi->satPrimGPSSpinBox->setValue(msg.mNumberOfSVTracked);
     mpUi->primGPSTypeText->setText(mGPSTypeMsg[msg.mGPSReceiverType].c_str());
     mpUi->geoidalPrimGPSSpinBox->setValue(msg.mGeoidalSeparation);
+    mpUi->hdopSpinBox->setValue(msg.mHDOP);
+    mpUi->vdopSpinBox->setValue(msg.mVDOP);
+    mpUi->dgpsIDSpinBox->setValue(msg.mDGPSReferenceID);
+    mpUi->corrLatencySpinBox->setValue(msg.mDGPSCorrectionLatency);
+    mpUi->navLatencySpinBox->setValue(msg.mGPSNavigationMessageLatency);
+    mpUi->weekSpinBox->setValue(msg.mGPSUTCWeekNumber);
+    mpUi->offsetSpinBox->setValue(msg.mGPSUTCTimeOffset);
   }
   if (group->instanceOf<PPSTimeRecoveryStatus>() == true) {
     const PPSTimeRecoveryStatus& msg = group->typeCast<PPSTimeRecoveryStatus>();
+    mpUi->ppsSpinBox->setValue(msg.mPPSCount);
     mpUi->timeStatusText->setText(mTimeSyncMsg[msg.mTimeSynchroStatus].c_str());
   }
 }

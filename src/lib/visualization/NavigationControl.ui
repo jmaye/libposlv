@@ -38,7 +38,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="latLabel">
        <property name="text">
-        <string>Latitude:</string>
+        <string>Latitude [N]:</string>
        </property>
       </widget>
      </item>
@@ -49,6 +49,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -61,7 +64,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="longLabel">
        <property name="text">
-        <string>Longitude:</string>
+        <string>Longitude [W]:</string>
        </property>
       </widget>
      </item>
@@ -72,6 +75,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -84,7 +90,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="altLabel">
        <property name="text">
-        <string>Altitude:</string>
+        <string>Altitude [m]:</string>
        </property>
       </widget>
      </item>
@@ -95,6 +101,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -107,14 +116,14 @@
      <item row="3" column="0">
       <widget class="QLabel" name="velNorthLabel">
        <property name="text">
-        <string>North Velocity:</string>
+        <string>North Velocity [m/s]:</string>
        </property>
       </widget>
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="velEastLabel">
        <property name="text">
-        <string>East Velocity:</string>
+        <string>East Velocity [m/s]:</string>
        </property>
       </widget>
      </item>
@@ -125,6 +134,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -142,6 +154,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -158,6 +173,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -169,21 +187,21 @@
      <item row="5" column="0">
       <widget class="QLabel" name="velDownLabel">
        <property name="text">
-        <string>Down Velocity:</string>
+        <string>Down Velocity [m/s]:</string>
        </property>
       </widget>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="rollLabel">
        <property name="text">
-        <string>Vehicle Roll:</string>
+        <string>Vehicle Roll [deg]:</string>
        </property>
       </widget>
      </item>
      <item row="7" column="0">
       <widget class="QLabel" name="pitchLabel">
        <property name="text">
-        <string>Vehicle Pitch:</string>
+        <string>Vehicle Pitch [deg]:</string>
        </property>
       </widget>
      </item>
@@ -194,6 +212,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -206,7 +227,7 @@
      <item row="8" column="0">
       <widget class="QLabel" name="headingLabel">
        <property name="text">
-        <string>Vehicle Heading:</string>
+        <string>Vehicle Heading [deg]:</string>
        </property>
       </widget>
      </item>
@@ -217,6 +238,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -234,6 +258,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -245,14 +272,14 @@
      <item row="9" column="0">
       <widget class="QLabel" name="wanderLabel">
        <property name="text">
-        <string>Vehicle Wander Angle:</string>
+        <string>Vehicle Wander Angle [deg]:</string>
        </property>
       </widget>
      </item>
      <item row="10" column="0">
       <widget class="QLabel" name="trackLabel">
        <property name="text">
-        <string>Vehicle Track Angle:</string>
+        <string>Vehicle Track Angle [deg]:</string>
        </property>
       </widget>
      </item>
@@ -263,6 +290,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -275,7 +305,7 @@
      <item row="11" column="0">
       <widget class="QLabel" name="speedLabel">
        <property name="text">
-        <string>Vehicle Speed:</string>
+        <string>Vehicle Speed [m/s]:</string>
        </property>
       </widget>
      </item>
@@ -286,6 +316,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -298,7 +331,7 @@
      <item row="12" column="0">
       <widget class="QLabel" name="rateLongLabel">
        <property name="text">
-        <string>Vehicle Ang. Rate Long.:</string>
+        <string>Vehicle Ang. Rate Long. [deg/s]:</string>
        </property>
       </widget>
      </item>
@@ -309,6 +342,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -321,7 +357,7 @@
      <item row="13" column="0">
       <widget class="QLabel" name="rateTransLabel">
        <property name="text">
-        <string>Vehicle Ang. Rate Trans:</string>
+        <string>Vehicle Ang. Rate Trans. [deg/s]:</string>
        </property>
       </widget>
      </item>
@@ -332,6 +368,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -344,7 +383,7 @@
      <item row="14" column="0">
       <widget class="QLabel" name="rateDownLabel">
        <property name="text">
-        <string>Vehicle Ang. Rate Down:</string>
+        <string>Vehicle Ang. Rate Down [deg/s]:</string>
        </property>
       </widget>
      </item>
@@ -355,6 +394,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -367,7 +409,7 @@
      <item row="15" column="0">
       <widget class="QLabel" name="accLongLabel">
        <property name="text">
-        <string>Vehicle Acc. Long.:</string>
+        <string>Vehicle Acc. Long. [m/s²]:</string>
        </property>
       </widget>
      </item>
@@ -378,6 +420,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -390,7 +435,7 @@
      <item row="16" column="0">
       <widget class="QLabel" name="accTransLabel">
        <property name="text">
-        <string>Vehicle Acc. Trans.:</string>
+        <string>Vehicle Acc. Trans. [m/s²]:</string>
        </property>
       </widget>
      </item>
@@ -398,6 +443,9 @@
       <widget class="QDoubleSpinBox" name="accTransSpinBox">
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -410,7 +458,7 @@
      <item row="17" column="0">
       <widget class="QLabel" name="accDownLabel">
        <property name="text">
-        <string>Vehicle Acc. Down:</string>
+        <string>Vehicle Acc. Down [m/s²]:</string>
        </property>
       </widget>
      </item>
@@ -421,6 +469,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -454,6 +505,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -491,56 +545,56 @@
      <item row="7" column="0">
       <widget class="QLabel" name="rollRMSLabel">
        <property name="text">
-        <string>Roll RMS Error:</string>
+        <string>Roll RMS Error [deg]:</string>
        </property>
       </widget>
      </item>
      <item row="8" column="0">
       <widget class="QLabel" name="pitchRMSLabel">
        <property name="text">
-        <string>Pitch RMS Error:</string>
+        <string>Pitch RMS Error [deg]:</string>
        </property>
       </widget>
      </item>
      <item row="9" column="0">
       <widget class="QLabel" name="headingRMSLabel">
        <property name="text">
-        <string>Heading RMS Error:</string>
+        <string>Heading RMS Error [deg]:</string>
        </property>
       </widget>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="velEastRMSLabel">
        <property name="text">
-        <string>East Vel. RMS Error:</string>
+        <string>East Vel. RMS Error [m/s]:</string>
        </property>
       </widget>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="velDownRMSLabel">
        <property name="text">
-        <string>Down Vel. RMS Error:</string>
+        <string>Down Vel. RMS Error [m/s]:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="posNorthLabel">
        <property name="text">
-        <string>North Pos. RMS Error:</string>
+        <string>North Pos. RMS Error [m]:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="posEastLabel">
        <property name="text">
-        <string>East Pos. RMS Error:</string>
+        <string>East Pos. RMS Error [m]:</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="posDownLabel">
        <property name="text">
-        <string>Down Pos. RMS Error:</string>
+        <string>Down Pos. RMS Error [m]:</string>
        </property>
       </widget>
      </item>
@@ -551,6 +605,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -568,6 +625,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -583,6 +643,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -600,6 +663,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -615,6 +681,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -632,6 +701,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -647,6 +719,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -664,6 +739,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -680,6 +758,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -691,21 +772,21 @@
      <item row="10" column="0">
       <widget class="QLabel" name="semiMajorLabel">
        <property name="text">
-        <string>Error Ellipsoid Semi-Major:</string>
+        <string>Error Ellipsoid Semi-Major [m]:</string>
        </property>
       </widget>
      </item>
      <item row="11" column="0">
       <widget class="QLabel" name="semiMinorLabel">
        <property name="text">
-        <string>Error Ellipsoid Semi-Minor:</string>
+        <string>Error Ellipsoid Semi-Minor [m]:</string>
        </property>
       </widget>
      </item>
      <item row="12" column="0">
       <widget class="QLabel" name="orientationLabel">
        <property name="text">
-        <string>Error Ellipsoid Orientation:</string>
+        <string>Error Ellipsoid Orientation [deg]:</string>
        </property>
       </widget>
      </item>
@@ -716,6 +797,9 @@
        </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
+       </property>
+       <property name="decimals">
+        <number>4</number>
        </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
@@ -733,6 +817,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -749,6 +836,9 @@
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
+       <property name="decimals">
+        <number>4</number>
+       </property>
        <property name="minimum">
         <double>-1000000.000000000000000</double>
        </property>
@@ -760,7 +850,7 @@
      <item row="4" column="0">
       <widget class="QLabel" name="velNorthRMSLabel">
        <property name="text">
-        <string>North Vel. RMS Error:</string>
+        <string>North Vel. RMS Error [m/s]:</string>
        </property>
       </widget>
      </item>
