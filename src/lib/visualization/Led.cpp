@@ -136,4 +136,5 @@ bool Led::event(QEvent* event) {
     updateMask();
 
   QWidget::event(event);
+  return true;
 }
