@@ -18,7 +18,7 @@
 
 /** \file TimeControl.h
     \brief This file defines the TimeControl class which is the control
-           for the IIN solution
+           for the time
   */
 
 #ifndef TIMECONTROL_H
@@ -30,8 +30,8 @@
 
 class Ui_TimeControl;
 
-/** The TimeControl class is the control for the IIN solution of the Applanix.
-    \brief IIN solution control
+/** The TimeControl class is the control for the time of the Applanix.
+    \brief Time control
   */
 class TimeControl :
   public Control,
