@@ -1,0 +1,1239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ParametersControl</class>
+ <widget class="QWidget" name="ParametersControl">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>912</width>
+    <height>670</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>600</y>
+     <width>461</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="IPLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label1">
+      <property name="text">
+       <string>IP Address:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label2">
+      <property name="text">
+       <string>Subnet Mask:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QSpinBox" name="net1SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="subnet1SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QSpinBox" name="net2SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QSpinBox" name="net3SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4">
+     <widget class="QSpinBox" name="net4SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QSpinBox" name="subnet2SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QSpinBox" name="subnet3SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QSpinBox" name="subnet4SpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>340</y>
+     <width>461</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="dmiLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>DMI Scale Factor [pulses/m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QDoubleSpinBox" name="dmiScaleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="dmiXSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Ref. to DMI Y lever arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Ref. to DMI Z lever arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="dmiYSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="dmiZSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Ref. to DMI X lever arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>440</y>
+     <width>461</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gamsLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Prim.-sec. antenna separation [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Baseline vector X comp. [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label99">
+      <property name="text">
+       <string>Baseline vector Y comp. [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label100">
+      <property name="text">
+       <string>Baseline vector Z comp. [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label101">
+      <property name="text">
+       <string>Max. heading error RMS for calib. [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string>Heading correction [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QDoubleSpinBox" name="antennaSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="baseXSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="baseYSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="baseZSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="maxHeadSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QDoubleSpinBox" name="headCorrSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>180</y>
+     <width>461</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gravityLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>Gravity magnitude [m/s²]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>North deflection [arc/s]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>East deflection [arc/s]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_11">
+      <property name="text">
+       <string>Latitude of validity [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_12">
+      <property name="text">
+       <string>Longitude of validity [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_13">
+      <property name="text">
+       <string>Altitude of validity [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QDoubleSpinBox" name="magnitudeSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="northDefSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="eastDefSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="latValSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="longValSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QDoubleSpinBox" name="altValSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>10</y>
+     <width>461</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="zupdLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_14">
+      <property name="text">
+       <string>ZUPD Control:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_15">
+      <property name="text">
+       <string>Detect zero velocity threshold [m/s]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>Reject zero velocity threshold [m/s]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>Zero velocity test period [s]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_18">
+      <property name="text">
+       <string>ZUPD standard deviation [m/s]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="zupdCtrlText"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="detectSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="rejectSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="testSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="zupdStdSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>580</y>
+     <width>441</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="userAccuracyLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_19">
+      <property name="text">
+       <string>User attitude accuracy deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_20">
+      <property name="text">
+       <string>User heading accuracy [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_21">
+      <property name="text">
+       <string>User position accuracy [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_22">
+      <property name="text">
+       <string>User velocity Accuracy [m/s]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QDoubleSpinBox" name="attAccSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="headingAccSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="posAccSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="velAccSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_7">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>640</y>
+     <width>461</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="navModeLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_23">
+      <property name="text">
+       <string>Navigation Mode:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="navModeText"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_8">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>439</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="generalLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_24">
+      <property name="text">
+       <string>Time 1 Type:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_25">
+      <property name="text">
+       <string>Time 2 Type:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_26">
+      <property name="text">
+       <string>Distance Type:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_27">
+      <property name="text">
+       <string>Ref. to IMU X Lever Arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_28">
+      <property name="text">
+       <string>Ref. to IMU Z Lever Arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_29">
+      <property name="text">
+       <string>Ref. to IMU Y Lever Arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_30">
+      <property name="text">
+       <string>Ref. to Prim. GPS X Lever Arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_31">
+      <property name="text">
+       <string>Ref. to Prim. GPS Y Lever Arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_32">
+      <property name="text">
+       <string>Ref. to Prim. GPS Z Lever Arm [m]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QLabel" name="label_33">
+      <property name="text">
+       <string>Y IMU wrt Ref. Frame Angle [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_34">
+      <property name="text">
+       <string>X IMU wrt Ref. Frame Angle [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTextBrowser" name="time1Text"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QTextBrowser" name="time2Text"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QTextBrowser" name="distTypeText"/>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="refIMUXSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QDoubleSpinBox" name="refIMUYSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QDoubleSpinBox" name="refIMUZSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QDoubleSpinBox" name="refPrimGPSXSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QDoubleSpinBox" name="refPrimGPSYSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="QDoubleSpinBox" name="refPrimGPSZSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1">
+     <widget class="QDoubleSpinBox" name="xIMURefMountingAngleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="1">
+     <widget class="QDoubleSpinBox" name="yIMURefMountingAngleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0">
+     <widget class="QLabel" name="label_35">
+      <property name="text">
+       <string>Z IMU wrt Ref. Frame Angle [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="label_36">
+      <property name="text">
+       <string>X Ref. Frame wrt Vehic. Frame Angle [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QLabel" name="label_37">
+      <property name="text">
+       <string>Y Ref. Frame wrt Vehic. Frame Angle [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0">
+     <widget class="QLabel" name="label_38">
+      <property name="text">
+       <string>Z Ref. Frame wrt Vehic. Frame Angle [deg]:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="1">
+     <widget class="QDoubleSpinBox" name="zIMURefMountingAngleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="1">
+     <widget class="QDoubleSpinBox" name="xRefVehicMountingAngleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="1">
+     <widget class="QDoubleSpinBox" name="yRefVehicMountingAngleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="1">
+     <widget class="QDoubleSpinBox" name="zRefVehicMountingAngleSpinBox">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::NoButtons</enum>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="1">
+     <widget class="QTextBrowser" name="multiPathText"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_40">
+      <property name="text">
+       <string>AutoStart:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QTextBrowser" name="autoStartText"/>
+    </item>
+    <item row="16" column="0">
+     <widget class="QLabel" name="label_39">
+      <property name="text">
+       <string>Multipath environment:</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
