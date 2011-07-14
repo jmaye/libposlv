@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file GAMSInstallationControl.h
+    \brief This file defines the GAMSInstallationControl class, which
+           represents the GAMS Installation Control message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef GAMSINSTALLATIONCONTROL_H
+#define GAMSINSTALLATIONCONTROL_H
 
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
+/** The class GAMSInstallationControl represents the GAMS Installation Control
     message from the Applanix.
-    \brief Navigation Mode Control message
+    \brief GAMS Installation Control message
   */
-class NavigationModeControl :
+class GAMSInstallationControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  GAMSInstallationControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  GAMSInstallationControl(const GAMSInstallationControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  GAMSInstallationControl& operator = (const GAMSInstallationControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~GAMSInstallationControl();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual GAMSInstallationControl* clone() const;
   /** @}
     */
 
@@ -60,15 +60,25 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 32;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// Primary-secondary antenna separation
+  float mAntennaSeparation;
+  /// Baseline vector X component
+  float mBaselineX;
+  /// Baseline vector Y component
+  float mBaselineY;
+  /// Baseline vector Z component
+  float mBaselineZ;
+  /// Maximum heading error RMS for calibration
+  float mMaxHeadingError;
+  /// Heading correction
+  float mHeadingCorrection;
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const GAMSInstallationControl mProto;
   /** @}
     */
 
@@ -93,4 +103,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // GAMSINSTALLATIONCONTROL_H

@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file BaseGPS2Control.h
+    \brief This file defines the BaseGPS2Control class, which
+           represents the Base GPS 2 Control message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef BASEGPS2CONTROL_H
+#define BASEGPS2CONTROL_H
 
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
-    message from the Applanix.
-    \brief Navigation Mode Control message
+/** The class BaseGPS2Control represents the  Base GPS 2 Control message from
+    the Applanix.
+    \brief Base GPS 2 Control message
   */
-class NavigationModeControl :
+class BaseGPS2Control :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  BaseGPS2Control();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  BaseGPS2Control(const BaseGPS2Control& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  BaseGPS2Control& operator = (const BaseGPS2Control& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~BaseGPS2Control();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual BaseGPS2Control* clone() const;
   /** @}
     */
 
@@ -60,15 +60,31 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 240;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// Select Base GPS input type
+  uint16_t mBaseGPSInputType;
+  /// Line control
+  uint8_t mLineControl;
+  /// Modem control
+  uint8_t mModemControl;
+  /// Connection control
+  uint8_t mConnectionControl;
+  /// Phone number
+  uint8_t mPhoneNumber[32];
+  /// Number of redials
+  uint8_t mNumRedials;
+  /// Modem command string
+  uint8_t mCommandString[64];
+  /// Modem initialization string
+  uint8_t mInitString[128];
+  /// Data timeout length
+  uint16_t mTimeoutLength;
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const BaseGPS2Control mProto;
   /** @}
     */
 
@@ -93,4 +109,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // BASEGPS2CONTROL_H

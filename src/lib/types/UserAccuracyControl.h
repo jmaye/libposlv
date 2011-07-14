@@ -16,34 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file BaseGPS1Setup.h
-    \brief This file defines the BaseGPS1Setup class, which
-           represents the Program Control message from the Applanix
+/** \file UserAccuracyControl.h
+    \brief This file defines the UserAccuracyControl class, which
+           represents the User Accuracy Control message from the Applanix
   */
 
-#ifndef BASEGPS1SETUP_H
-#define BASEGPS1SETUP_H
+#ifndef USERACCURACYCONTROL_H
+#define USERACCURACYCONTROL_H
 
 #include "types/Message.h"
+#include "exceptions/IOException.h"
 
-/** The class BaseGPS1Setup represents the Program Control message from the
-    Applanix.
-    \brief Program Control message
+/** The class UserAccuracyControl represents the User Accuracy Control
+    message from the Applanix.
+    \brief User Accuracy Control message
   */
-class BaseGPS1Setup :
+class UserAccuracyControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  BaseGPS1Setup();
+  UserAccuracyControl();
   /// Copy constructor
-  BaseGPS1Setup(const BaseGPS1Setup& other);
+  UserAccuracyControl(const UserAccuracyControl& other);
   /// Assignement operator
-  BaseGPS1Setup& operator = (const BaseGPS1Setup& other);
+  UserAccuracyControl& operator = (const UserAccuracyControl& other);
   /// Destructor
-  virtual ~BaseGPS1Setup();
+  virtual ~UserAccuracyControl();
   /** @}
     */
 
@@ -51,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual BaseGPS1Setup* clone() const;
+  virtual UserAccuracyControl* clone() const;
   /** @}
     */
 
@@ -59,29 +60,21 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 240;
+  static const uint16_t mByteCount = 24;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// GSP input type
-  uint16_t mBaseGPSInputType;
-  /// Line control
-  uint8_t mLineControl;
-  /// Modem control
-  uint8_t mModemControl;
-  /// Connection control
-  uint8_t mConnectionControl;
-  /// Phone number
-  uint8_t mPhoneNumber[32];
-  /// Redials numbers
-  uint8_t mRedialsNumber;
-  /// Modem command string
-  uint8_t mModemCommandString[64];
-  /// Modem init string
-  uint8_t mModemInitString[128];
-  /// Data timeout
-  uint16_t mDataTimeout;
+  /// Attitude accuracy
+  float mAttitudeAccuracy;
+  /// Heading accuracy
+  float mHeadingAccuracy;
+  /// Position accuracy
+  float mPositionAccuracy;
+  /// Velocity accuracy
+  float mVelocityAccuracy;
+  /// Checksum when receiving
+  uint16_t mChecksum;
   /// Prototype for this group
-  static const BaseGPS1Setup mProto;
+  static const UserAccuracyControl mProto;
   /** @}
     */
 
@@ -98,7 +91,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream);
+  virtual void read(POSLVControl& stream) throw (IOException);
   /// Writes to the network
   virtual void write(POSLVControl& stream) const;
   /** @}
@@ -106,4 +99,4 @@ protected:
 
 };
 
-#endif // BASEGPS1SETUP_H
+#endif // USERACCURACYCONTROL_H

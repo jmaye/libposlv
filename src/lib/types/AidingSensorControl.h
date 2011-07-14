@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file AidingSensorControl.h
+    \brief This file defines the AidingSensorControl class, which
+           represents the Aiding Sensor Control message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef AIDINGSENSORCONTROL_H
+#define AIDINGSENSORCONTROL_H
 
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
+/** The class AidingSensorControl represents the Aiding Sensor Control
     message from the Applanix.
-    \brief Navigation Mode Control message
+    \brief Aiding Sensor Control message
   */
-class NavigationModeControl :
+class AidingSensorControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  AidingSensorControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  AidingSensorControl(const AidingSensorControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  AidingSensorControl& operator = (const AidingSensorControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~AidingSensorControl();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual AidingSensorControl* clone() const;
   /** @}
     */
 
@@ -60,15 +60,23 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 52;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// DMI scale factor
+  float mDMIScaleFactor;
+  /// Ref. to DMI X
+  float mRefDMIX;
+  /// Ref. to DMI Y
+  float mRefDMIY;
+  /// Ref. to DMI Z
+  float mRefDMIZ;
+  /// Reserved stuff
+  float mReserved[7];
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const AidingSensorControl mProto;
   /** @}
     */
 
@@ -93,4 +101,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // AIDINGSENSORCONTROL_H

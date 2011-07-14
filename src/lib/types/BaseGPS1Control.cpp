@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/NavigationModeControl.h"
+#include "types/BaseGPS1Control.h"
 
 #include "com/POSLVControl.h"
 
@@ -24,55 +24,83 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const NavigationModeControl NavigationModeControl::mProto;
+const BaseGPS1Control BaseGPS1Control::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-NavigationModeControl::NavigationModeControl() :
-  Message(50) {
+BaseGPS1Control::BaseGPS1Control() :
+  Message(37) {
 }
 
-NavigationModeControl::NavigationModeControl(const NavigationModeControl&
+BaseGPS1Control::BaseGPS1Control(const BaseGPS1Control&
   other) :
   Message(other) {
 }
 
-NavigationModeControl& NavigationModeControl::operator =
-  (const NavigationModeControl& other) {
+BaseGPS1Control& BaseGPS1Control::operator =
+  (const BaseGPS1Control& other) {
   this->Message::operator=(other);
   return *this;
 }
 
-NavigationModeControl::~NavigationModeControl() {
+BaseGPS1Control::~BaseGPS1Control() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void NavigationModeControl::read(POSLVControl& stream) throw (IOException) {
+void BaseGPS1Control::read(POSLVControl& stream) throw (IOException) {
   mChecksum = 19748 + 18259; // for $MSG
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("NavigationModeControl::read(): wrong byte count");
+    throw IOException("BaseGPS1Control::read(): wrong byte count");
   mChecksum += mByteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
-  stream >> mNavigationMode;
-  uint8_t pad;
+  stream >> mBaseGPSInputType;
+  mChecksum += mBaseGPSInputType;
+  stream >> mLineControl;
+  stream >> mModemControl;
+  mChecksum += (mModemControl << 8) | mLineControl;
+  stream >> mConnectionControl;
+  stream >> mPhoneNumber[0];
+  mChecksum += (mPhoneNumber[0] << 8) | mConnectionControl;
+  for (size_t i = 1; i < 32; i+=2) {
+    stream >> mPhoneNumber[i];
+    if (i != 31) {
+      stream >> mPhoneNumber[i + 1];
+      mChecksum += (mPhoneNumber[i + 1] << 8) | mPhoneNumber[i];
+    }
+  }
+  stream >> mNumRedials;
+  mChecksum += (mNumRedials << 8) | mPhoneNumber[31];
+  for (size_t i = 0; i < 64; i+=2) {
+    stream >> mCommandString[i];
+    stream >> mCommandString[i + 1];
+    mChecksum += (mCommandString[i + 1] << 8) | mCommandString[i];
+  }
+  for (size_t i = 0; i < 128; i+=2) {
+    stream >> mInitString[i];
+    stream >> mInitString[i + 1];
+    mChecksum += (mInitString[i + 1] << 8) | mInitString[i];
+  }
+  stream >> mTimeoutLength;
+  mChecksum += mTimeoutLength;
+  uint16_t pad;
   stream >> pad;
   if (pad != 0)
-    throw IOException("NavigationModeControl::read(): wrong pad");
-  mChecksum += ((pad << 8) | mNavigationMode);
+    throw IOException("BaseGPS1Control::read(): wrong pad");
+  mChecksum += pad;
   mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void NavigationModeControl::write(POSLVControl& stream) const {
+void BaseGPS1Control::write(POSLVControl& stream) const {
   uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
@@ -80,25 +108,53 @@ void NavigationModeControl::write(POSLVControl& stream) const {
   checksum += mByteCount;
   stream << mTransactionNumber;
   checksum += mTransactionNumber;
-  stream << mNavigationMode;
-  uint8_t pad = 0;
+  stream << mBaseGPSInputType;
+  checksum += mBaseGPSInputType;
+  stream << mLineControl;
+  stream << mModemControl;
+  checksum += (mModemControl << 8) | mLineControl;
+  stream << mConnectionControl;
+  stream << mPhoneNumber[0];
+  checksum += (mPhoneNumber[0] << 8) | mConnectionControl;
+  for (size_t i = 1; i < 32; i+=2) {
+    stream << mPhoneNumber[i];
+    if (i != 31) {
+      stream << mPhoneNumber[i + 1];
+      checksum += (mPhoneNumber[i + 1] << 8) | mPhoneNumber[i];
+    }
+  }
+  stream << mNumRedials;
+  checksum += (mNumRedials << 8) | mPhoneNumber[31];
+  for (size_t i = 0; i < 64; i+=2) {
+    stream << mCommandString[i];
+    stream << mCommandString[i + 1];
+    checksum += (mCommandString[i + 1] << 8) | mCommandString[i];
+  }
+  for (size_t i = 0; i < 128; i+=2) {
+    stream << mInitString[i];
+    stream << mInitString[i + 1];
+    checksum += (mInitString[i + 1] << 8) | mInitString[i];
+  }
+  stream << mTimeoutLength;
+  checksum += mTimeoutLength;
+  uint16_t pad = 0;
   stream << pad;
-  checksum += ((pad << 8) | mNavigationMode);
+  checksum += pad;
   checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }
 
-void NavigationModeControl::read(std::istream& stream) {
+void BaseGPS1Control::read(std::istream& stream) {
 }
 
-void NavigationModeControl::write(std::ostream& stream) const {
+void BaseGPS1Control::write(std::ostream& stream) const {
 }
 
-void NavigationModeControl::read(std::ifstream& stream) {
+void BaseGPS1Control::read(std::ifstream& stream) {
 }
 
-void NavigationModeControl::write(std::ofstream& stream) const {
+void BaseGPS1Control::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -106,6 +162,6 @@ void NavigationModeControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-NavigationModeControl* NavigationModeControl::clone() const {
-  return new NavigationModeControl(*this);
+BaseGPS1Control* BaseGPS1Control::clone() const {
+  return new BaseGPS1Control(*this);
 }

@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/NavigationModeControl.h"
+#include "types/AidingSensorControl.h"
 
 #include "com/POSLVControl.h"
 
@@ -24,55 +24,72 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const NavigationModeControl NavigationModeControl::mProto;
+const AidingSensorControl AidingSensorControl::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-NavigationModeControl::NavigationModeControl() :
-  Message(50) {
+AidingSensorControl::AidingSensorControl() :
+  Message(22) {
 }
 
-NavigationModeControl::NavigationModeControl(const NavigationModeControl&
+AidingSensorControl::AidingSensorControl(const AidingSensorControl&
   other) :
   Message(other) {
 }
 
-NavigationModeControl& NavigationModeControl::operator =
-  (const NavigationModeControl& other) {
+AidingSensorControl& AidingSensorControl::operator =
+  (const AidingSensorControl& other) {
   this->Message::operator=(other);
   return *this;
 }
 
-NavigationModeControl::~NavigationModeControl() {
+AidingSensorControl::~AidingSensorControl() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void NavigationModeControl::read(POSLVControl& stream) throw (IOException) {
+void AidingSensorControl::read(POSLVControl& stream) throw (IOException) {
   mChecksum = 19748 + 18259; // for $MSG
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("NavigationModeControl::read(): wrong byte count");
+    throw IOException("AidingSensorControl::read(): wrong byte count");
   mChecksum += mByteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
-  stream >> mNavigationMode;
-  uint8_t pad;
+
+  stream >> mDMIScaleFactor;
+  mChecksum += ((uint16_t*)&mDMIScaleFactor)[0];
+  mChecksum += ((uint16_t*)&mDMIScaleFactor)[1];
+  stream >> mRefDMIX;
+  mChecksum += ((uint16_t*)&mRefDMIX)[0];
+  mChecksum += ((uint16_t*)&mRefDMIX)[1];
+  stream >> mRefDMIY;
+  mChecksum += ((uint16_t*)&mRefDMIY)[0];
+  mChecksum += ((uint16_t*)&mRefDMIY)[1];
+  stream >> mRefDMIZ;
+  mChecksum += ((uint16_t*)&mRefDMIZ)[0];
+  mChecksum += ((uint16_t*)&mRefDMIZ)[1];
+  for (size_t i = 0; i < 7; i++) {
+    stream >> mReserved[i];
+    mChecksum += ((uint16_t*)&mReserved[i])[0];
+    mChecksum += ((uint16_t*)&mReserved[i])[1];
+  }
+  uint16_t pad;
   stream >> pad;
   if (pad != 0)
-    throw IOException("NavigationModeControl::read(): wrong pad");
-  mChecksum += ((pad << 8) | mNavigationMode);
+    throw IOException("AidingSensorControl::read(): wrong pad");
+  mChecksum += pad;
   mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void NavigationModeControl::write(POSLVControl& stream) const {
+void AidingSensorControl::write(POSLVControl& stream) const {
   uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
@@ -80,25 +97,41 @@ void NavigationModeControl::write(POSLVControl& stream) const {
   checksum += mByteCount;
   stream << mTransactionNumber;
   checksum += mTransactionNumber;
-  stream << mNavigationMode;
-  uint8_t pad = 0;
+  stream << mDMIScaleFactor;
+  checksum += ((uint16_t*)&mDMIScaleFactor)[0];
+  checksum += ((uint16_t*)&mDMIScaleFactor)[1];
+  stream << mRefDMIX;
+  checksum += ((uint16_t*)&mRefDMIX)[0];
+  checksum += ((uint16_t*)&mRefDMIX)[1];
+  stream << mRefDMIY;
+  checksum += ((uint16_t*)&mRefDMIY)[0];
+  checksum += ((uint16_t*)&mRefDMIY)[1];
+  stream << mRefDMIZ;
+  checksum += ((uint16_t*)&mRefDMIZ)[0];
+  checksum += ((uint16_t*)&mRefDMIZ)[1];
+  for (size_t i = 0; i < 7; i++) {
+    stream << mReserved[i];
+    checksum += ((uint16_t*)&mReserved[i])[0];
+    checksum += ((uint16_t*)&mReserved[i])[1];
+  }
+  uint16_t pad = 0;
   stream << pad;
-  checksum += ((pad << 8) | mNavigationMode);
+  checksum += pad;
   checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }
 
-void NavigationModeControl::read(std::istream& stream) {
+void AidingSensorControl::read(std::istream& stream) {
 }
 
-void NavigationModeControl::write(std::ostream& stream) const {
+void AidingSensorControl::write(std::ostream& stream) const {
 }
 
-void NavigationModeControl::read(std::ifstream& stream) {
+void AidingSensorControl::read(std::ifstream& stream) {
 }
 
-void NavigationModeControl::write(std::ofstream& stream) const {
+void AidingSensorControl::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -106,6 +139,6 @@ void NavigationModeControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-NavigationModeControl* NavigationModeControl::clone() const {
-  return new NavigationModeControl(*this);
+AidingSensorControl* AidingSensorControl::clone() const {
+  return new AidingSensorControl(*this);
 }

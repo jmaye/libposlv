@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file GravityControl.h
+    \brief This file defines the GravityControl class, which
+           represents the Gravity Control message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef GRAVITYCONTROL_H
+#define GRAVITYCONTROL_H
 
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
+/** The class GravityControl represents the Gravity Control
     message from the Applanix.
-    \brief Navigation Mode Control message
+    \brief Gravity Control message
   */
-class NavigationModeControl :
+class GravityControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  GravityControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  GravityControl(const GravityControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  GravityControl& operator = (const GravityControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~GravityControl();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual GravityControl* clone() const;
   /** @}
     */
 
@@ -60,15 +60,25 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 56;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// Magnitude
+  double mMagnitude;
+  /// North deflection
+  double mNorthDeflection;
+  /// East deflection
+  double mEastDeflection;
+  /// Latitude of validity
+  double mLatitudeValidity;
+  /// Longitude of validity
+  double mLongitudeValidity;
+  /// Altitude of validity
+  double mAltitudeValidity;
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const GravityControl mProto;
   /** @}
     */
 
@@ -93,4 +103,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // GRAVITYCONTROL_H

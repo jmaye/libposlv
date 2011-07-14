@@ -16,35 +16,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file GeneralInstallationControl.h
+    \brief This file defines the GeneralInstallationControl class, which
+           represents the General Installation Control message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef GENERALINSTALLATIONCONTROL_H
+#define GENERALINSTALLATIONCONTROL_H
 
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
-    message from the Applanix.
-    \brief Navigation Mode Control message
+/** The class GeneralInstallationControl represents the General Installation
+    Control message from the Applanix.
+    \brief General Installation Control message
   */
-class NavigationModeControl :
+class GeneralInstallationControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  GeneralInstallationControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  GeneralInstallationControl(const GeneralInstallationControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  GeneralInstallationControl& operator =
+    (const GeneralInstallationControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~GeneralInstallationControl();
   /** @}
     */
 
@@ -52,7 +53,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual GeneralInstallationControl* clone() const;
   /** @}
     */
 
@@ -60,15 +61,57 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 84;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// Time types
+  uint8_t mTimeTypes;
+  /// Distance type
+  uint8_t mDistanceType;
+  /// Select/deselect AutoStart
+  uint8_t mAutoStart;
+  /// Reference to IMU X lever arm
+  float mRefIMUX;
+  /// Reference to IMU Y lever arm
+  float mRefIMUY;
+  /// Reference to IMU Z lever arm
+  float mRefIMUZ;
+  /// Reference to Primary GPS X lever arm
+  float mRefPrimGPSX;
+  /// Reference to Primary GPS Y lever arm
+  float mRefPrimGPSY;
+  /// Reference to Primary GPS Z lever arm
+  float mRefPrimGPSZ;
+  /// Reference to Auxiliary 1 GPS X lever arm
+  float mRefAux1GPSX;
+  /// Reference to Auxiliary 1 GPS Y lever arm
+  float mRefAux1GPSY;
+  /// Reference to Auxiliary 1 GPS Z lever arm
+  float mRefAux1GPSZ;
+  /// Reference to Auxiliary 2 GPS X lever arm
+  float mRefAux2GPSX;
+  /// Reference to Auxiliary 2 GPS Y lever arm
+  float mRefAux2GPSY;
+  /// Reference to Auxiliary 2 GPS Z lever arm
+  float mRefAux2GPSZ;
+  /// X IMU wrt Reference frame mounting angle
+  float mXIMURefMountingAngle;
+  /// Y IMU wrt Reference frame mounting angle
+  float mYIMURefMountingAngle;
+  /// Z IMU wrt Reference frame mounting angle
+  float mZIMURefMountingAngle;
+  /// X Reference frame wrt Vehicle frame mounting angle
+  float mXRefVehicleMountingAngle;
+  /// Y Reference frame wrt Vehicle frame mounting angle
+  float mYRefVehicleMountingAngle;
+  /// Z Reference frame wrt Vehicle frame mounting angle
+  float mZRefVehicleMountingAngle;
+  /// Multipath environment
+  uint8_t mMultipathEnvironment;
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const GeneralInstallationControl mProto;
   /** @}
     */
 
@@ -93,4 +136,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // GENERALINSTALLATIONCONTROL_H

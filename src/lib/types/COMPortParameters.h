@@ -16,59 +16,61 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file COMPortParameters.h
+    \brief This file defines the COMPortParameters class, which defines the
+           parameters for COM ports
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef COMPORTPARAMETERS_H
+#define COMPORTPARAMETERS_H
 
 #include "types/Message.h"
-#include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
-    message from the Applanix.
-    \brief Navigation Mode Control message
+/** The class COMPortParameters represents the COM ports parameters for the
+    Applanix.
+    \brief COM port parameters
   */
-class NavigationModeControl :
-  public Message {
+class COMPortParameters :
+  public virtual Serializable {
+  /// Stream operator for reading from a connection
+  friend POSLVControl& operator >> (POSLVControl& stream, COMPortParameters&
+    obj);
+  /// Stream operator for writing to a connection
+  friend POSLVControl& operator << (POSLVControl& stream, const
+    COMPortParameters& obj);
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  COMPortParameters();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  COMPortParameters(const COMPortParameters& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  COMPortParameters& operator = (const COMPortParameters& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~COMPortParameters();
   /** @}
     */
 
-  /** \name Methods
+    /** \name Methods
     @{
     */
-  /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  uint16_t getChecksum() const;
   /** @}
     */
 
   /** \name Members
     @{
     */
-  /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
-  /// Transaction number
-  uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
-  /// Checksum when receiving
-  uint16_t mChecksum;
-  /// Prototype for this group
-  static const NavigationModeControl mProto;
+  /// RS-232/422 port baud rate
+  uint8_t mBaudrate;
+  /// Parity
+  uint8_t mParity;
+  /// Data/Stop Bits
+  uint8_t mDataStopBits;
+  /// Flow Control
+  uint8_t mFlowControl;
   /** @}
     */
 
@@ -85,7 +87,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream) throw (IOException);
+  virtual void read(POSLVControl& stream);
   /// Writes to the network
   virtual void write(POSLVControl& stream) const;
   /** @}
@@ -93,4 +95,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // COMPORTPARAMETERS_H

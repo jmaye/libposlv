@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/NavigationModeControl.h"
+#include "types/ZUPDControl.h"
 
 #include "com/POSLVControl.h"
 
@@ -24,55 +24,63 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const NavigationModeControl NavigationModeControl::mProto;
+const ZUPDControl ZUPDControl::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-NavigationModeControl::NavigationModeControl() :
-  Message(50) {
+ZUPDControl::ZUPDControl() :
+  Message(25) {
 }
 
-NavigationModeControl::NavigationModeControl(const NavigationModeControl&
+ZUPDControl::ZUPDControl(const ZUPDControl&
   other) :
   Message(other) {
 }
 
-NavigationModeControl& NavigationModeControl::operator =
-  (const NavigationModeControl& other) {
+ZUPDControl& ZUPDControl::operator =
+  (const ZUPDControl& other) {
   this->Message::operator=(other);
   return *this;
 }
 
-NavigationModeControl::~NavigationModeControl() {
+ZUPDControl::~ZUPDControl() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void NavigationModeControl::read(POSLVControl& stream) throw (IOException) {
+void ZUPDControl::read(POSLVControl& stream) throw (IOException) {
   mChecksum = 19748 + 18259; // for $MSG
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("NavigationModeControl::read(): wrong byte count");
+    throw IOException("ZUPDControl::read(): wrong byte count");
   mChecksum += mByteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
-  stream >> mNavigationMode;
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("NavigationModeControl::read(): wrong pad");
-  mChecksum += ((pad << 8) | mNavigationMode);
+  stream >> mControl;
+  mChecksum += mControl;
+  stream >> mDetectZeroVelocityThreshold;
+  mChecksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[0];
+  mChecksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[1];
+  stream >> mRejectZeroVelocityThreshold;
+  mChecksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[0];
+  mChecksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[1];
+  stream >> mZeroVelocityTestPeriod;
+  mChecksum += ((uint16_t*)&mZeroVelocityTestPeriod)[0];
+  mChecksum += ((uint16_t*)&mZeroVelocityTestPeriod)[1];
+  stream >> mZUPDStd;
+  mChecksum += ((uint16_t*)&mZUPDStd)[0];
+  mChecksum += ((uint16_t*)&mZUPDStd)[1];
   mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void NavigationModeControl::write(POSLVControl& stream) const {
+void ZUPDControl::write(POSLVControl& stream) const {
   uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
@@ -80,25 +88,35 @@ void NavigationModeControl::write(POSLVControl& stream) const {
   checksum += mByteCount;
   stream << mTransactionNumber;
   checksum += mTransactionNumber;
-  stream << mNavigationMode;
-  uint8_t pad = 0;
-  stream << pad;
-  checksum += ((pad << 8) | mNavigationMode);
+  stream << mControl;
+  checksum += mControl;
+  stream << mDetectZeroVelocityThreshold;
+  checksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[0];
+  checksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[1];
+  stream << mRejectZeroVelocityThreshold;
+  checksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[0];
+  checksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[1];
+  stream << mZeroVelocityTestPeriod;
+  checksum += ((uint16_t*)&mZeroVelocityTestPeriod)[0];
+  checksum += ((uint16_t*)&mZeroVelocityTestPeriod)[1];
+  stream << mZUPDStd;
+  checksum += ((uint16_t*)&mZUPDStd)[0];
+  checksum += ((uint16_t*)&mZUPDStd)[1];
   checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }
 
-void NavigationModeControl::read(std::istream& stream) {
+void ZUPDControl::read(std::istream& stream) {
 }
 
-void NavigationModeControl::write(std::ostream& stream) const {
+void ZUPDControl::write(std::ostream& stream) const {
 }
 
-void NavigationModeControl::read(std::ifstream& stream) {
+void ZUPDControl::read(std::ifstream& stream) {
 }
 
-void NavigationModeControl::write(std::ofstream& stream) const {
+void ZUPDControl::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -106,6 +124,6 @@ void NavigationModeControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-NavigationModeControl* NavigationModeControl::clone() const {
-  return new NavigationModeControl(*this);
+ZUPDControl* ZUPDControl::clone() const {
+  return new ZUPDControl(*this);
 }

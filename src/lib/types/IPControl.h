@@ -16,35 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file IPControl.h
+    \brief This file defines the IPControl class, which
+           represents the IP Control message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef IPCONTROL_H
+#define IPCONTROL_H
 
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
-    message from the Applanix.
-    \brief Navigation Mode Control message
+/** The class IPControl represents the IP Control message from the Applanix.
+    \brief IP Control message
   */
-class NavigationModeControl :
+class IPControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  IPControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  IPControl(const IPControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  IPControl& operator = (const IPControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~IPControl();
   /** @}
     */
 
@@ -52,7 +51,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual IPControl* clone() const;
   /** @}
     */
 
@@ -60,15 +59,29 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 16;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// IP Address: Network part 1
+  uint8_t mNetworkPart1;
+  /// IP Address: Network part 2
+  uint8_t mNetworkPart2;
+  /// IP Address: Host part 1
+  uint8_t mHostPart1;
+  /// IP Address: Host part 2
+  uint8_t mHostPart2;
+  /// Subnet: Network part 1
+  uint8_t mSubNetworkPart1;
+  /// Subnet: Network part 2
+  uint8_t mSubNetworkPart2;
+  /// Subnet: Host part 1
+  uint8_t mSubHostPart1;
+  /// Subnet: Host part 2
+  uint8_t mSubHostPart2;
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const IPControl mProto;
   /** @}
     */
 
@@ -93,4 +106,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // IPCONTROL_H

@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/NavigationModeControl.h"
+#include "types/IPControl.h"
 
 #include "com/POSLVControl.h"
 
@@ -24,55 +24,64 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const NavigationModeControl NavigationModeControl::mProto;
+const IPControl IPControl::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-NavigationModeControl::NavigationModeControl() :
-  Message(50) {
+IPControl::IPControl() :
+  Message(32) {
 }
 
-NavigationModeControl::NavigationModeControl(const NavigationModeControl&
-  other) :
+IPControl::IPControl(const IPControl& other) :
   Message(other) {
 }
 
-NavigationModeControl& NavigationModeControl::operator =
-  (const NavigationModeControl& other) {
+IPControl& IPControl::operator = (const IPControl& other) {
   this->Message::operator=(other);
   return *this;
 }
 
-NavigationModeControl::~NavigationModeControl() {
+IPControl::~IPControl() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void NavigationModeControl::read(POSLVControl& stream) throw (IOException) {
+void IPControl::read(POSLVControl& stream) throw (IOException) {
   mChecksum = 19748 + 18259; // for $MSG
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("NavigationModeControl::read(): wrong byte count");
+    throw IOException("IPControl::read(): wrong byte count");
   mChecksum += mByteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
-  stream >> mNavigationMode;
-  uint8_t pad;
+  stream >> mNetworkPart1;
+  stream >> mNetworkPart2;
+  mChecksum += ((mNetworkPart2 << 8) | mNetworkPart1);
+  stream >> mHostPart1;
+  stream >> mHostPart2;
+  mChecksum += ((mHostPart2 << 8) | mHostPart1);
+  stream >> mSubNetworkPart1;
+  stream >> mSubNetworkPart2;
+  mChecksum += ((mSubNetworkPart2 << 8) | mSubNetworkPart1);
+  stream >> mSubHostPart1;
+  stream >> mSubHostPart2;
+  mChecksum += ((mSubHostPart2 << 8) | mSubHostPart1);
+  uint16_t pad = 0;
   stream >> pad;
   if (pad != 0)
-    throw IOException("NavigationModeControl::read(): wrong pad");
-  mChecksum += ((pad << 8) | mNavigationMode);
+    throw IOException("IPControl::read(): wrong pad");
+  mChecksum += pad;
   mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void NavigationModeControl::write(POSLVControl& stream) const {
+void IPControl::write(POSLVControl& stream) const {
   uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
@@ -80,25 +89,36 @@ void NavigationModeControl::write(POSLVControl& stream) const {
   checksum += mByteCount;
   stream << mTransactionNumber;
   checksum += mTransactionNumber;
-  stream << mNavigationMode;
-  uint8_t pad = 0;
+  stream << mNetworkPart1;
+  stream << mNetworkPart2;
+  checksum += ((mNetworkPart2 << 8) | mNetworkPart1);
+  stream << mHostPart1;
+  stream << mHostPart2;
+  checksum += ((mHostPart2 << 8) | mHostPart1);
+  stream << mSubNetworkPart1;
+  stream << mSubNetworkPart2;
+  checksum += ((mSubNetworkPart2 << 8) | mSubNetworkPart1);
+  stream << mSubHostPart1;
+  stream << mSubHostPart2;
+  checksum += ((mSubHostPart2 << 8) | mSubHostPart1);
+  uint16_t pad = 0;
   stream << pad;
-  checksum += ((pad << 8) | mNavigationMode);
+  checksum += pad;
   checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }
 
-void NavigationModeControl::read(std::istream& stream) {
+void IPControl::read(std::istream& stream) {
 }
 
-void NavigationModeControl::write(std::ostream& stream) const {
+void IPControl::write(std::ostream& stream) const {
 }
 
-void NavigationModeControl::read(std::ifstream& stream) {
+void IPControl::read(std::ifstream& stream) {
 }
 
-void NavigationModeControl::write(std::ofstream& stream) const {
+void IPControl::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -106,6 +126,6 @@ void NavigationModeControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-NavigationModeControl* NavigationModeControl::clone() const {
-  return new NavigationModeControl(*this);
+IPControl* IPControl::clone() const {
+  return new IPControl(*this);
 }

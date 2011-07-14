@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/BaseGPS1Setup.h"
+#include "types/GAMSCalibrationControl.h"
 
 #include "com/POSLVControl.h"
 
@@ -24,37 +24,38 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const BaseGPS1Setup BaseGPS1Setup::mProto;
+const GAMSCalibrationControl GAMSCalibrationControl::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BaseGPS1Setup::BaseGPS1Setup() :
-  Message(37) {
+GAMSCalibrationControl::GAMSCalibrationControl() :
+  Message(58) {
 }
 
-BaseGPS1Setup::BaseGPS1Setup(const BaseGPS1Setup& other) :
+GAMSCalibrationControl::GAMSCalibrationControl(const
+  GAMSCalibrationControl& other) :
   Message(other) {
 }
 
-BaseGPS1Setup& BaseGPS1Setup::operator =
-  (const BaseGPS1Setup& other) {
+GAMSCalibrationControl& GAMSCalibrationControl::operator =
+  (const GAMSCalibrationControl& other) {
   this->Message::operator=(other);
   return *this;
 }
 
-BaseGPS1Setup::~BaseGPS1Setup() {
+GAMSCalibrationControl::~GAMSCalibrationControl() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void BaseGPS1Setup::read(POSLVControl& stream) {
+void GAMSCalibrationControl::read(POSLVControl& stream) {
 }
 
-void BaseGPS1Setup::write(POSLVControl& stream) const {
+void GAMSCalibrationControl::write(POSLVControl& stream) const {
   uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
@@ -62,50 +63,25 @@ void BaseGPS1Setup::write(POSLVControl& stream) const {
   checksum += mByteCount;
   stream << mTransactionNumber;
   checksum += mTransactionNumber;
-  stream << mBaseGPSInputType;
-  checksum += mBaseGPSInputType;
-  stream << mLineControl;
-  stream << mModemControl;
-  checksum += (mModemControl << 8 | mLineControl);
-  stream << mConnectionControl;
-  stream << mPhoneNumber[0];
-  checksum += (mPhoneNumber[0] << 8 | mConnectionControl);
-  for (size_t i = 1; i < 32; i+=2) {
-    stream << mPhoneNumber[i];
-    if (i != 31) {
-      stream << mPhoneNumber[i + 1];
-      checksum += (mPhoneNumber[i + 1] << 8 | mPhoneNumber[i]);
-    }
-  }
-  stream << mRedialsNumber;
-  checksum += (mRedialsNumber << 8 | mPhoneNumber[31]);
-  for (size_t i = 0; i < 64; i+=2) {
-    stream << mModemCommandString[i];
-    stream << mModemCommandString[i + 1];
-    checksum += (mModemCommandString[i + 1] << 8 | mModemCommandString[i]);
-  }
-  for (size_t i = 0; i < 128; i+=2) {
-    stream << mModemInitString[i];
-    stream << mModemInitString[i + 1];
-    checksum += (mModemInitString[i + 1] << 8 | mModemInitString[i]);
-  }
-  stream << mDataTimeout;
-  checksum += mDataTimeout;
+  stream << mCalibrationAction;
+  uint8_t pad = 0;
+  stream << pad;
+  checksum += ((pad << 8) | mCalibrationAction);
   checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }
 
-void BaseGPS1Setup::read(std::istream& stream) {
+void GAMSCalibrationControl::read(std::istream& stream) {
 }
 
-void BaseGPS1Setup::write(std::ostream& stream) const {
+void GAMSCalibrationControl::write(std::ostream& stream) const {
 }
 
-void BaseGPS1Setup::read(std::ifstream& stream) {
+void GAMSCalibrationControl::read(std::ifstream& stream) {
 }
 
-void BaseGPS1Setup::write(std::ofstream& stream) const {
+void GAMSCalibrationControl::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -113,6 +89,6 @@ void BaseGPS1Setup::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-BaseGPS1Setup* BaseGPS1Setup::clone() const {
-  return new BaseGPS1Setup(*this);
+GAMSCalibrationControl* GAMSCalibrationControl::clone() const {
+  return new GAMSCalibrationControl(*this);
 }

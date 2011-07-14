@@ -16,35 +16,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file GAMSCalibrationControl.h
+    \brief This file defines the GAMSCalibrationControl class, which
+           represents the Installation Calibration Control message from the
+           Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef GAMSCALIBRATIONCONTROL_H
+#define GAMSCALIBRATIONCONTROL_H
 
 #include "types/Message.h"
-#include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
-    message from the Applanix.
-    \brief Navigation Mode Control message
+/** The class GAMSCalibrationControl represents the Installation
+    Calibration Control message from the Applanix.
+    \brief Installation Calibration Control message
   */
-class NavigationModeControl :
+class GAMSCalibrationControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  GAMSCalibrationControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  GAMSCalibrationControl(const GAMSCalibrationControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  GAMSCalibrationControl& operator =
+    (const GAMSCalibrationControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~GAMSCalibrationControl();
   /** @}
     */
 
@@ -52,7 +53,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual GAMSCalibrationControl* clone() const;
   /** @}
     */
 
@@ -63,12 +64,10 @@ public:
   static const uint16_t mByteCount = 8;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
-  /// Checksum when receiving
-  uint16_t mChecksum;
+  /// Calibration action
+  uint8_t mCalibrationAction;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const GAMSCalibrationControl mProto;
   /** @}
     */
 
@@ -85,7 +84,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream) throw (IOException);
+  virtual void read(POSLVControl& stream);
   /// Writes to the network
   virtual void write(POSLVControl& stream) const;
   /** @}
@@ -93,4 +92,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // GAMSCALIBRATIONCONTROL_H

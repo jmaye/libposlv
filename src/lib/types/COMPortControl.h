@@ -16,35 +16,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file COMPortControl.h
+    \brief This file defines the COMPortControl class, which
+           represents the COM Port Setup message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef COMPORTCONTROL_H
+#define COMPORTCONTROL_H
 
 #include "types/Message.h"
+#include "types/COMPortParameters.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
-    message from the Applanix.
-    \brief Navigation Mode Control message
+/** The class COMPortControl represents the COM Port Setup message from the
+    Applanix.
+    \brief COM Port Setup message
   */
-class NavigationModeControl :
+class COMPortControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  COMPortControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  COMPortControl(const COMPortControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  COMPortControl& operator = (const COMPortControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~COMPortControl();
   /** @}
     */
 
@@ -52,7 +53,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual COMPortControl* clone() const;
   /** @}
     */
 
@@ -60,15 +61,19 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 12;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// Number of COM ports
+  uint16_t mNumPorts;
+  /// COM Port Parameters
+  COMPortParameters mpParameters[10];
+  /// Port mask
+  uint16_t mPortMask;
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const COMPortControl mProto;
   /** @}
     */
 
@@ -87,10 +92,10 @@ protected:
   /// Reads from the network
   virtual void read(POSLVControl& stream) throw (IOException);
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const;
+  virtual void write(POSLVControl& stream) const throw (IOException);
   /** @}
     */
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // COMPORTCONTROL_H

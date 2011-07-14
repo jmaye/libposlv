@@ -16,35 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationModeControl.h
-    \brief This file defines the NavigationModeControl class, which
-           represents the Navigation Mode Control message from the Applanix
+/** \file ZUPDControl.h
+    \brief This file defines the ZUPDControl class, which
+           represents the ZUPD Control message from the Applanix
   */
 
-#ifndef NAVIGATIONMODECONTROL_H
-#define NAVIGATIONMODECONTROL_H
+#ifndef ZUPDCONTROL_H
+#define ZUPDCONTROL_H
 
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The class NavigationModeControl represents the Navigation Mode Control
+/** The class ZUPDControl represents the Zero Velocity Update Control
     message from the Applanix.
-    \brief Navigation Mode Control message
+    \brief Zero Velocity Update Control message
   */
-class NavigationModeControl :
+class ZUPDControl :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  NavigationModeControl();
+  ZUPDControl();
   /// Copy constructor
-  NavigationModeControl(const NavigationModeControl& other);
+  ZUPDControl(const ZUPDControl& other);
   /// Assignement operator
-  NavigationModeControl& operator = (const NavigationModeControl& other);
+  ZUPDControl& operator = (const ZUPDControl& other);
   /// Destructor
-  virtual ~NavigationModeControl();
+  virtual ~ZUPDControl();
   /** @}
     */
 
@@ -52,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual NavigationModeControl* clone() const;
+  virtual ZUPDControl* clone() const;
   /** @}
     */
 
@@ -60,15 +60,23 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 8;
+  static const uint16_t mByteCount = 24;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Navigation mode
-  uint8_t mNavigationMode;
+  /// Control
+  uint16_t mControl;
+  /// Detect zero velocity threshold
+  float mDetectZeroVelocityThreshold;
+  /// Reject zero velocity threshold
+  float mRejectZeroVelocityThreshold;
+  /// Zero velocity test period
+  float mZeroVelocityTestPeriod;
+  /// ZUPD standard deviation
+  float mZUPDStd;
   /// Checksum when receiving
   uint16_t mChecksum;
   /// Prototype for this group
-  static const NavigationModeControl mProto;
+  static const ZUPDControl mProto;
   /** @}
     */
 
@@ -93,4 +101,4 @@ protected:
 
 };
 
-#endif // NAVIGATIONMODECONTROL_H
+#endif // ZUPDCONTROL_H

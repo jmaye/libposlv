@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/NavigationModeControl.h"
+#include "types/UserAccuracyControl.h"
 
 #include "com/POSLVControl.h"
 
@@ -24,55 +24,66 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const NavigationModeControl NavigationModeControl::mProto;
+const UserAccuracyControl UserAccuracyControl::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-NavigationModeControl::NavigationModeControl() :
-  Message(50) {
+UserAccuracyControl::UserAccuracyControl() :
+  Message(24) {
 }
 
-NavigationModeControl::NavigationModeControl(const NavigationModeControl&
+UserAccuracyControl::UserAccuracyControl(const UserAccuracyControl&
   other) :
   Message(other) {
 }
 
-NavigationModeControl& NavigationModeControl::operator =
-  (const NavigationModeControl& other) {
+UserAccuracyControl& UserAccuracyControl::operator =
+  (const UserAccuracyControl& other) {
   this->Message::operator=(other);
   return *this;
 }
 
-NavigationModeControl::~NavigationModeControl() {
+UserAccuracyControl::~UserAccuracyControl() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void NavigationModeControl::read(POSLVControl& stream) throw (IOException) {
+void UserAccuracyControl::read(POSLVControl& stream) throw (IOException) {
   mChecksum = 19748 + 18259; // for $MSG
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("NavigationModeControl::read(): wrong byte count");
+    throw IOException("UserAccuracyControl::read(): wrong byte count");
   mChecksum += mByteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
-  stream >> mNavigationMode;
-  uint8_t pad;
+  stream >> mAttitudeAccuracy;
+  mChecksum += ((uint16_t*)&mAttitudeAccuracy)[0];
+  mChecksum += ((uint16_t*)&mAttitudeAccuracy)[1];
+  stream >> mHeadingAccuracy;
+  mChecksum += ((uint16_t*)&mHeadingAccuracy)[0];
+  mChecksum += ((uint16_t*)&mHeadingAccuracy)[1];
+  stream >> mPositionAccuracy;
+  mChecksum += ((uint16_t*)&mPositionAccuracy)[0];
+  mChecksum += ((uint16_t*)&mPositionAccuracy)[1];
+  stream >> mVelocityAccuracy;
+  mChecksum += ((uint16_t*)&mVelocityAccuracy)[0];
+  mChecksum += ((uint16_t*)&mVelocityAccuracy)[1];
+  uint16_t pad;
   stream >> pad;
   if (pad != 0)
-    throw IOException("NavigationModeControl::read(): wrong pad");
-  mChecksum += ((pad << 8) | mNavigationMode);
+    throw IOException("UserAccuracyControl::read(): wrong pad");
+  mChecksum += pad;
   mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void NavigationModeControl::write(POSLVControl& stream) const {
+void UserAccuracyControl::write(POSLVControl& stream) const {
   uint16_t checksum = 19748 + 18259; // for $MSG
   stream << mTypeID;
   checksum += mTypeID;
@@ -80,25 +91,36 @@ void NavigationModeControl::write(POSLVControl& stream) const {
   checksum += mByteCount;
   stream << mTransactionNumber;
   checksum += mTransactionNumber;
-  stream << mNavigationMode;
-  uint8_t pad = 0;
+  stream << mAttitudeAccuracy;
+  checksum += ((uint16_t*)&mAttitudeAccuracy)[0];
+  checksum += ((uint16_t*)&mAttitudeAccuracy)[1];
+  stream << mHeadingAccuracy;
+  checksum += ((uint16_t*)&mHeadingAccuracy)[0];
+  checksum += ((uint16_t*)&mHeadingAccuracy)[1];
+  stream << mPositionAccuracy;
+  checksum += ((uint16_t*)&mPositionAccuracy)[0];
+  checksum += ((uint16_t*)&mPositionAccuracy)[1];
+  stream << mVelocityAccuracy;
+  checksum += ((uint16_t*)&mVelocityAccuracy)[0];
+  checksum += ((uint16_t*)&mVelocityAccuracy)[1];
+  uint16_t pad = 0;
   stream << pad;
-  checksum += ((pad << 8) | mNavigationMode);
+  checksum += pad;
   checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }
 
-void NavigationModeControl::read(std::istream& stream) {
+void UserAccuracyControl::read(std::istream& stream) {
 }
 
-void NavigationModeControl::write(std::ostream& stream) const {
+void UserAccuracyControl::write(std::ostream& stream) const {
 }
 
-void NavigationModeControl::read(std::ifstream& stream) {
+void UserAccuracyControl::read(std::ifstream& stream) {
 }
 
-void NavigationModeControl::write(std::ofstream& stream) const {
+void UserAccuracyControl::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -106,6 +128,6 @@ void NavigationModeControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-NavigationModeControl* NavigationModeControl::clone() const {
-  return new NavigationModeControl(*this);
+UserAccuracyControl* UserAccuracyControl::clone() const {
+  return new UserAccuracyControl(*this);
 }
