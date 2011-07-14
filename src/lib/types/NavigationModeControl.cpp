@@ -18,7 +18,8 @@
 
 #include "types/NavigationModeControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,8 +53,7 @@ NavigationModeControl::~NavigationModeControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void NavigationModeControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void NavigationModeControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -68,12 +68,11 @@ void NavigationModeControl::read(POSLVControl& stream) throw (IOException) {
   if (pad != 0)
     throw IOException("NavigationModeControl::read(): wrong pad");
   mChecksum += ((pad << 8) | mNavigationMode);
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void NavigationModeControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void NavigationModeControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -84,7 +83,6 @@ void NavigationModeControl::write(POSLVControl& stream) const {
   uint8_t pad = 0;
   stream << pad;
   checksum += ((pad << 8) | mNavigationMode);
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

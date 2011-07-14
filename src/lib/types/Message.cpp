@@ -25,16 +25,19 @@
 /******************************************************************************/
 
 Message::Message(uint16_t typeID) :
-  mTypeID(typeID) {
+  mTypeID(typeID),
+  mChecksum(47003) {
   Factory<uint16_t, Message>::getInstance().registerType(this, mTypeID);
 }
 
 Message::Message(const Message& other) :
-  mTypeID(other.mTypeID) {
+  mTypeID(other.mTypeID),
+  mChecksum(other.mChecksum) {
 }
 
 Message& Message::operator = (const Message& other) {
   mTypeID = other.mTypeID;
+  mChecksum = other.mChecksum;
   return *this;
 }
 
@@ -49,16 +52,20 @@ uint16_t Message::getTypeID() const {
   return mTypeID;
 }
 
+uint16_t Message::getChecksum() const {
+  return mChecksum;
+}
+
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-POSLVControl& operator >> (POSLVControl& stream, Message& obj) {
+POSLVMessageRead& operator >> (POSLVMessageRead& stream, Message& obj) {
   obj.read(stream);
   return stream;
 }
 
-POSLVControl& operator << (POSLVControl& stream, const Message& obj) {
+POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const Message& obj) {
   obj.write(stream);
   return stream;
 }

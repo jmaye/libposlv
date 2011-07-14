@@ -18,7 +18,8 @@
 
 #include "types/DisplayPortControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -34,8 +35,7 @@ DisplayPortControl::DisplayPortControl() :
   Message(51) {
 }
 
-DisplayPortControl::DisplayPortControl(const DisplayPortControl&
-  other) :
+DisplayPortControl::DisplayPortControl(const DisplayPortControl& other) :
   Message(other) {
 }
 
@@ -52,8 +52,7 @@ DisplayPortControl::~DisplayPortControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void DisplayPortControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void DisplayPortControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -80,14 +79,14 @@ void DisplayPortControl::read(POSLVControl& stream) throw (IOException) {
     if (pad != 0)
       throw IOException("DisplayPortControl::read(): wrong pad");
   }
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void DisplayPortControl::write(POSLVControl& stream) const throw (IOException) {
+void DisplayPortControl::write(POSLVMessageWrite& stream) const
+  throw (IOException) {
   if (mGroupsIDVector.size() != mNumGroups)
     throw IOException("DisplayPortControl::write(): wrong number of groups");
-  uint16_t checksum = 19748 + 18259; // for $MSG
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   size_t padSize = (mNumGroups % 2) * 2;
@@ -108,7 +107,6 @@ void DisplayPortControl::write(POSLVControl& stream) const throw (IOException) {
     stream << pad;
     checksum += pad;
   }
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

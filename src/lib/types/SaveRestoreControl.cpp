@@ -18,7 +18,8 @@
 
 #include "types/SaveRestoreControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -34,8 +35,7 @@ SaveRestoreControl::SaveRestoreControl() :
   Message(54) {
 }
 
-SaveRestoreControl::SaveRestoreControl(const SaveRestoreControl&
-  other) :
+SaveRestoreControl::SaveRestoreControl(const SaveRestoreControl& other) :
   Message(other) {
 }
 
@@ -52,11 +52,11 @@ SaveRestoreControl::~SaveRestoreControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void SaveRestoreControl::read(POSLVControl& stream) {
+void SaveRestoreControl::read(POSLVMessageRead& stream) {
 }
 
-void SaveRestoreControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void SaveRestoreControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -67,7 +67,6 @@ void SaveRestoreControl::write(POSLVControl& stream) const {
   uint8_t pad = 0;
   stream << pad;
   checksum += ((pad << 8) | mControl);
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

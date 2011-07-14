@@ -82,9 +82,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream);
+  virtual void read(POSLVMessageRead& stream);
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const;
+  virtual void write(POSLVMessageWrite& stream) const;
   /** @}
     */
 

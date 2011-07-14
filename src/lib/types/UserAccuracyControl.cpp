@@ -18,7 +18,8 @@
 
 #include "types/UserAccuracyControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -34,8 +35,7 @@ UserAccuracyControl::UserAccuracyControl() :
   Message(24) {
 }
 
-UserAccuracyControl::UserAccuracyControl(const UserAccuracyControl&
-  other) :
+UserAccuracyControl::UserAccuracyControl(const UserAccuracyControl& other) :
   Message(other) {
 }
 
@@ -52,8 +52,7 @@ UserAccuracyControl::~UserAccuracyControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void UserAccuracyControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void UserAccuracyControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -79,12 +78,11 @@ void UserAccuracyControl::read(POSLVControl& stream) throw (IOException) {
   if (pad != 0)
     throw IOException("UserAccuracyControl::read(): wrong pad");
   mChecksum += pad;
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void UserAccuracyControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void UserAccuracyControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -106,7 +104,6 @@ void UserAccuracyControl::write(POSLVControl& stream) const {
   uint16_t pad = 0;
   stream << pad;
   checksum += pad;
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

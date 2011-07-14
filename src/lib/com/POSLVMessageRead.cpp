@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "com/POSLVGroupRead.h"
+#include "com/POSLVMessageRead.h"
 
 #include "base/Factory.h"
 
@@ -24,93 +24,93 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-POSLVGroupRead::POSLVGroupRead() {
+POSLVMessageRead::POSLVMessageRead() {
 }
 
-POSLVGroupRead::POSLVGroupRead(const POSLVGroupRead& other) {
+POSLVMessageRead::POSLVMessageRead(const POSLVMessageRead& other) {
 }
 
-POSLVGroupRead& POSLVGroupRead::operator = (const POSLVGroupRead& other) {
+POSLVMessageRead& POSLVMessageRead::operator = (const POSLVMessageRead& other) {
   return *this;
 }
 
-POSLVGroupRead::~POSLVGroupRead() {
+POSLVMessageRead::~POSLVMessageRead() {
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-POSLVGroupRead& POSLVGroupRead::operator >> (int8_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (int8_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int8_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (uint8_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (uint8_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint8_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (int16_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (int16_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int16_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (uint16_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (uint16_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint16_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (int32_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (int32_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int32_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (uint32_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (uint32_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint32_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (int64_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (int64_t& value) {
   readBuffer((uint8_t*)&value, sizeof(int64_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (uint64_t& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (uint64_t& value) {
   readBuffer((uint8_t*)&value, sizeof(uint64_t));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (float& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (float& value) {
   readBuffer((uint8_t*)&value, sizeof(float));
   return *this;
 }
 
-POSLVGroupRead& POSLVGroupRead::operator >> (double& value) {
+POSLVMessageRead& POSLVMessageRead::operator >> (double& value) {
   readBuffer((uint8_t*)&value, sizeof(double));
   return *this;
 }
 
-void POSLVGroupRead::readStartGroup() {
+void POSLVMessageRead::readStartMessage() {
   uint8_t control;
   readBuffer(&control, sizeof(uint8_t));
   while (true) {
     while (control != '$')
       readBuffer(&control, sizeof(uint8_t));
     readBuffer(&control, sizeof(uint8_t));
+    if (control != 'M')
+      continue;
+    readBuffer(&control, sizeof(uint8_t));
+    if (control != 'S')
+      continue;
+    readBuffer(&control, sizeof(uint8_t));
     if (control != 'G')
-      continue;
-    readBuffer(&control, sizeof(uint8_t));
-    if (control != 'R')
-      continue;
-    readBuffer(&control, sizeof(uint8_t));
-    if (control != 'P')
       continue;
     break;
   }
 }
 
-std::string POSLVGroupRead::readEndGroup() {
+std::string POSLVMessageRead::readEndMessage() {
   std::string outputString;
   uint8_t control;
   readBuffer(&control, sizeof(uint8_t));
@@ -120,26 +120,29 @@ std::string POSLVGroupRead::readEndGroup() {
   return outputString;
 }
 
-const Group* POSLVGroupRead::readGroup() throw (IOException) {
-  readStartGroup();
+const Message* POSLVMessageRead::readMessage() throw (IOException) {
+  readStartMessage();
 
-  uint16_t groupID;
-  *this >> groupID;
+  uint16_t messageID;
+  *this >> messageID;
 
-  if (Factory<uint16_t, Group>::getInstance().isRegistered(groupID) == false)
+  if (Factory<uint16_t, Message>::getInstance().isRegistered(messageID) ==
+    false)
     return NULL;
 
-  Group* groupRead = Factory<uint16_t, Group>::getInstance().create(groupID);
-  *this >> *groupRead;
+  Message* messageRead =
+    Factory<uint16_t, Message>::getInstance().create(messageID);
+  *this >> *messageRead;
 
   uint16_t checksum;
   *this >> checksum;
 
-  // TODO: Checksum control
+  if (checksum != messageRead->getChecksum())
+    throw IOException("POSLVMessageRead::readGroup(): wrong checksum");
 
-  std::string endString = readEndGroup();
+  std::string endString = readEndMessage();
   if (endString != "$#")
-    throw IOException("POSLVGroupRead::readGroup(): end of group read failed");
+    throw IOException("POSLVMessageRead::readGroup(): end of message read failed");
 
-  return groupRead;
+  return messageRead;
 }

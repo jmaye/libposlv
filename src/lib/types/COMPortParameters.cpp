@@ -18,7 +18,8 @@
 
 #include "types/COMPortParameters.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -42,14 +43,14 @@ COMPortParameters::~COMPortParameters() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void COMPortParameters::read(POSLVControl& stream) {
+void COMPortParameters::read(POSLVMessageRead& stream) {
   stream >> mBaudrate;
   stream >> mParity;
   stream >> mDataStopBits;
   stream >> mFlowControl;
 }
 
-void COMPortParameters::write(POSLVControl& stream) const {
+void COMPortParameters::write(POSLVMessageWrite& stream) const {
   stream << mBaudrate;
   stream << mParity;
   stream << mDataStopBits;
@@ -68,12 +69,14 @@ void COMPortParameters::read(std::ifstream& stream) {
 void COMPortParameters::write(std::ofstream& stream) const {
 }
 
-POSLVControl& operator >> (POSLVControl& stream, COMPortParameters& obj) {
+POSLVMessageRead& operator >> (POSLVMessageRead& stream, COMPortParameters&
+  obj) {
   obj.read(stream);
   return stream;
 }
 
-POSLVControl& operator << (POSLVControl& stream, const COMPortParameters& obj) {
+POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const
+  COMPortParameters& obj) {
   obj.write(stream);
   return stream;
 }
@@ -81,6 +84,7 @@ POSLVControl& operator << (POSLVControl& stream, const COMPortParameters& obj) {
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
+
 uint16_t COMPortParameters::getChecksum() const {
   uint16_t checksum = (mParity << 8) | mBaudrate;
   checksum += (mFlowControl << 8) | mDataStopBits;

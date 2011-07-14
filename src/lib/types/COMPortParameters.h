@@ -33,10 +33,10 @@
 class COMPortParameters :
   public virtual Serializable {
   /// Stream operator for reading from a connection
-  friend POSLVControl& operator >> (POSLVControl& stream, COMPortParameters&
-    obj);
+  friend POSLVMessageRead& operator >> (POSLVMessageRead& stream,
+    COMPortParameters& obj);
   /// Stream operator for writing to a connection
-  friend POSLVControl& operator << (POSLVControl& stream, const
+  friend POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const
     COMPortParameters& obj);
 public:
   /** \name Constructors/Destructor
@@ -87,9 +87,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream);
+  virtual void read(POSLVMessageRead& stream);
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const;
+  virtual void write(POSLVMessageWrite& stream) const;
   /** @}
     */
 

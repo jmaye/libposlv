@@ -18,7 +18,8 @@
 
 #include "types/InstallationCalibrationControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,11 +53,11 @@ InstallationCalibrationControl::~InstallationCalibrationControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void InstallationCalibrationControl::read(POSLVControl& stream) {
+void InstallationCalibrationControl::read(POSLVMessageRead& stream) {
 }
 
-void InstallationCalibrationControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void InstallationCalibrationControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -66,7 +67,6 @@ void InstallationCalibrationControl::write(POSLVControl& stream) const {
   stream << mCalibrationAction;
   stream << mCalibrationSelect;
   checksum += ((mCalibrationSelect << 8) | mCalibrationAction);
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

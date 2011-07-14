@@ -78,8 +78,6 @@ public:
   uint8_t mSubHostPart1;
   /// Subnet: Host part 2
   uint8_t mSubHostPart2;
-  /// Checksum when receiving
-  uint16_t mChecksum;
   /// Prototype for this group
   static const IPControl mProto;
   /** @}
@@ -98,9 +96,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream) throw (IOException);
+  virtual void read(POSLVMessageRead& stream) throw (IOException);
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const;
+  virtual void write(POSLVMessageWrite& stream) const;
   /** @}
     */
 

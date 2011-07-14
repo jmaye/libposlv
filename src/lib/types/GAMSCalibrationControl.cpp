@@ -18,7 +18,8 @@
 
 #include "types/GAMSCalibrationControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,11 +53,11 @@ GAMSCalibrationControl::~GAMSCalibrationControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GAMSCalibrationControl::read(POSLVControl& stream) {
+void GAMSCalibrationControl::read(POSLVMessageRead& stream) {
 }
 
-void GAMSCalibrationControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void GAMSCalibrationControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -67,7 +68,6 @@ void GAMSCalibrationControl::write(POSLVControl& stream) const {
   uint8_t pad = 0;
   stream << pad;
   checksum += ((pad << 8) | mCalibrationAction);
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

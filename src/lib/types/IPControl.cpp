@@ -18,7 +18,8 @@
 
 #include "types/IPControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -50,8 +51,7 @@ IPControl::~IPControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void IPControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void IPControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -77,12 +77,11 @@ void IPControl::read(POSLVControl& stream) throw (IOException) {
   if (pad != 0)
     throw IOException("IPControl::read(): wrong pad");
   mChecksum += pad;
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void IPControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void IPControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -104,7 +103,6 @@ void IPControl::write(POSLVControl& stream) const {
   uint16_t pad = 0;
   stream << pad;
   checksum += pad;
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

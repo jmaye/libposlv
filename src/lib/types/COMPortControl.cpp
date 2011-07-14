@@ -18,7 +18,8 @@
 
 #include "types/COMPortControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -50,8 +51,7 @@ COMPortControl::~COMPortControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void COMPortControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void COMPortControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -73,14 +73,14 @@ void COMPortControl::read(POSLVControl& stream) throw (IOException) {
   if (pad != 0)
     throw IOException("COMPortControl::read(): wrong pad");
   mChecksum += pad;
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void COMPortControl::write(POSLVControl& stream) const throw (IOException) {
+void COMPortControl::write(POSLVMessageWrite& stream) const
+  throw (IOException) {
   if (mNumPorts > 10)
     throw IOException("COMPortControl::write(): 10 COM ports maximum");
-  uint16_t checksum = 19748 + 18259; // for $MSG
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount + (8 * mNumPorts);
@@ -98,7 +98,6 @@ void COMPortControl::write(POSLVControl& stream) const throw (IOException) {
   uint16_t pad = 0;
   stream << pad;
   checksum += pad;
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

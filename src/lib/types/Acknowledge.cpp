@@ -18,7 +18,8 @@
 
 #include "types/Acknowledge.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -50,7 +51,7 @@ Acknowledge::~Acknowledge() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Acknowledge::read(POSLVControl& stream) throw (IOException) {
+void Acknowledge::read(POSLVMessageRead& stream) throw (IOException) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
@@ -67,7 +68,7 @@ void Acknowledge::read(POSLVControl& stream) throw (IOException) {
     throw IOException("Acknowledge::read(): wrong pad");
 }
 
-void Acknowledge::write(POSLVControl& stream) const {
+void Acknowledge::write(POSLVMessageWrite& stream) const {
 }
 
 void Acknowledge::read(std::istream& stream) {

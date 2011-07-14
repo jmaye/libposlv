@@ -26,6 +26,7 @@
 
 #include "base/TCPConnectionClient.h"
 #include "com/POSLVGroupRead.h"
+#include "com/POSLVMessageRead.h"
 
 /** The POSLVData class implements the Ethernet Real-Time and Logging Data
     communication with the Applanix POS LV device.
@@ -33,7 +34,8 @@
   */
 class POSLVData :
   public TCPConnectionClient,
-  public POSLVGroupRead {
+  public POSLVGroupRead,
+  public POSLVMessageRead {
 public:
   /** \name Constructors/destructor
     @{

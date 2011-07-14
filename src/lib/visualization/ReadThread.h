@@ -26,6 +26,7 @@
 
 #include "base/Singleton.h"
 #include "types/Group.h"
+#include "types/Message.h"
 #include "com/POSLVDisplay.h"
 #include "com/POSLVData.h"
 
@@ -78,6 +79,8 @@ protected:
   POSLVData mDevice;
   /// Storage for the Group pointers
   std::list<const Group*> mGroupPtrList;
+  /// Storage for the Message pointers
+  std::list<const Message*> mMessagePtrList;
   /// Timer for emptying the list
   QTimer* mpTimer;
   /** @}
@@ -98,6 +101,8 @@ signals:
     */
   /// Emitted when an Applanix group is read
   void groupRead(const Group* group);
+  /// Emitted when an Applanix message is read
+  void messageRead(const Message* message);
   /// Emitted when the device is connected or disconnected
   void deviceConnected(bool connected);
   /** @}

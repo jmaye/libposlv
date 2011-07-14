@@ -18,7 +18,8 @@
 
 #include "types/ProgramControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -34,13 +35,11 @@ ProgramControl::ProgramControl() :
   Message(90) {
 }
 
-ProgramControl::ProgramControl(const ProgramControl&
-  other) :
+ProgramControl::ProgramControl(const ProgramControl& other) :
   Message(other) {
 }
 
-ProgramControl& ProgramControl::operator =
-  (const ProgramControl& other) {
+ProgramControl& ProgramControl::operator = (const ProgramControl& other) {
   this->Message::operator=(other);
   return *this;
 }
@@ -52,11 +51,11 @@ ProgramControl::~ProgramControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void ProgramControl::read(POSLVControl& stream) {
+void ProgramControl::read(POSLVMessageRead& stream) {
 }
 
-void ProgramControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void ProgramControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -65,7 +64,6 @@ void ProgramControl::write(POSLVControl& stream) const {
   checksum += mTransactionNumber;
   stream << mControl;
   checksum += mControl;
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

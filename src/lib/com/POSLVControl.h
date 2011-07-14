@@ -25,16 +25,40 @@
 #define POSLVCONTROL_H
 
 #include "base/TCPConnectionClient.h"
-#include "exceptions/IOException.h"
-#include "types/Message.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
+#include "types/Acknowledge.h"
 
 /** The POSLVControl class is an interface for controlling the Applanix POS LV
     device.
     \brief Applanix POS LV control
   */
 class POSLVControl :
-  public TCPConnectionClient {
-  /** \name Private constructors
+  public TCPConnectionClient,
+  public POSLVMessageRead,
+  public POSLVMessageWrite {
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Default constructor
+  POSLVControl(const std::string& serverIP, uint16_t port = 5601,
+    double timeout = 2.5);
+  /// Destructor
+  virtual ~POSLVControl();
+  /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
+  /// Send a control message to the POSLV
+  const Acknowledge& sendControl(const Message& message) throw (IOException);
+  /** @}
+    */
+
+protected:
+  /** \name Protected constructors
     @{
     */
   /// Copy constructor
@@ -44,82 +68,13 @@ class POSLVControl :
   /** @}
     */
 
-public:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Default constructor
-  POSLVControl(const std::string& serverIP, uint16_t port = 5601,
-    double timeout = 2.5);
-  /// Destructor
-  ~POSLVControl();
-  /** @}
-    */
-
-  /** \name Methods
-    @{
-    */
-  /// Sends a message to the Applanix
-  const Message* sendMessage(const Message& message) throw (IOException);
-  /** @}
-    */
-
-  /** \name Operators
-    @{
-    */
-  /// Reads 8-bit signed integer
-  POSLVControl& operator >> (int8_t& value);
-  /// Reads 8-bit unsigned integer
-  POSLVControl& operator >> (uint8_t& value);
-  /// Reads 16-bit signed integer
-  POSLVControl& operator >> (int16_t& value);
-  /// Reads 16-bit unsigned integer
-  POSLVControl& operator >> (uint16_t& value);
-  /// Reads 32-bit signed integer
-  POSLVControl& operator >> (int32_t& value);
-  /// Reads 32-bit unsigned integer
-  POSLVControl& operator >> (uint32_t& value);
-  /// Reads 64-bit signed integer
-  POSLVControl& operator >> (int64_t& value);
-  /// Reads 64-bit unsigned integer
-  POSLVControl& operator >> (uint64_t& value);
-  /// Reads 32-bit floating point
-  POSLVControl& operator >> (float& value);
-  /// Reads 64-bit floating point
-  POSLVControl& operator >> (double& value);
-  /// Writes 8-bit signed integer
-  POSLVControl& operator << (int8_t value);
-  /// Writes 8-bit unsigned integer
-  POSLVControl& operator << (uint8_t value);
-  /// Writes 16-bit signed integer
-  POSLVControl& operator << (int16_t value);
-  /// Writes 16-bit unsigned integer
-  POSLVControl& operator << (uint16_t value);
-  /// Writes 32-bit signed integer
-  POSLVControl& operator << (int32_t value);
-  /// Writes 32-bit unsigned integer
-  POSLVControl& operator << (uint32_t value);
-  /// Writes 64-bit signed integer
-  POSLVControl& operator << (int64_t value);
-  /// Writes 64-bit unsigned integer
-  POSLVControl& operator << (uint64_t value);
-  /// Writes 32-bit floating point
-  POSLVControl& operator << (float value);
-  /// Writes 64-bit floating point
-  POSLVControl& operator << (double value);
-  /** @}
-    */
-
-protected:
   /** \name Protected methods
     @{
     */
-   /// Reads a Message from the network
-  const Message* readMessage() throw (IOException);
-  /// Reads the start of a message
-  void readStartMessage();
-  /// Reads the end of a message
-  std::string readEndMessage();
+  /// Reads a buffer of bytes
+  virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes);
+  /// Writes a buffer of bytes
+  virtual void writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes);
   /** @}
     */
 

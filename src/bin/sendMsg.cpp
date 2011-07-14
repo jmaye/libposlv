@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
   cal.mTransactionNumber = 10;
   cal.mCalibrationAction = 3;
   cal.mCalibrationSelect = 0xFF;
-  const Acknowledge& ackMsg = device.sendMessage(cal)->typeCast<Acknowledge>();
+  const Acknowledge& ackMsg = device.sendControl(cal);
   std::cout << "Return status:" << ackMsg.mResponseCode << std::endl;
   delete &ackMsg;
   delete msg;

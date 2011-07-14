@@ -34,6 +34,7 @@
 #include "visualization/CalibrationControl.h"
 #include "visualization/VersionControl.h"
 #include "visualization/TimeControl.h"
+#include "visualization/ParametersControl.h"
 #include "visualization/ReadThread.h"
 
 #include <QtGui/QApplication>
@@ -53,6 +54,7 @@ int main(int argc, char** argv) {
   CalibrationControl calibrationControl;
   VersionControl versionControl;
   TimeControl timeControl;
+  ParametersControl parametersControl;
   ReadThread::getInstance().start();
 
   mainWindow.addControl("Navigation", navigationControl);
@@ -67,6 +69,7 @@ int main(int argc, char** argv) {
   mainWindow.addControl("Calibration", calibrationControl);
   mainWindow.addControl("Version", versionControl);
   mainWindow.addControl("Time", timeControl);
+  mainWindow.addControl("Parameters", parametersControl);
 
   mainWindow.show();
 

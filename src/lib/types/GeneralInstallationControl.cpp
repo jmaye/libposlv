@@ -18,7 +18,8 @@
 
 #include "types/GeneralInstallationControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,9 +53,8 @@ GeneralInstallationControl::~GeneralInstallationControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GeneralInstallationControl::read(POSLVControl& stream)
+void GeneralInstallationControl::read(POSLVMessageRead& stream)
   throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -156,12 +156,11 @@ void GeneralInstallationControl::read(POSLVControl& stream)
   if (pad != 0)
     throw IOException("GeneralInstallationControl::read(): wrong pad");
   mChecksum += pad;
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void GeneralInstallationControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void GeneralInstallationControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -259,7 +258,6 @@ void GeneralInstallationControl::write(POSLVControl& stream) const {
   uint16_t pad = 0;
   stream << pad;
   checksum += pad;
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

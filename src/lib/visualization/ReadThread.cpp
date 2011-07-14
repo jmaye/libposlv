@@ -57,8 +57,13 @@ void ReadThread::run() {
       if (group == NULL)
         continue;
       emit groupRead(group);
-      emit deviceConnected(true);
       mGroupPtrList.push_back(group);
+      const Message* message = mDevice.readMessage();
+      if (message == NULL)
+        continue;
+      emit messageRead(message);
+      emit deviceConnected(true);
+      mMessagePtrList.push_back(message);
     }
     catch (const IOException& e) {
       std::cout << e.what() << std::endl;

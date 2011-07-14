@@ -71,8 +71,6 @@ public:
   std::vector<uint16_t> mGroupsIDVector;
   /// Output rate
   uint16_t mOutputRate;
-  /// Checksum when receiving
-  uint16_t mChecksum;
   /// Prototype for this group
   static const PrimaryDataPortControl mProto;
   /** @}
@@ -91,9 +89,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream) throw (IOException);
+  virtual void read(POSLVMessageRead& stream) throw (IOException);
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const throw (IOException);
+  virtual void write(POSLVMessageWrite& stream) const throw (IOException);
   /** @}
     */
 

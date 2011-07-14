@@ -18,7 +18,8 @@
 
 #include "types/PrimaryDataPortControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -52,8 +53,8 @@ PrimaryDataPortControl::~PrimaryDataPortControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void PrimaryDataPortControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void PrimaryDataPortControl::read(POSLVMessageRead& stream)
+  throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -80,15 +81,14 @@ void PrimaryDataPortControl::read(POSLVControl& stream) throw (IOException) {
     if (pad != 0)
       throw IOException("PrimaryDataPortControl::read(): wrong pad");
   }
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void PrimaryDataPortControl::write(POSLVControl& stream) const
+void PrimaryDataPortControl::write(POSLVMessageWrite& stream) const
   throw (IOException) {
   if (mGroupsIDVector.size() != mNumGroups)
     throw IOException("PrimaryDataPortControl::write(): wrong number of groups");
-  uint16_t checksum = 19748 + 18259; // for $MSG
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   size_t padSize = (mNumGroups % 2) * 2;
@@ -109,7 +109,6 @@ void PrimaryDataPortControl::write(POSLVControl& stream) const
     stream << pad;
     checksum += pad;
   }
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

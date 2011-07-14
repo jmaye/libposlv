@@ -30,7 +30,8 @@
 
 #include <stdint.h>
 
-class POSLVControl;
+class POSLVMessageRead;
+class POSLVMessageWrite;
 
 /** The class Message is the base class for all Applanix messages.
     \brief Base class for Applanix messages
@@ -38,9 +39,10 @@ class POSLVControl;
 class Message :
   public virtual Serializable {
   /// Stream operator for reading from a connection
-  friend POSLVControl& operator >> (POSLVControl& stream, Message& obj);
+  friend POSLVMessageRead& operator >> (POSLVMessageRead& stream, Message& obj);
   /// Stream operator for writing to a connection
-  friend POSLVControl& operator << (POSLVControl& stream, const Message& obj);
+  friend POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const
+    Message& obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -61,6 +63,8 @@ public:
     */
   /// Returns the type ID of the Message
   uint16_t getTypeID() const;
+  /// Returns the checksum of the Message
+  uint16_t getChecksum() const;
   /** @}
     */
 
@@ -113,9 +117,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const = 0;
   /// Reads from the network
-  virtual void read(POSLVControl& stream) = 0;
+  virtual void read(POSLVMessageRead& stream) = 0;
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const = 0;
+  virtual void write(POSLVMessageWrite& stream) const = 0;
   /** @}
     */
 
@@ -124,6 +128,8 @@ protected:
     */
   /// Type ID
   uint16_t mTypeID;
+  /// Computed checksum when reading
+  uint16_t mChecksum;
   /** @}
     */
 

@@ -70,8 +70,6 @@ public:
   COMPortParameters mpParameters[10];
   /// Port mask
   uint16_t mPortMask;
-  /// Checksum when receiving
-  uint16_t mChecksum;
   /// Prototype for this group
   static const COMPortControl mProto;
   /** @}
@@ -90,9 +88,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream) throw (IOException);
+  virtual void read(POSLVMessageRead& stream) throw (IOException);
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const throw (IOException);
+  virtual void write(POSLVMessageWrite& stream) const throw (IOException);
   /** @}
     */
 

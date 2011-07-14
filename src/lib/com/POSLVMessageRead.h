@@ -16,34 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file POSLVGroupRead.h
-    \brief This file defines the POSLVGroupRead class which is an interface for
-           all groups reading from the Applanix device.
+/** \file POSLVMessageRead.h
+    \brief This file defines the POSLVMessageRead class which is an interface
+           for all messages reading from the Applanix device.
   */
 
-#ifndef POSLVGROUPREAD_H
-#define POSLVGROUPREAD_H
+#ifndef POSLVMESSAGEREAD_H
+#define POSLVMESSAGEREAD_H
 
-#include "types/Group.h"
+#include "types/Message.h"
 #include "exceptions/IOException.h"
 
-/** The POSLVGroupRead class is an interface for all groups reading from the
+/** The POSLVMessageRead class is an interface for all messages reading from the
     Applanix device.
-    \brief Applanix POS LV reading interface for groups
+    \brief Applanix POS LV reading interface for messages
   */
-class POSLVGroupRead {
+class POSLVMessageRead {
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Default constructor
-  POSLVGroupRead();
+  POSLVMessageRead();
   /// Copy constructor
-  POSLVGroupRead(const POSLVGroupRead& other);
+  POSLVMessageRead(const POSLVMessageRead& other);
   /// Assignment operator
-  POSLVGroupRead& operator = (const POSLVGroupRead& other);
+  POSLVMessageRead& operator = (const POSLVMessageRead& other);
   /// Destructor
-  virtual ~POSLVGroupRead();
+  virtual ~POSLVMessageRead();
   /** @}
     */
 
@@ -51,33 +51,33 @@ public:
     @{
     */
   /// Reads 8-bit signed integer
-  POSLVGroupRead& operator >> (int8_t& value);
+  POSLVMessageRead& operator >> (int8_t& value);
   /// Reads 8-bit unsigned integer
-  POSLVGroupRead& operator >> (uint8_t& value);
+  POSLVMessageRead& operator >> (uint8_t& value);
   /// Reads 16-bit signed integer
-  POSLVGroupRead& operator >> (int16_t& value);
+  POSLVMessageRead& operator >> (int16_t& value);
   /// Reads 16-bit unsigned integer
-  POSLVGroupRead& operator >> (uint16_t& value);
+  POSLVMessageRead& operator >> (uint16_t& value);
   /// Reads 32-bit signed integer
-  POSLVGroupRead& operator >> (int32_t& value);
+  POSLVMessageRead& operator >> (int32_t& value);
   /// Reads 32-bit unsigned integer
-  POSLVGroupRead& operator >> (uint32_t& value);
+  POSLVMessageRead& operator >> (uint32_t& value);
   /// Reads 64-bit signed integer
-  POSLVGroupRead& operator >> (int64_t& value);
+  POSLVMessageRead& operator >> (int64_t& value);
   /// Reads 64-bit unsigned integer
-  POSLVGroupRead& operator >> (uint64_t& value);
+  POSLVMessageRead& operator >> (uint64_t& value);
   /// Reads 32-bit floating point
-  POSLVGroupRead& operator >> (float& value);
+  POSLVMessageRead& operator >> (float& value);
   /// Reads 64-bit floating point
-  POSLVGroupRead& operator >> (double& value);
+  POSLVMessageRead& operator >> (double& value);
   /** @}
     */
 
   /** \name Methods
     @{
     */
-  /// Reads a group from the network
-  const Group* readGroup() throw (IOException);
+  /// Reads a message from the network
+  const Message* readMessage() throw (IOException);
   /** @}
     */
 
@@ -88,12 +88,12 @@ protected:
   /// Reads a buffer of byte
   virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) = 0;
   /// Reads the start of a group
-  void readStartGroup();
+  void readStartMessage();
   /// Reads the end of a group
-  std::string readEndGroup();
+  std::string readEndMessage();
   /** @}
     */
 
 };
 
-#endif // POSLVGROUPREAD
+#endif // POSLVMESSAGEREAD

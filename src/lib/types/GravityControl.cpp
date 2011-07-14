@@ -18,7 +18,8 @@
 
 #include "types/GravityControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -34,13 +35,11 @@ GravityControl::GravityControl() :
   Message(40) {
 }
 
-GravityControl::GravityControl(const GravityControl&
-  other) :
+GravityControl::GravityControl(const GravityControl& other) :
   Message(other) {
 }
 
-GravityControl& GravityControl::operator =
-  (const GravityControl& other) {
+GravityControl& GravityControl::operator = (const GravityControl& other) {
   this->Message::operator=(other);
   return *this;
 }
@@ -52,8 +51,7 @@ GravityControl::~GravityControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GravityControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void GravityControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -97,12 +95,11 @@ void GravityControl::read(POSLVControl& stream) throw (IOException) {
   if (pad != 0)
     throw IOException("GravityControl::read(): wrong pad");
   mChecksum += pad;
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void GravityControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void GravityControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -142,7 +139,6 @@ void GravityControl::write(POSLVControl& stream) const {
   uint16_t pad = 0;
   stream << pad;
   checksum += pad;
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

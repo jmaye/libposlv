@@ -18,7 +18,8 @@
 
 #include "types/ZUPDControl.h"
 
-#include "com/POSLVControl.h"
+#include "com/POSLVMessageRead.h"
+#include "com/POSLVMessageWrite.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -34,13 +35,11 @@ ZUPDControl::ZUPDControl() :
   Message(25) {
 }
 
-ZUPDControl::ZUPDControl(const ZUPDControl&
-  other) :
+ZUPDControl::ZUPDControl(const ZUPDControl& other) :
   Message(other) {
 }
 
-ZUPDControl& ZUPDControl::operator =
-  (const ZUPDControl& other) {
+ZUPDControl& ZUPDControl::operator = (const ZUPDControl& other) {
   this->Message::operator=(other);
   return *this;
 }
@@ -52,8 +51,7 @@ ZUPDControl::~ZUPDControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void ZUPDControl::read(POSLVControl& stream) throw (IOException) {
-  mChecksum = 19748 + 18259; // for $MSG
+void ZUPDControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -76,12 +74,11 @@ void ZUPDControl::read(POSLVControl& stream) throw (IOException) {
   stream >> mZUPDStd;
   mChecksum += ((uint16_t*)&mZUPDStd)[0];
   mChecksum += ((uint16_t*)&mZUPDStd)[1];
-  mChecksum += 8996; // for $#
   mChecksum = 65536 - mChecksum;
 }
 
-void ZUPDControl::write(POSLVControl& stream) const {
-  uint16_t checksum = 19748 + 18259; // for $MSG
+void ZUPDControl::write(POSLVMessageWrite& stream) const {
+  uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
   stream << mByteCount;
@@ -102,7 +99,6 @@ void ZUPDControl::write(POSLVControl& stream) const {
   stream << mZUPDStd;
   checksum += ((uint16_t*)&mZUPDStd)[0];
   checksum += ((uint16_t*)&mZUPDStd)[1];
-  checksum += 8996; // for $#
   checksum = 65536 - checksum;
   stream << checksum;
 }

@@ -26,6 +26,7 @@
 
 #include "base/UDPConnectionServer.h"
 #include "com/POSLVGroupRead.h"
+#include "com/POSLVMessageRead.h"
 
 #include <queue>
 
@@ -35,7 +36,8 @@
   */
 class POSLVDisplay :
   public UDPConnectionServer,
-  public POSLVGroupRead {
+  public POSLVGroupRead,
+  public POSLVMessageRead {
 public:
   /** \name Constructors/destructor
     @{

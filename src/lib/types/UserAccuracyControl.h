@@ -71,8 +71,6 @@ public:
   float mPositionAccuracy;
   /// Velocity accuracy
   float mVelocityAccuracy;
-  /// Checksum when receiving
-  uint16_t mChecksum;
   /// Prototype for this group
   static const UserAccuracyControl mProto;
   /** @}
@@ -91,9 +89,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVControl& stream) throw (IOException);
+  virtual void read(POSLVMessageRead& stream) throw (IOException);
   /// Writes to the network
-  virtual void write(POSLVControl& stream) const;
+  virtual void write(POSLVMessageWrite& stream) const;
   /** @}
     */
 
