@@ -18,7 +18,7 @@
 
 #include "visualization/VersionControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/VersionStatistics.h"
 #include "ui_VersionControl.h"
 
@@ -30,8 +30,8 @@ VersionControl::VersionControl() :
   mpUi(new Ui_VersionControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 }
 
 VersionControl::~VersionControl() {

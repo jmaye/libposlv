@@ -18,7 +18,7 @@
 
 #include "visualization/TimeControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/PPSTimeRecoveryStatus.h"
 #include "ui_TimeControl.h"
 
@@ -30,8 +30,8 @@ TimeControl::TimeControl() :
   mpUi(new Ui_TimeControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 }
 
 TimeControl::~TimeControl() {

@@ -19,7 +19,7 @@
 #include "visualization/Aux2GPSControl.h"
 
 #include "types/Auxiliary2GPSStatus.h"
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "ui_Aux2GPSControl.h"
 
 /******************************************************************************/
@@ -30,8 +30,8 @@ Aux2GPSControl::Aux2GPSControl() :
   mpUi(new Ui_Aux2GPSControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mStatusMsg[-1] = "Unknown";
   mStatusMsg[0] = "No data from receiver";

@@ -16,52 +16,52 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/DMIControl.h"
-
-#include "visualization/ReadThreadGroup.h"
-#include "types/TimeTaggedDMIData.h"
-#include "ui_DMIControl.h"
+#include "visualization/ReadThreadMessage.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-DMIControl::DMIControl() :
-  mpUi(new Ui_DMIControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
-  mStatusMsg[0] = "Invalid";
-  mStatusMsg[1] = "Valid";
-  mStatusMsg[2] = "Scale factor change";
-
-  mTypeMsg[0] = "None";
-  mTypeMsg[1] = "Pulse and direction";
-  mTypeMsg[2] = "Quadrature";
+ReadThreadMessage::ReadThreadMessage(double pollTime) :
+  mPollTime(pollTime),
+  mDevice(5600) {
 }
 
-DMIControl::~DMIControl() {
-  delete mpUi;
+ReadThreadMessage::~ReadThreadMessage() {
+  while (mMessagePtrList.size()) {
+    delete mMessagePtrList.front();
+    mMessagePtrList.pop_front();
+  }
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
+double ReadThreadMessage::getPollTime() const {
+  return mPollTime;
+}
+
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void DMIControl::groupRead(const Group* group) {
-  if (group->instanceOf<TimeTaggedDMIData>() == true) {
-    const TimeTaggedDMIData& msg = group->typeCast<TimeTaggedDMIData>();
-    mpUi->signedSpinBox->setValue(msg.mSignedDistanceTraveled);
-    mpUi->unsignedSpinBox->setValue(msg.mUnsignedDistanceTraveled);
-    mpUi->scaleSpinBox->setValue(msg.mDMIScaleFactor);
-    mpUi->rateSpinBox->setValue(msg.mDMIDataRate);
-    mpUi->statusText->setText(mStatusMsg[msg.mDataStatus].c_str());
-    mpUi->typeText->setText(mTypeMsg[msg.mDMIType].c_str());
+void ReadThreadMessage::run() {
+  while (true) {
+    try {
+      const Message* message = mDevice.readMessage();
+      if (message == NULL)
+        continue;
+      emit messageRead(message);
+      mMessagePtrList.push_back(message);
+      if (mMessagePtrList.size() > 100) {
+        delete mMessagePtrList.front();
+        mMessagePtrList.pop_front();
+      }
+    }
+    catch (const IOException& e) {
+      std::cout << e.what() << std::endl;
+    }
+    usleep(mPollTime * 1e6);
   }
 }

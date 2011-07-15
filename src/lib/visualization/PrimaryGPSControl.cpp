@@ -18,7 +18,7 @@
 
 #include "visualization/PrimaryGPSControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/PrimaryGPSStatus.h"
 #include "types/PPSTimeRecoveryStatus.h"
 #include "ui_PrimaryGPSControl.h"
@@ -31,8 +31,8 @@ PrimaryGPSControl::PrimaryGPSControl() :
   mpUi(new Ui_PrimaryGPSControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mStatusMsg[-1] = "Unknown";
   mStatusMsg[0] = "No data from receiver";

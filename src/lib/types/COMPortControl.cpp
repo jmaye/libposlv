@@ -55,7 +55,7 @@ void COMPortControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
-  mChecksum += mByteCount;
+  mChecksum += byteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
   stream >> mNumPorts;

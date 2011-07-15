@@ -18,7 +18,7 @@
 
 #include "visualization/ParametersControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadMessage.h"
 #include "types/IPControl.h"
 #include "types/AidingSensorControl.h"
 #include "types/GAMSInstallationControl.h"
@@ -37,7 +37,8 @@ ParametersControl::ParametersControl() :
   mpUi(new Ui_ParametersControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(messageRead(const Message*)), this,
+  connect(&ReadThreadMessage::getInstance(),
+    SIGNAL(messageRead(const Message*)), this,
     SLOT(messageRead(const Message*)));
 
   mZUPDCtrlMsg[0] = "no ZUPD";
@@ -110,6 +111,7 @@ void ParametersControl::messageRead(const Message* message) {
   }
   if (message->instanceOf<GravityControl>() == true) {
     const GravityControl& msg = message->typeCast<GravityControl>();
+    std::cout << msg.mMagnitude << std::endl;
     mpUi->magnitudeSpinBox->setValue(msg.mMagnitude);
     mpUi->northDefSpinBox->setValue(msg.mNorthDeflection);
     mpUi->eastDefSpinBox->setValue(msg.mEastDeflection);
@@ -141,7 +143,7 @@ void ParametersControl::messageRead(const Message* message) {
     const GeneralInstallationControl& msg =
       message->typeCast<GeneralInstallationControl>();
   mpUi->time1Text->setText(mTimeTypesMsg[msg.mTimeTypes & 0x0F].c_str());
-  mpUi->time1Text->setText(mTimeTypesMsg[(msg.mTimeTypes >> 4) & 0x0F].c_str());
+  mpUi->time2Text->setText(mTimeTypesMsg[(msg.mTimeTypes >> 4) & 0x0F].c_str());
   mpUi->distTypeText->setText(mDistanceTypeMsg[msg.mDistanceType].c_str());
   mpUi->autoStartText->setText(mAutoStartMsg[msg.mAutoStart].c_str());
   mpUi->refIMUXSpinBox->setValue(msg.mRefIMUX);

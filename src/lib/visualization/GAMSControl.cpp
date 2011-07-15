@@ -18,7 +18,7 @@
 
 #include "visualization/GAMSControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/GAMSSolutionStatus.h"
 #include "ui_GAMSControl.h"
 
@@ -30,8 +30,8 @@ GAMSControl::GAMSControl() :
   mpUi(new Ui_GAMSControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mStatusMsg[0] = "Fixed integer";
   mStatusMsg[1] = "Fixed integer test install data";

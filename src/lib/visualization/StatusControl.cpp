@@ -18,7 +18,7 @@
 
 #include "visualization/StatusControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/GeneralStatusFDIR.h"
 #include "ui_StatusControl.h"
 
@@ -32,8 +32,8 @@ StatusControl::StatusControl() :
   mpUi(new Ui_StatusControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mpUi->coarseLevelingActiveLed->setColor(Qt::red);
   mpUi->coarseLevelingFailedLed->setColor(Qt::red);

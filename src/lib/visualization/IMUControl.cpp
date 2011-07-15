@@ -18,7 +18,7 @@
 
 #include "visualization/IMUControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/TimeTaggedIMUData.h"
 #include "ui_IMUControl.h"
 
@@ -32,8 +32,8 @@ IMUControl::IMUControl() :
   mpUi(new Ui_IMUControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mStatusMsg[0] = "1 bad raw IMU frame";
   mStatusMsg[1] = "2 bad raw IMU frames";

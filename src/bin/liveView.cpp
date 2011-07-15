@@ -36,7 +36,8 @@
 #include "visualization/TimeControl.h"
 #include "visualization/ParametersControl.h"
 #include "visualization/PortControl.h"
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
+#include "visualization/ReadThreadMessage.h"
 
 #include <QtGui/QApplication>
 
@@ -57,7 +58,8 @@ int main(int argc, char** argv) {
   TimeControl timeControl;
   ParametersControl parametersControl;
   PortControl portControl;
-  ReadThread::getInstance().start();
+  ReadThreadGroup::getInstance().start();
+  ReadThreadMessage::getInstance().start();
 
   mainWindow.addControl("Navigation", navigationControl);
   mainWindow.addControl("Primary GPS", primaryGPSControl);

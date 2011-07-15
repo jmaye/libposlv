@@ -18,7 +18,7 @@
 
 #include "visualization/CalibrationControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/CalibratedInstallationParams.h"
 #include "ui_CalibrationControl.h"
 
@@ -32,8 +32,8 @@ CalibrationControl::CalibrationControl() :
   mpUi(new Ui_CalibrationControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mpUi->primGPSProgressLed->setColor(Qt::red);
   mpUi->dmiLeverProgressLed->setColor(Qt::red);

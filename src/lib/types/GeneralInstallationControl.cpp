@@ -81,11 +81,13 @@ void GeneralInstallationControl::read(POSLVMessageRead& stream)
   mChecksum += (((uint8_t*)&mRefPrimGPSX)[2] << 8) |
     ((uint8_t*)&mRefPrimGPSX)[1];
   stream >> mRefPrimGPSY;
-  mChecksum += (((uint8_t*)&mRefPrimGPSY)[0] << 8) | ((uint8_t*)&mRefIMUX)[3];
+  mChecksum += (((uint8_t*)&mRefPrimGPSY)[0] << 8) |
+    ((uint8_t*)&mRefPrimGPSX)[3];
   mChecksum += (((uint8_t*)&mRefPrimGPSY)[2] << 8) |
     ((uint8_t*)&mRefPrimGPSY)[1];
   stream >> mRefPrimGPSZ;
-  mChecksum += (((uint8_t*)&mRefPrimGPSZ)[0] << 8) | ((uint8_t*)&mRefIMUY)[3];
+  mChecksum += (((uint8_t*)&mRefPrimGPSZ)[0] << 8) |
+    ((uint8_t*)&mRefPrimGPSY)[3];
   mChecksum += (((uint8_t*)&mRefPrimGPSZ)[2] << 8) |
     ((uint8_t*)&mRefPrimGPSZ)[1];
   stream >> mRefAux1GPSX;

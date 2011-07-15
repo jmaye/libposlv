@@ -18,7 +18,7 @@
 
 #include "visualization/NavigationControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/VehicleNavigationPerformance.h"
 #include "types/VehicleNavigationSolution.h"
 #include "ui_NavigationControl.h"
@@ -31,8 +31,8 @@ NavigationControl::NavigationControl() :
   mpUi(new Ui_NavigationControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mStatusMsg[0] = "Full navigation";
   mStatusMsg[1] = "Fine alignment active";

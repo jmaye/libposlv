@@ -16,22 +16,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-ReadThread::ReadThread(double pollTime) :
+ReadThreadGroup::ReadThreadGroup(double pollTime) :
   mPollTime(pollTime),
   mDevice("129.132.39.171", 5602) {
-  mpTimer = new QTimer(this);
-  connect(mpTimer, SIGNAL(timeout()), this, SLOT(update()));
-  mpTimer->start(1);
 }
 
-ReadThread::~ReadThread() {
-  delete mpTimer;
+ReadThreadGroup::~ReadThreadGroup() {
   while (mGroupPtrList.size()) {
     delete mGroupPtrList.front();
     mGroupPtrList.pop_front();
@@ -42,7 +38,7 @@ ReadThread::~ReadThread() {
 /* Accessors                                                                  */
 /******************************************************************************/
 
-double ReadThread::getPollTime() const {
+double ReadThreadGroup::getPollTime() const {
   return mPollTime;
 }
 
@@ -50,7 +46,7 @@ double ReadThread::getPollTime() const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void ReadThread::run() {
+void ReadThreadGroup::run() {
   while (true) {
     try {
       const Group* group = mDevice.readGroup();
@@ -58,24 +54,16 @@ void ReadThread::run() {
         continue;
       emit groupRead(group);
       mGroupPtrList.push_back(group);
-      const Message* message = mDevice.readMessage();
-      if (message == NULL)
-        continue;
-      emit messageRead(message);
+      if (mGroupPtrList.size() > 100) {
+        delete mGroupPtrList.front();
+        mGroupPtrList.pop_front();
+      }
       emit deviceConnected(true);
-      mMessagePtrList.push_back(message);
     }
     catch (const IOException& e) {
       std::cout << e.what() << std::endl;
       emit deviceConnected(false);
     }
     //usleep(mPollTime * 1e6);
-  }
-}
-
-void ReadThread::update() {
-  while (mGroupPtrList.size() > 100) {
-    delete mGroupPtrList.front();
-    mGroupPtrList.pop_front();
   }
 }

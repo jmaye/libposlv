@@ -18,7 +18,7 @@
 
 #include "visualization/MainWindow.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "ui_MainWindow.h"
 
 /******************************************************************************/
@@ -33,7 +33,7 @@ MainWindow::MainWindow() :
 
   mpUi->statusBar->showMessage("Disconnected");
 
-  connect(&ReadThread::getInstance(), SIGNAL(deviceConnected(bool)), this,
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(deviceConnected(bool)), this,
     SLOT(deviceConnected(bool)));
 }
 

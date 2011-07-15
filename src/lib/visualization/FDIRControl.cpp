@@ -18,7 +18,7 @@
 
 #include "visualization/FDIRControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/GeneralStatusFDIR.h"
 #include "ui_FDIRControl.h"
 
@@ -32,8 +32,8 @@ FDIRControl::FDIRControl() :
   mpUi(new Ui_FDIRControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mpUi->imuPosErrorLed->setColor(Qt::red);
   mpUi->imuStatusLed->setColor(Qt::red);

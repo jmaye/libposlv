@@ -58,12 +58,12 @@ void PrimaryDataPortControl::read(POSLVMessageRead& stream)
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
-  mChecksum += mByteCount;
+  mChecksum += byteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
   stream >> mNumGroups;
   mChecksum += mNumGroups;
-  size_t padSize = (mNumGroups % 2) * 2;
+  size_t padSize = (mNumGroups % 2) ? 0 : 2;
   if (byteCount != (mByteCount + (2 * mNumGroups) + padSize))
     throw IOException("PrimaryDataPortControl::read(): wrong byte count");
   for (size_t i = 0; i < mNumGroups; i++) {
@@ -91,7 +91,7 @@ void PrimaryDataPortControl::write(POSLVMessageWrite& stream) const
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;
-  size_t padSize = (mNumGroups % 2) * 2;
+  size_t padSize = (mNumGroups % 2) ? 0 : 2;
   stream << mByteCount + (2 * mNumGroups) + padSize;
   checksum += mByteCount + (2 * mNumGroups) + padSize;
   stream << mTransactionNumber;

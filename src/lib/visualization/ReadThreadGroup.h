@@ -16,29 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file ReadThread.h
-    \brief This file defines the ReadThread class which handles the
-           communication with the Applanix
+/** \file ReadThreadGroup.h
+    \brief This file defines the ReadThreadGroup class which handles the
+           communication with the Applanix for reading groups
   */
 
-#ifndef READTHREAD_H
-#define READTHREAD_H
+#ifndef READTHREADGROUP_H
+#define READTHREADGROUP_H
 
 #include "base/Singleton.h"
 #include "types/Group.h"
-#include "types/Message.h"
-#include "com/POSLVDisplay.h"
 #include "com/POSLVData.h"
 
 #include <QtCore/QThread>
-#include <QtCore/QTimer>
 
-/** The ReadThread class handles the communication with the Applanix.
-    \brief Read thread
+/** The ReadThreadGroup class handles the communication with the Applanix for
+    reading groups.
+    \brief Read thread for groups
   */
-class ReadThread :
+class ReadThreadGroup :
   public QThread,
-  public Singleton<ReadThread> {
+  public Singleton<ReadThreadGroup> {
 Q_OBJECT
 
 public:
@@ -46,9 +44,9 @@ public:
     @{
     */
   /// Default constructor
-  ReadThread(double pollTime = 0.1);
+  ReadThreadGroup(double pollTime = 0.1);
   /// Destructor
-  virtual ~ReadThread();
+  virtual ~ReadThreadGroup();
   /** @}
     */
 
@@ -74,24 +72,10 @@ protected:
     */
   /// Time frequency [s] to poll the network
   double mPollTime;
-  /// Device for reading through the network
-  //POSLVDisplay mDevice;
+  /// Device for reading through the network (TCP)
   POSLVData mDevice;
   /// Storage for the Group pointers
   std::list<const Group*> mGroupPtrList;
-  /// Storage for the Message pointers
-  std::list<const Message*> mMessagePtrList;
-  /// Timer for emptying the list
-  QTimer* mpTimer;
-  /** @}
-    */
-
-protected slots:
-  /** \name Slots
-    @{
-    */
-  /// Timer triggered
-  void update();
   /** @}
     */
 
@@ -101,8 +85,6 @@ signals:
     */
   /// Emitted when an Applanix group is read
   void groupRead(const Group* group);
-  /// Emitted when an Applanix message is read
-  void messageRead(const Message* message);
   /// Emitted when the device is connected or disconnected
   void deviceConnected(bool connected);
   /** @}
@@ -110,4 +92,4 @@ signals:
 
 };
 
-#endif // READTHREAD_H
+#endif // READTHREADGROUP_H

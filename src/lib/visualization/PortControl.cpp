@@ -18,7 +18,7 @@
 
 #include "visualization/PortControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadMessage.h"
 #include "types/DisplayPortControl.h"
 #include "types/PrimaryDataPortControl.h"
 #include "types/SecondaryDataPortControl.h"
@@ -35,7 +35,8 @@ PortControl::PortControl() :
   mpUi(new Ui_PortControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(messageRead(const Message*)), this,
+  connect(&ReadThreadMessage::getInstance(),
+    SIGNAL(messageRead(const Message*)), this,
     SLOT(messageRead(const Message*)));
 
   mBaudrateMap[0] = 2400;
@@ -101,8 +102,8 @@ void PortControl::messageRead(const Message* message) {
     std::stringstream portStream;
     for (size_t i = 0; i < msg.mNumGroups; i++)
       portStream << msg.mGroupsIDVector[i] << std::endl;
-    portStream << "Data Rate: " << msg.mOutputRate << "[Hz]" << std::endl;
-    mpUi->displayPortText->setText(portStream.str().c_str());
+    portStream << "Data Rate: " << msg.mOutputRate << " [Hz]" << std::endl;
+    mpUi->primDataPortText->setText(portStream.str().c_str());
   }
   if (message->instanceOf<SecondaryDataPortControl>() == true) {
     const SecondaryDataPortControl& msg =
@@ -110,8 +111,8 @@ void PortControl::messageRead(const Message* message) {
     std::stringstream portStream;
     for (size_t i = 0; i < msg.mNumGroups; i++)
       portStream << msg.mGroupsIDVector[i] << std::endl;
-    portStream << "Data Rate: " << msg.mOutputRate << "[Hz]" << std::endl;
-    mpUi->displayPortText->setText(portStream.str().c_str());
+    portStream << "Data Rate: " << msg.mOutputRate << " [Hz]" << std::endl;
+    mpUi->secDataPortText->setText(portStream.str().c_str());
   }
   if (message->instanceOf<COMPortControl>() == true) {
     const COMPortControl& msg = message->typeCast<COMPortControl>();

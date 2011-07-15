@@ -18,7 +18,7 @@
 
 #include "visualization/IINControl.h"
 
-#include "visualization/ReadThread.h"
+#include "visualization/ReadThreadGroup.h"
 #include "types/IINSolutionStatus.h"
 #include "ui_IINControl.h"
 
@@ -30,8 +30,8 @@ IINControl::IINControl() :
   mpUi(new Ui_IINControl()) {
   mpUi->setupUi(this);
 
-  connect(&ReadThread::getInstance(), SIGNAL(groupRead(const Group*)), this,
-    SLOT(groupRead(const Group*)));
+  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
+    this, SLOT(groupRead(const Group*)));
 
   mStatusMsg[1] = "Fixed narrow lane RTK";
   mStatusMsg[2] = "Fixed wide lane RTK";
