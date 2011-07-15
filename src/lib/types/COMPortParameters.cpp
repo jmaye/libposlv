@@ -48,6 +48,8 @@ void COMPortParameters::read(POSLVMessageRead& stream) {
   stream >> mParity;
   stream >> mDataStopBits;
   stream >> mFlowControl;
+  stream >> mInputSelect;
+  stream >> mOutputSelect;
 }
 
 void COMPortParameters::write(POSLVMessageWrite& stream) const {
@@ -55,6 +57,8 @@ void COMPortParameters::write(POSLVMessageWrite& stream) const {
   stream << mParity;
   stream << mDataStopBits;
   stream << mFlowControl;
+  stream << mInputSelect;
+  stream << mOutputSelect;
 }
 
 void COMPortParameters::read(std::istream& stream) {
@@ -88,5 +92,7 @@ POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const
 uint16_t COMPortParameters::getChecksum() const {
   uint16_t checksum = (mParity << 8) | mBaudrate;
   checksum += (mFlowControl << 8) | mDataStopBits;
+  checksum += mInputSelect;
+  checksum += mOutputSelect;
   return checksum;
 }

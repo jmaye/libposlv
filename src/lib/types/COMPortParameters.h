@@ -71,6 +71,10 @@ public:
   uint8_t mDataStopBits;
   /// Flow Control
   uint8_t mFlowControl;
+  /// Input select
+  uint16_t mInputSelect;
+  /// Output select
+  uint16_t mOutputSelect;
   /** @}
     */
 

@@ -35,6 +35,7 @@
 #include "visualization/VersionControl.h"
 #include "visualization/TimeControl.h"
 #include "visualization/ParametersControl.h"
+#include "visualization/PortControl.h"
 #include "visualization/ReadThread.h"
 
 #include <QtGui/QApplication>
@@ -55,6 +56,7 @@ int main(int argc, char** argv) {
   VersionControl versionControl;
   TimeControl timeControl;
   ParametersControl parametersControl;
+  PortControl portControl;
   ReadThread::getInstance().start();
 
   mainWindow.addControl("Navigation", navigationControl);
@@ -70,6 +72,7 @@ int main(int argc, char** argv) {
   mainWindow.addControl("Version", versionControl);
   mainWindow.addControl("Time", timeControl);
   mainWindow.addControl("Parameters", parametersControl);
+  mainWindow.addControl("Ports", portControl);
 
   mainWindow.show();
 
