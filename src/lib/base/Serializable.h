@@ -55,7 +55,7 @@ public:
   Serializable();
   /// Copy constructor
   Serializable(const Serializable& other);
-  //// Assignment operator
+  /// Assignment operator
   Serializable& operator = (const Serializable& other);
   /// Destructor
   virtual ~Serializable();
