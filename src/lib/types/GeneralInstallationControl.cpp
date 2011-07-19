@@ -187,11 +187,13 @@ void GeneralInstallationControl::write(POSLVMessageWrite& stream) const {
   checksum += (((uint8_t*)&mRefPrimGPSX)[2] << 8) |
     ((uint8_t*)&mRefPrimGPSX)[1];
   stream << mRefPrimGPSY;
-  checksum += (((uint8_t*)&mRefPrimGPSY)[0] << 8) | ((uint8_t*)&mRefIMUX)[3];
+  checksum += (((uint8_t*)&mRefPrimGPSY)[0] << 8) |
+    ((uint8_t*)&mRefPrimGPSX)[3];
   checksum += (((uint8_t*)&mRefPrimGPSY)[2] << 8) |
     ((uint8_t*)&mRefPrimGPSY)[1];
   stream << mRefPrimGPSZ;
-  checksum += (((uint8_t*)&mRefPrimGPSZ)[0] << 8) | ((uint8_t*)&mRefIMUY)[3];
+  checksum += (((uint8_t*)&mRefPrimGPSZ)[0] << 8) |
+    ((uint8_t*)&mRefPrimGPSY)[3];
   checksum += (((uint8_t*)&mRefPrimGPSZ)[2] << 8) |
     ((uint8_t*)&mRefPrimGPSZ)[1];
   stream << mRefAux1GPSX;

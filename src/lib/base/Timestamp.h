@@ -51,7 +51,7 @@ public:
   /** \name Accessors
     @{
     */
-  //// Access the timestamp's value in seconds
+  /// Access the timestamp's value in seconds
   double getSeconds() const;
   /** @}
     */
