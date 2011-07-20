@@ -16,37 +16,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file TypeCreationException.h
-    \brief This file defines the TypeCreationException class, which
-           is thrown whenever an exception occured when creating a type
+/** \file BadArgumentException.h
+    \brief This file defines the BadArgumentException class, which
+           is thrown whenever the arguments of a function are invalid
   */
 
-#ifndef TYPECREATIONEXCEPTION_H
-#define TYPECREATIONEXCEPTION_H
+#ifndef BADARGUMENTEXCEPTION_H
+#define BADARGUMENTEXCEPTION_H
 
 #include <exception>
 #include <string>
 
-/** The class TypeCreationException represents any exceptions occuring when
-    creating a type.
-    \brief Type creation exception
+/** The class BadArgumentException represents any
+    exceptions occuring when the arguments passed to a function are invalid.
+    \brief Bad argument exception
   */
-template <typename X> class TypeCreationException :
+template <typename X> class BadArgumentException :
   public std::exception {
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Constructs exception from argument and string
-  TypeCreationException(const X& argument, const std::string& msg, const
+  BadArgumentException(const X& argument, const std::string& msg, const
     std::string& filename = " ", size_t line = 0);
   /// Copy constructor
-  TypeCreationException(const TypeCreationException& other) throw ();
+  BadArgumentException(const BadArgumentException& other) throw();
   /// Assignment operator
-  TypeCreationException& operator = (const TypeCreationException& other)
-    throw ();
+  BadArgumentException& operator = (const BadArgumentException& other) throw();
   /// Destructor
-  virtual ~TypeCreationException() throw ();
+  virtual ~BadArgumentException() throw();
   /** @}
     */
 
@@ -54,7 +53,7 @@ public:
     @{
     */
   /// Access the exception string
-  virtual const char* what() const throw ();
+  virtual const char* what() const throw();
   /** @}
     */
 
@@ -75,6 +74,6 @@ protected:
 
 };
 
-#include "exceptions/TypeCreationException.tpp"
+#include "exceptions/BadArgumentException.tpp"
 
-#endif // TYPECREATIONEXCEPTION_H
+#endif // BADARGUMENTEXCEPTION_H

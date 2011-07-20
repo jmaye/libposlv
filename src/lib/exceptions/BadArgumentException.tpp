@@ -23,7 +23,7 @@
 /******************************************************************************/
 
 template <typename X>
-TypeCreationException<X>::TypeCreationException(const X& argument,
+BadArgumentException<X>::BadArgumentException(const X& argument,
   const std::string& msg, const std::string& filename, size_t line) :
   mMsg(msg),
   mArg(argument),
@@ -32,8 +32,8 @@ TypeCreationException<X>::TypeCreationException(const X& argument,
 }
 
 template <typename X>
-TypeCreationException<X>::TypeCreationException(const TypeCreationException<X>&
-  other) throw () :
+BadArgumentException<X>::BadArgumentException(const BadArgumentException<X>&
+  other) throw() :
   mMsg(other.mMsg),
   mArg(other.mArg),
   mFilename(other.mFilename),
@@ -41,8 +41,8 @@ TypeCreationException<X>::TypeCreationException(const TypeCreationException<X>&
 }
 
 template <typename X>
-TypeCreationException<X>& TypeCreationException<X>::operator =
-  (const TypeCreationException<X>& other) throw () {
+BadArgumentException<X>& BadArgumentException<X>::operator =
+  (const BadArgumentException<X>& other) throw() {
   mMsg = other.mMsg;
   mArg = other.mArg;
   mFilename = other.mFilename;
@@ -51,14 +51,14 @@ TypeCreationException<X>& TypeCreationException<X>::operator =
 }
 
 template <typename X>
-TypeCreationException<X>::~TypeCreationException() throw () {
+BadArgumentException<X>::~BadArgumentException() throw() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 template <typename X>
-const char* TypeCreationException<X>::what() const throw () {
+const char* BadArgumentException<X>::what() const throw() {
   std::stringstream stream;
   stream << mMsg << " [argument = " << mArg << "]";
   if (mFilename != " ")
