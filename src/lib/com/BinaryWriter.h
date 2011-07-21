@@ -16,44 +16,60 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file POSLVMessageRead.h
-    \brief This file defines the POSLVMessageRead class which is an interface
-           for all messages reading from the Applanix device.
+/** \file BinaryWriter.h
+    \brief This file defines the BinaryWriter class which is an interface
+           for writing basic types to a binary stream
   */
 
-#ifndef POSLVMESSAGEREAD_H
-#define POSLVMESSAGEREAD_H
+#ifndef BINARYWRITER_H
+#define BINARYWRITER_H
 
-#include "com/BinaryReader.h"
-#include "types/Message.h"
-#include "exceptions/IOException.h"
+#include <stdint.h>
+#include <stdlib.h>
 
-/** The POSLVMessageRead class is an interface for all messages reading from the
-    Applanix device.
-    \brief Applanix POS LV reading interface for messages
+/** The BinaryWriter class is an interface for writing basic types to a binary
+    stream.
+    \brief Binary writer
   */
-class POSLVMessageRead :
-  public BinaryReader {
+class BinaryWriter {
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Default constructor
-  POSLVMessageRead();
+  BinaryWriter();
   /// Copy constructor
-  POSLVMessageRead(const POSLVMessageRead& other);
+  BinaryWriter(const BinaryWriter& other);
   /// Assignment operator
-  POSLVMessageRead& operator = (const POSLVMessageRead& other);
+  BinaryWriter& operator = (const BinaryWriter& other);
   /// Destructor
-  virtual ~POSLVMessageRead();
+  virtual ~BinaryWriter();
   /** @}
     */
 
-  /** \name Methods
+  /** \name Operators
     @{
     */
-  /// Reads a message from the network
-  const Message* readMessage() throw (IOException);
+  /// Writes 8-bit signed integer
+  BinaryWriter& operator << (int8_t value);
+  /// Writes 8-bit unsigned integer
+  BinaryWriter& operator << (uint8_t value);
+  /// Writes 16-bit signed integer
+  BinaryWriter& operator << (int16_t value);
+  /// Writes 16-bit unsigned integer
+  BinaryWriter& operator << (uint16_t value);
+  /// Writes 32-bit signed integer
+  BinaryWriter& operator << (int32_t value);
+  /// Writes 32-bit unsigned integer
+  BinaryWriter& operator << (uint32_t value);
+  /// Writes 64-bit signed integer
+  BinaryWriter& operator << (int64_t value);
+  /// Writes 64-bit unsigned integer
+  BinaryWriter& operator << (uint64_t value);
+  /// Writes 32-bit floating point
+  BinaryWriter& operator << (float value);
+  /// Writes 64-bit floating point
+  BinaryWriter& operator << (double value);
   /** @}
     */
 
@@ -61,13 +77,11 @@ protected:
   /** \name Protected methods
     @{
     */
-  /// Reads the start of a group
-  void readStartMessage();
-  /// Reads the end of a group
-  std::string readEndMessage();
+  /// Writes a buffer of byte
+  virtual void writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes) = 0;
   /** @}
     */
 
 };
 
-#endif // POSLVMESSAGEREAD
+#endif // BINARYWRITER

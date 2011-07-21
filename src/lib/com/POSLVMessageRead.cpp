@@ -41,56 +41,6 @@ POSLVMessageRead::~POSLVMessageRead() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-POSLVMessageRead& POSLVMessageRead::operator >> (int8_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(int8_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (uint8_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(uint8_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (int16_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(int16_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (uint16_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(uint16_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (int32_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(int32_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (uint32_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(uint32_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (int64_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(int64_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (uint64_t& value) {
-  readBuffer((uint8_t*)&value, sizeof(uint64_t));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (float& value) {
-  readBuffer((uint8_t*)&value, sizeof(float));
-  return *this;
-}
-
-POSLVMessageRead& POSLVMessageRead::operator >> (double& value) {
-  readBuffer((uint8_t*)&value, sizeof(double));
-  return *this;
-}
-
 void POSLVMessageRead::readStartMessage() {
   uint8_t control;
   readBuffer(&control, sizeof(uint8_t));

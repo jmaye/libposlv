@@ -24,6 +24,7 @@
 #ifndef POSLVGROUPREAD_H
 #define POSLVGROUPREAD_H
 
+#include "com/BinaryReader.h"
 #include "types/Group.h"
 #include "exceptions/IOException.h"
 
@@ -31,7 +32,8 @@
     Applanix device.
     \brief Applanix POS LV reading interface for groups
   */
-class POSLVGroupRead {
+class POSLVGroupRead :
+  public BinaryReader {
 public:
   /** \name Constructors/destructor
     @{
@@ -47,32 +49,6 @@ public:
   /** @}
     */
 
-  /** \name Operators
-    @{
-    */
-  /// Reads 8-bit signed integer
-  POSLVGroupRead& operator >> (int8_t& value);
-  /// Reads 8-bit unsigned integer
-  POSLVGroupRead& operator >> (uint8_t& value);
-  /// Reads 16-bit signed integer
-  POSLVGroupRead& operator >> (int16_t& value);
-  /// Reads 16-bit unsigned integer
-  POSLVGroupRead& operator >> (uint16_t& value);
-  /// Reads 32-bit signed integer
-  POSLVGroupRead& operator >> (int32_t& value);
-  /// Reads 32-bit unsigned integer
-  POSLVGroupRead& operator >> (uint32_t& value);
-  /// Reads 64-bit signed integer
-  POSLVGroupRead& operator >> (int64_t& value);
-  /// Reads 64-bit unsigned integer
-  POSLVGroupRead& operator >> (uint64_t& value);
-  /// Reads 32-bit floating point
-  POSLVGroupRead& operator >> (float& value);
-  /// Reads 64-bit floating point
-  POSLVGroupRead& operator >> (double& value);
-  /** @}
-    */
-
   /** \name Methods
     @{
     */
@@ -85,8 +61,6 @@ protected:
   /** \name Protected methods
     @{
     */
-  /// Reads a buffer of byte
-  virtual void readBuffer(uint8_t* au8Buffer, ssize_t nbBytes) = 0;
   /// Reads the start of a group
   void readStartGroup();
   /// Reads the end of a group

@@ -42,56 +42,6 @@ POSLVMessageWrite::~POSLVMessageWrite() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-POSLVMessageWrite& POSLVMessageWrite::operator << (int8_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(int8_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (uint8_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(uint8_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (int16_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(int16_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (uint16_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(uint16_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (int32_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(int32_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (uint32_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(uint32_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (int64_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(int64_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (uint64_t value) {
-  writeBuffer((uint8_t*)&value, sizeof(uint64_t));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (float value) {
-  writeBuffer((uint8_t*)&value, sizeof(float));
-  return *this;
-}
-
-POSLVMessageWrite& POSLVMessageWrite::operator << (double value) {
-  writeBuffer((uint8_t*)&value, sizeof(double));
-  return *this;
-}
-
 void POSLVMessageWrite::sendMessage(const Message& message)
   throw (IOException) {
   std::string msgHeader = "$MSG";

@@ -24,6 +24,7 @@
 #ifndef POSLVMESSAGEWRITE_H
 #define POSLVMESSAGEWRITE_H
 
+#include "com/BinaryWriter.h"
 #include "types/Message.h"
 #include "exceptions/IOException.h"
 
@@ -31,7 +32,8 @@
     Applanix device.
     \brief Applanix POS LV writing interface for messages
   */
-class POSLVMessageWrite {
+class POSLVMessageWrite :
+  public BinaryWriter {
 public:
   /** \name Constructors/destructor
     @{
@@ -47,32 +49,6 @@ public:
   /** @}
     */
 
-  /** \name Operators
-    @{
-    */
-  /// Writes 8-bit signed integer
-  POSLVMessageWrite& operator << (int8_t value);
-  /// Writes 8-bit unsigned integer
-  POSLVMessageWrite& operator << (uint8_t value);
-  /// Writes 16-bit signed integer
-  POSLVMessageWrite& operator << (int16_t value);
-  /// Writes 16-bit unsigned integer
-  POSLVMessageWrite& operator << (uint16_t value);
-  /// Writes 32-bit signed integer
-  POSLVMessageWrite& operator << (int32_t value);
-  /// Writes 32-bit unsigned integer
-  POSLVMessageWrite& operator << (uint32_t value);
-  /// Writes 64-bit signed integer
-  POSLVMessageWrite& operator << (int64_t value);
-  /// Writes 64-bit unsigned integer
-  POSLVMessageWrite& operator << (uint64_t value);
-  /// Writes 32-bit floating point
-  POSLVMessageWrite& operator << (float value);
-  /// Writes 64-bit floating point
-  POSLVMessageWrite& operator << (double value);
-  /** @}
-    */
-
   /** \name Methods
     @{
     */
@@ -82,13 +58,6 @@ public:
     */
 
 protected:
-  /** \name Protected methods
-    @{
-    */
-  /// Writes a buffer of byte
-  virtual void writeBuffer(const uint8_t* au8Buffer, ssize_t nbBytes) = 0;
-  /** @}
-    */
 
 };
 

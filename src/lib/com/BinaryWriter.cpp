@@ -16,80 +16,77 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "com/POSLVGroupRead.h"
-
-#include "base/Factory.h"
+#include "com/BinaryWriter.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-POSLVGroupRead::POSLVGroupRead() {
+BinaryWriter::BinaryWriter() {
 }
 
-POSLVGroupRead::POSLVGroupRead(const POSLVGroupRead& other) {
+BinaryWriter::BinaryWriter(const BinaryWriter& other) {
 }
 
-POSLVGroupRead& POSLVGroupRead::operator = (const POSLVGroupRead& other) {
+BinaryWriter& BinaryWriter::operator = (const BinaryWriter& other) {
+  if (this != &other) {
+  }
   return *this;
 }
 
-POSLVGroupRead::~POSLVGroupRead() {
+BinaryWriter::~BinaryWriter() {
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void POSLVGroupRead::readStartGroup() {
-  uint8_t control;
-  readBuffer(&control, sizeof(uint8_t));
-  while (true) {
-    while (control != '$')
-      readBuffer(&control, sizeof(uint8_t));
-    readBuffer(&control, sizeof(uint8_t));
-    if (control != 'G')
-      continue;
-    readBuffer(&control, sizeof(uint8_t));
-    if (control != 'R')
-      continue;
-    readBuffer(&control, sizeof(uint8_t));
-    if (control != 'P')
-      continue;
-    break;
-  }
+BinaryWriter& BinaryWriter::operator << (int8_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(int8_t));
+  return *this;
 }
 
-std::string POSLVGroupRead::readEndGroup() {
-  std::string outputString;
-  uint8_t control;
-  readBuffer(&control, sizeof(uint8_t));
-  outputString.push_back(control);
-  readBuffer(&control, sizeof(uint8_t));
-  outputString.push_back(control);
-  return outputString;
+BinaryWriter& BinaryWriter::operator << (uint8_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(uint8_t));
+  return *this;
 }
 
-const Group* POSLVGroupRead::readGroup() throw (IOException) {
-  readStartGroup();
+BinaryWriter& BinaryWriter::operator << (int16_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(int16_t));
+  return *this;
+}
 
-  uint16_t groupID;
-  *this >> groupID;
+BinaryWriter& BinaryWriter::operator << (uint16_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(uint16_t));
+  return *this;
+}
 
-  if (Factory<uint16_t, Group>::getInstance().isRegistered(groupID) == false)
-    return NULL;
+BinaryWriter& BinaryWriter::operator << (int32_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(int32_t));
+  return *this;
+}
 
-  Group* groupRead = Factory<uint16_t, Group>::getInstance().create(groupID);
-  *this >> *groupRead;
+BinaryWriter& BinaryWriter::operator << (uint32_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(uint32_t));
+  return *this;
+}
 
-  uint16_t checksum;
-  *this >> checksum;
+BinaryWriter& BinaryWriter::operator << (int64_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(int64_t));
+  return *this;
+}
 
-  // TODO: Checksum control
+BinaryWriter& BinaryWriter::operator << (uint64_t value) {
+  writeBuffer((uint8_t*)&value, sizeof(uint64_t));
+  return *this;
+}
 
-  std::string endString = readEndGroup();
-  if (endString != "$#")
-    throw IOException("POSLVGroupRead::readGroup(): end of group read failed");
+BinaryWriter& BinaryWriter::operator << (float value) {
+  writeBuffer((uint8_t*)&value, sizeof(float));
+  return *this;
+}
 
-  return groupRead;
+BinaryWriter& BinaryWriter::operator << (double value) {
+  writeBuffer((uint8_t*)&value, sizeof(double));
+  return *this;
 }
