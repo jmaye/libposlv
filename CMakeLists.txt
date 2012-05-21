@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 2.6)
 
 include(ReMake)
 
+remake_set(CMAKE_CXX_FLAGS -std=c++0x CACHE FORCE INIT)
+
 remake_project(
   libposlv
-  VERSION 0.1
-  RELEASE alpha
+  VERSION 1.0
+  RELEASE beta
   SUMMARY "A C++ based Applanix POS LV interfacing library"
   AUTHOR "Jerome Maye"
   CONTACT "jerome.maye@mavt.ethz.ch"
@@ -32,9 +34,16 @@ remake_pack_deb(
 )
 
 remake_pack_deb(
-  COMPONENT test
-  DESCRIPTION "Test programs"
+  COMPONENT console-tools
+  DESCRIPTION "Console tools"
   libposlv
+)
+
+remake_pack_deb(
+  COMPONENT gui-tools
+  DESCRIPTION "GUI tools"
+  libposlv
+  libqt4-gui
 )
 
 remake_pack_deb(
