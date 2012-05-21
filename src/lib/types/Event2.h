@@ -26,7 +26,6 @@
 
 #include "types/Group.h"
 #include "types/TimeDistance.h"
-#include "exceptions/IOException.h"
 
 /** The class Event2 represents the Event 2 message from the Applanix.
     \brief Event 2 message
@@ -83,7 +82,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

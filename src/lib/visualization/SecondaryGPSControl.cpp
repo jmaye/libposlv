@@ -18,8 +18,8 @@
 
 #include "visualization/SecondaryGPSControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/SecondaryGPSStatus.h"
+#include "types/Group.h"
 #include "ui_SecondaryGPSControl.h"
 
 /******************************************************************************/
@@ -27,12 +27,8 @@
 /******************************************************************************/
 
 SecondaryGPSControl::SecondaryGPSControl() :
-  mpUi(new Ui_SecondaryGPSControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+    mUi(new Ui_SecondaryGPSControl()) {
+  mUi->setupUi(this);
   mStatusMsg[-1] = "Unknown";
   mStatusMsg[0] = "No data from receiver";
   mStatusMsg[1] = "Horizontal C/A mode";
@@ -43,7 +39,6 @@ SecondaryGPSControl::SecondaryGPSControl() :
   mStatusMsg[6] = "Integer wide lane RTK mode";
   mStatusMsg[7] = "Integer narrow lane RTK mode";
   mStatusMsg[8] = "P-code";
-
   mGPSTypeMsg[0] = "No receiver";
   for (size_t i = 1; i <= 7; i++)
     mGPSTypeMsg[i] = "Reserved";
@@ -59,31 +54,30 @@ SecondaryGPSControl::SecondaryGPSControl() :
 }
 
 SecondaryGPSControl::~SecondaryGPSControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void SecondaryGPSControl::groupRead(const Group* group) {
-  if (group->instanceOf<SecondaryGPSStatus>() == true) {
-    const SecondaryGPSStatus& msg = group->typeCast<SecondaryGPSStatus>();
-    mpUi->navSecGPSText->setText(
-      mStatusMsg[msg.mNavigationSolutionStatus].c_str());
-    mpUi->satSecGPSSpinBox->setValue(msg.mNumberOfSVTracked);
-    mpUi->secGPSTypeText->setText(mGPSTypeMsg[msg.mGPSReceiverType].c_str());
-    mpUi->geoidalSecGPSSpinBox->setValue(msg.mGeoidalSeparation);
-    mpUi->hdopSpinBox->setValue(msg.mHDOP);
-    mpUi->vdopSpinBox->setValue(msg.mVDOP);
-    mpUi->dgpsIDSpinBox->setValue(msg.mDGPSReferenceID);
-    mpUi->corrLatencySpinBox->setValue(msg.mDGPSCorrectionLatency);
-    mpUi->navLatencySpinBox->setValue(msg.mGPSNavigationMessageLatency);
-    mpUi->weekSpinBox->setValue(msg.mGPSUTCWeekNumber);
-    mpUi->offsetSpinBox->setValue(msg.mGPSUTCTimeOffset);
+void SecondaryGPSControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<SecondaryGPSStatus>()) {
+      const SecondaryGPSStatus& msg = group.typeCast<SecondaryGPSStatus>();
+      mUi->navSecGPSText->setText(
+        mStatusMsg[msg.mNavigationSolutionStatus].c_str());
+      mUi->satSecGPSSpinBox->setValue(msg.mNumberOfSVTracked);
+      mUi->secGPSTypeText->setText(mGPSTypeMsg[msg.mGPSReceiverType].c_str());
+      mUi->geoidalSecGPSSpinBox->setValue(msg.mGeoidalSeparation);
+      mUi->hdopSpinBox->setValue(msg.mHDOP);
+      mUi->vdopSpinBox->setValue(msg.mVDOP);
+      mUi->dgpsIDSpinBox->setValue(msg.mDGPSReferenceID);
+      mUi->corrLatencySpinBox->setValue(msg.mDGPSCorrectionLatency);
+      mUi->navLatencySpinBox->setValue(msg.mGPSNavigationMessageLatency);
+      mUi->weekSpinBox->setValue(msg.mGPSUTCWeekNumber);
+      mUi->offsetSpinBox->setValue(msg.mGPSUTCTimeOffset);
+    }
   }
 }

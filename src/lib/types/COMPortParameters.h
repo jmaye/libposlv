@@ -24,7 +24,10 @@
 #ifndef COMPORTPARAMETERS_H
 #define COMPORTPARAMETERS_H
 
-#include "types/Message.h"
+#include "base/Serializable.h"
+
+class BinaryReader;
+class BinaryWriter;
 
 /** The class COMPortParameters represents the COM ports parameters for the
     Applanix.
@@ -33,10 +36,10 @@
 class COMPortParameters :
   public virtual Serializable {
   /// Stream operator for reading from a connection
-  friend POSLVMessageRead& operator >> (POSLVMessageRead& stream,
+  friend BinaryReader& operator >> (BinaryReader& stream,
     COMPortParameters& obj);
   /// Stream operator for writing to a connection
-  friend POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const
+  friend BinaryWriter& operator << (BinaryWriter& stream, const
     COMPortParameters& obj);
 public:
   /** \name Constructors/Destructor
@@ -91,9 +94,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVMessageRead& stream);
+  virtual void read(BinaryReader& stream);
   /// Writes to the network
-  virtual void write(POSLVMessageWrite& stream) const;
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 

@@ -18,8 +18,8 @@
 
 #include "types/SaveRestoreControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,16 +32,22 @@ const SaveRestoreControl SaveRestoreControl::mProto;
 /******************************************************************************/
 
 SaveRestoreControl::SaveRestoreControl() :
-  Message(54) {
+    Message(54) {
 }
 
 SaveRestoreControl::SaveRestoreControl(const SaveRestoreControl& other) :
-  Message(other) {
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mControl(other.mControl) {
 }
 
 SaveRestoreControl& SaveRestoreControl::operator =
-  (const SaveRestoreControl& other) {
-  this->Message::operator=(other);
+    (const SaveRestoreControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mControl = other.mControl;
+  }
   return *this;
 }
 
@@ -52,10 +58,10 @@ SaveRestoreControl::~SaveRestoreControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void SaveRestoreControl::read(POSLVMessageRead& stream) {
+void SaveRestoreControl::read(BinaryReader& stream) {
 }
 
-void SaveRestoreControl::write(POSLVMessageWrite& stream) const {
+void SaveRestoreControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
+#include "exceptions/InvalidOperationException.h"
+
 /******************************************************************************/
 /* Statics                                                                    */
 /******************************************************************************/
@@ -27,9 +29,10 @@ template <class C> C* Singleton<C>::instance = 0;
 /******************************************************************************/
 
 template <class C>
-Singleton<C>::Singleton() throw (InvalidOperationException) {
+Singleton<C>::Singleton() {
   if (instance)
-    throw InvalidOperationException("Singleton<C>::Singleton(): a singleton cannot be instantiated");
+    throw InvalidOperationException("Singleton<C>::Singleton(): a singleton "
+      "cannot be instantiated");
   instance = (C*)this;
 }
 
@@ -46,7 +49,6 @@ template <class C>
 C& Singleton<C>::getInstance() {
   if (!instance)
     new C();
-
   return *instance;
 }
 

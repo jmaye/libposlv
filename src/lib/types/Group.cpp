@@ -19,22 +19,31 @@
 #include "types/Group.h"
 
 #include "base/Factory.h"
+#include "base/BinaryReader.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
 Group::Group(uint16_t typeID) :
-  mTypeID(typeID) {
-  Factory<uint16_t, Group>::getInstance().registerType(this, mTypeID);
+    Packet("$GRP"),
+    mTypeID(typeID),
+    mChecksum(47770) {
+    Factory<uint16_t, Group>::getInstance().registerType(this, mTypeID);
 }
 
 Group::Group(const Group& other) :
-  mTypeID(other.mTypeID) {
+    Packet(other),
+    mTypeID(other.mTypeID),
+    mChecksum(other.mChecksum) {
 }
 
 Group& Group::operator = (const Group& other) {
-  mTypeID = other.mTypeID;
+  if (this != &other) {
+    Packet::operator=(other);
+    mTypeID = other.mTypeID;
+    mChecksum = other.mChecksum;
+  }
   return *this;
 }
 
@@ -49,11 +58,6 @@ uint16_t Group::getTypeID() const {
   return mTypeID;
 }
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-POSLVGroupRead& operator >> (POSLVGroupRead& stream, Group& obj) {
-  obj.read(stream);
-  return stream;
+uint16_t Group::getChecksum() const {
+  return mChecksum;
 }

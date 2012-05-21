@@ -24,10 +24,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "visualization/Control.h"
-
 #include <QtGui/QMainWindow>
 #include <QtCore/QString>
+
+#include "visualization/Control.h"
 
 class Ui_MainWindow;
 
@@ -37,7 +37,18 @@ class Ui_MainWindow;
   */
 class MainWindow :
   public QMainWindow {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  MainWindow(const MainWindow& other);
+  /// Assignment operator
+  MainWindow& operator = (const MainWindow& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -63,7 +74,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_MainWindow* mpUi;
+  Ui_MainWindow* mUi;
   /** @}
     */
 

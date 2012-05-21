@@ -19,20 +19,16 @@
 #include "visualization/Aux1GPSControl.h"
 
 #include "types/Auxiliary1GPSStatus.h"
-#include "visualization/ReadThreadGroup.h"
 #include "ui_Aux1GPSControl.h"
+#include "types/Group.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
 Aux1GPSControl::Aux1GPSControl() :
-  mpUi(new Ui_Aux1GPSControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+    mUi(new Ui_Aux1GPSControl()) {
+  mUi->setupUi(this);
   mStatusMsg[-1] = "Unknown";
   mStatusMsg[0] = "No data from receiver";
   mStatusMsg[1] = "Horizontal C/A mode";
@@ -46,27 +42,27 @@ Aux1GPSControl::Aux1GPSControl() :
 }
 
 Aux1GPSControl::~Aux1GPSControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Aux1GPSControl::groupRead(const Group* group) {
-  if (group->instanceOf<Auxiliary1GPSStatus>() == true) {
-    const Auxiliary1GPSStatus& msg = group->typeCast<Auxiliary1GPSStatus>();
-    mpUi->navAux1GPSText->setText(
-      mStatusMsg[msg.mNavigationSolutionStatus].c_str());
-    mpUi->satAux1GPSSpinBox->setValue(msg.mNumberOfSVTracked);
-    mpUi->geoidalAux1GPSSpinBox->setValue(msg.mGeoidalSeparation);
-    if (msg.mAux12InUse == 1)
-      mpUi->activeAux1CheckBox->setChecked(true);
-    else
-      mpUi->activeAux1CheckBox->setChecked(false);
+
+void Aux1GPSControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<Auxiliary1GPSStatus>()) {
+      const Auxiliary1GPSStatus& msg = group.typeCast<Auxiliary1GPSStatus>();
+      mUi->navAux1GPSText->setText(
+        mStatusMsg[msg.mNavigationSolutionStatus].c_str());
+      mUi->satAux1GPSSpinBox->setValue(msg.mNumberOfSVTracked);
+      mUi->geoidalAux1GPSSpinBox->setValue(msg.mGeoidalSeparation);
+      if (msg.mAux12InUse)
+        mUi->activeAux1CheckBox->setChecked(true);
+      else
+        mUi->activeAux1CheckBox->setChecked(false);
+    }
   }
 }

@@ -18,7 +18,6 @@
 
 #include "visualization/MainWindow.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "ui_MainWindow.h"
 
 /******************************************************************************/
@@ -26,38 +25,30 @@
 /******************************************************************************/
 
 MainWindow::MainWindow() :
-  mpUi(new Ui_MainWindow()) {
-  mpUi->setupUi(this);
-  while (mpUi->tabsWidget->count())
-    mpUi->tabsWidget->removeTab(0);
-
-  mpUi->statusBar->showMessage("Disconnected");
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(deviceConnected(bool)), this,
-    SLOT(deviceConnected(bool)));
+    mUi(new Ui_MainWindow()) {
+  mUi->setupUi(this);
+  while (mUi->tabsWidget->count())
+    mUi->tabsWidget->removeTab(0);
+  mUi->statusBar->showMessage("Disconnected");
 }
 
 MainWindow::~MainWindow() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
 void MainWindow::addControl(const QString& title, Control& control) {
-  mpUi->tabsWidget->addTab(&control, title);
+  mUi->tabsWidget->addTab(&control, title);
   if (!control.getMenu().isEmpty())
-    mpUi->menuBar->addMenu(&control.getMenu())->setText(title);
+    mUi->menuBar->addMenu(&control.getMenu())->setText(title);
 }
 
 void MainWindow::deviceConnected(bool connected) {
   if (connected == true)
-    mpUi->statusBar->showMessage("Connected");
+    mUi->statusBar->showMessage("Connected");
   else
-    mpUi->statusBar->showMessage("Disconnected");
+    mUi->statusBar->showMessage("Disconnected");
 }

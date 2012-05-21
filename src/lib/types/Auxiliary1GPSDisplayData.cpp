@@ -18,7 +18,10 @@
 
 #include "types/Auxiliary1GPSDisplayData.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,46 +34,55 @@ const Auxiliary1GPSDisplayData Auxiliary1GPSDisplayData::mProto;
 /******************************************************************************/
 
 Auxiliary1GPSDisplayData::Auxiliary1GPSDisplayData() :
-  Group(23),
-  mau8GPSRawData(0) {
+    Group(23),
+    mGPSRawData(0) {
 }
 
 Auxiliary1GPSDisplayData::Auxiliary1GPSDisplayData(const
-  Auxiliary1GPSDisplayData& other) :
-  Group(other),
-  mau8GPSRawData(other.mau8GPSRawData) {
+    Auxiliary1GPSDisplayData& other) :
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mVariableMsgByteCount(other.mVariableMsgByteCount) {
+    mGPSRawData = new uint8_t[mVariableMsgByteCount];
+    memcpy(mGPSRawData, other.mGPSRawData, sizeof(mGPSRawData));
+    memcpy(mReserved, other.mReserved, sizeof(mReserved));
 }
 
 Auxiliary1GPSDisplayData& Auxiliary1GPSDisplayData::operator =
-  (const Auxiliary1GPSDisplayData& other) {
-  this->Group::operator=(other);
-  mau8GPSRawData = other.mau8GPSRawData;
+    (const Auxiliary1GPSDisplayData& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    memcpy(mReserved, other.mReserved, sizeof(mReserved));
+    mVariableMsgByteCount = other.mVariableMsgByteCount;
+    mGPSRawData = new uint8_t[mVariableMsgByteCount];
+    memcpy(mGPSRawData, other.mGPSRawData, sizeof(mGPSRawData));
+  }
   return *this;
 }
 
 Auxiliary1GPSDisplayData::~Auxiliary1GPSDisplayData() {
-  if (mau8GPSRawData)
-    delete []mau8GPSRawData;
+  if (mGPSRawData)
+    delete []mGPSRawData;
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Auxiliary1GPSDisplayData::read(POSLVGroupRead& stream) throw(IOException) {
+void Auxiliary1GPSDisplayData::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
-
   stream >> mTimeDistance;
   for (size_t i = 0; i < 6; i++)
-    stream >> mau8Reserved[i];
+    stream >> mReserved[i];
   stream >> mVariableMsgByteCount;
-  mau8GPSRawData = new uint8_t[mVariableMsgByteCount];
+  if (mGPSRawData)
+    delete []mGPSRawData;
+  mGPSRawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
-    stream >> mau8GPSRawData[i];
-
+    stream >> mGPSRawData[i];
   size_t padSize = byteCount - mVariableMsgByteCount - 38;
-
   uint8_t pad;
   for (size_t i = 0; i < padSize; i++) {
     stream >> pad;
@@ -93,13 +105,13 @@ void Auxiliary1GPSDisplayData::write(std::ofstream& stream) const {
   stream << " ";
   stream << mTimeDistance;
   for (size_t i = 0; i < 6; i++) {
-    stream << std::hex << (uint16_t)mau8Reserved[i] << std::dec;
+    stream << std::hex << (uint16_t)mReserved[i] << std::dec;
     stream << " ";
   }
   stream << mVariableMsgByteCount;
   stream << " ";
   for (size_t i = 0; i < mVariableMsgByteCount; i++) {
-    stream << std::hex << (uint16_t)mau8GPSRawData[i] << std::dec;
+    stream << std::hex << (uint16_t)mGPSRawData[i] << std::dec;
     stream << " ";
   }
 }

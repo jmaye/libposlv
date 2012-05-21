@@ -25,7 +25,6 @@
 #define RAWEVENT1_H
 
 #include "types/Group.h"
-#include "exceptions/IOException.h"
 #include "types/TimeDistance.h"
 
 /** The class RawEvent1 represents the Raw Event 1 message from the Applanix.
@@ -83,7 +82,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

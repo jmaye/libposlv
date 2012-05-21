@@ -24,11 +24,14 @@
 #ifndef VERSIONCONTROL_H
 #define VERSIONCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_VersionControl;
+class Group;
 
 /** The VersionControl class is the control for the version of the Applanix.
     \brief Version control
@@ -36,7 +39,18 @@ class Ui_VersionControl;
 class VersionControl :
   public Control,
   public Singleton<VersionControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  VersionControl(const VersionControl& other);
+  /// Assignment operator
+  VersionControl& operator = (const VersionControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -54,7 +68,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_VersionControl* mpUi;
+  Ui_VersionControl* mUi;
   /** @}
     */
 
@@ -62,8 +76,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

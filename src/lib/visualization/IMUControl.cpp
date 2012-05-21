@@ -18,8 +18,8 @@
 
 #include "visualization/IMUControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/TimeTaggedIMUData.h"
+#include "types/Group.h"
 #include "ui_IMUControl.h"
 
 #include <sstream>
@@ -29,12 +29,8 @@
 /******************************************************************************/
 
 IMUControl::IMUControl() :
-  mpUi(new Ui_IMUControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+    mUi(new Ui_IMUControl()) {
+  mUi->setupUi(this);
   mStatusMsg[0] = "1 bad raw IMU frame";
   mStatusMsg[1] = "2 bad raw IMU frames";
   mStatusMsg[2] = "3 bad raw IMU frames";
@@ -42,41 +38,40 @@ IMUControl::IMUControl() :
 }
 
 IMUControl::~IMUControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void IMUControl::groupRead(const Group* group) {
-  if (group->instanceOf<TimeTaggedIMUData>() == true) {
-    const TimeTaggedIMUData& msg = group->typeCast<TimeTaggedIMUData>();
-    mpUi->typeSpinBox->setValue(msg.mIMUType);
-    size_t dataRate;
-    switch (msg.mIMUType) {
-      case 1:case 2: case 7:
-        dataRate = 200;
-        break;
-      case 17:
-        dataRate = 100;
-        break;
-      default:
-        break;
+void IMUControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<TimeTaggedIMUData>()) {
+      const TimeTaggedIMUData& msg = group.typeCast<TimeTaggedIMUData>();
+      mUi->typeSpinBox->setValue(msg.mIMUType);
+      size_t dataRate;
+      switch (msg.mIMUType) {
+        case 1:case 2: case 7:
+          dataRate = 200;
+          break;
+        case 17:
+          dataRate = 100;
+          break;
+        default:
+          break;
+      }
+      mUi->rateSpinBox->setValue(dataRate);
+      std::stringstream status;
+      if (msg.mDataStatus) {
+        for (size_t i = 0; i <= 2; i++)
+          if ((msg.mDataStatus >> i) & 0x01)
+            status << mStatusMsg[i] << std::endl;
+      }
+      else
+        status << mStatusMsg[3];
+      mUi->statusText->setText(status.str().c_str());
     }
-    mpUi->rateSpinBox->setValue(dataRate);
-    std::stringstream status;
-    if (msg.mDataStatus) {
-      for (size_t i = 0; i <= 2; i++)
-        if ((msg.mDataStatus >> i) & 0x01)
-          status << mStatusMsg[i] << std::endl;
-    }
-    else
-      status << mStatusMsg[3];
-    mpUi->statusText->setText(status.str().c_str());
   }
 }

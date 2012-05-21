@@ -18,7 +18,7 @@
 
 #include "types/StationRecord.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -27,10 +27,28 @@
 StationRecord::StationRecord() {
 }
 
-StationRecord::StationRecord(const StationRecord& other) {
+StationRecord::StationRecord(const StationRecord& other) :
+    mRecordIndexAndFlags(other.mRecordIndexAndFlags),
+    mStationID(other.mStationID),
+    mStationHealth(other.mStationHealth),
+    mDistance(other.mDistance),
+    mRange(other.mRange),
+    mUSCGIndex(other.mUSCGIndex),
+    mSeconds(other.mSeconds),
+    mModulationRate(other.mModulationRate) {
 }
 
 StationRecord& StationRecord::operator = (const StationRecord& other) {
+  if (this != &other) {
+    mRecordIndexAndFlags = other.mRecordIndexAndFlags;
+    mStationID = other.mStationID;
+    mStationHealth = other.mStationHealth;
+    mDistance = other.mDistance;
+    mRange = other.mRange;
+    mUSCGIndex = other.mUSCGIndex;
+    mSeconds = other.mSeconds;
+    mModulationRate = other.mModulationRate;
+  }
   return *this;
 }
 
@@ -41,7 +59,7 @@ StationRecord::~StationRecord() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void StationRecord::read(POSLVGroupRead& stream) {
+void StationRecord::read(BinaryReader& stream) {
   stream >> mRecordIndexAndFlags;
   stream >> mStationID;
   stream >> mStationHealth;
@@ -80,7 +98,7 @@ void StationRecord::write(std::ofstream& stream) const {
   stream << " ";
 }
 
-POSLVGroupRead& operator >> (POSLVGroupRead& stream, StationRecord& obj) {
+BinaryReader& operator >> (BinaryReader& stream, StationRecord& obj) {
   obj.read(stream);
   return stream;
 }

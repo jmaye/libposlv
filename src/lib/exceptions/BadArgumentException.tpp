@@ -24,29 +24,31 @@
 
 template <typename X>
 BadArgumentException<X>::BadArgumentException(const X& argument,
-  const std::string& msg, const std::string& filename, size_t line) :
-  mMsg(msg),
-  mArg(argument),
-  mFilename(filename),
-  mLine(line) {
+    const std::string& msg, const std::string& filename, size_t line) :
+    mMsg(msg),
+    mArg(argument),
+    mFilename(filename),
+    mLine(line) {
 }
 
 template <typename X>
-BadArgumentException<X>::BadArgumentException(const BadArgumentException<X>&
-  other) throw() :
-  mMsg(other.mMsg),
-  mArg(other.mArg),
-  mFilename(other.mFilename),
-  mLine(other.mLine) {
+BadArgumentException<X>::BadArgumentException(const BadArgumentException& other)
+    throw() :
+    mMsg(other.mMsg),
+    mArg(other.mArg),
+    mFilename(other.mFilename),
+    mLine(other.mLine) {
 }
 
 template <typename X>
 BadArgumentException<X>& BadArgumentException<X>::operator =
-  (const BadArgumentException<X>& other) throw() {
-  mMsg = other.mMsg;
-  mArg = other.mArg;
-  mFilename = other.mFilename;
-  mLine = other.mLine;
+    (const BadArgumentException& other) throw() {
+  if (this != &other) {
+    mMsg = other.mMsg;
+    mArg = other.mArg;
+    mFilename = other.mFilename;
+    mLine = other.mLine;
+  }
   return *this;
 }
 
@@ -57,6 +59,7 @@ BadArgumentException<X>::~BadArgumentException() throw() {
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
+
 template <typename X>
 const char* BadArgumentException<X>::what() const throw() {
   std::stringstream stream;

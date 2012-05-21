@@ -18,8 +18,9 @@
 
 #include "types/GAMSInstallationControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +33,33 @@ const GAMSInstallationControl GAMSInstallationControl::mProto;
 /******************************************************************************/
 
 GAMSInstallationControl::GAMSInstallationControl() :
-  Message(21) {
+    Message(21) {
 }
 
 GAMSInstallationControl::GAMSInstallationControl(const GAMSInstallationControl&
-  other) :
-  Message(other) {
+    other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mAntennaSeparation(other.mAntennaSeparation),
+    mBaselineX(other.mBaselineX),
+    mBaselineY(other.mBaselineY),
+    mBaselineZ(other.mBaselineZ),
+    mMaxHeadingError(other.mMaxHeadingError),
+    mHeadingCorrection(other.mHeadingCorrection) {
 }
 
 GAMSInstallationControl& GAMSInstallationControl::operator =
-  (const GAMSInstallationControl& other) {
-  this->Message::operator=(other);
+    (const GAMSInstallationControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mAntennaSeparation = other.mAntennaSeparation;
+    mBaselineX = other.mBaselineX;
+    mBaselineY = other.mBaselineY;
+    mBaselineZ = other.mBaselineZ;
+    mMaxHeadingError = other.mMaxHeadingError;
+    mHeadingCorrection = other.mHeadingCorrection;
+  }
   return *this;
 }
 
@@ -53,8 +70,7 @@ GAMSInstallationControl::~GAMSInstallationControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GAMSInstallationControl::read(POSLVMessageRead& stream)
-  throw (IOException) {
+void GAMSInstallationControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -89,7 +105,7 @@ void GAMSInstallationControl::read(POSLVMessageRead& stream)
   mChecksum = 65536 - mChecksum;
 }
 
-void GAMSInstallationControl::write(POSLVMessageWrite& stream) const {
+void GAMSInstallationControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

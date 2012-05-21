@@ -18,7 +18,10 @@
 
 #include "types/RawIMUData.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,43 +34,56 @@ const RawIMUData RawIMUData::mProto;
 /******************************************************************************/
 
 RawIMUData::RawIMUData() :
-  Group(10002),
-  mau8IMURawData(0) {
+    Group(10002),
+    mIMURawData(0) {
 }
 
 RawIMUData::RawIMUData(const RawIMUData& other) :
-  Group(other),
-  mau8IMURawData(other.mau8IMURawData) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mVariableMsgByteCount(other.mVariableMsgByteCount),
+    mDataChecksum(other.mDataChecksum) {
+  mIMURawData = new uint8_t[mVariableMsgByteCount];
+  memcpy(mIMURawData, other.mIMURawData, sizeof(mIMURawData));
+  memcpy(mIMUHeader, other.mIMUHeader, sizeof(mIMUHeader));
 }
 
 RawIMUData& RawIMUData::operator = (const RawIMUData& other) {
-  this->Group::operator=(other);
-  mau8IMURawData = other.mau8IMURawData;
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    memcpy(mIMUHeader, other.mIMUHeader, sizeof(mIMUHeader));
+    mVariableMsgByteCount = other.mVariableMsgByteCount;
+    mIMURawData = new uint8_t[mVariableMsgByteCount];
+    memcpy(mIMURawData, other.mIMURawData, sizeof(mIMURawData));
+    mDataChecksum = other.mDataChecksum;
+  }
   return *this;
 }
 
 RawIMUData::~RawIMUData() {
-  if (mau8IMURawData)
-    delete []mau8IMURawData;
+  if (mIMURawData)
+    delete []mIMURawData;
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void RawIMUData::read(POSLVGroupRead& stream) throw (IOException) {
+void RawIMUData::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;
   for (size_t i = 0; i < 6; i++)
-    stream >> mau8IMUHeader[i];
+    stream >> mIMUHeader[i];
   stream >> mVariableMsgByteCount;
-  mau8IMURawData = new uint8_t[mVariableMsgByteCount];
+  if (mIMURawData)
+    delete []mIMURawData;
+  mIMURawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
-    stream >> mau8IMURawData[i];
+    stream >> mIMURawData[i];
   stream >> mDataChecksum;
   uint32_t padSize = byteCount - mVariableMsgByteCount - 40;
-
   uint8_t pad;
   for (size_t i = 0; i < padSize; i++) {
     stream >> pad;
@@ -90,12 +106,12 @@ void RawIMUData::write(std::ofstream& stream) const {
   stream << " ";
   stream << mTimeDistance;
   for (size_t i = 0; i < 6; i++)
-    stream << mau8IMUHeader[i];
+    stream << mIMUHeader[i];
   stream << " ";
   stream << mVariableMsgByteCount;
   stream << " ";
   for (size_t i = 0; i < mVariableMsgByteCount; i++) {
-    stream << std::hex << (uint16_t)mau8IMURawData[i] << std::dec;
+    stream << std::hex << (uint16_t)mIMURawData[i] << std::dec;
     stream << " ";
   }
 }

@@ -24,11 +24,14 @@
 #ifndef PRIMARYGPSCONTROL_H
 #define PRIMARYGPSCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_PrimaryGPSControl;
+class Group;
 
 /** The PrimaryGPSControl class is the control for the primary GPS of the
     Applanix.
@@ -37,7 +40,18 @@ class Ui_PrimaryGPSControl;
 class PrimaryGPSControl :
   public Control,
   public Singleton<PrimaryGPSControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  PrimaryGPSControl(const PrimaryGPSControl& other);
+  /// Assignment operator
+  PrimaryGPSControl& operator = (const PrimaryGPSControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -55,7 +69,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_PrimaryGPSControl* mpUi;
+  Ui_PrimaryGPSControl* mUi;
   /// Mapping for the status messages
   std::map<int8_t, std::string> mStatusMsg;
   /// Mapping for the GPS type messages
@@ -69,8 +83,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

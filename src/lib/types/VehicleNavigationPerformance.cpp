@@ -18,7 +18,8 @@
 
 #include "types/VehicleNavigationPerformance.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,17 +32,45 @@ const VehicleNavigationPerformance VehicleNavigationPerformance::mProto;
 /******************************************************************************/
 
 VehicleNavigationPerformance::VehicleNavigationPerformance() :
-  Group(2) {
+    Group(2) {
 }
 
 VehicleNavigationPerformance::VehicleNavigationPerformance(const
-  VehicleNavigationPerformance& other) :
-  Group(other) {
+    VehicleNavigationPerformance& other) :
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mNorthPositionRMSError(other.mNorthPositionRMSError),
+    mEastPositionRMSError(other.mEastPositionRMSError),
+    mDownPositionRMSError(other.mDownPositionRMSError),
+    mNorthVelocityRMSError(other.mNorthVelocityRMSError),
+    mEastVelocityRMSError(other.mEastVelocityRMSError),
+    mDownVelocityRMSError(other.mDownVelocityRMSError),
+    mRollRMSError(other.mRollRMSError),
+    mPitchRMSError(other.mPitchRMSError),
+    mHeadingRMSError(other.mHeadingRMSError),
+    mErrorEllipsoidSemiMajor(other.mErrorEllipsoidSemiMajor),
+    mErrorEllipsoidSemiMinor(other.mErrorEllipsoidSemiMinor),
+    mErrorEllipsoidOrientation(other.mErrorEllipsoidOrientation) {
 }
 
 VehicleNavigationPerformance& VehicleNavigationPerformance::operator =
-  (const VehicleNavigationPerformance& other) {
-  this->Group::operator=(other);
+    (const VehicleNavigationPerformance& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mNorthPositionRMSError = other.mNorthPositionRMSError;
+    mEastPositionRMSError = other.mEastPositionRMSError;
+    mDownPositionRMSError = other.mDownPositionRMSError;
+    mNorthVelocityRMSError = other.mNorthVelocityRMSError;
+    mEastVelocityRMSError = other.mEastVelocityRMSError;
+    mDownVelocityRMSError = other.mDownVelocityRMSError;
+    mRollRMSError = other.mRollRMSError;
+    mPitchRMSError = other.mPitchRMSError;
+    mHeadingRMSError = other.mHeadingRMSError;
+    mErrorEllipsoidSemiMajor = other.mErrorEllipsoidSemiMajor;
+    mErrorEllipsoidSemiMinor = other.mErrorEllipsoidSemiMinor;
+    mErrorEllipsoidOrientation = other.mErrorEllipsoidOrientation;
+  }
   return *this;
 }
 
@@ -52,13 +81,11 @@ VehicleNavigationPerformance::~VehicleNavigationPerformance() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void VehicleNavigationPerformance::read(POSLVGroupRead& stream)
-  throw (IOException) {
+void VehicleNavigationPerformance::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("VehicleNavigationPerformance::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mNorthPositionRMSError;
   stream >> mEastPositionRMSError;
@@ -72,7 +99,6 @@ void VehicleNavigationPerformance::read(POSLVGroupRead& stream)
   stream >> mErrorEllipsoidSemiMajor;
   stream >> mErrorEllipsoidSemiMinor;
   stream >> mErrorEllipsoidOrientation;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)

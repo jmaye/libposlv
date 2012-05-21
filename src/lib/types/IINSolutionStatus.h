@@ -26,7 +26,6 @@
 
 #include "types/Group.h"
 #include "types/TimeDistance.h"
-#include "exceptions/IOException.h"
 
 /** The class IINSolutionStatus represents the IIN Solution Status message from
     the Applanix.
@@ -73,7 +72,7 @@ public:
   /// Processing status
   uint16_t mIINProcessingStatus;
   /// PRN assignment
-  uint8_t mau8PRNAssignment[12];
+  uint8_t mPRNAssignment[12];
   /// L1 cycle slip flag
   uint16_t mL1CycleSlipFlag;
   /// L2 cycle slip flag
@@ -96,7 +95,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

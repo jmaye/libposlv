@@ -18,7 +18,8 @@
 
 #include "types/VehicleNavigationSolution.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,17 +32,59 @@ const VehicleNavigationSolution VehicleNavigationSolution::mProto;
 /******************************************************************************/
 
 VehicleNavigationSolution::VehicleNavigationSolution() :
-  Group(1) {
+    Group(1) {
 }
 
 VehicleNavigationSolution::VehicleNavigationSolution(const
-  VehicleNavigationSolution& other) :
-  Group(other) {
+    VehicleNavigationSolution& other) :
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mLatitude(other.mLatitude),
+    mLongitude(other.mLongitude),
+    mAltitude(other.mAltitude),
+    mNorthVelocity(other.mNorthVelocity),
+    mEastVelocity(other.mEastVelocity),
+    mDownVelocity(other.mDownVelocity),
+    mRoll(other.mRoll),
+    mPitch(other.mPitch),
+    mHeading(other.mHeading),
+    mWanderAngle(other.mWanderAngle),
+    mTrackAngle(other.mTrackAngle),
+    mSpeed(other.mSpeed),
+    mAngularRateLong(other.mAngularRateLong),
+    mAngularRateTrans(other.mAngularRateTrans),
+    mAngularRateDown(other.mAngularRateDown),
+    mAccLong(other.mAccLong),
+    mAccTrans(other.mAccTrans),
+    mAccDown(other.mAccDown),
+    mAlignementStatus(other.mAlignementStatus) {
 }
 
 VehicleNavigationSolution& VehicleNavigationSolution::operator =
-  (const VehicleNavigationSolution& other) {
-  this->Group::operator=(other);
+    (const VehicleNavigationSolution& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mLatitude = other.mLatitude;
+    mLongitude = other.mLongitude;
+    mAltitude = other.mAltitude;
+    mNorthVelocity = other.mNorthVelocity;
+    mEastVelocity = other.mEastVelocity;
+    mDownVelocity = other.mDownVelocity;
+    mRoll = other.mRoll;
+    mPitch = other.mPitch;
+    mHeading = other.mHeading;
+    mWanderAngle = other.mWanderAngle;
+    mTrackAngle = other.mTrackAngle;
+    mSpeed = other.mSpeed;
+    mAngularRateLong = other.mAngularRateLong;
+    mAngularRateTrans = other.mAngularRateTrans;
+    mAngularRateDown = other.mAngularRateDown;
+    mAccLong = other.mAccLong;
+    mAccTrans = other.mAccTrans;
+    mAccDown = other.mAccDown;
+    mAlignementStatus = other.mAlignementStatus;
+  }
   return *this;
 }
 
@@ -52,13 +95,11 @@ VehicleNavigationSolution::~VehicleNavigationSolution() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void VehicleNavigationSolution::read(POSLVGroupRead& stream)
-  throw (IOException) {
+void VehicleNavigationSolution::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("VehicleNavigationSolution::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mLatitude;
   stream >> mLongitude;
@@ -79,7 +120,6 @@ void VehicleNavigationSolution::read(POSLVGroupRead& stream)
   stream >> mAccTrans;
   stream >> mAccDown;
   stream >> mAlignementStatus;
-
   uint8_t pad;
   stream >> pad;
   if (pad != 0)
@@ -143,5 +183,5 @@ void VehicleNavigationSolution::write(std::ofstream& stream) const {
 /******************************************************************************/
 
 VehicleNavigationSolution* VehicleNavigationSolution::clone() const {
-  return new VehicleNavigationSolution(*this);
+  return new VehicleNavigationSolution(mProto);
 }

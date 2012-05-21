@@ -26,7 +26,6 @@
 
 #include "types/Group.h"
 #include "types/TimeDistance.h"
-#include "exceptions/IOException.h"
 
 /** The class VersionStatistics represents the Version Statistics message from
     the Applanix.
@@ -65,11 +64,11 @@ public:
   /// Time/Distance field of the message
   TimeDistance mTimeDistance;
   /// Version of the stystem
-  uint8_t mau8SystemVersion[120];
+  uint8_t mSystemVersion[120];
   /// Primary GPS version
-  uint8_t mau8PrimaryGPSVersion[80];
+  uint8_t mPrimaryGPSVersion[80];
   /// Secondary GPS version
-  uint8_t mau8SecondaryGPSversion[80];
+  uint8_t mSecondaryGPSversion[80];
   /// Total hours of use
   float mTotalHours;
   /// Number of runs
@@ -98,7 +97,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

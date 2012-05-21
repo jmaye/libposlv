@@ -18,7 +18,8 @@
 
 #include "types/PrimaryGPSReceiverIntegratedDGPSStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,19 +32,68 @@ const PrimaryGPSReceiverIntegratedDGPSStatus
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PrimaryGPSReceiverIntegratedDGPSStatus::PrimaryGPSReceiverIntegratedDGPSStatus()
-  : Group(25) {
+PrimaryGPSReceiverIntegratedDGPSStatus::
+    PrimaryGPSReceiverIntegratedDGPSStatus() :
+    Group(25) {
 }
 
 PrimaryGPSReceiverIntegratedDGPSStatus::PrimaryGPSReceiverIntegratedDGPSStatus(
-  const PrimaryGPSReceiverIntegratedDGPSStatus& other) :
-  Group(other) {
+    const PrimaryGPSReceiverIntegratedDGPSStatus& other) :
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mMobileDifferentialMode(other.mMobileDifferentialMode),
+    mFrequency0(other.mFrequency0),
+    mAcquisitionMode0(other.mAcquisitionMode0),
+    mChannelStatus0(other.mChannelStatus0),
+    mRCTMUsedFlag0(other.mRCTMUsedFlag0),
+    mSNR0(other.mSNR0),
+    mDataRateIndex0(other.mDataRateIndex0),
+    mLockIndicator0(other.mLockIndicator0),
+    mDGPSSourceAutoSwitching0(other.mDGPSSourceAutoSwitching0),
+    mServiceProvider0(other.mServiceProvider0),
+    mFrequency1(other.mFrequency1),
+    mAcquisitionMode1(other.mAcquisitionMode1),
+    mChannelStatus1(other.mChannelStatus1),
+    mRCTMUsedFlag1(other.mRCTMUsedFlag1),
+    mSNR1(other.mSNR1),
+    mDataRateIndex1(other.mDataRateIndex1),
+    mLockIndicator1(other.mLockIndicator1),
+    mDGPSSourceAutoSwitching1(other.mDGPSSourceAutoSwitching1),
+    mServiceProvider1(other.mServiceProvider1),
+    mUserIDCode(other.mUserIDCode),
+    mUserAccess(other.mUserAccess),
+    mDecoderState(other.mDecoderState) {
 }
 
 PrimaryGPSReceiverIntegratedDGPSStatus&
-  PrimaryGPSReceiverIntegratedDGPSStatus::operator =
-  (const PrimaryGPSReceiverIntegratedDGPSStatus& other) {
-  this->Group::operator=(other);
+    PrimaryGPSReceiverIntegratedDGPSStatus::operator =
+    (const PrimaryGPSReceiverIntegratedDGPSStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mMobileDifferentialMode = other.mMobileDifferentialMode;
+    mFrequency0 = other.mFrequency0;
+    mAcquisitionMode0 = other.mAcquisitionMode0;
+    mChannelStatus0 = other.mChannelStatus0;
+    mRCTMUsedFlag0 = other.mRCTMUsedFlag0;
+    mSNR0 = other.mSNR0;
+    mDataRateIndex0 = other.mDataRateIndex0;
+    mLockIndicator0 = other.mLockIndicator0;
+    mDGPSSourceAutoSwitching0 = other.mDGPSSourceAutoSwitching0;
+    mServiceProvider0 = other.mServiceProvider0;
+    mFrequency1 = other.mFrequency1;
+    mAcquisitionMode1 = other.mAcquisitionMode1;
+    mChannelStatus1 = other.mChannelStatus1;
+    mRCTMUsedFlag1 = other.mRCTMUsedFlag1;
+    mSNR1 = other.mSNR1;
+    mDataRateIndex1 = other.mDataRateIndex1;
+    mLockIndicator1 = other.mLockIndicator1;
+    mDGPSSourceAutoSwitching1 = other.mDGPSSourceAutoSwitching1;
+    mServiceProvider1 = other.mServiceProvider1;
+    mUserIDCode = other.mUserIDCode;
+    mUserAccess = other.mUserAccess;
+    mDecoderState = other.mDecoderState;
+  }
   return *this;
 }
 
@@ -55,13 +105,12 @@ PrimaryGPSReceiverIntegratedDGPSStatus::
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void PrimaryGPSReceiverIntegratedDGPSStatus::read(POSLVGroupRead& stream)
-  throw (IOException) {
+void PrimaryGPSReceiverIntegratedDGPSStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("PrimaryGPSReceiverIntegratedDGPSStatus::read(): wrong byte count");
-
+    throw IOException("PrimaryGPSReceiverIntegratedDGPSStatus::read(): "
+      "wrong byte count");
   stream >> mTimeDistance;
   stream >> mMobileDifferentialMode;
   stream >> mFrequency0;
@@ -85,11 +134,11 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(POSLVGroupRead& stream)
   stream >> mUserIDCode;
   stream >> mUserAccess;
   stream >> mDecoderState;
-
   uint8_t pad;
   stream >> pad;
   if (pad != 0)
-    throw IOException("PrimaryGPSReceiverIntegratedDGPSStatus::read(): wrong pad");
+    throw IOException("PrimaryGPSReceiverIntegratedDGPSStatus::read(): "
+      "wrong pad");
 }
 
 void PrimaryGPSReceiverIntegratedDGPSStatus::read(std::istream& stream) {

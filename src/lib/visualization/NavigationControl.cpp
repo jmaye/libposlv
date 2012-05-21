@@ -18,9 +18,9 @@
 
 #include "visualization/NavigationControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/VehicleNavigationPerformance.h"
 #include "types/VehicleNavigationSolution.h"
+#include "types/Group.h"
 #include "ui_NavigationControl.h"
 
 /******************************************************************************/
@@ -28,12 +28,8 @@
 /******************************************************************************/
 
 NavigationControl::NavigationControl() :
-  mpUi(new Ui_NavigationControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+    mUi(new Ui_NavigationControl()) {
+  mUi->setupUi(this);
   mStatusMsg[0] = "Full navigation";
   mStatusMsg[1] = "Fine alignment active";
   mStatusMsg[2] = "GC CHI 2";
@@ -46,55 +42,54 @@ NavigationControl::NavigationControl() :
 }
 
 NavigationControl::~NavigationControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void NavigationControl::groupRead(const Group* group) {
-  if (group->instanceOf<VehicleNavigationSolution>() == true) {
-    const VehicleNavigationSolution& msg =
-      group->typeCast<VehicleNavigationSolution>();
-    mpUi->latSpinBox->setValue(msg.mLatitude);
-    mpUi->longSpinBox->setValue(msg.mLongitude);
-    mpUi->altSpinBox->setValue(msg.mAltitude);
-    mpUi->velNorthSpinBox->setValue(msg.mNorthVelocity);
-    mpUi->velEastSpinBox->setValue(msg.mEastVelocity);
-    mpUi->velDownSpinBox->setValue(msg.mDownVelocity);
-    mpUi->rollSpinBox->setValue(msg.mRoll);
-    mpUi->pitchSpinBox->setValue(msg.mPitch);
-    mpUi->headingSpinBox->setValue(msg.mHeading);
-    mpUi->wanderSpinBox->setValue(msg.mWanderAngle);
-    mpUi->trackSpinBox->setValue(msg.mTrackAngle);
-    mpUi->speedSpinBox->setValue(msg.mSpeed);
-    mpUi->rateLongSpinBox->setValue(msg.mAngularRateLong);
-    mpUi->rateTransSpinBox->setValue(msg.mAngularRateTrans);
-    mpUi->rateDownSpinBox->setValue(msg.mAngularRateDown);
-    mpUi->accLongSpinBox->setValue(msg.mAccLong);
-    mpUi->accTransSpinBox->setValue(msg.mAccTrans);
-    mpUi->accDownSpinBox->setValue(msg.mAccDown);
-    mpUi->alignmentText->setText(mStatusMsg[msg.mAlignementStatus].c_str());
-  }
-  else if (group->instanceOf<VehicleNavigationPerformance>() == true) {
-    const VehicleNavigationPerformance& msg =
-      group->typeCast<VehicleNavigationPerformance>();
-    mpUi->posNorthRMSSpinBox->setValue(msg.mNorthPositionRMSError);
-    mpUi->posEastRMSSpinBox->setValue(msg.mEastPositionRMSError);
-    mpUi->posDownRMSSpinBox->setValue(msg.mDownPositionRMSError);
-    mpUi->velNorthRMSSpinBox->setValue(msg.mNorthVelocityRMSError);
-    mpUi->velEastRMSSpinBox->setValue(msg.mEastVelocityRMSError);
-    mpUi->velDownRMSSpinBox->setValue(msg.mDownVelocityRMSError);
-    mpUi->rollRMSSpinBox->setValue(msg.mRollRMSError);
-    mpUi->pitchRMSSpinBox->setValue(msg.mPitchRMSError);
-    mpUi->headingRMSSpinBox->setValue(msg.mHeadingRMSError);
-    mpUi->semiMajorSpinBox->setValue(msg.mErrorEllipsoidSemiMajor);
-    mpUi->semiMinorSpinBox->setValue(msg.mErrorEllipsoidSemiMinor);
-    mpUi->orientationSpinBox->setValue(msg.mErrorEllipsoidOrientation);
+void NavigationControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<VehicleNavigationSolution>()) {
+      const VehicleNavigationSolution& msg =
+        group.typeCast<VehicleNavigationSolution>();
+      mUi->latSpinBox->setValue(msg.mLatitude);
+      mUi->longSpinBox->setValue(msg.mLongitude);
+      mUi->altSpinBox->setValue(msg.mAltitude);
+      mUi->velNorthSpinBox->setValue(msg.mNorthVelocity);
+      mUi->velEastSpinBox->setValue(msg.mEastVelocity);
+      mUi->velDownSpinBox->setValue(msg.mDownVelocity);
+      mUi->rollSpinBox->setValue(msg.mRoll);
+      mUi->pitchSpinBox->setValue(msg.mPitch);
+      mUi->headingSpinBox->setValue(msg.mHeading);
+      mUi->wanderSpinBox->setValue(msg.mWanderAngle);
+      mUi->trackSpinBox->setValue(msg.mTrackAngle);
+      mUi->speedSpinBox->setValue(msg.mSpeed);
+      mUi->rateLongSpinBox->setValue(msg.mAngularRateLong);
+      mUi->rateTransSpinBox->setValue(msg.mAngularRateTrans);
+      mUi->rateDownSpinBox->setValue(msg.mAngularRateDown);
+      mUi->accLongSpinBox->setValue(msg.mAccLong);
+      mUi->accTransSpinBox->setValue(msg.mAccTrans);
+      mUi->accDownSpinBox->setValue(msg.mAccDown);
+      mUi->alignmentText->setText(mStatusMsg[msg.mAlignementStatus].c_str());
+    }
+    else if (group.instanceOf<VehicleNavigationPerformance>()) {
+      const VehicleNavigationPerformance& msg =
+        group.typeCast<VehicleNavigationPerformance>();
+      mUi->posNorthRMSSpinBox->setValue(msg.mNorthPositionRMSError);
+      mUi->posEastRMSSpinBox->setValue(msg.mEastPositionRMSError);
+      mUi->posDownRMSSpinBox->setValue(msg.mDownPositionRMSError);
+      mUi->velNorthRMSSpinBox->setValue(msg.mNorthVelocityRMSError);
+      mUi->velEastRMSSpinBox->setValue(msg.mEastVelocityRMSError);
+      mUi->velDownRMSSpinBox->setValue(msg.mDownVelocityRMSError);
+      mUi->rollRMSSpinBox->setValue(msg.mRollRMSError);
+      mUi->pitchRMSSpinBox->setValue(msg.mPitchRMSError);
+      mUi->headingRMSSpinBox->setValue(msg.mHeadingRMSError);
+      mUi->semiMajorSpinBox->setValue(msg.mErrorEllipsoidSemiMajor);
+      mUi->semiMinorSpinBox->setValue(msg.mErrorEllipsoidSemiMinor);
+      mUi->orientationSpinBox->setValue(msg.mErrorEllipsoidOrientation);
+    }
   }
 }

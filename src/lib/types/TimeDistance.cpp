@@ -18,7 +18,7 @@
 
 #include "types/TimeDistance.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -27,10 +27,22 @@
 TimeDistance::TimeDistance() {
 }
 
-TimeDistance::TimeDistance(const TimeDistance& other) {
+TimeDistance::TimeDistance(const TimeDistance& other) :
+    mTime1(other.mTime1),
+    mTime2(other.mTime2),
+    mDistanceTag(other.mDistanceTag),
+    mTimeType(mTimeType),
+    mDistanceType(mDistanceType) {
 }
 
 TimeDistance& TimeDistance::operator = (const TimeDistance& other) {
+  if (this != &other) {
+    mTime1 = other.mTime1;
+    mTime2 = other.mTime2;
+    mDistanceTag = other.mDistanceTag;
+    mTimeType = mTimeType;
+    mDistanceType = mDistanceType;
+  }
   return *this;
 }
 
@@ -41,7 +53,7 @@ TimeDistance::~TimeDistance() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void TimeDistance::read(POSLVGroupRead& stream) {
+void TimeDistance::read(BinaryReader& stream) {
   stream >> mTime1;
   stream >> mTime2;
   stream >> mDistanceTag;
@@ -71,7 +83,7 @@ void TimeDistance::write(std::ofstream& stream) const {
   stream << " ";
 }
 
-POSLVGroupRead& operator >> (POSLVGroupRead& stream, TimeDistance& obj) {
+BinaryReader& operator >> (BinaryReader& stream, TimeDistance& obj) {
   obj.read(stream);
   return stream;
 }

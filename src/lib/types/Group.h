@@ -24,21 +24,18 @@
 #ifndef GROUP_H
 #define GROUP_H
 
-#include "exceptions/TypeCastException.h"
-#include "exceptions/TypeCreationException.h"
-#include "base/Serializable.h"
-
 #include <stdint.h>
 
-class POSLVGroupRead;
+#include "exceptions/TypeCastException.h"
+#include "types/Packet.h"
+
+class BinaryReader;
 
 /** The class Group is the base class for all Applanix messages.
     \brief Base class for Applanix messages
   */
 class Group :
-  public virtual Serializable {
-  /// Stream operator for reading from a connection
-  friend POSLVGroupRead& operator >> (POSLVGroupRead& stream, Group& obj);
+  public Packet {
 public:
   /** \name Constructors/Destructor
     @{
@@ -59,6 +56,8 @@ public:
     */
   /// Returns the type ID of the group
   uint16_t getTypeID() const;
+  /// Returns the checksum of the group
+  uint16_t getChecksum() const;
   /** @}
     */
 
@@ -68,14 +67,14 @@ public:
   /// Returns a new prototype of this group
   virtual Group* clone() const = 0;
   /// Cast the group into something else
-  template<class O> const O& typeCast() const throw (TypeCastException) {
+  template<class O> const O& typeCast() const {
     if (this->mTypeID == O::mProto.mTypeID)
       return (const O&)*this;
     else
       throw TypeCastException("Group::typeCast(): cast failed");
   }
   /// Cast the group into something else
-  template<class O> O& typeCast() throw (TypeCastException) {
+  template<class O> O& typeCast() {
     if (this->mTypeID == O::mProto.mTypeID)
       return (O&)*this;
     else
@@ -99,27 +98,13 @@ public:
     */
 
 protected:
-  /** \name Stream methods
-    @{
-    */
-  /// Reads from standard input
-  virtual void read(std::istream& stream) = 0;
-  /// Writes to standard output
-  virtual void write(std::ostream& stream) const = 0;
-  /// Reads from a file
-  virtual void read(std::ifstream& stream) = 0;
-  /// Writes to a file
-  virtual void write(std::ofstream& stream) const = 0;
-  /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) = 0;
-  /** @}
-    */
-
   /** \name Protected members
     @{
     */
   /// Type ID
   uint16_t mTypeID;
+  /// Computed checksum when reading
+  uint16_t mChecksum;
   /** @}
     */
 

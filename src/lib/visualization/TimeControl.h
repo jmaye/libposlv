@@ -24,11 +24,14 @@
 #ifndef TIMECONTROL_H
 #define TIMECONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_TimeControl;
+class Group;
 
 /** The TimeControl class is the control for the time of the Applanix.
     \brief Time control
@@ -36,7 +39,18 @@ class Ui_TimeControl;
 class TimeControl :
   public Control,
   public Singleton<TimeControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  TimeControl(const TimeControl& other);
+  /// Assignment operator
+  TimeControl& operator = (const TimeControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -54,7 +68,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_TimeControl* mpUi;
+  Ui_TimeControl* mUi;
   /** @}
     */
 
@@ -62,8 +76,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

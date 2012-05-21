@@ -18,8 +18,8 @@
 
 #include "types/COMPortParameters.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -28,11 +28,25 @@
 COMPortParameters::COMPortParameters() {
 }
 
-COMPortParameters::COMPortParameters(const COMPortParameters& other) {
+COMPortParameters::COMPortParameters(const COMPortParameters& other) :
+    mBaudrate(other.mBaudrate),
+    mParity(other.mParity),
+    mDataStopBits(other.mDataStopBits),
+    mFlowControl(other.mFlowControl),
+    mInputSelect(other.mInputSelect),
+    mOutputSelect(other.mOutputSelect) {
 }
 
 COMPortParameters& COMPortParameters::operator =
-  (const COMPortParameters& other) {
+    (const COMPortParameters& other) {
+  if (this != &other) {
+    mBaudrate = other.mBaudrate;
+    mParity = other.mParity;
+    mDataStopBits = other.mDataStopBits;
+    mFlowControl = other.mFlowControl;
+    mInputSelect = other.mInputSelect;
+    mOutputSelect = other.mOutputSelect;
+  }
   return *this;
 }
 
@@ -43,7 +57,7 @@ COMPortParameters::~COMPortParameters() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void COMPortParameters::read(POSLVMessageRead& stream) {
+void COMPortParameters::read(BinaryReader& stream) {
   stream >> mBaudrate;
   stream >> mParity;
   stream >> mDataStopBits;
@@ -52,7 +66,7 @@ void COMPortParameters::read(POSLVMessageRead& stream) {
   stream >> mOutputSelect;
 }
 
-void COMPortParameters::write(POSLVMessageWrite& stream) const {
+void COMPortParameters::write(BinaryWriter& stream) const {
   stream << mBaudrate;
   stream << mParity;
   stream << mDataStopBits;
@@ -73,14 +87,14 @@ void COMPortParameters::read(std::ifstream& stream) {
 void COMPortParameters::write(std::ofstream& stream) const {
 }
 
-POSLVMessageRead& operator >> (POSLVMessageRead& stream, COMPortParameters&
-  obj) {
+BinaryReader& operator >> (BinaryReader& stream, COMPortParameters&
+    obj) {
   obj.read(stream);
   return stream;
 }
 
-POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const
-  COMPortParameters& obj) {
+BinaryWriter& operator << (BinaryWriter& stream, const
+    COMPortParameters& obj) {
   obj.write(stream);
   return stream;
 }

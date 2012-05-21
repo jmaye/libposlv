@@ -24,11 +24,10 @@
 #ifndef FACTORY_H
 #define FACTORY_H
 
+#include <map>
+
 #include "base/Singleton.h"
 #include "base/Serializable.h"
-#include "exceptions/TypeCreationException.h"
-
-#include <map>
 
 /** The class Factory implements the object factory design pattern.
     \brief Object factory design pattern
@@ -39,6 +38,16 @@ class Factory :
   public virtual Serializable {
 /// Lets the access for Singleton class
 friend class Singleton<Factory<T, C> >;
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  Factory(const Factory& other);
+  /// Assignment operator
+  Factory& operator = (const Factory& other);
+  /** @}
+    */
+
 public:
   /** \name Accessors
     @{
@@ -54,12 +63,11 @@ public:
   /// Clear factory
   void clear();
   /// Create prototyped instance of the specified type
-  C* create(const T& typeID) const throw (TypeCreationException<T>);
+  C* create(const T& typeID) const;
   /// Register a type to the factory
-  void registerType(const C* object, const T& typeID)
-    throw (TypeCreationException<T>);
+  void registerType(const C* object, const T& typeID);
   /// Unregister a type from the factory
-  void unregisterType(const T& typeID) throw (TypeCreationException<T>);
+  void unregisterType(const T& typeID);
   /// Check if type is registered
   bool isRegistered(const T& typeID) const;
   /** @}

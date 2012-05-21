@@ -24,11 +24,14 @@
 #ifndef IINCONTROL_H
 #define IINCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_IINControl;
+class Group;
 
 /** The IINControl class is the control for the IIN solution of the Applanix.
     \brief IIN solution control
@@ -36,7 +39,18 @@ class Ui_IINControl;
 class IINControl :
   public Control,
   public Singleton<IINControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  IINControl(const IINControl& other);
+  /// Assignment operator
+  IINControl& operator = (const IINControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -54,7 +68,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_IINControl* mpUi;
+  Ui_IINControl* mUi;
   /// Mapping for the status messages
   std::map<uint8_t, std::string> mStatusMsg;
   /** @}
@@ -64,8 +78,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

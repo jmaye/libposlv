@@ -18,8 +18,9 @@
 
 #include "types/SecondaryDataPortControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +33,27 @@ const SecondaryDataPortControl SecondaryDataPortControl::mProto;
 /******************************************************************************/
 
 SecondaryDataPortControl::SecondaryDataPortControl() :
-  Message(61) {
+    Message(61) {
 }
 
 SecondaryDataPortControl::SecondaryDataPortControl(const
-  SecondaryDataPortControl& other) :
-  Message(other) {
+    SecondaryDataPortControl& other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mNumGroups(other.mNumGroups),
+    mGroupsIDVector(other.mGroupsIDVector),
+    mOutputRate(other.mOutputRate) {
 }
 
 SecondaryDataPortControl& SecondaryDataPortControl::operator =
-  (const SecondaryDataPortControl& other) {
-  this->Message::operator=(other);
+    (const SecondaryDataPortControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mNumGroups = other.mNumGroups;
+    mGroupsIDVector = other.mGroupsIDVector;
+    mOutputRate = other.mOutputRate;
+  }
   return *this;
 }
 
@@ -53,8 +64,7 @@ SecondaryDataPortControl::~SecondaryDataPortControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void SecondaryDataPortControl::read(POSLVMessageRead& stream)
-  throw (IOException) {
+void SecondaryDataPortControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -84,10 +94,10 @@ void SecondaryDataPortControl::read(POSLVMessageRead& stream)
   mChecksum = 65536 - mChecksum;
 }
 
-void SecondaryDataPortControl::write(POSLVMessageWrite& stream) const
-  throw (IOException) {
+void SecondaryDataPortControl::write(BinaryWriter& stream) const {
   if (mGroupsIDVector.size() != mNumGroups)
-    throw IOException("SecondaryDataPortControl::write(): wrong number of groups");
+    throw IOException("SecondaryDataPortControl::write(): wrong number of "
+      "groups");
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

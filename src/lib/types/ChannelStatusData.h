@@ -24,7 +24,9 @@
 #ifndef CHANNELSTATUSDATA_H
 #define CHANNELSTATUSDATA_H
 
-#include "types/Group.h"
+#include "base/Serializable.h"
+
+class BinaryReader;
 
 /** The class ChannelStatusData represents the Channel Status for the Applanix.
     \brief Channel Status
@@ -32,7 +34,7 @@
 class ChannelStatusData :
   public virtual Serializable {
   /// Reads from UDP connection
-  friend POSLVGroupRead& operator >> (POSLVGroupRead& stream,
+  friend BinaryReader& operator >> (BinaryReader& stream,
     ChannelStatusData& obj);
 public:
   /** \name Constructors/Destructor
@@ -80,7 +82,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

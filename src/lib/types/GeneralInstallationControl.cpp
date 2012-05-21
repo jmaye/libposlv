@@ -18,8 +18,9 @@
 
 #include "types/GeneralInstallationControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +33,65 @@ const GeneralInstallationControl GeneralInstallationControl::mProto;
 /******************************************************************************/
 
 GeneralInstallationControl::GeneralInstallationControl() :
-  Message(20) {
+    Message(20) {
 }
 
 GeneralInstallationControl::GeneralInstallationControl(const
-  GeneralInstallationControl& other) :
-  Message(other) {
+    GeneralInstallationControl& other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mTimeTypes(other.mTimeTypes),
+    mDistanceType(other.mDistanceType),
+    mAutoStart(other.mAutoStart),
+    mRefIMUX(other.mRefIMUX),
+    mRefIMUY(other.mRefIMUY),
+    mRefIMUZ(other.mRefIMUZ),
+    mRefPrimGPSX(other.mRefPrimGPSX),
+    mRefPrimGPSY(other.mRefPrimGPSY),
+    mRefPrimGPSZ(other.mRefPrimGPSZ),
+    mRefAux1GPSX(other.mRefAux1GPSX),
+    mRefAux1GPSY(other.mRefAux1GPSY),
+    mRefAux1GPSZ(other.mRefAux1GPSZ),
+    mRefAux2GPSX(other.mRefAux2GPSX),
+    mRefAux2GPSY(other.mRefAux2GPSY),
+    mRefAux2GPSZ(other.mRefAux2GPSZ),
+    mXIMURefMountingAngle(other.mXIMURefMountingAngle),
+    mYIMURefMountingAngle(other.mYIMURefMountingAngle),
+    mZIMURefMountingAngle(other.mZIMURefMountingAngle),
+    mXRefVehicleMountingAngle(other.mXRefVehicleMountingAngle),
+    mYRefVehicleMountingAngle(other.mYRefVehicleMountingAngle),
+    mZRefVehicleMountingAngle(other.mZRefVehicleMountingAngle),
+    mMultipathEnvironment(other.mMultipathEnvironment) {
 }
 
 GeneralInstallationControl& GeneralInstallationControl::operator =
-  (const GeneralInstallationControl& other) {
-  this->Message::operator=(other);
+    (const GeneralInstallationControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mTimeTypes = other.mTimeTypes;
+    mDistanceType = other.mDistanceType;
+    mAutoStart = other.mAutoStart;
+    mRefIMUX = other.mRefIMUX;
+    mRefIMUY = other.mRefIMUY;
+    mRefIMUZ = other.mRefIMUZ;
+    mRefPrimGPSX = other.mRefPrimGPSX;
+    mRefPrimGPSY = other.mRefPrimGPSY;
+    mRefPrimGPSZ = other.mRefPrimGPSZ;
+    mRefAux1GPSX = other.mRefAux1GPSX;
+    mRefAux1GPSY = other.mRefAux1GPSY;
+    mRefAux1GPSZ = other.mRefAux1GPSZ;
+    mRefAux2GPSX = other.mRefAux2GPSX;
+    mRefAux2GPSY = other.mRefAux2GPSY;
+    mRefAux2GPSZ = other.mRefAux2GPSZ;
+    mXIMURefMountingAngle = other.mXIMURefMountingAngle;
+    mYIMURefMountingAngle = other.mYIMURefMountingAngle;
+    mZIMURefMountingAngle = other.mZIMURefMountingAngle;
+    mXRefVehicleMountingAngle = other.mXRefVehicleMountingAngle;
+    mYRefVehicleMountingAngle = other.mYRefVehicleMountingAngle;
+    mZRefVehicleMountingAngle = other.mZRefVehicleMountingAngle;
+    mMultipathEnvironment = other.mMultipathEnvironment;
+  }
   return *this;
 }
 
@@ -53,8 +102,7 @@ GeneralInstallationControl::~GeneralInstallationControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GeneralInstallationControl::read(POSLVMessageRead& stream)
-  throw (IOException) {
+void GeneralInstallationControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -161,7 +209,7 @@ void GeneralInstallationControl::read(POSLVMessageRead& stream)
   mChecksum = 65536 - mChecksum;
 }
 
-void GeneralInstallationControl::write(POSLVMessageWrite& stream) const {
+void GeneralInstallationControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

@@ -18,8 +18,9 @@
 
 #include "types/GravityControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,15 +33,31 @@ const GravityControl GravityControl::mProto;
 /******************************************************************************/
 
 GravityControl::GravityControl() :
-  Message(40) {
+    Message(40) {
 }
 
 GravityControl::GravityControl(const GravityControl& other) :
-  Message(other) {
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mMagnitude(other.mMagnitude),
+    mNorthDeflection(other.mNorthDeflection),
+    mEastDeflection(other.mEastDeflection),
+    mLatitudeValidity(other.mLatitudeValidity),
+    mLongitudeValidity(other.mLongitudeValidity),
+    mAltitudeValidity(other.mAltitudeValidity) {
 }
 
 GravityControl& GravityControl::operator = (const GravityControl& other) {
-  this->Message::operator=(other);
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mMagnitude = other.mMagnitude;
+    mNorthDeflection = other.mNorthDeflection;
+    mEastDeflection = other.mEastDeflection;
+    mLatitudeValidity = other.mLatitudeValidity;
+    mLongitudeValidity = other.mLongitudeValidity;
+    mAltitudeValidity = other.mAltitudeValidity;
+  }
   return *this;
 }
 
@@ -51,7 +68,7 @@ GravityControl::~GravityControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GravityControl::read(POSLVMessageRead& stream) throw (IOException) {
+void GravityControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -98,7 +115,7 @@ void GravityControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void GravityControl::write(POSLVMessageWrite& stream) const {
+void GravityControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

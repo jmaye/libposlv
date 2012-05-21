@@ -18,7 +18,8 @@
 
 #include "types/UserTimeStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +32,32 @@ const UserTimeStatus UserTimeStatus::mProto;
 /******************************************************************************/
 
 UserTimeStatus::UserTimeStatus() :
-  Group(17) {
+    Group(17) {
 }
 
 UserTimeStatus::UserTimeStatus(const UserTimeStatus& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mNumberOfTimeSynchMessageRejections(
+      other.mNumberOfTimeSynchMessageRejections),
+    mNumberOfUserTimeResynchronizations(
+      other.mNumberOfUserTimeResynchronizations),
+    mUserTimeValid(other.mUserTimeValid),
+    mTimeSynchMessageReceived(other.mTimeSynchMessageReceived) {
 }
 
 UserTimeStatus& UserTimeStatus::operator =
-  (const UserTimeStatus& other) {
-  this->Group::operator=(other);
+    (const UserTimeStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mNumberOfTimeSynchMessageRejections =
+      other.mNumberOfTimeSynchMessageRejections;
+    mNumberOfUserTimeResynchronizations =
+      other.mNumberOfUserTimeResynchronizations;
+    mUserTimeValid = other.mUserTimeValid;
+    mTimeSynchMessageReceived = other.mTimeSynchMessageReceived;
+  }
   return *this;
 }
 
@@ -51,12 +68,11 @@ UserTimeStatus::~UserTimeStatus() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void UserTimeStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void UserTimeStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("UserTimeStatus::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mNumberOfTimeSynchMessageRejections;
   stream >> mNumberOfUserTimeResynchronizations;

@@ -18,7 +18,8 @@
 
 #include "types/TimeTaggedDMIData.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +32,32 @@ const TimeTaggedDMIData TimeTaggedDMIData::mProto;
 /******************************************************************************/
 
 TimeTaggedDMIData::TimeTaggedDMIData() :
- Group(15) {
+    Group(15) {
 }
 
 TimeTaggedDMIData::TimeTaggedDMIData(const TimeTaggedDMIData& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mSignedDistanceTraveled(other.mSignedDistanceTraveled),
+    mUnsignedDistanceTraveled(other.mUnsignedDistanceTraveled),
+    mDMIScaleFactor(other.mDMIScaleFactor),
+    mDataStatus(other.mDataStatus),
+    mDMIType(other.mDMIType),
+    mDMIDataRate(other.mDMIDataRate) {
 }
 
 TimeTaggedDMIData& TimeTaggedDMIData::operator =
-  (const TimeTaggedDMIData& other) {
-  this->Group::operator=(other);
+    (const TimeTaggedDMIData& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mSignedDistanceTraveled = other.mSignedDistanceTraveled;
+    mUnsignedDistanceTraveled = other.mUnsignedDistanceTraveled;
+    mDMIScaleFactor = other.mDMIScaleFactor;
+    mDataStatus = other.mDataStatus;
+    mDMIType = other.mDMIType;
+    mDMIDataRate = other.mDMIDataRate;
+  }
   return *this;
 }
 
@@ -51,12 +68,11 @@ TimeTaggedDMIData::~TimeTaggedDMIData() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void TimeTaggedDMIData::read(POSLVGroupRead& stream) throw (IOException) {
+void TimeTaggedDMIData::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("TimeTaggedDMIData::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mSignedDistanceTraveled;
   stream >> mUnsignedDistanceTraveled;
@@ -64,7 +80,6 @@ void TimeTaggedDMIData::read(POSLVGroupRead& stream) throw (IOException) {
   stream >> mDataStatus;
   stream >> mDMIType;
   stream >> mDMIDataRate;
-
   uint8_t pad;
   stream >> pad;
   if (pad != 0)

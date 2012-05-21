@@ -18,8 +18,8 @@
 
 #include "types/GAMSCalibrationControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +32,23 @@ const GAMSCalibrationControl GAMSCalibrationControl::mProto;
 /******************************************************************************/
 
 GAMSCalibrationControl::GAMSCalibrationControl() :
-  Message(58) {
+    Message(58) {
 }
 
 GAMSCalibrationControl::GAMSCalibrationControl(const
-  GAMSCalibrationControl& other) :
-  Message(other) {
+    GAMSCalibrationControl& other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mCalibrationAction(other.mCalibrationAction) {
 }
 
 GAMSCalibrationControl& GAMSCalibrationControl::operator =
-  (const GAMSCalibrationControl& other) {
-  this->Message::operator=(other);
+    (const GAMSCalibrationControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mCalibrationAction = other.mCalibrationAction;
+  }
   return *this;
 }
 
@@ -53,10 +59,10 @@ GAMSCalibrationControl::~GAMSCalibrationControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GAMSCalibrationControl::read(POSLVMessageRead& stream) {
+void GAMSCalibrationControl::read(BinaryReader& stream) {
 }
 
-void GAMSCalibrationControl::write(POSLVMessageWrite& stream) const {
+void GAMSCalibrationControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

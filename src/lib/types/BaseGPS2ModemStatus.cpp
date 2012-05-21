@@ -18,7 +18,10 @@
 
 #include "types/BaseGPS2ModemStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +34,38 @@ const BaseGPS2ModemStatus BaseGPS2ModemStatus::mProto;
 /******************************************************************************/
 
 BaseGPS2ModemStatus::BaseGPS2ModemStatus() :
-  Group(22) {
+    Group(22) {
 }
 
 BaseGPS2ModemStatus::BaseGPS2ModemStatus(const BaseGPS2ModemStatus& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mNumberOfRedialsPerDisconnect(other.mNumberOfDisconnects),
+    mMaximumNumberOfRedialsPerDisconnect(
+      other.mMaximumNumberOfRedialsPerDisconnect),
+    mNumberOfDisconnects(other.mNumberOfDisconnects),
+    mDataGapLength(other.mDataGapLength),
+    mMaximumDataGapLength(other.mMaximumDataGapLength) {
+  memcpy(mModemResponse, other.mModemResponse, sizeof(mModemResponse));
+  memcpy(mConnectionStatus, other.mConnectionStatus,
+      sizeof(mConnectionStatus));
 }
 
 BaseGPS2ModemStatus& BaseGPS2ModemStatus::operator =
-  (const BaseGPS2ModemStatus& other) {
-  this->Group::operator=(other);
+    (const BaseGPS2ModemStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    memcpy(mModemResponse, other.mModemResponse, sizeof(mModemResponse));
+    memcpy(mConnectionStatus, other.mConnectionStatus,
+      sizeof(mConnectionStatus));
+    mNumberOfRedialsPerDisconnect = other.mNumberOfDisconnects;
+    mMaximumNumberOfRedialsPerDisconnect =
+      other.mMaximumNumberOfRedialsPerDisconnect;
+    mNumberOfDisconnects = other.mNumberOfDisconnects;
+    mDataGapLength = other.mDataGapLength;
+    mMaximumDataGapLength = other.mMaximumDataGapLength;
+  }
   return *this;
 }
 
@@ -51,23 +76,21 @@ BaseGPS2ModemStatus::~BaseGPS2ModemStatus() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void BaseGPS2ModemStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void BaseGPS2ModemStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("BaseGPS2ModemStatus::read(): wrong byte count");
-
   stream >> mTimeDistance;
   for (size_t i = 0; i < 16; i++)
-    stream >> mau8ModemResponse[i];
+    stream >> mModemResponse[i];
   for (size_t i = 0; i < 48; i++)
-    stream >> mau8ConnectionStatus[i];
+    stream >> mConnectionStatus[i];
   stream >> mNumberOfRedialsPerDisconnect;
   stream >> mMaximumNumberOfRedialsPerDisconnect;
   stream >> mNumberOfDisconnects;
   stream >> mDataGapLength;
   stream >> mMaximumDataGapLength;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)
@@ -88,11 +111,11 @@ void BaseGPS2ModemStatus::write(std::ofstream& stream) const {
   stream << " " ;
   stream << mTimeDistance;
   for (size_t i = 0; i < 16; i++) {
-    stream << (uint16_t)mau8ModemResponse[i];
+    stream << (uint16_t)mModemResponse[i];
     stream << " " ;
   }
   for (size_t i = 0; i < 48; i++) {
-    stream << (uint16_t)mau8ConnectionStatus[i];
+    stream << (uint16_t)mConnectionStatus[i];
     stream << " " ;
   }
   stream << mNumberOfRedialsPerDisconnect;

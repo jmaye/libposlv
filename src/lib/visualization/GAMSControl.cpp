@@ -18,8 +18,8 @@
 
 #include "visualization/GAMSControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/GAMSSolutionStatus.h"
+#include "types/Group.h"
 #include "ui_GAMSControl.h"
 
 /******************************************************************************/
@@ -27,12 +27,8 @@
 /******************************************************************************/
 
 GAMSControl::GAMSControl() :
-  mpUi(new Ui_GAMSControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+  mUi(new Ui_GAMSControl()) {
+  mUi->setupUi(this);
   mStatusMsg[0] = "Fixed integer";
   mStatusMsg[1] = "Fixed integer test install data";
   mStatusMsg[2] = "Degraded fixed integer";
@@ -44,25 +40,24 @@ GAMSControl::GAMSControl() :
 }
 
 GAMSControl::~GAMSControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void GAMSControl::groupRead(const Group* group) {
-  if (group->instanceOf<GAMSSolutionStatus>() == true) {
-    const GAMSSolutionStatus& msg = group->typeCast<GAMSSolutionStatus>();
-    mpUi->satGAMSSpinBox->setValue(msg.mNumberOfSatellites);
-    mpUi->statusText->setText(mStatusMsg[msg.mSolutionStatus].c_str());
-    mpUi->antennaSpinBox->setValue(msg.mComputedAntennaSeparation);
-    mpUi->headingSpinBox->setValue(msg.mGAMSHeading);
-    mpUi->headingRMSSpinBox->setValue(msg.mGAMSHeadingRMSError);
-    mpUi->pdopSpinBox->setValue(msg.mAPrioriPDOP);
+void GAMSControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<GAMSSolutionStatus>()) {
+      const GAMSSolutionStatus& msg = group.typeCast<GAMSSolutionStatus>();
+      mUi->satGAMSSpinBox->setValue(msg.mNumberOfSatellites);
+      mUi->statusText->setText(mStatusMsg[msg.mSolutionStatus].c_str());
+      mUi->antennaSpinBox->setValue(msg.mComputedAntennaSeparation);
+      mUi->headingSpinBox->setValue(msg.mGAMSHeading);
+      mUi->headingRMSSpinBox->setValue(msg.mGAMSHeadingRMSError);
+      mUi->pdopSpinBox->setValue(msg.mAPrioriPDOP);
+    }
   }
 }

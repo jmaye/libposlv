@@ -18,8 +18,9 @@
 
 #include "types/UserAccuracyControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,16 +33,28 @@ const UserAccuracyControl UserAccuracyControl::mProto;
 /******************************************************************************/
 
 UserAccuracyControl::UserAccuracyControl() :
-  Message(24) {
+    Message(24) {
 }
 
 UserAccuracyControl::UserAccuracyControl(const UserAccuracyControl& other) :
-  Message(other) {
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mAttitudeAccuracy(other.mAttitudeAccuracy),
+    mHeadingAccuracy(other.mHeadingAccuracy),
+    mPositionAccuracy(other.mPositionAccuracy),
+    mVelocityAccuracy(other.mVelocityAccuracy) {
 }
 
 UserAccuracyControl& UserAccuracyControl::operator =
-  (const UserAccuracyControl& other) {
-  this->Message::operator=(other);
+    (const UserAccuracyControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mAttitudeAccuracy = other.mAttitudeAccuracy;
+    mHeadingAccuracy = other.mHeadingAccuracy;
+    mPositionAccuracy = other.mPositionAccuracy;
+    mVelocityAccuracy = other.mVelocityAccuracy;
+  }
   return *this;
 }
 
@@ -52,7 +65,7 @@ UserAccuracyControl::~UserAccuracyControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void UserAccuracyControl::read(POSLVMessageRead& stream) throw (IOException) {
+void UserAccuracyControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -81,7 +94,7 @@ void UserAccuracyControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void UserAccuracyControl::write(POSLVMessageWrite& stream) const {
+void UserAccuracyControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

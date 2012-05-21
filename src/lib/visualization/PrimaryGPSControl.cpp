@@ -18,9 +18,9 @@
 
 #include "visualization/PrimaryGPSControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/PrimaryGPSStatus.h"
 #include "types/PPSTimeRecoveryStatus.h"
+#include "types/Group.h"
 #include "ui_PrimaryGPSControl.h"
 
 /******************************************************************************/
@@ -28,12 +28,8 @@
 /******************************************************************************/
 
 PrimaryGPSControl::PrimaryGPSControl() :
-  mpUi(new Ui_PrimaryGPSControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+    mUi(new Ui_PrimaryGPSControl()) {
+  mUi->setupUi(this);
   mStatusMsg[-1] = "Unknown";
   mStatusMsg[0] = "No data from receiver";
   mStatusMsg[1] = "Horizontal C/A mode";
@@ -44,7 +40,6 @@ PrimaryGPSControl::PrimaryGPSControl() :
   mStatusMsg[6] = "Integer wide lane RTK mode";
   mStatusMsg[7] = "Integer narrow lane RTK mode";
   mStatusMsg[8] = "P-code";
-
   mGPSTypeMsg[0] = "No receiver";
   for (size_t i = 1; i <= 7; i++)
     mGPSTypeMsg[i] = "Reserved";
@@ -57,7 +52,6 @@ PrimaryGPSControl::PrimaryGPSControl() :
   mGPSTypeMsg[14] = "Reserved";
   mGPSTypeMsg[15] = "Reserved";
   mGPSTypeMsg[16] = "Trimble BD960";
-
   mTimeSyncMsg[0] = "Not synchronized";
   mTimeSyncMsg[1] = "Synchronizing";
   mTimeSyncMsg[2] = "Fully synchronized";
@@ -65,36 +59,37 @@ PrimaryGPSControl::PrimaryGPSControl() :
 }
 
 PrimaryGPSControl::~PrimaryGPSControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void PrimaryGPSControl::groupRead(const Group* group) {
-  if (group->instanceOf<PrimaryGPSStatus>() == true) {
-    const PrimaryGPSStatus& msg = group->typeCast<PrimaryGPSStatus>();
-    mpUi->navPrimGPSText->setText(
-      mStatusMsg[msg.mNavigationSolutionStatus].c_str());
-    mpUi->satPrimGPSSpinBox->setValue(msg.mNumberOfSVTracked);
-    mpUi->primGPSTypeText->setText(mGPSTypeMsg[msg.mGPSReceiverType].c_str());
-    mpUi->geoidalPrimGPSSpinBox->setValue(msg.mGeoidalSeparation);
-    mpUi->hdopSpinBox->setValue(msg.mHDOP);
-    mpUi->vdopSpinBox->setValue(msg.mVDOP);
-    mpUi->dgpsIDSpinBox->setValue(msg.mDGPSReferenceID);
-    mpUi->corrLatencySpinBox->setValue(msg.mDGPSCorrectionLatency);
-    mpUi->navLatencySpinBox->setValue(msg.mGPSNavigationMessageLatency);
-    mpUi->weekSpinBox->setValue(msg.mGPSUTCWeekNumber);
-    mpUi->offsetSpinBox->setValue(msg.mGPSUTCTimeOffset);
-  }
-  if (group->instanceOf<PPSTimeRecoveryStatus>() == true) {
-    const PPSTimeRecoveryStatus& msg = group->typeCast<PPSTimeRecoveryStatus>();
-    mpUi->ppsSpinBox->setValue(msg.mPPSCount);
-    mpUi->timeStatusText->setText(mTimeSyncMsg[msg.mTimeSynchroStatus].c_str());
+void PrimaryGPSControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<PrimaryGPSStatus>()) {
+      const PrimaryGPSStatus& msg = group.typeCast<PrimaryGPSStatus>();
+      mUi->navPrimGPSText->setText(
+        mStatusMsg[msg.mNavigationSolutionStatus].c_str());
+      mUi->satPrimGPSSpinBox->setValue(msg.mNumberOfSVTracked);
+      mUi->primGPSTypeText->setText(mGPSTypeMsg[msg.mGPSReceiverType].c_str());
+      mUi->geoidalPrimGPSSpinBox->setValue(msg.mGeoidalSeparation);
+      mUi->hdopSpinBox->setValue(msg.mHDOP);
+      mUi->vdopSpinBox->setValue(msg.mVDOP);
+      mUi->dgpsIDSpinBox->setValue(msg.mDGPSReferenceID);
+      mUi->corrLatencySpinBox->setValue(msg.mDGPSCorrectionLatency);
+      mUi->navLatencySpinBox->setValue(msg.mGPSNavigationMessageLatency);
+      mUi->weekSpinBox->setValue(msg.mGPSUTCWeekNumber);
+      mUi->offsetSpinBox->setValue(msg.mGPSUTCTimeOffset);
+    }
+    if (group.instanceOf<PPSTimeRecoveryStatus>()) {
+      const PPSTimeRecoveryStatus& msg =
+        group.typeCast<PPSTimeRecoveryStatus>();
+      mUi->ppsSpinBox->setValue(msg.mPPSCount);
+      mUi->timeStatusText->setText(
+        mTimeSyncMsg[msg.mTimeSynchroStatus].c_str());
+    }
   }
 }

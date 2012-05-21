@@ -24,16 +24,19 @@
 #ifndef STATIONRECORD_H
 #define STATIONRECORD_H
 
-#include "types/Group.h"
+#include <stdint.h>
+
+#include "base/Serializable.h"
+
+class BinaryReader;
 
 /** The class StationRecord represents a Station Record for the Applanix.
     \brief Station record
   */
 class StationRecord :
   public Serializable {
-  /// Reads from UDP
-  friend POSLVGroupRead& operator >> (POSLVGroupRead& stream,
-    StationRecord& obj);
+  /// Reads from stream
+  friend BinaryReader& operator >> (BinaryReader& stream, StationRecord& obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -83,8 +86,8 @@ protected:
   virtual void read(std::ifstream& stream);
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
-  /// Reads from the network
-  virtual void read(POSLVGroupRead& stream);
+  /// Reads from stream
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

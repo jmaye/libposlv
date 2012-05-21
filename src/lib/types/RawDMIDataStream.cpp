@@ -18,7 +18,8 @@
 
 #include "types/RawDMIDataStream.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +32,28 @@ const RawDMIDataStream RawDMIDataStream::mProto;
 /******************************************************************************/
 
 RawDMIDataStream::RawDMIDataStream() :
-  Group(10006) {
+    Group(10006) {
 }
 
 RawDMIDataStream::RawDMIDataStream(const RawDMIDataStream& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mUpDownPulseCount(other.mUpDownPulseCount),
+    mRectifiedPulseCount(other.mRectifiedPulseCount),
+    mEventCount(other.mEventCount),
+    mReservedCount(other.mReservedCount) {
 }
 
 RawDMIDataStream& RawDMIDataStream::operator =
-  (const RawDMIDataStream& other) {
-  this->Group::operator=(other);
+    (const RawDMIDataStream& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mUpDownPulseCount = other.mUpDownPulseCount;
+    mRectifiedPulseCount = other.mRectifiedPulseCount;
+    mEventCount = other.mEventCount;
+    mReservedCount = other.mReservedCount;
+  }
   return *this;
 }
 
@@ -51,18 +64,16 @@ RawDMIDataStream::~RawDMIDataStream() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void RawDMIDataStream::read(POSLVGroupRead& stream) throw (IOException) {
+void RawDMIDataStream::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("RawDMIDataStream::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mUpDownPulseCount;
   stream >> mRectifiedPulseCount;
   stream >> mEventCount;
   stream >> mReservedCount;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)

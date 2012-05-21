@@ -31,7 +31,19 @@
   */
 class Led :
   public QWidget {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  Led(const Led& other);
+  /// Assignment operator
+  Led& operator = (const Led& other);
+  /** @}
+    */
+
 public:
   /** \name Constructors/destructor
     @{

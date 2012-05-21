@@ -18,8 +18,8 @@
 
 #include "visualization/IINControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/IINSolutionStatus.h"
+#include "types/Group.h"
 #include "ui_IINControl.h"
 
 /******************************************************************************/
@@ -27,12 +27,8 @@
 /******************************************************************************/
 
 IINControl::IINControl() :
-  mpUi(new Ui_IINControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+    mUi(new Ui_IINControl()) {
+  mUi->setupUi(this);
   mStatusMsg[1] = "Fixed narrow lane RTK";
   mStatusMsg[2] = "Fixed wide lane RTK";
   mStatusMsg[3] = "Float RTK";
@@ -44,23 +40,22 @@ IINControl::IINControl() :
 }
 
 IINControl::~IINControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void IINControl::groupRead(const Group* group) {
-  if (group->instanceOf<IINSolutionStatus>() == true) {
-    const IINSolutionStatus& msg = group->typeCast<IINSolutionStatus>();
-    mpUi->satIINSpinBox->setValue(msg.mNumberOfSatellites);
-    mpUi->statusText->setText(mStatusMsg[msg.mIINProcessingStatus].c_str());
-    mpUi->baselineSpinBox->setValue(msg.mBaselineLength);
-    mpUi->pdopSpinBox->setValue(msg.mAPrioriPDOP);
+void IINControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<IINSolutionStatus>()) {
+      const IINSolutionStatus& msg = group.typeCast<IINSolutionStatus>();
+      mUi->satIINSpinBox->setValue(msg.mNumberOfSatellites);
+      mUi->statusText->setText(mStatusMsg[msg.mIINProcessingStatus].c_str());
+      mUi->baselineSpinBox->setValue(msg.mBaselineLength);
+      mUi->pdopSpinBox->setValue(msg.mAPrioriPDOP);
+    }
   }
 }

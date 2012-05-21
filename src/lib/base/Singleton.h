@@ -24,12 +24,20 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-#include "exceptions/InvalidOperationException.h"
-
 /** The class Singleton implements the singleton design pattern.
     \brief Singleton design pattern
   */
 template <class C> class Singleton {
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  Singleton(const Singleton& other);
+  /// Assignment operator
+  Singleton& operator = (const Singleton& other);
+  /** @}
+    */
+
 public:
   /** \name Accessors
     @{
@@ -52,7 +60,7 @@ protected:
     @{
     */
   /// Default constructor
-  Singleton() throw (InvalidOperationException);
+  Singleton();
   /// Destructor
   virtual ~Singleton();
   /** @}
@@ -68,6 +76,6 @@ protected:
 
 };
 
-#include "Singleton.tpp"
+#include "base/Singleton.tpp"
 
 #endif

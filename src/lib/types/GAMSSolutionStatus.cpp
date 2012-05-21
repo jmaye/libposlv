@@ -18,7 +18,10 @@
 
 #include "types/GAMSSolutionStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +34,36 @@ const GAMSSolutionStatus GAMSSolutionStatus::mProto;
 /******************************************************************************/
 
 GAMSSolutionStatus::GAMSSolutionStatus() :
-  Group(9) {
+    Group(9) {
 }
 
 GAMSSolutionStatus::GAMSSolutionStatus(const GAMSSolutionStatus& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mNumberOfSatellites(other.mNumberOfSatellites),
+    mAPrioriPDOP(other.mAPrioriPDOP),
+    mComputedAntennaSeparation(other.mComputedAntennaSeparation),
+    mSolutionStatus(other.mSolutionStatus),
+    mCycleSlipFlag(other.mCycleSlipFlag),
+    mGAMSHeading(other.mGAMSHeading),
+    mGAMSHeadingRMSError(other.mGAMSHeadingRMSError) {
+  memcpy(mPRNAssignment, other.mPRNAssignment, sizeof(mPRNAssignment));
 }
 
 GAMSSolutionStatus& GAMSSolutionStatus::operator =
-  (const GAMSSolutionStatus& other) {
-  this->Group::operator=(other);
+    (const GAMSSolutionStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mNumberOfSatellites = other.mNumberOfSatellites;
+    mAPrioriPDOP = other.mAPrioriPDOP;
+    mComputedAntennaSeparation = other.mComputedAntennaSeparation;
+    mSolutionStatus = other.mSolutionStatus;
+    memcpy(mPRNAssignment, other.mPRNAssignment, sizeof(mPRNAssignment));
+    mCycleSlipFlag = other.mCycleSlipFlag;
+    mGAMSHeading = other.mGAMSHeading;
+    mGAMSHeadingRMSError = other.mGAMSHeadingRMSError;
+  }
   return *this;
 }
 
@@ -51,23 +74,21 @@ GAMSSolutionStatus::~GAMSSolutionStatus() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GAMSSolutionStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void GAMSSolutionStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("GAMSSolutionStatus::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mNumberOfSatellites;
   stream >> mAPrioriPDOP;
   stream >> mComputedAntennaSeparation;
   stream >> mSolutionStatus;
   for (size_t i = 0; i < 12; i++)
-    stream >> mau8PRNAssignment[i];
+    stream >> mPRNAssignment[i];
   stream >> mCycleSlipFlag;
   stream >> mGAMSHeading;
   stream >> mGAMSHeadingRMSError;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)
@@ -96,7 +117,7 @@ void GAMSSolutionStatus::write(std::ofstream& stream) const {
   stream << (uint16_t)mSolutionStatus;
   stream << " ";
   for (uint32_t i = 0; i < 12; i++) {
-    stream << (uint16_t)mau8PRNAssignment[i];
+    stream << (uint16_t)mPRNAssignment[i];
     stream << " ";
   }
   stream << std::hex << mCycleSlipFlag << std::dec;

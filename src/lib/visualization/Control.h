@@ -33,7 +33,18 @@
   */
 class Control :
   public QWidget {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  Control(const Control& other);
+  /// Assignment operator
+  Control& operator = (const Control& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor

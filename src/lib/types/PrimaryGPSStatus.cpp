@@ -18,7 +18,10 @@
 
 #include "types/PrimaryGPSStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,44 +34,81 @@ const PrimaryGPSStatus PrimaryGPSStatus::mProto;
 /******************************************************************************/
 
 PrimaryGPSStatus::PrimaryGPSStatus() :
-  Group(3),
-  maChannelStatusData(0) {
+    Group(3),
+    mChannelStatusData(0) {
 }
 
 PrimaryGPSStatus::PrimaryGPSStatus(const PrimaryGPSStatus& other) :
-  Group(other),
-  maChannelStatusData(other.maChannelStatusData) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mNavigationSolutionStatus(other.mNavigationSolutionStatus),
+    mNumberOfSVTracked(other.mNumberOfSVTracked),
+    mChannelStatusByteCount(other.mChannelStatusByteCount),
+    mHDOP(other.mHDOP),
+    mVDOP(other.mVDOP),
+    mDGPSCorrectionLatency(other.mDGPSCorrectionLatency),
+    mDGPSReferenceID(other.mDGPSReferenceID),
+    mGPSUTCWeekNumber(other.mGPSUTCWeekNumber),
+    mGPSUTCTimeOffset(other.mGPSUTCTimeOffset),
+    mGPSNavigationMessageLatency(other.mGPSNavigationMessageLatency),
+    mGeoidalSeparation(other.mGeoidalSeparation),
+    mGPSReceiverType(other.mGPSReceiverType),
+    mGPSStatus(other.mGPSStatus),
+    mChannelNumber(other.mChannelNumber) {
+  mChannelStatusData = new ChannelStatusData[mChannelNumber];
+  memcpy(mChannelStatusData, other.mChannelStatusData,
+    sizeof(mChannelStatusData));
 }
 
 PrimaryGPSStatus& PrimaryGPSStatus::operator =
-  (const PrimaryGPSStatus& other) {
-  this->Group::operator=(other);
-  maChannelStatusData = other.maChannelStatusData;
+    (const PrimaryGPSStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mNavigationSolutionStatus = other.mNavigationSolutionStatus;
+    mNumberOfSVTracked = other.mNumberOfSVTracked;
+    mChannelStatusByteCount = other.mChannelStatusByteCount;
+    mHDOP = other.mHDOP;
+    mVDOP = other.mVDOP;
+    mDGPSCorrectionLatency = other.mDGPSCorrectionLatency;
+    mDGPSReferenceID = other.mDGPSReferenceID;
+    mGPSUTCWeekNumber = other.mGPSUTCWeekNumber;
+    mGPSUTCTimeOffset = other.mGPSUTCTimeOffset;
+    mGPSNavigationMessageLatency = other.mGPSNavigationMessageLatency;
+    mGeoidalSeparation = other.mGeoidalSeparation;
+    mGPSReceiverType = other.mGPSReceiverType;
+    mGPSStatus = other.mGPSStatus;
+    mChannelNumber = other.mChannelNumber;
+    mChannelStatusData = new ChannelStatusData[mChannelNumber];
+    memcpy(mChannelStatusData, other.mChannelStatusData,
+      sizeof(mChannelStatusData));
+  }
   return *this;
 }
 
 PrimaryGPSStatus::~PrimaryGPSStatus() {
-  if (maChannelStatusData != 0)
-    delete []maChannelStatusData;
+  if (mChannelStatusData != 0)
+    delete []mChannelStatusData;
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void PrimaryGPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void PrimaryGPSStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
-
   stream >> mTimeDistance;
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
   mChannelNumber = (byteCount - mByteCount) / 20;
+  if (mChannelStatusData)
+    delete []mChannelStatusData;
   if (mChannelNumber > 0)
-    maChannelStatusData = new ChannelStatusData[mChannelNumber];
+    mChannelStatusData = new ChannelStatusData[mChannelNumber];
   for (size_t i = 0; i < mChannelNumber; i++)
-    stream >> maChannelStatusData[i];
+    stream >> mChannelStatusData[i];
   stream >> mHDOP;
   stream >> mVDOP;
   stream >> mDGPSCorrectionLatency;
@@ -106,7 +146,7 @@ void PrimaryGPSStatus::write(std::ofstream& stream) const {
   stream << mChannelStatusByteCount;
   stream << " ";
   for (size_t i = 0; i < mChannelNumber; i++)
-    stream << maChannelStatusData[i];
+    stream << mChannelStatusData[i];
   stream << mHDOP;
   stream << " ";
   stream << mVDOP;

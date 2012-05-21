@@ -24,14 +24,17 @@
 #ifndef NAVIGATIONCONTROL_H
 #define NAVIGATIONCONTROL_H
 
-#include "visualization/Control.h"
-#include "base/Singleton.h"
-#include "types/Group.h"
-
 #include <map>
 #include <string>
 
+#include <boost/shared_ptr.hpp>
+
+#include "visualization/Control.h"
+#include "base/Singleton.h"
+#include "types/Packet.h"
+
 class Ui_NavigationControl;
+class Group;
 
 /** The NavigationControl class is the control for the navigation of the
     Applanix.
@@ -40,7 +43,18 @@ class Ui_NavigationControl;
 class NavigationControl :
   public Control,
   public Singleton<NavigationControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  NavigationControl(const NavigationControl& other);
+  /// Assignment operator
+  NavigationControl& operator = (const NavigationControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -58,7 +72,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_NavigationControl* mpUi;
+  Ui_NavigationControl* mUi;
   /// Mapping for the status messages
   std::map<uint8_t, std::string> mStatusMsg;
   /** @}
@@ -68,8 +82,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

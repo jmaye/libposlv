@@ -18,8 +18,9 @@
 
 #include "types/ZUPDControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,15 +33,29 @@ const ZUPDControl ZUPDControl::mProto;
 /******************************************************************************/
 
 ZUPDControl::ZUPDControl() :
-  Message(25) {
+    Message(25) {
 }
 
 ZUPDControl::ZUPDControl(const ZUPDControl& other) :
-  Message(other) {
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mControl(other.mControl),
+    mDetectZeroVelocityThreshold(other.mDetectZeroVelocityThreshold),
+    mRejectZeroVelocityThreshold(other.mRejectZeroVelocityThreshold),
+    mZeroVelocityTestPeriod(other.mZeroVelocityTestPeriod),
+    mZUPDStd(other.mZUPDStd) {
 }
 
 ZUPDControl& ZUPDControl::operator = (const ZUPDControl& other) {
-  this->Message::operator=(other);
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mControl = other.mControl;
+    mDetectZeroVelocityThreshold = other.mDetectZeroVelocityThreshold;
+    mRejectZeroVelocityThreshold = other.mRejectZeroVelocityThreshold;
+    mZeroVelocityTestPeriod = other.mZeroVelocityTestPeriod;
+    mZUPDStd = other.mZUPDStd;
+  }
   return *this;
 }
 
@@ -51,7 +66,7 @@ ZUPDControl::~ZUPDControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void ZUPDControl::read(POSLVMessageRead& stream) throw (IOException) {
+void ZUPDControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -77,7 +92,7 @@ void ZUPDControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void ZUPDControl::write(POSLVMessageWrite& stream) const {
+void ZUPDControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

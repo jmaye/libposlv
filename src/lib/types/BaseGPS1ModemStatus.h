@@ -26,7 +26,6 @@
 
 #include "types/Group.h"
 #include "types/TimeDistance.h"
-#include "exceptions/IOException.h"
 
 /** The class BaseGPS1ModemStatus represents the Base GPS 1 Modem Status message
     from the Applanix.
@@ -65,9 +64,9 @@ public:
   /// Time/Distance field of the message
   TimeDistance mTimeDistance;
   /// Modem response
-  uint8_t mau8ModemResponse[16];
+  uint8_t mModemResponse[16];
   /// Modem connection status
-  uint8_t mau8ConnectionStatus[48];
+  uint8_t mConnectionStatus[48];
   /// Numer of redial per disconnect
   uint32_t mNumberOfRedialsPerDisconnect;
   /// Max number of redials per disconnect
@@ -96,7 +95,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

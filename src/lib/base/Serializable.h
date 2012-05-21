@@ -47,16 +47,22 @@ class Serializable {
   /** @}
     */
 
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  Serializable(const Serializable& other);
+  /// Assignment operator
+  Serializable& operator = (const Serializable& other);
+  /** @}
+    */
+
 public:
   /** \name Constructors/destructor
     @{
     */
   /// Default constructor
   Serializable();
-  /// Copy constructor
-  Serializable(const Serializable& other);
-  /// Assignment operator
-  Serializable& operator = (const Serializable& other);
   /// Destructor
   virtual ~Serializable();
   /** @}

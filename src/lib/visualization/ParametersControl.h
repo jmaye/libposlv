@@ -24,13 +24,16 @@
 #ifndef PARAMETERSCONTROL_H
 #define PARAMETERSCONTROL_H
 
-#include "visualization/Control.h"
-#include "base/Singleton.h"
-#include "types/Message.h"
-
 #include <map>
 
+#include <boost/shared_ptr.hpp>
+
+#include "visualization/Control.h"
+#include "base/Singleton.h"
+#include "types/Packet.h"
+
 class Ui_ParametersControl;
+class Message;
 
 /** The ParametersControl class is the control for the parameters of the
     Applanix.
@@ -39,7 +42,18 @@ class Ui_ParametersControl;
 class ParametersControl :
   public Control,
   public Singleton<ParametersControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  ParametersControl(const ParametersControl& other);
+  /// Assignment operator
+  ParametersControl& operator = (const ParametersControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -57,7 +71,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_ParametersControl* mpUi;
+  Ui_ParametersControl* mUi;
   /// Mapping for ZUPD control messages
   std::map<uint16_t, std::string> mZUPDCtrlMsg;
   /// Mapping for navigation control messages
@@ -77,8 +91,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix message read
-  void messageRead(const Message* message);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

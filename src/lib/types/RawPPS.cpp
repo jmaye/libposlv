@@ -18,7 +18,8 @@
 
 #include "types/RawPPS.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,15 +32,21 @@ const RawPPS RawPPS::mProto;
 /******************************************************************************/
 
 RawPPS::RawPPS() :
-  Group(10003) {
+    Group(10003) {
 }
 
 RawPPS::RawPPS(const RawPPS& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mPPSPulseCount(other.mPPSPulseCount) {
 }
 
 RawPPS& RawPPS::operator = (const RawPPS& other) {
-  this->Group::operator=(other);
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mPPSPulseCount = other.mPPSPulseCount;
+  }
   return *this;
 }
 
@@ -50,15 +57,13 @@ RawPPS::~RawPPS() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void RawPPS::read(POSLVGroupRead& stream) throw (IOException) {
+void RawPPS::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("RawPPS::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mPPSPulseCount;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)

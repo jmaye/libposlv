@@ -18,7 +18,8 @@
 
 #include "types/PPSTimeRecoveryStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,17 +32,25 @@ const PPSTimeRecoveryStatus PPSTimeRecoveryStatus::mProto;
 /******************************************************************************/
 
 PPSTimeRecoveryStatus::PPSTimeRecoveryStatus() :
-  Group(7) {
+    Group(7) {
 }
 
 PPSTimeRecoveryStatus::PPSTimeRecoveryStatus(const PPSTimeRecoveryStatus&
-  other) :
-  Group(other) {
+    other) :
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mPPSCount(other.mPPSCount),
+    mTimeSynchroStatus(other.mTimeSynchroStatus) {
 }
 
 PPSTimeRecoveryStatus& PPSTimeRecoveryStatus::operator =
-  (const PPSTimeRecoveryStatus& other) {
-  this->Group::operator=(other);
+    (const PPSTimeRecoveryStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mPPSCount = other.mPPSCount;
+    mTimeSynchroStatus = other.mTimeSynchroStatus;
+  }
   return *this;
 }
 
@@ -52,16 +61,14 @@ PPSTimeRecoveryStatus::~PPSTimeRecoveryStatus() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void PPSTimeRecoveryStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void PPSTimeRecoveryStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("PPSTimeRecoveryStatus::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mPPSCount;
   stream >> mTimeSynchroStatus;
-
   uint8_t pad;
   stream >> pad;
   if (pad != 0)

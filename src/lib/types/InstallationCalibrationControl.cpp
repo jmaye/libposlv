@@ -18,8 +18,8 @@
 
 #include "types/InstallationCalibrationControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +32,25 @@ const InstallationCalibrationControl InstallationCalibrationControl::mProto;
 /******************************************************************************/
 
 InstallationCalibrationControl::InstallationCalibrationControl() :
-  Message(57) {
+    Message(57) {
 }
 
 InstallationCalibrationControl::InstallationCalibrationControl(const
-  InstallationCalibrationControl& other) :
-  Message(other) {
+    InstallationCalibrationControl& other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mCalibrationAction(other.mCalibrationAction),
+    mCalibrationSelect(other.mCalibrationSelect) {
 }
 
 InstallationCalibrationControl& InstallationCalibrationControl::operator =
-  (const InstallationCalibrationControl& other) {
-  this->Message::operator=(other);
+    (const InstallationCalibrationControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mCalibrationAction = other.mCalibrationAction;
+    mCalibrationSelect = other.mCalibrationSelect;
+  }
   return *this;
 }
 
@@ -53,10 +61,10 @@ InstallationCalibrationControl::~InstallationCalibrationControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void InstallationCalibrationControl::read(POSLVMessageRead& stream) {
+void InstallationCalibrationControl::read(BinaryReader& stream) {
 }
 
-void InstallationCalibrationControl::write(POSLVMessageWrite& stream) const {
+void InstallationCalibrationControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

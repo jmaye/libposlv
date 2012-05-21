@@ -18,8 +18,11 @@
 
 #include "types/AidingSensorControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +35,30 @@ const AidingSensorControl AidingSensorControl::mProto;
 /******************************************************************************/
 
 AidingSensorControl::AidingSensorControl() :
-  Message(22) {
+    Message(22) {
 }
 
-AidingSensorControl::AidingSensorControl(const AidingSensorControl&
-  other) :
-  Message(other) {
+AidingSensorControl::AidingSensorControl(const AidingSensorControl& other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mDMIScaleFactor(other.mDMIScaleFactor),
+    mRefDMIX(other.mRefDMIX),
+    mRefDMIY(other.mRefDMIY),
+    mRefDMIZ(other.mRefDMIZ) {
+  memcpy(mReserved, other.mReserved, sizeof(mReserved));
 }
 
 AidingSensorControl& AidingSensorControl::operator =
-  (const AidingSensorControl& other) {
-  this->Message::operator=(other);
+    (const AidingSensorControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mDMIScaleFactor = other.mDMIScaleFactor;
+    mRefDMIX = other.mRefDMIX;
+    mRefDMIY = other.mRefDMIY;
+    mRefDMIZ = other.mRefDMIZ;
+    memcpy(mReserved, other.mReserved, sizeof(mReserved));
+  }
   return *this;
 }
 
@@ -53,7 +69,7 @@ AidingSensorControl::~AidingSensorControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void AidingSensorControl::read(POSLVMessageRead& stream) throw (IOException) {
+void AidingSensorControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -62,7 +78,6 @@ void AidingSensorControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum += mByteCount;
   stream >> mTransactionNumber;
   mChecksum += mTransactionNumber;
-
   stream >> mDMIScaleFactor;
   mChecksum += ((uint16_t*)&mDMIScaleFactor)[0];
   mChecksum += ((uint16_t*)&mDMIScaleFactor)[1];
@@ -88,7 +103,7 @@ void AidingSensorControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void AidingSensorControl::write(POSLVMessageWrite& stream) const {
+void AidingSensorControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

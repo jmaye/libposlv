@@ -18,8 +18,8 @@
 
 #include "types/ProgramControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,7 +32,7 @@ const ProgramControl ProgramControl::mProto;
 /******************************************************************************/
 
 ProgramControl::ProgramControl() :
-  Message(90) {
+    Message(90) {
 }
 
 ProgramControl::ProgramControl(const ProgramControl& other) :
@@ -40,7 +40,11 @@ ProgramControl::ProgramControl(const ProgramControl& other) :
 }
 
 ProgramControl& ProgramControl::operator = (const ProgramControl& other) {
-  this->Message::operator=(other);
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mControl = other.mControl;
+  }
   return *this;
 }
 
@@ -51,10 +55,10 @@ ProgramControl::~ProgramControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void ProgramControl::read(POSLVMessageRead& stream) {
+void ProgramControl::read(BinaryReader& stream) {
 }
 
-void ProgramControl::write(POSLVMessageWrite& stream) const {
+void ProgramControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

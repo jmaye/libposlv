@@ -18,8 +18,11 @@
 
 #include "types/COMPortControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,15 +35,25 @@ const COMPortControl COMPortControl::mProto;
 /******************************************************************************/
 
 COMPortControl::COMPortControl() :
-  Message(34) {
+    Message(34) {
 }
 
 COMPortControl::COMPortControl(const COMPortControl& other) :
-  Message(other) {
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mNumPorts(other.mNumPorts),
+    mPortMask(other.mPortMask) {
+  memcpy(mpParameters, other.mpParameters, sizeof(mpParameters));
 }
 
 COMPortControl& COMPortControl::operator = (const COMPortControl& other) {
-  this->Message::operator=(other);
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mNumPorts = other.mNumPorts;
+    memcpy(mpParameters, other.mpParameters, sizeof(mpParameters));
+    mPortMask = other.mPortMask;
+  }
   return *this;
 }
 
@@ -51,7 +64,7 @@ COMPortControl::~COMPortControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void COMPortControl::read(POSLVMessageRead& stream) throw (IOException) {
+void COMPortControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -76,8 +89,7 @@ void COMPortControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void COMPortControl::write(POSLVMessageWrite& stream) const
-  throw (IOException) {
+void COMPortControl::write(BinaryWriter& stream) const {
   if (mNumPorts > 10)
     throw IOException("COMPortControl::write(): 10 COM ports maximum");
   uint16_t checksum = mChecksum;

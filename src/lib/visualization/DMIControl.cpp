@@ -18,8 +18,8 @@
 
 #include "visualization/DMIControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/TimeTaggedDMIData.h"
+#include "types/Group.h"
 #include "ui_DMIControl.h"
 
 /******************************************************************************/
@@ -27,41 +27,35 @@
 /******************************************************************************/
 
 DMIControl::DMIControl() :
-  mpUi(new Ui_DMIControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
-
+    mUi(new Ui_DMIControl()) {
+  mUi->setupUi(this);
   mStatusMsg[0] = "Invalid";
   mStatusMsg[1] = "Valid";
   mStatusMsg[2] = "Scale factor change";
-
   mTypeMsg[0] = "None";
   mTypeMsg[1] = "Pulse and direction";
   mTypeMsg[2] = "Quadrature";
 }
 
 DMIControl::~DMIControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void DMIControl::groupRead(const Group* group) {
-  if (group->instanceOf<TimeTaggedDMIData>() == true) {
-    const TimeTaggedDMIData& msg = group->typeCast<TimeTaggedDMIData>();
-    mpUi->signedSpinBox->setValue(msg.mSignedDistanceTraveled);
-    mpUi->unsignedSpinBox->setValue(msg.mUnsignedDistanceTraveled);
-    mpUi->scaleSpinBox->setValue(msg.mDMIScaleFactor);
-    mpUi->rateSpinBox->setValue(msg.mDMIDataRate);
-    mpUi->statusText->setText(mStatusMsg[msg.mDataStatus].c_str());
-    mpUi->typeText->setText(mTypeMsg[msg.mDMIType].c_str());
+void DMIControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<TimeTaggedDMIData>()) {
+      const TimeTaggedDMIData& msg = group.typeCast<TimeTaggedDMIData>();
+      mUi->signedSpinBox->setValue(msg.mSignedDistanceTraveled);
+      mUi->unsignedSpinBox->setValue(msg.mUnsignedDistanceTraveled);
+      mUi->scaleSpinBox->setValue(msg.mDMIScaleFactor);
+      mUi->rateSpinBox->setValue(msg.mDMIDataRate);
+      mUi->statusText->setText(mStatusMsg[msg.mDataStatus].c_str());
+      mUi->typeText->setText(mTypeMsg[msg.mDMIType].c_str());
+    }
   }
 }

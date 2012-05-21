@@ -24,11 +24,14 @@
 #ifndef AUX1GPSCONTROL_H
 #define AUX1GPSCONTROL_H
 
+#include "boost/shared_ptr.hpp"
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_Aux1GPSControl;
+class Group;
 
 /** The Aux1GPSControl class is the control for the auxiliary 1 GPS of the
     Applanix.
@@ -37,7 +40,18 @@ class Ui_Aux1GPSControl;
 class Aux1GPSControl :
   public Control,
   public Singleton<Aux1GPSControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  Aux1GPSControl(const Aux1GPSControl& other);
+  /// Assignment operator
+  Aux1GPSControl& operator = (const Aux1GPSControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -55,7 +69,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_Aux1GPSControl* mpUi;
+  Ui_Aux1GPSControl* mUi;
   /// Mapping for the status messages
   std::map<int8_t, std::string> mStatusMsg;
   /** @}
@@ -65,8 +79,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

@@ -18,7 +18,10 @@
 
 #include "types/VersionStatistics.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +34,40 @@ const VersionStatistics VersionStatistics::mProto;
 /******************************************************************************/
 
 VersionStatistics::VersionStatistics() :
-  Group(99) {
+    Group(99) {
 }
 
 VersionStatistics::VersionStatistics(const VersionStatistics& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mTotalHours(other.mTotalHours),
+    mNumberOfRuns(other.mNumberOfRuns),
+    mAverageLengthOfRun(other.mAverageLengthOfRun),
+    mLongestRun(other.mLongestRun),
+    mCurrentRun(other.mCurrentRun) {
+  memcpy(mSystemVersion, other.mSystemVersion, sizeof(mSystemVersion));
+  memcpy(mPrimaryGPSVersion, other.mPrimaryGPSVersion,
+    sizeof(mPrimaryGPSVersion));
+  memcpy(mSecondaryGPSversion, other.mSecondaryGPSversion,
+    sizeof(mSecondaryGPSversion));
 }
 
 VersionStatistics& VersionStatistics::operator =
-  (const VersionStatistics& other) {
-  this->Group::operator=(other);
+    (const VersionStatistics& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    memcpy(mSystemVersion, other.mSystemVersion, sizeof(mSystemVersion));
+    memcpy(mPrimaryGPSVersion, other.mPrimaryGPSVersion,
+      sizeof(mPrimaryGPSVersion));
+    memcpy(mSecondaryGPSversion, other.mSecondaryGPSversion,
+      sizeof(mSecondaryGPSversion));
+    mTotalHours = other.mTotalHours;
+    mNumberOfRuns = other.mNumberOfRuns;
+    mAverageLengthOfRun = other.mAverageLengthOfRun;
+    mLongestRun = other.mLongestRun;
+    mCurrentRun = other.mCurrentRun;
+  }
   return *this;
 }
 
@@ -51,25 +78,23 @@ VersionStatistics::~VersionStatistics() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void VersionStatistics::read(POSLVGroupRead &stream) throw(IOException) {
+void VersionStatistics::read(BinaryReader &stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("VersionStatistics::read(): wrong byte count");
-
   stream >> mTimeDistance;
   for (size_t i = 0; i < 120; i++)
-    stream >> mau8SystemVersion[i];
+    stream >> mSystemVersion[i];
   for (size_t i = 0; i < 80; i++)
-    stream >> mau8PrimaryGPSVersion[i];
+    stream >> mPrimaryGPSVersion[i];
   for (size_t i = 0; i < 80; i++)
-    stream >> mau8SecondaryGPSversion[i];
+    stream >> mSecondaryGPSversion[i];
   stream >> mTotalHours;
   stream >> mNumberOfRuns;
   stream >> mAverageLengthOfRun;
   stream >> mLongestRun;
   stream >> mCurrentRun;
-
   uint16_t u16Pad;
   stream >> u16Pad;
   if (u16Pad != 0)
@@ -89,13 +114,13 @@ void VersionStatistics::write(std::ofstream& stream) const {
   stream << mTypeID;
   stream << " ";
   stream << mTimeDistance;
-  std::string outputStr1((const char*)mau8SystemVersion);
+  std::string outputStr1((const char*)mSystemVersion);
   stream << outputStr1;
   stream << " ";
-  std::string outputStr2((const char*)mau8PrimaryGPSVersion);
+  std::string outputStr2((const char*)mPrimaryGPSVersion);
   stream << outputStr2;
   stream << " ";
-  std::string outputStr3((const char*)mau8SecondaryGPSversion);
+  std::string outputStr3((const char*)mSecondaryGPSversion);
   stream << outputStr3;
   stream << " ";
   stream << mTotalHours;

@@ -26,7 +26,6 @@
 
 #include "types/Group.h"
 #include "types/TimeDistance.h"
-#include "exceptions/IOException.h"
 
 /** The class SecondaryGPSDataStream represents the Secondary GPS Data Stream
     message from the Applanix.
@@ -69,7 +68,7 @@ public:
   /// Variable message length
   uint16_t mVariableMsgByteCount;
   /// Data
-  uint8_t* mau8GPSReceiverRawData;
+  uint8_t* mGPSReceiverRawData;
   /// Prototype of this group
   static const SecondaryGPSDataStream mProto;
   /** @}
@@ -88,7 +87,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

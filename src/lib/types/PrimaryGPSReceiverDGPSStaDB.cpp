@@ -18,7 +18,10 @@
 
 #include "types/PrimaryGPSReceiverDGPSStaDB.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +34,25 @@ const PrimaryGPSReceiverDGPSStaDB PrimaryGPSReceiverDGPSStaDB::mProto;
 /******************************************************************************/
 
 PrimaryGPSReceiverDGPSStaDB::PrimaryGPSReceiverDGPSStaDB() :
-  Group(26) {
+    Group(26) {
 }
 
 PrimaryGPSReceiverDGPSStaDB::PrimaryGPSReceiverDGPSStaDB(const
-  PrimaryGPSReceiverDGPSStaDB& other) : Group(other) {
+    PrimaryGPSReceiverDGPSStaDB& other) :
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mStationNbr(other.mStationNbr) {
+  memcpy(mStationRecord, other.mStationRecord, sizeof(mStationRecord));
 }
 
 PrimaryGPSReceiverDGPSStaDB& PrimaryGPSReceiverDGPSStaDB::operator =
-  (const PrimaryGPSReceiverDGPSStaDB& other) {
-  this->Group::operator=(other);
+    (const PrimaryGPSReceiverDGPSStaDB& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    memcpy(mStationRecord, other.mStationRecord, sizeof(mStationRecord));
+    mStationNbr = other.mStationNbr;
+  }
   return *this;
 }
 
@@ -51,15 +63,13 @@ PrimaryGPSReceiverDGPSStaDB::~PrimaryGPSReceiverDGPSStaDB() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void PrimaryGPSReceiverDGPSStaDB::read(POSLVGroupRead& stream)
-  throw (IOException) {
+void PrimaryGPSReceiverDGPSStaDB::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
-
   stream >> mTimeDistance;
   mStationNbr = (byteCount - mByteCount) / 24;
   for (size_t i = 0; i < mStationNbr; i++)
-    stream >> maStationRecord[i];
+    stream >> mStationRecord[i];
 }
 
 void PrimaryGPSReceiverDGPSStaDB::read(std::istream& stream) {
@@ -76,7 +86,7 @@ void PrimaryGPSReceiverDGPSStaDB::write(std::ofstream& stream) const {
   stream << " ";
   stream << mTimeDistance;
   for (size_t i = 0; i < mStationNbr; i++)
-    stream << maStationRecord[i];
+    stream << mStationRecord[i];
 }
 
 /******************************************************************************/

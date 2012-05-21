@@ -18,8 +18,8 @@
 
 #include "visualization/VersionControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/VersionStatistics.h"
+#include "types/Group.h"
 #include "ui_VersionControl.h"
 
 /******************************************************************************/
@@ -27,35 +27,31 @@
 /******************************************************************************/
 
 VersionControl::VersionControl() :
-  mpUi(new Ui_VersionControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
+    mUi(new Ui_VersionControl()) {
+  mUi->setupUi(this);
 }
 
 VersionControl::~VersionControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionControl::groupRead(const Group* group) {
-  if (group->instanceOf<VersionStatistics>() == true) {
-    const VersionStatistics& msg = group->typeCast<VersionStatistics>();
-    mpUi->sysVerText->setText((const char*)msg.mau8SystemVersion);
-    mpUi->primGPSVerText->setText((const char*)msg.mau8PrimaryGPSVersion);
-    mpUi->secGPSVerText->setText((const char*)msg.mau8SecondaryGPSversion);
-    mpUi->totHoursSpinBox->setValue(msg.mTotalHours);
-    mpUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
-    mpUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
-    mpUi->longestRunSpinBox->setValue(msg.mLongestRun);
-    mpUi->currentRunSpinBox->setValue(msg.mCurrentRun);
+void VersionControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<VersionStatistics>()) {
+      const VersionStatistics& msg = group.typeCast<VersionStatistics>();
+      mUi->sysVerText->setText((const char*)msg.mSystemVersion);
+      mUi->primGPSVerText->setText((const char*)msg.mPrimaryGPSVersion);
+      mUi->secGPSVerText->setText((const char*)msg.mSecondaryGPSversion);
+      mUi->totHoursSpinBox->setValue(msg.mTotalHours);
+      mUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
+      mUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
+      mUi->longestRunSpinBox->setValue(msg.mLongestRun);
+      mUi->currentRunSpinBox->setValue(msg.mCurrentRun);
+    }
   }
 }

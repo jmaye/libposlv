@@ -22,8 +22,8 @@
 
 /** \mainpage Reference manual for libposlv - A free/open source C++ library for interfacing an Applanix POS LV
     \author Jerome Maye <jerome.maye@gmail.com>
-    \version 0.1.44
-    \date July 4, 2011
+    \version 1.0
+    \date May 10, 2012
   */
 
 /** \page license License

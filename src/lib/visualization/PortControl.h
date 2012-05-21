@@ -24,13 +24,16 @@
 #ifndef PORTCONTROL_H
 #define PORTCONTROL_H
 
-#include "visualization/Control.h"
-#include "base/Singleton.h"
-#include "types/Message.h"
-
 #include <map>
 
+#include <boost/shared_ptr.hpp>
+
+#include "visualization/Control.h"
+#include "base/Singleton.h"
+#include "types/Packet.h"
+
 class Ui_PortControl;
+class Message;
 
 /** The PortControl class is the control for the time of the Applanix.
     \brief Time control
@@ -38,7 +41,18 @@ class Ui_PortControl;
 class PortControl :
   public Control,
   public Singleton<PortControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  PortControl(const PortControl& other);
+  /// Assignment operator
+  PortControl& operator = (const PortControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -56,7 +70,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_PortControl* mpUi;
+  Ui_PortControl* mUi;
   /// Mapping for baudrate
   std::map<uint8_t, uint32_t> mBaudrateMap;
   /// Mapping for parity
@@ -76,8 +90,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix message read
-  void messageRead(const Message* message);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

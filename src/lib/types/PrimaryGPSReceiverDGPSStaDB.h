@@ -28,7 +28,6 @@
 #include "types/Group.h"
 #include "types/TimeDistance.h"
 #include "types/StationRecord.h"
-#include "exceptions/IOException.h"
 
 /** The class PrimaryGPSReceiverDGPSStaDB represents the Primary GPS Receiver
     DGPS Station Database message from the Applanix.
@@ -67,7 +66,7 @@ public:
   /// Time/Distance field
   TimeDistance mTimeDistance;
   /// Station records
-  StationRecord maStationRecord[10];
+  StationRecord mStationRecord[10];
   /// Number of stations
   uint32_t mStationNbr;
   /// Prototype for this group
@@ -88,7 +87,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

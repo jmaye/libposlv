@@ -26,7 +26,6 @@
 
 #include "types/Message.h"
 #include "types/COMPortParameters.h"
-#include "exceptions/IOException.h"
 
 /** The class COMPortControl represents the COM Port Setup message from the
     Applanix.
@@ -88,9 +87,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVMessageRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /// Writes to the network
-  virtual void write(POSLVMessageWrite& stream) const throw (IOException);
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 

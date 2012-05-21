@@ -18,7 +18,8 @@
 
 #include "types/Event1.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,15 +32,21 @@ const Event1 Event1::mProto;
 /******************************************************************************/
 
 Event1::Event1() :
-  Group(5) {
+    Group(5) {
 }
 
 Event1::Event1(const Event1& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mEventPulseNumber(other.mEventPulseNumber) {
 }
 
 Event1& Event1::operator = (const Event1& other) {
-  this->Group::operator=(other);
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mEventPulseNumber = other.mEventPulseNumber;
+  }
   return *this;
 }
 
@@ -50,15 +57,13 @@ Event1::~Event1() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Event1::read(POSLVGroupRead& stream) throw (IOException) {
+void Event1::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("Event1::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mEventPulseNumber;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)

@@ -24,24 +24,22 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include "exceptions/TypeCastException.h"
-#include "exceptions/TypeCreationException.h"
-#include "base/Serializable.h"
-
 #include <stdint.h>
 
-class POSLVMessageRead;
-class POSLVMessageWrite;
+#include "exceptions/TypeCastException.h"
+#include "types/Packet.h"
+
+class BinaryReader;
+class BinaryWriter;
 
 /** The class Message is the base class for all Applanix messages.
     \brief Base class for Applanix messages
   */
 class Message :
-  public virtual Serializable {
-  /// Stream operator for reading from a connection
-  friend POSLVMessageRead& operator >> (POSLVMessageRead& stream, Message& obj);
+//  public virtual Serializable,
+  public Packet {
   /// Stream operator for writing to a connection
-  friend POSLVMessageWrite& operator << (POSLVMessageWrite& stream, const
+  friend BinaryWriter& operator << (BinaryWriter& stream, const
     Message& obj);
 public:
   /** \name Constructors/Destructor
@@ -74,14 +72,14 @@ public:
   /// Returns a new prototype of this Message
   virtual Message* clone() const = 0;
   /// Cast the Message into something else
-  template<class O> const O& typeCast() const throw (TypeCastException) {
+  template<class O> const O& typeCast() const {
     if (this->mTypeID == O::mProto.mTypeID)
       return (const O&)*this;
     else
       throw TypeCastException("Message::typeCast(): cast failed");
   }
   /// Cast the Message into something else
-  template<class O> O& typeCast() throw (TypeCastException) {
+  template<class O> O& typeCast() {
     if (this->mTypeID == O::mProto.mTypeID)
       return (O&)*this;
     else
@@ -108,18 +106,8 @@ protected:
   /** \name Stream methods
     @{
     */
-  /// Reads from standard input
-  virtual void read(std::istream& stream) = 0;
-  /// Writes to standard output
-  virtual void write(std::ostream& stream) const = 0;
-  /// Reads from a file
-  virtual void read(std::ifstream& stream) = 0;
-  /// Writes to a file
-  virtual void write(std::ofstream& stream) const = 0;
-  /// Reads from the network
-  virtual void read(POSLVMessageRead& stream) = 0;
   /// Writes to the network
-  virtual void write(POSLVMessageWrite& stream) const = 0;
+  virtual void write(BinaryWriter& stream) const = 0;
   /** @}
     */
 

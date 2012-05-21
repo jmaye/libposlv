@@ -18,8 +18,8 @@
 
 #include "visualization/TimeControl.h"
 
-#include "visualization/ReadThreadGroup.h"
 #include "types/PPSTimeRecoveryStatus.h"
+#include "types/Group.h"
 #include "ui_TimeControl.h"
 
 /******************************************************************************/
@@ -27,30 +27,27 @@
 /******************************************************************************/
 
 TimeControl::TimeControl() :
-  mpUi(new Ui_TimeControl()) {
-  mpUi->setupUi(this);
-
-  connect(&ReadThreadGroup::getInstance(), SIGNAL(groupRead(const Group*)),
-    this, SLOT(groupRead(const Group*)));
+    mUi(new Ui_TimeControl()) {
+  mUi->setupUi(this);
 }
 
 TimeControl::~TimeControl() {
-  delete mpUi;
+  delete mUi;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void TimeControl::groupRead(const Group* group) {
-  if (group->instanceOf<PPSTimeRecoveryStatus>() == true) {
-    const PPSTimeRecoveryStatus& msg = group->typeCast<PPSTimeRecoveryStatus>();
-    mpUi->gpsTimeSpinBox->setValue(msg.mTimeDistance.mTime1);
-    mpUi->posTimeSpinBox->setValue(msg.mTimeDistance.mTime2);
-    mpUi->distanceSpinBox->setValue(msg.mTimeDistance.mDistanceTag);
+void TimeControl::packetRead(boost::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<PPSTimeRecoveryStatus>()) {
+      const PPSTimeRecoveryStatus& msg =
+        group.typeCast<PPSTimeRecoveryStatus>();
+      mUi->gpsTimeSpinBox->setValue(msg.mTimeDistance.mTime1);
+      mUi->posTimeSpinBox->setValue(msg.mTimeDistance.mTime2);
+      mUi->distanceSpinBox->setValue(msg.mTimeDistance.mDistanceTag);
+    }
   }
 }

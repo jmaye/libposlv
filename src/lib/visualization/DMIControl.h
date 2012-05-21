@@ -24,11 +24,14 @@
 #ifndef DMICONTROL_H
 #define DMICONTROL_H
 
+#include "boost/shared_ptr.hpp"
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_DMIControl;
+class Group;
 
 /** The DMIControl class is the control for the DMI of the Applanix.
     \brief DMI control
@@ -36,7 +39,18 @@ class Ui_DMIControl;
 class DMIControl :
   public Control,
   public Singleton<DMIControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  DMIControl(const DMIControl& other);
+  /// Assignment operator
+  DMIControl& operator = (const DMIControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -54,7 +68,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_DMIControl* mpUi;
+  Ui_DMIControl* mUi;
   /// Mapping for the status messages
   std::map<uint8_t, std::string> mStatusMsg;
   /// Mapping for the type messages
@@ -66,8 +80,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

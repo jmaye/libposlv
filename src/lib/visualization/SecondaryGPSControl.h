@@ -24,11 +24,14 @@
 #ifndef SECONDARYGPSCONTROL_H
 #define SECONDARYGPSCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_SecondaryGPSControl;
+class Group;
 
 /** The SecondaryGPSControl class is the control for the secondary GPS of the
     Applanix.
@@ -37,7 +40,18 @@ class Ui_SecondaryGPSControl;
 class SecondaryGPSControl :
   public Control,
   public Singleton<SecondaryGPSControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  SecondaryGPSControl(const SecondaryGPSControl& other);
+  /// Assignment operator
+  SecondaryGPSControl& operator = (const SecondaryGPSControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -55,7 +69,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_SecondaryGPSControl* mpUi;
+  Ui_SecondaryGPSControl* mUi;
   /// Mapping for the status messages
   std::map<int8_t, std::string> mStatusMsg;
   /// Mapping for the GPS type messages
@@ -67,8 +81,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

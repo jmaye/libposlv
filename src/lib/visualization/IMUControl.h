@@ -24,11 +24,14 @@
 #ifndef IMUCONTROL_H
 #define IMUCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_IMUControl;
+class Group;
 
 /** The IMUControl class is the control for the IMU of the Applanix.
     \brief IMU control
@@ -36,7 +39,18 @@ class Ui_IMUControl;
 class IMUControl :
   public Control,
   public Singleton<IMUControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  IMUControl(const IMUControl& other);
+  /// Assignment operator
+  IMUControl& operator = (const IMUControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -54,7 +68,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_IMUControl* mpUi;
+  Ui_IMUControl* mUi;
   /// Mapping for the status messages
   std::map<uint8_t, std::string> mStatusMsg;
   /** @}
@@ -64,8 +78,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

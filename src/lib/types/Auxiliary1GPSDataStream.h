@@ -26,7 +26,6 @@
 
 #include "types/Group.h"
 #include "types/TimeDistance.h"
-#include "exceptions/IOException.h"
 
 /** The class Auxiliary1GPSDataStream represents the Auxiliary 1 GPS Data
     Stream message from the Applanix.
@@ -63,11 +62,11 @@ public:
   /// Time/Distance field of the message
   TimeDistance mTimeDistance;
   /// Reserved stuff
-  uint8_t mau8Reserved[6];
+  uint8_t mReserved[6];
   /// Variable message length
   uint16_t mVariableMsgByteCount;
   /// Data
-  uint8_t* mau8GPSReceiverRawData;
+  uint8_t* mGPSReceiverRawData;
   /// Prototype for this group
   static const Auxiliary1GPSDataStream mProto;
  /** @}
@@ -86,7 +85,7 @@ public:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

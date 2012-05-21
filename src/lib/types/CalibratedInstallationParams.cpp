@@ -18,7 +18,8 @@
 
 #include "types/CalibratedInstallationParams.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -35,13 +36,79 @@ CalibratedInstallationParams::CalibratedInstallationParams() :
 }
 
 CalibratedInstallationParams::CalibratedInstallationParams(const
-  CalibratedInstallationParams& other) :
-  Group(other) {
+    CalibratedInstallationParams& other) :
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mCalibrationStatus(other.mCalibrationStatus),
+    mReferenceToPrimaryGPSXLeverArm(other.mReferenceToPrimaryGPSXLeverArm),
+    mReferenceToPrimaryGPSYLeverArm(other.mReferenceToPrimaryGPSYLeverArm),
+    mReferenceToPrimaryGPSZLeverArm(other.mReferenceToPrimaryGPSZLeverArm),
+    mReferenceToPrimaryGPSLeverArmCalibrationFOM(
+      other.mReferenceToPrimaryGPSLeverArmCalibrationFOM),
+    mReferenceToAuxiliary1GPSXLeverArm(
+      other.mReferenceToAuxiliary1GPSXLeverArm),
+    mReferenceToAuxiliary1GPSYLeverArm(
+      other.mReferenceToAuxiliary1GPSYLeverArm),
+    mReferenceToAuxiliary1GPSZLeverArm(
+      other.mReferenceToAuxiliary1GPSZLeverArm),
+    mReferenceToAuxiliary1GPSLeverArmCalibrationFOM(
+      other.mReferenceToAuxiliary1GPSLeverArmCalibrationFOM),
+    mReferenceToAuxiliary2GPSXLeverArm(
+      other.mReferenceToAuxiliary2GPSXLeverArm),
+    mReferenceToAuxiliary2GPSYLeverArm(
+      other.mReferenceToAuxiliary2GPSYLeverArm),
+    mReferenceToAuxiliary2GPSZLeverArm(
+      other.mReferenceToAuxiliary2GPSZLeverArm),
+    mReferenceToAuxiliary2GPSLeverArmCalibrationFOM(
+      other.mReferenceToAuxiliary2GPSLeverArmCalibrationFOM),
+    mReferenceToDMIXLeverArm(other.mReferenceToDMIXLeverArm),
+    mReferenceToDMIYLeverArm(other.mReferenceToDMIYLeverArm),
+    mReferenceToDMIZLeverArm(other.mReferenceToDMIZLeverArm),
+    mReferenceToDMILeverArmCalibrationFOM(
+      other.mReferenceToDMILeverArmCalibrationFOM),
+    mDMIScaleFactor(other.mDMIScaleFactor),
+    mDMIScaleFactorCalibrationFOM(other.mDMIScaleFactorCalibrationFOM),
+    mReserved1(other.mReserved1),
+    mReserved2(other.mReserved2),
+    mReserved3(other.mReserved3),
+    mReserved4(other.mReserved4),
+    mReserved5(other.mReserved5),
+    mReserved6(other.mReserved6) {
 }
 
 CalibratedInstallationParams& CalibratedInstallationParams::operator =
-  (const CalibratedInstallationParams& other) {
-  this->Group::operator=(other);
+    (const CalibratedInstallationParams& other) {
+  Group::operator=(other);
+  mTimeDistance = other.mTimeDistance;
+  mCalibrationStatus = other.mCalibrationStatus;
+  mReferenceToPrimaryGPSXLeverArm = other.mReferenceToPrimaryGPSXLeverArm;
+  mReferenceToPrimaryGPSYLeverArm = other.mReferenceToPrimaryGPSYLeverArm;
+  mReferenceToPrimaryGPSZLeverArm = other.mReferenceToPrimaryGPSZLeverArm;
+  mReferenceToPrimaryGPSLeverArmCalibrationFOM =
+    other.mReferenceToPrimaryGPSLeverArmCalibrationFOM;
+  mReferenceToAuxiliary1GPSXLeverArm = other.mReferenceToAuxiliary1GPSXLeverArm;
+  mReferenceToAuxiliary1GPSYLeverArm = other.mReferenceToAuxiliary1GPSYLeverArm;
+  mReferenceToAuxiliary1GPSZLeverArm = other.mReferenceToAuxiliary1GPSZLeverArm;
+  mReferenceToAuxiliary1GPSLeverArmCalibrationFOM =
+    other.mReferenceToAuxiliary1GPSLeverArmCalibrationFOM;
+  mReferenceToAuxiliary2GPSXLeverArm = other.mReferenceToAuxiliary2GPSXLeverArm;
+  mReferenceToAuxiliary2GPSYLeverArm = other.mReferenceToAuxiliary2GPSYLeverArm;
+  mReferenceToAuxiliary2GPSZLeverArm = other.mReferenceToAuxiliary2GPSZLeverArm;
+  mReferenceToAuxiliary2GPSLeverArmCalibrationFOM =
+    other.mReferenceToAuxiliary2GPSLeverArmCalibrationFOM;
+  mReferenceToDMIXLeverArm = other.mReferenceToDMIXLeverArm;
+  mReferenceToDMIYLeverArm = other.mReferenceToDMIYLeverArm;
+  mReferenceToDMIZLeverArm = other.mReferenceToDMIZLeverArm;
+  mReferenceToDMILeverArmCalibrationFOM =
+    other.mReferenceToDMILeverArmCalibrationFOM;
+  mDMIScaleFactor = other.mDMIScaleFactor;
+  mDMIScaleFactorCalibrationFOM = other.mDMIScaleFactorCalibrationFOM;
+  mReserved1 = other.mReserved1;
+  mReserved2 = other.mReserved2;
+  mReserved3 = other.mReserved3;
+  mReserved4 = other.mReserved4;
+  mReserved5 = other.mReserved5;
+  mReserved6 = other.mReserved6;
   return *this;
 }
 
@@ -52,13 +119,11 @@ CalibratedInstallationParams::~CalibratedInstallationParams() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void CalibratedInstallationParams::read(POSLVGroupRead& stream)
-  throw (IOException) {
+void CalibratedInstallationParams::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("CalibratedInstallationParams::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mCalibrationStatus;
   stream >> mReferenceToPrimaryGPSXLeverArm;
@@ -85,7 +150,6 @@ void CalibratedInstallationParams::read(POSLVGroupRead& stream)
   stream >> mReserved4;
   stream >> mReserved5;
   stream >> mReserved6;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)

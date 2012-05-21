@@ -18,7 +18,8 @@
 
 #include "types/TimeTaggedIMUData.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +32,40 @@ const TimeTaggedIMUData TimeTaggedIMUData::mProto;
 /******************************************************************************/
 
 TimeTaggedIMUData::TimeTaggedIMUData() :
-  Group(4) {
+    Group(4) {
 }
 
 TimeTaggedIMUData::TimeTaggedIMUData(const TimeTaggedIMUData& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mXIncrementalVelocity(other.mXIncrementalVelocity),
+    mYIncrementalVelocity(other.mYIncrementalVelocity),
+    mZIncrementalVelocity(other.mZIncrementalVelocity),
+    mXIncrementalAngle(other.mXIncrementalAngle),
+    mYIncrementalAngle(other.mYIncrementalAngle),
+    mZIncrementalAngle(other.mZIncrementalAngle),
+    mDataStatus(other.mDataStatus),
+    mIMUType(other.mIMUType),
+    mPOSIMUDataRate(other.mPOSIMUDataRate),
+    mIMUStatus(other.mIMUStatus) {
 }
 
 TimeTaggedIMUData& TimeTaggedIMUData::operator =
-  (const TimeTaggedIMUData& other) {
-  this->Group::operator=(other);
+    (const TimeTaggedIMUData& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mXIncrementalVelocity = other.mXIncrementalVelocity;
+    mYIncrementalVelocity = other.mYIncrementalVelocity;
+    mZIncrementalVelocity = other.mZIncrementalVelocity;
+    mXIncrementalAngle = other.mXIncrementalAngle;
+    mYIncrementalAngle = other.mYIncrementalAngle;
+    mZIncrementalAngle = other.mZIncrementalAngle;
+    mDataStatus = other.mDataStatus;
+    mIMUType = other.mIMUType;
+    mPOSIMUDataRate = other.mPOSIMUDataRate;
+    mIMUStatus = other.mIMUStatus;
+  }
   return *this;
 }
 
@@ -51,12 +76,11 @@ TimeTaggedIMUData::~TimeTaggedIMUData() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void TimeTaggedIMUData::read(POSLVGroupRead& stream) throw (IOException) {
+void TimeTaggedIMUData::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("TimeTaggedIMUData::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mXIncrementalVelocity;
   stream >> mYIncrementalVelocity;
@@ -68,7 +92,6 @@ void TimeTaggedIMUData::read(POSLVGroupRead& stream) throw (IOException) {
   stream >> mIMUType;
   stream >> mPOSIMUDataRate;
   stream >> mIMUStatus;
-
   uint8_t pad;
   stream >> pad;
   if (pad != 0)

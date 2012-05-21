@@ -18,8 +18,9 @@
 
 #include "types/NavigationModeControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +33,23 @@ const NavigationModeControl NavigationModeControl::mProto;
 /******************************************************************************/
 
 NavigationModeControl::NavigationModeControl() :
-  Message(50) {
+    Message(50) {
 }
 
 NavigationModeControl::NavigationModeControl(const NavigationModeControl&
-  other) :
-  Message(other) {
+    other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mNavigationMode(other.mNavigationMode) {
 }
 
 NavigationModeControl& NavigationModeControl::operator =
-  (const NavigationModeControl& other) {
-  this->Message::operator=(other);
+    (const NavigationModeControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mNavigationMode = other.mNavigationMode;
+  }
   return *this;
 }
 
@@ -53,7 +60,7 @@ NavigationModeControl::~NavigationModeControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void NavigationModeControl::read(POSLVMessageRead& stream) throw (IOException) {
+void NavigationModeControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -71,7 +78,7 @@ void NavigationModeControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void NavigationModeControl::write(POSLVMessageWrite& stream) const {
+void NavigationModeControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

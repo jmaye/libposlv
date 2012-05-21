@@ -18,7 +18,7 @@
 
 #include "types/ChannelStatusData.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -27,11 +27,25 @@
 ChannelStatusData::ChannelStatusData() {
 }
 
-ChannelStatusData::ChannelStatusData(const ChannelStatusData& other) {
+ChannelStatusData::ChannelStatusData(const ChannelStatusData& other) :
+    mSVPRN(other.mSVPRN),
+    mChannelTrackingStatus(other.mChannelTrackingStatus),
+    mSVAzimuth(other.mSVAzimuth),
+    mSVElevation(other.mSVElevation),
+    mSVL1SNR(other.mSVL1SNR),
+    mSVL2SNR(other.mSVL2SNR) {
 }
 
 ChannelStatusData& ChannelStatusData::operator =
-  (const ChannelStatusData& other) {
+    (const ChannelStatusData& other) {
+  if (this != &other) {
+    mSVPRN = other.mSVPRN;
+    mChannelTrackingStatus = other.mChannelTrackingStatus;
+    mSVAzimuth = other.mSVAzimuth;
+    mSVElevation = other.mSVElevation;
+    mSVL1SNR = other.mSVL1SNR;
+    mSVL2SNR = other.mSVL2SNR;
+  }
   return *this;
 }
 
@@ -41,7 +55,7 @@ ChannelStatusData::~ChannelStatusData() {
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
-void ChannelStatusData::read(POSLVGroupRead& stream) {
+void ChannelStatusData::read(BinaryReader& stream) {
   stream >> mSVPRN;
   stream >> mChannelTrackingStatus;
   stream >> mSVAzimuth;
@@ -73,7 +87,7 @@ void ChannelStatusData::write(std::ofstream& stream) const {
   stream << mSVL2SNR;
 }
 
-POSLVGroupRead& operator >> (POSLVGroupRead& stream, ChannelStatusData& obj) {
+BinaryReader& operator >> (BinaryReader& stream, ChannelStatusData& obj) {
   obj.read(stream);
   return stream;
 }

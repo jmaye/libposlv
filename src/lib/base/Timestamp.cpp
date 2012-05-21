@@ -25,15 +25,17 @@
 /******************************************************************************/
 
 Timestamp::Timestamp(double seconds) :
-  mSeconds(seconds) {
+    mSeconds(seconds) {
 }
 
 Timestamp::Timestamp(const Timestamp& other) :
-  mSeconds(other.mSeconds) {
+    mSeconds(other.mSeconds) {
 }
 
 Timestamp& Timestamp::operator = (const Timestamp& other) {
-  mSeconds = other.mSeconds;
+  if (this != &other) {
+    mSeconds = other.mSeconds;
+  }
   return *this;
 }
 
@@ -73,6 +75,16 @@ double Timestamp::now() {
   struct timeval time;
   gettimeofday(&time, 0);
   return time.tv_sec + time.tv_usec / 1e6;
+}
+
+std::string Timestamp::getDate() {
+  struct timeval time;
+  gettimeofday(&time, 0);
+  struct tm* ptm;
+  ptm = localtime(&time.tv_sec);
+  char timeString[40];
+  strftime(timeString, sizeof (timeString), "%Y-%m-%d %H:%M:%S", ptm);
+  return std::string(timeString);
 }
 
 Timestamp::operator double() const {

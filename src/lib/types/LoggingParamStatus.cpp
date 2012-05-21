@@ -18,7 +18,8 @@
 
 #include "types/LoggingParamStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +32,30 @@ const LoggingParamStatus LoggingParamStatus::mProto;
 /******************************************************************************/
 
 LoggingParamStatus::LoggingParamStatus() :
-  Group(8) {
+    Group(8) {
 }
 
 LoggingParamStatus::LoggingParamStatus(const LoggingParamStatus& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mDiskKbytesRemaining(other.mDiskKbytesRemaining),
+    mDiskKbytesLogged(other.mDiskKbytesLogged),
+    mDiskLoggingTimeRemaining(other.mDiskLoggingTimeRemaining),
+    mDiskKbytesTotal(other.mDiskKbytesTotal),
+    mLoggingState(other.mLoggingState) {
 }
 
 LoggingParamStatus& LoggingParamStatus::operator =
-  (const LoggingParamStatus& other) {
-  this->Group::operator=(other);
+    (const LoggingParamStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mDiskKbytesRemaining = other.mDiskKbytesRemaining;
+    mDiskKbytesLogged = other.mDiskKbytesLogged;
+    mDiskLoggingTimeRemaining = other.mDiskLoggingTimeRemaining;
+    mDiskKbytesTotal = other.mDiskKbytesTotal;
+    mLoggingState = other.mLoggingState;
+  }
   return *this;
 }
 
@@ -51,19 +66,17 @@ LoggingParamStatus::~LoggingParamStatus() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void LoggingParamStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void LoggingParamStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("LoggingParamStatus::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mDiskKbytesRemaining;
   stream >> mDiskKbytesLogged;
   stream >> mDiskLoggingTimeRemaining;
   stream >> mDiskKbytesTotal;
   stream >> mLoggingState;
-
   uint8_t pad;
   stream >> pad;
   if (pad != 0)

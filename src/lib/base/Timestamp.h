@@ -24,9 +24,9 @@
 #ifndef TIMESTAMP_H
 #define TIMESTAMP_H
 
-#include "base/Serializable.h"
-
 #include <time.h>
+
+#include "base/Serializable.h"
 
 /** The class Timestamp implements timestamping facilities.
     \brief Timestamping facilities
@@ -99,8 +99,10 @@ public:
   double operator - (const Timestamp& timestamp) const;
   /// Substract seconds
   double operator - (double seconds) const;
-  /// Returns the system time in ms
+  /// Returns the system time in s
   static double now();
+  /// Returns the date of the system in string
+  static std::string getDate();
   /** @}
     */
 

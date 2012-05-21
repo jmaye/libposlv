@@ -24,11 +24,14 @@
 #ifndef STATUSCONTROL_H
 #define STATUSCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_StatusControl;
+class Group;
 
 /** The StatusControl class is the control for the status of the Applanix.
     \brief Status control
@@ -54,7 +57,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_StatusControl* mpUi;
+  Ui_StatusControl* mUi;
   /** @}
     */
 
@@ -62,8 +65,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

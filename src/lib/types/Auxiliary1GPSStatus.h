@@ -27,7 +27,6 @@
 #include "types/Group.h"
 #include "types/TimeDistance.h"
 #include "types/ChannelStatusData.h"
-#include "exceptions/IOException.h"
 
 /** The class Auxiliary1GPSStatus represents the Auxiliary 1 GPS Status message
     from the Applanix.
@@ -72,7 +71,7 @@ public:
   /// Number of bytes for channel status
   uint16_t mChannelStatusByteCount;
   /// Channel status data
-  ChannelStatusData* maChannelStatusData;
+  ChannelStatusData* mChannelStatusData;
   /// HDOP
   float mHDOP;
   /// VDOP
@@ -113,7 +112,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

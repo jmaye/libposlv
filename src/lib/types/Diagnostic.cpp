@@ -18,7 +18,8 @@
 
 #include "types/Diagnostic.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,15 +32,19 @@ const Diagnostic Diagnostic::mProto;
 /******************************************************************************/
 
 Diagnostic::Diagnostic() :
-  Group(20000) {
+    Group(20000) {
 }
 
 Diagnostic::Diagnostic(const Diagnostic& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance) {
 }
 
 Diagnostic& Diagnostic::operator = (const Diagnostic& other) {
-  this->Group::operator=(other);
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+  }
   return *this;
 }
 
@@ -50,14 +55,12 @@ Diagnostic::~Diagnostic() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Diagnostic::read(POSLVGroupRead& stream) throw (IOException) {
+void Diagnostic::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("Diagnostic::read(): wrong byte count");
-
   stream >> mTimeDistance;
-
   uint8_t byte;
   byteCount -= 30;
   for (size_t i = 0; i < byteCount; i++)

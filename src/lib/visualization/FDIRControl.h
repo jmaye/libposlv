@@ -24,11 +24,14 @@
 #ifndef FDIRCONTROL_H
 #define FDIRCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_FDIRControl;
+class Group;
 
 /** The FDIRControl class is the control for the FDIR of the Applanix.
     \brief FDIR control
@@ -36,7 +39,18 @@ class Ui_FDIRControl;
 class FDIRControl :
   public Control,
   public Singleton<FDIRControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  FDIRControl(const FDIRControl& other);
+  /// Assignment operator
+  FDIRControl& operator = (const FDIRControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -54,7 +68,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRControl* mpUi;
+  Ui_FDIRControl* mUi;
   /** @}
     */
 
@@ -62,8 +76,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

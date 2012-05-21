@@ -25,7 +25,6 @@
 #define AIDINGSENSORCONTROL_H
 
 #include "types/Message.h"
-#include "exceptions/IOException.h"
 
 /** The class AidingSensorControl represents the Aiding Sensor Control
     message from the Applanix.
@@ -91,9 +90,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVMessageRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /// Writes to the network
-  virtual void write(POSLVMessageWrite& stream) const;
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 

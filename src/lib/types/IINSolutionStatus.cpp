@@ -18,7 +18,10 @@
 
 #include "types/IINSolutionStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +34,34 @@ const IINSolutionStatus IINSolutionStatus::mProto;
 /******************************************************************************/
 
 IINSolutionStatus::IINSolutionStatus() :
-  Group(20) {
+    Group(20) {
 }
 
 IINSolutionStatus::IINSolutionStatus(const IINSolutionStatus& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mNumberOfSatellites(other.mNumberOfSatellites),
+    mAPrioriPDOP(other.mAPrioriPDOP),
+    mBaselineLength(other.mBaselineLength),
+    mIINProcessingStatus(other.mIINProcessingStatus),
+    mL1CycleSlipFlag(other.mL1CycleSlipFlag),
+    mL2CycleSlipFlag(other.mL2CycleSlipFlag) {
+  memcpy(mPRNAssignment, other.mPRNAssignment, sizeof(mPRNAssignment));
 }
 
 IINSolutionStatus& IINSolutionStatus::operator =
-  (const IINSolutionStatus& other) {
-  this->Group::operator=(other);
+    (const IINSolutionStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mNumberOfSatellites = other.mNumberOfSatellites;
+    mAPrioriPDOP = other.mAPrioriPDOP;
+    mBaselineLength = other.mBaselineLength;
+    mIINProcessingStatus = other.mIINProcessingStatus;
+    memcpy(mPRNAssignment, other.mPRNAssignment, sizeof(mPRNAssignment));
+    mL1CycleSlipFlag = other.mL1CycleSlipFlag;
+    mL2CycleSlipFlag = other.mL2CycleSlipFlag;
+  }
   return *this;
 }
 
@@ -51,22 +72,20 @@ IINSolutionStatus::~IINSolutionStatus() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void IINSolutionStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void IINSolutionStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("IINSolutionStatus::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mNumberOfSatellites;
   stream >> mAPrioriPDOP;
   stream >> mBaselineLength;
   stream >> mIINProcessingStatus;
   for (size_t i = 0; i < 12; i++)
-    stream >> mau8PRNAssignment[i];
+    stream >> mPRNAssignment[i];
   stream >> mL1CycleSlipFlag;
   stream >> mL2CycleSlipFlag;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)
@@ -95,7 +114,7 @@ void IINSolutionStatus::write(std::ofstream& stream) const {
   stream << mIINProcessingStatus;
   stream << " ";
   for (size_t i = 0; i < 12; i++) {
-    stream << (uint16_t)mau8PRNAssignment[i];
+    stream << (uint16_t)mPRNAssignment[i];
     stream << " ";
   }
   stream << mL1CycleSlipFlag;

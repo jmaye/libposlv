@@ -24,10 +24,9 @@
 #ifndef PRIMARYDATAPORTCONTROL_H
 #define PRIMARYDATAPORTCONTROL_H
 
-#include "types/Message.h"
-#include "exceptions/IOException.h"
-
 #include <vector>
+
+#include "types/Message.h"
 
 /** The class PrimaryDataPortControl represents the Primary Data Port Control
     message from the Applanix.
@@ -89,9 +88,9 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVMessageRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /// Writes to the network
-  virtual void write(POSLVMessageWrite& stream) const throw (IOException);
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 

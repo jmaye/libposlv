@@ -18,8 +18,9 @@
 
 #include "types/IPControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,15 +33,35 @@ const IPControl IPControl::mProto;
 /******************************************************************************/
 
 IPControl::IPControl() :
-  Message(32) {
+    Message(32) {
 }
 
 IPControl::IPControl(const IPControl& other) :
-  Message(other) {
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mNetworkPart1(other.mNetworkPart1),
+    mNetworkPart2(other.mNetworkPart2),
+    mHostPart1(other.mHostPart1),
+    mHostPart2(other.mHostPart2),
+    mSubNetworkPart1(other.mSubNetworkPart1),
+    mSubNetworkPart2(other.mSubNetworkPart2),
+    mSubHostPart1(other.mSubHostPart1),
+    mSubHostPart2(other.mSubHostPart2) {
 }
 
 IPControl& IPControl::operator = (const IPControl& other) {
-  this->Message::operator=(other);
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mNetworkPart1 = other.mNetworkPart1;
+    mNetworkPart2 = other.mNetworkPart2;
+    mHostPart1 = other.mHostPart1;
+    mHostPart2 = other.mHostPart2;
+    mSubNetworkPart1 = other.mSubNetworkPart1;
+    mSubNetworkPart2 = other.mSubNetworkPart2;
+    mSubHostPart1 = other.mSubHostPart1;
+    mSubHostPart2 = other.mSubHostPart2;
+  }
   return *this;
 }
 
@@ -51,7 +72,7 @@ IPControl::~IPControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void IPControl::read(POSLVMessageRead& stream) throw (IOException) {
+void IPControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -80,7 +101,7 @@ void IPControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void IPControl::write(POSLVMessageWrite& stream) const {
+void IPControl::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

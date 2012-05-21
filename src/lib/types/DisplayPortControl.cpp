@@ -18,8 +18,9 @@
 
 #include "types/DisplayPortControl.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,16 +33,26 @@ const DisplayPortControl DisplayPortControl::mProto;
 /******************************************************************************/
 
 DisplayPortControl::DisplayPortControl() :
-  Message(51) {
+    Message(51) {
 }
 
 DisplayPortControl::DisplayPortControl(const DisplayPortControl& other) :
-  Message(other) {
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mNumGroups(other.mNumGroups),
+    mGroupsIDVector(other.mGroupsIDVector),
+    mReserved(other.mReserved) {
 }
 
 DisplayPortControl& DisplayPortControl::operator =
-  (const DisplayPortControl& other) {
-  this->Message::operator=(other);
+    (const DisplayPortControl& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mNumGroups = other.mNumGroups;
+    mGroupsIDVector = other.mGroupsIDVector;
+    mReserved = other.mReserved;
+  }
   return *this;
 }
 
@@ -52,7 +63,7 @@ DisplayPortControl::~DisplayPortControl() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void DisplayPortControl::read(POSLVMessageRead& stream) throw (IOException) {
+void DisplayPortControl::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -82,8 +93,7 @@ void DisplayPortControl::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void DisplayPortControl::write(POSLVMessageWrite& stream) const
-  throw (IOException) {
+void DisplayPortControl::write(BinaryWriter& stream) const {
   if (mGroupsIDVector.size() != mNumGroups)
     throw IOException("DisplayPortControl::write(): wrong number of groups");
   uint16_t checksum = mChecksum;

@@ -24,11 +24,14 @@
 #ifndef CALIBRATIONCONTROL_H
 #define CALIBRATIONCONTROL_H
 
+#include "boost/shared_ptr.hpp"
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_CalibrationControl;
+class Group;
 
 /** The CalibrationControl class is the control for the calibration of the
     Applanix.
@@ -37,7 +40,18 @@ class Ui_CalibrationControl;
 class CalibrationControl :
   public Control,
   public Singleton<CalibrationControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  CalibrationControl(const CalibrationControl& other);
+  /// Assignment operator
+  CalibrationControl& operator = (const CalibrationControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -55,7 +69,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_CalibrationControl* mpUi;
+  Ui_CalibrationControl* mUi;
   /** @}
     */
 
@@ -63,8 +77,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

@@ -24,11 +24,14 @@
 #ifndef GAMSCONTROL_H
 #define GAMSCONTROL_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Group.h"
+#include "types/Packet.h"
 
 class Ui_GAMSControl;
+class Group;
 
 /** The GAMSControl class is the control for the GAMS solution of the Applanix.
     \brief GAMS solution control
@@ -36,7 +39,18 @@ class Ui_GAMSControl;
 class GAMSControl :
   public Control,
   public Singleton<GAMSControl> {
+
 Q_OBJECT
+
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  GAMSControl(const GAMSControl& other);
+  /// Assignment operator
+  GAMSControl& operator = (const GAMSControl& other);
+  /** @}
+    */
 
 public:
   /** \name Constructors/destructor
@@ -54,7 +68,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_GAMSControl* mpUi;
+  Ui_GAMSControl* mUi;
   /// Mapping for the status messages
   std::map<uint8_t, std::string> mStatusMsg;
   /** @}
@@ -64,8 +78,8 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Applanix group read
-  void groupRead(const Group* group);
+  /// Packet read
+  void packetRead(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

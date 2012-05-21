@@ -18,8 +18,11 @@
 
 #include "types/BaseGPS2Control.h"
 
-#include "com/POSLVMessageRead.h"
-#include "com/POSLVMessageWrite.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -32,17 +35,37 @@ const BaseGPS2Control BaseGPS2Control::mProto;
 /******************************************************************************/
 
 BaseGPS2Control::BaseGPS2Control() :
-  Message(38) {
+    Message(38) {
 }
 
-BaseGPS2Control::BaseGPS2Control(const BaseGPS2Control&
-  other) :
-  Message(other) {
+BaseGPS2Control::BaseGPS2Control(const BaseGPS2Control& other) :
+    Message(other),
+    mTransactionNumber(other.mTransactionNumber),
+    mBaseGPSInputType(other.mBaseGPSInputType),
+    mLineControl(other.mLineControl),
+    mModemControl(other.mModemControl),
+    mConnectionControl(other.mConnectionControl),
+    mNumRedials(other.mNumRedials),
+    mTimeoutLength(other.mTimeoutLength) {
+  memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
+  memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
+  memcpy(mInitString, other.mInitString, sizeof(mInitString));
 }
 
-BaseGPS2Control& BaseGPS2Control::operator =
-  (const BaseGPS2Control& other) {
-  this->Message::operator=(other);
+BaseGPS2Control& BaseGPS2Control::operator = (const BaseGPS2Control& other) {
+  if (this != &other) {
+    Message::operator=(other);
+    mTransactionNumber = other.mTransactionNumber;
+    mBaseGPSInputType = other.mBaseGPSInputType;
+    mLineControl = other.mLineControl;
+    mModemControl = other.mModemControl;
+    mConnectionControl = other.mConnectionControl;
+    memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
+    mNumRedials = other.mNumRedials;
+    memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
+    memcpy(mInitString, other.mInitString, sizeof(mInitString));
+    mTimeoutLength = other.mTimeoutLength;
+  }
   return *this;
 }
 
@@ -53,7 +76,7 @@ BaseGPS2Control::~BaseGPS2Control() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void BaseGPS2Control::read(POSLVMessageRead& stream) throw (IOException) {
+void BaseGPS2Control::read(BinaryReader& stream) {
   mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
@@ -99,7 +122,7 @@ void BaseGPS2Control::read(POSLVMessageRead& stream) throw (IOException) {
   mChecksum = 65536 - mChecksum;
 }
 
-void BaseGPS2Control::write(POSLVMessageWrite& stream) const {
+void BaseGPS2Control::write(BinaryWriter& stream) const {
   uint16_t checksum = mChecksum;
   stream << mTypeID;
   checksum += mTypeID;

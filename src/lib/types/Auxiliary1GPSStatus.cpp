@@ -18,7 +18,10 @@
 
 #include "types/Auxiliary1GPSStatus.h"
 
-#include "com/POSLVGroupRead.h"
+#include <cstring>
+
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,32 +34,68 @@ const Auxiliary1GPSStatus Auxiliary1GPSStatus::mProto;
 /******************************************************************************/
 
 Auxiliary1GPSStatus::Auxiliary1GPSStatus() :
-  Group(12),
-  maChannelStatusData(0) {
+    Group(12),
+    mChannelStatusData(0) {
 }
 
 Auxiliary1GPSStatus::Auxiliary1GPSStatus(const Auxiliary1GPSStatus& other) :
-  Group(other),
-  maChannelStatusData(other.maChannelStatusData) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mNavigationSolutionStatus(other.mNavigationSolutionStatus),
+    mNumberOfSVTracked(other.mNumberOfSVTracked),
+    mChannelStatusByteCount(other.mChannelStatusByteCount),
+    mHDOP(other.mHDOP),
+    mVDOP(other.mVDOP),
+    mDGPSCorrectionLatency(other.mDGPSCorrectionLatency),
+    mDGPSReferenceID(other.mDGPSReferenceID),
+    mGPSUTCWeekNumber(other.mGPSUTCWeekNumber),
+    mGPSUTCTimeOffset(other.mGPSUTCTimeOffset),
+    mGPSNavigationMessageLatency(other.mGPSNavigationMessageLatency),
+    mGeoidalSeparation(other.mGeoidalSeparation),
+    mNMEAMessageReceived(other.mNMEAMessageReceived),
+    mAux12InUse(other.mAux12InUse),
+    mChannelNumber(other.mChannelNumber) {
+  mChannelStatusData = new ChannelStatusData[other.mChannelNumber];
+  memcpy(mChannelStatusData, other.mChannelStatusData,
+    sizeof(mChannelStatusData));
 }
 
 Auxiliary1GPSStatus& Auxiliary1GPSStatus::operator =
-  (const Auxiliary1GPSStatus& other) {
-  this->Group::operator=(other);
-  maChannelStatusData = other.maChannelStatusData;
+    (const Auxiliary1GPSStatus& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mNavigationSolutionStatus = other.mNavigationSolutionStatus;
+    mNumberOfSVTracked = other.mNumberOfSVTracked;
+    mChannelStatusByteCount = other.mChannelStatusByteCount;
+    mHDOP = other.mHDOP;
+    mVDOP = other.mVDOP;
+    mDGPSCorrectionLatency = other.mDGPSCorrectionLatency;
+    mDGPSReferenceID = other.mDGPSReferenceID;
+    mGPSUTCWeekNumber = other.mGPSUTCWeekNumber;
+    mGPSUTCTimeOffset = other.mGPSUTCTimeOffset;
+    mGPSNavigationMessageLatency = other.mGPSNavigationMessageLatency;
+    mGeoidalSeparation = other.mGeoidalSeparation;
+    mNMEAMessageReceived = other.mNMEAMessageReceived;
+    mAux12InUse = other.mAux12InUse;
+    mChannelNumber = other.mChannelNumber;
+    mChannelStatusData = new ChannelStatusData[other.mChannelNumber];
+    memcpy(mChannelStatusData, other.mChannelStatusData,
+      sizeof(mChannelStatusData));
+  }
   return *this;
 }
 
 Auxiliary1GPSStatus::~Auxiliary1GPSStatus() {
-  if (maChannelStatusData != 0)
-    delete []maChannelStatusData;
+  if (mChannelStatusData != 0)
+    delete []mChannelStatusData;
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void Auxiliary1GPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
+void Auxiliary1GPSStatus::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;
@@ -64,10 +103,12 @@ void Auxiliary1GPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
   mChannelNumber = (byteCount - mByteCount) / 20;
+  if (mChannelStatusData)
+    delete []mChannelStatusData;
   if (mChannelNumber > 0)
-    maChannelStatusData = new ChannelStatusData[mChannelNumber];
-  for (size_t i = 0; i < mChannelNumber; i++)
-    stream >> maChannelStatusData[i];
+    mChannelStatusData = new ChannelStatusData[mChannelNumber];
+  for (size_t i = 0; i < mChannelNumber; ++i)
+    stream >> mChannelStatusData[i];
   stream >> mHDOP;
   stream >> mVDOP;
   stream >> mDGPSCorrectionLatency;
@@ -78,7 +119,6 @@ void Auxiliary1GPSStatus::read(POSLVGroupRead& stream) throw (IOException) {
   stream >> mGeoidalSeparation;
   stream >> mNMEAMessageReceived;
   stream >> mAux12InUse;
-
   uint8_t pad;
   stream >> pad;
   if (pad != 0)
@@ -105,8 +145,8 @@ void Auxiliary1GPSStatus::write(std::ofstream& stream) const {
   stream << mChannelStatusByteCount;
   stream << " ";
   stream << mChannelNumber << " ";
-  for (size_t i = 0; i < mChannelNumber; i++)
-    stream << maChannelStatusData[i];
+  for (size_t i = 0; i < mChannelNumber; ++i)
+    stream << mChannelStatusData[i];
   stream << mHDOP;
   stream << " ";
   stream << mVDOP;

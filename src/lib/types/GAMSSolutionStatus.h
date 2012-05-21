@@ -26,7 +26,6 @@
 
 #include "types/Group.h"
 #include "types/TimeDistance.h"
-#include "exceptions/IOException.h"
 
 /** The class GAMSSolutionStatus represents the GAMS Solution Status message
     from the Applanix.
@@ -73,7 +72,7 @@ public:
   /// Solution status
   uint8_t mSolutionStatus;
   /// PRN assignment
-  uint8_t mau8PRNAssignment[12];
+  uint8_t mPRNAssignment[12];
   /// Cycle slip flag
   uint16_t mCycleSlipFlag;
   /// GAMS heading
@@ -98,7 +97,7 @@ protected:
   /// Writes to a file
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
-  virtual void read(POSLVGroupRead& stream) throw (IOException);
+  virtual void read(BinaryReader& stream);
   /** @}
     */
 

@@ -18,7 +18,8 @@
 
 #include "types/GeneralStatusFDIR.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,16 +32,40 @@ const GeneralStatusFDIR GeneralStatusFDIR::mProto;
 /******************************************************************************/
 
 GeneralStatusFDIR::GeneralStatusFDIR() :
-  Group(10) {
+    Group(10) {
 }
 
 GeneralStatusFDIR::GeneralStatusFDIR(const GeneralStatusFDIR& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mGeneralStatusA(other.mGeneralStatusA),
+    mGeneralStatusB(other.mGeneralStatusB),
+    mGeneralStatusC(other.mGeneralStatusC),
+    mFDIRLevel1Status(other.mFDIRLevel1Status),
+    mFDIRLevel1Failures(other.mFDIRLevel1Failures),
+    mFDIRLevel2Status(other.mFDIRLevel2Status),
+    mFDIRLevel3Status(other.mFDIRLevel3Status),
+    mFDIRLevel4Status(other.mFDIRLevel4Status),
+    mFDIRLevel5Status(other.mFDIRLevel5Status),
+    mExtendedStatus(other.mExtendedStatus) {
 }
 
 GeneralStatusFDIR& GeneralStatusFDIR::operator =
-  (const GeneralStatusFDIR& other) {
-  this->Group::operator=(other);
+    (const GeneralStatusFDIR& other) {
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mGeneralStatusA = other.mGeneralStatusA;
+    mGeneralStatusB = other.mGeneralStatusB;
+    mGeneralStatusC = other.mGeneralStatusC;
+    mFDIRLevel1Status = other.mFDIRLevel1Status;
+    mFDIRLevel1Failures = other.mFDIRLevel1Failures;
+    mFDIRLevel2Status = other.mFDIRLevel2Status;
+    mFDIRLevel3Status = other.mFDIRLevel3Status;
+    mFDIRLevel4Status = other.mFDIRLevel4Status;
+    mFDIRLevel5Status = other.mFDIRLevel5Status;
+    mExtendedStatus = other.mExtendedStatus;
+  }
   return *this;
 }
 
@@ -51,12 +76,11 @@ GeneralStatusFDIR::~GeneralStatusFDIR() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GeneralStatusFDIR::read(POSLVGroupRead& stream) throw (IOException) {
+void GeneralStatusFDIR::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("GeneralStatusFDIR::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mGeneralStatusA;
   stream >> mGeneralStatusB;

@@ -18,7 +18,8 @@
 
 #include "types/RawEvent2.h"
 
-#include "com/POSLVGroupRead.h"
+#include "base/BinaryReader.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -31,15 +32,21 @@ const RawEvent2 RawEvent2::mProto;
 /******************************************************************************/
 
 RawEvent2::RawEvent2() :
-  Group(10005) {
+    Group(10005) {
 }
 
 RawEvent2::RawEvent2(const RawEvent2& other) :
-  Group(other) {
+    Group(other),
+    mTimeDistance(other.mTimeDistance),
+    mEvent2PulseCount(other.mEvent2PulseCount) {
 }
 
 RawEvent2& RawEvent2::operator = (const RawEvent2& other) {
-  this->Group::operator=(other);
+  if (this != &other) {
+    Group::operator=(other);
+    mTimeDistance = other.mTimeDistance;
+    mEvent2PulseCount = other.mEvent2PulseCount;
+  }
   return *this;
 }
 
@@ -50,15 +57,13 @@ RawEvent2::~RawEvent2() {
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void RawEvent2::read(POSLVGroupRead& stream) throw (IOException) {
+void RawEvent2::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("RawEvent2::read(): wrong byte count");
-
   stream >> mTimeDistance;
   stream >> mEvent2PulseCount;
-
   uint16_t pad;
   stream >> pad;
   if (pad != 0)
