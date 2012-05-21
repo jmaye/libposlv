@@ -96,34 +96,89 @@ VehicleNavigationSolution::~VehicleNavigationSolution() {
 /******************************************************************************/
 
 void VehicleNavigationSolution::read(BinaryReader& stream) {
+  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("VehicleNavigationSolution::read(): wrong byte count");
+  mChecksum += mByteCount;
   stream >> mTimeDistance;
+  mChecksum += mTimeDistance.mChecksum;
   stream >> mLatitude;
+  mChecksum += ((uint16_t*)&mLatitude)[0];
+  mChecksum += ((uint16_t*)&mLatitude)[1];
+  mChecksum += ((uint16_t*)&mLatitude)[2];
+  mChecksum += ((uint16_t*)&mLatitude)[3];
   stream >> mLongitude;
+  mChecksum += ((uint16_t*)&mLongitude)[0];
+  mChecksum += ((uint16_t*)&mLongitude)[1];
+  mChecksum += ((uint16_t*)&mLongitude)[2];
+  mChecksum += ((uint16_t*)&mLongitude)[3];
   stream >> mAltitude;
+  mChecksum += ((uint16_t*)&mAltitude)[0];
+  mChecksum += ((uint16_t*)&mAltitude)[1];
+  mChecksum += ((uint16_t*)&mAltitude)[2];
+  mChecksum += ((uint16_t*)&mAltitude)[3];
   stream >> mNorthVelocity;
+  mChecksum += ((uint16_t*)&mNorthVelocity)[0];
+  mChecksum += ((uint16_t*)&mNorthVelocity)[1];
   stream >> mEastVelocity;
+  mChecksum += ((uint16_t*)&mEastVelocity)[0];
+  mChecksum += ((uint16_t*)&mEastVelocity)[1];
   stream >> mDownVelocity;
+  mChecksum += ((uint16_t*)&mDownVelocity)[0];
+  mChecksum += ((uint16_t*)&mDownVelocity)[1];
   stream >> mRoll;
+  mChecksum += ((uint16_t*)&mRoll)[0];
+  mChecksum += ((uint16_t*)&mRoll)[1];
+  mChecksum += ((uint16_t*)&mRoll)[2];
+  mChecksum += ((uint16_t*)&mRoll)[3];
   stream >> mPitch;
+  mChecksum += ((uint16_t*)&mPitch)[0];
+  mChecksum += ((uint16_t*)&mPitch)[1];
+  mChecksum += ((uint16_t*)&mPitch)[2];
+  mChecksum += ((uint16_t*)&mPitch)[3];
   stream >> mHeading;
+  mChecksum += ((uint16_t*)&mHeading)[0];
+  mChecksum += ((uint16_t*)&mHeading)[1];
+  mChecksum += ((uint16_t*)&mHeading)[2];
+  mChecksum += ((uint16_t*)&mHeading)[3];
   stream >> mWanderAngle;
+  mChecksum += ((uint16_t*)&mWanderAngle)[0];
+  mChecksum += ((uint16_t*)&mWanderAngle)[1];
+  mChecksum += ((uint16_t*)&mWanderAngle)[2];
+  mChecksum += ((uint16_t*)&mWanderAngle)[3];
   stream >> mTrackAngle;
+  mChecksum += ((uint16_t*)&mTrackAngle)[0];
+  mChecksum += ((uint16_t*)&mTrackAngle)[1];
   stream >> mSpeed;
+  mChecksum += ((uint16_t*)&mSpeed)[0];
+  mChecksum += ((uint16_t*)&mSpeed)[1];
   stream >> mAngularRateLong;
+  mChecksum += ((uint16_t*)&mAngularRateLong)[0];
+  mChecksum += ((uint16_t*)&mAngularRateLong)[1];
   stream >> mAngularRateTrans;
+  mChecksum += ((uint16_t*)&mAngularRateTrans)[0];
+  mChecksum += ((uint16_t*)&mAngularRateTrans)[1];
   stream >> mAngularRateDown;
+  mChecksum += ((uint16_t*)&mAngularRateDown)[0];
+  mChecksum += ((uint16_t*)&mAngularRateDown)[1];
   stream >> mAccLong;
+  mChecksum += ((uint16_t*)&mAccLong)[0];
+  mChecksum += ((uint16_t*)&mAccLong)[1];
   stream >> mAccTrans;
+  mChecksum += ((uint16_t*)&mAccTrans)[0];
+  mChecksum += ((uint16_t*)&mAccTrans)[1];
   stream >> mAccDown;
+  mChecksum += ((uint16_t*)&mAccDown)[0];
+  mChecksum += ((uint16_t*)&mAccDown)[1];
   stream >> mAlignementStatus;
   uint8_t pad;
   stream >> pad;
   if (pad != 0)
     throw IOException("VehicleNavigationSolution::read(): wrong pad");
+  mChecksum += pad << 8 | mAlignementStatus;
+  mChecksum = 65536 - mChecksum;
 }
 
 void VehicleNavigationSolution::read(std::istream& stream) {

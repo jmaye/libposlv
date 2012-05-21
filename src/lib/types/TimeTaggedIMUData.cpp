@@ -77,25 +77,44 @@ TimeTaggedIMUData::~TimeTaggedIMUData() {
 /******************************************************************************/
 
 void TimeTaggedIMUData::read(BinaryReader& stream) {
+  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("TimeTaggedIMUData::read(): wrong byte count");
+  mChecksum += mByteCount;
   stream >> mTimeDistance;
+  mChecksum += mTimeDistance.mChecksum;
   stream >> mXIncrementalVelocity;
+  mChecksum += ((uint16_t*)&mXIncrementalVelocity)[0];
+  mChecksum += ((uint16_t*)&mXIncrementalVelocity)[1];
   stream >> mYIncrementalVelocity;
+  mChecksum += ((uint16_t*)&mYIncrementalVelocity)[0];
+  mChecksum += ((uint16_t*)&mYIncrementalVelocity)[1];
   stream >> mZIncrementalVelocity;
+  mChecksum += ((uint16_t*)&mZIncrementalVelocity)[0];
+  mChecksum += ((uint16_t*)&mZIncrementalVelocity)[1];
   stream >> mXIncrementalAngle;
+  mChecksum += ((uint16_t*)&mXIncrementalAngle)[0];
+  mChecksum += ((uint16_t*)&mXIncrementalAngle)[1];
   stream >> mYIncrementalAngle;
+  mChecksum += ((uint16_t*)&mYIncrementalAngle)[0];
+  mChecksum += ((uint16_t*)&mYIncrementalAngle)[1];
   stream >> mZIncrementalAngle;
+  mChecksum += ((uint16_t*)&mZIncrementalAngle)[0];
+  mChecksum += ((uint16_t*)&mZIncrementalAngle)[1];
   stream >> mDataStatus;
   stream >> mIMUType;
+  mChecksum += mIMUType << 8 | mDataStatus;
   stream >> mPOSIMUDataRate;
   stream >> mIMUStatus;
+  mChecksum += ((uint8_t*)&mIMUStatus)[0] << 8 | mPOSIMUDataRate;
   uint8_t pad;
   stream >> pad;
   if (pad != 0)
     throw IOException("TimeTaggedIMUData::read(): wrong pad");
+  mChecksum += pad << 8 | ((uint8_t*)&mIMUStatus)[1];
+  mChecksum = 65536 - mChecksum;
 }
 
 void TimeTaggedIMUData::read(std::istream& stream) {

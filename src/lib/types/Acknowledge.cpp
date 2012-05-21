@@ -81,11 +81,10 @@ void Acknowledge::read(BinaryReader& stream) {
   mChecksum += mResponseCode;
   stream >> mNewParamsStatus;
   mChecksum += mParameterName[0] << 8 | mNewParamsStatus;
-  for (size_t i = 0; i < 32; i++) {
+  for (size_t i = 0; i < 32; i++)
     stream >> mParameterName[i];
-    if (i > 1 && i != 31)
-      mChecksum += mParameterName[i - 1] << 8 | mParameterName[i];
-  }
+  for (size_t i = 2; i < 31; i += 2)
+    mChecksum += mParameterName[i] << 8 | mParameterName[i - 1];
   uint8_t pad;
   stream >> pad;
   if (pad != 0)

@@ -69,15 +69,24 @@ UserTimeStatus::~UserTimeStatus() {
 /******************************************************************************/
 
 void UserTimeStatus::read(BinaryReader& stream) {
+  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("UserTimeStatus::read(): wrong byte count");
+  mChecksum += mByteCount;
   stream >> mTimeDistance;
+  mChecksum += mTimeDistance.mChecksum;
   stream >> mNumberOfTimeSynchMessageRejections;
+  mChecksum += ((uint16_t*)&mNumberOfTimeSynchMessageRejections)[0];
+  mChecksum += ((uint16_t*)&mNumberOfTimeSynchMessageRejections)[1];
   stream >> mNumberOfUserTimeResynchronizations;
+  mChecksum += ((uint16_t*)&mNumberOfUserTimeResynchronizations)[0];
+  mChecksum += ((uint16_t*)&mNumberOfUserTimeResynchronizations)[1];
   stream >> mUserTimeValid;
   stream >> mTimeSynchMessageReceived;
+  mChecksum += mTimeSynchMessageReceived << 8 | mUserTimeValid;
+  mChecksum = 65536 - mChecksum;
 }
 
 void UserTimeStatus::read(std::istream& stream) {

@@ -62,6 +62,8 @@ public:
   uint8_t mTimeType;
   /// Distance type
   uint8_t mDistanceType;
+  /// Checksum
+  uint16_t mChecksum;
   /** @}
     */
 
