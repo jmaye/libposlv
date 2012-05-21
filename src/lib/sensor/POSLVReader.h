@@ -32,8 +32,8 @@
 
 class Packet;
 
-/** The POSLVReader class is an interface for reading groups and messages from the
-    Applanix device.
+/** The POSLVReader class is an interface for reading groups and messages from
+    the Applanix device.
     \brief Applanix POS LV reading interface for groups and messages
   */
 class POSLVReader :
