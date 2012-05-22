@@ -129,17 +129,17 @@ void TCPConnectionClient::read(char* buffer, size_t numBytes) {
       &waitd);
     if(res < 0)
       throw SystemException(errno,
-        "TCPConnectionClient::readBuffer()::select()");
+        "TCPConnectionClient::read()::select()");
     if (FD_ISSET(mSocket, &readFlags)) {
       FD_CLR(mSocket, &readFlags);
       res = ::read(mSocket, &buffer[bytesRead], numBytes - bytesRead);
       if (res < 0)
         throw SystemException(errno,
-          "TCPConnectionClient::readBuffer()::read()");
+          "TCPConnectionClient::read()::read()");
       bytesRead += res;
     }
     else
-      throw IOException("TCPConnectionClient::readBuffer(): timeout occured");
+      throw IOException("TCPConnectionClient::read(): timeout occured");
   }
 }
 
@@ -160,16 +160,16 @@ void TCPConnectionClient::write(const char* buffer, size_t numBytes) {
       &waitd);
     if(res < 0)
       throw SystemException(errno,
-        "TCPConnectionClient::writeBuffer()::select()");
+        "TCPConnectionClient::write()::select()");
     if (FD_ISSET(mSocket, &writeFlags)) {
       FD_CLR(mSocket, &writeFlags);
       res = ::write(mSocket, &buffer[bytesWritten], numBytes - bytesWritten);
       if (res < 0)
         throw SystemException(errno,
-          "TCPConnectionClient::writeBuffer()::write()");
+          "TCPConnectionClient::write()::write()");
       bytesWritten += res;
     }
     else
-      throw IOException("TCPConnectionClient::writeBuffer(): timeout occured");
+      throw IOException("TCPConnectionClient::write(): timeout occured");
   }
 }

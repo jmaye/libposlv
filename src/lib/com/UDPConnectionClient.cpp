@@ -127,7 +127,7 @@ void UDPConnectionClient::read(char* buffer, size_t numBytes) {
       &waitd);
     if(res < 0)
       throw SystemException(errno,
-        "UDPConnectionClient::readBuffer()::select()");
+        "UDPConnectionClient::read()::select()");
     if (FD_ISSET(mSocket, &readFlags)) {
       FD_CLR(mSocket, &readFlags);
       struct sockaddr_in server;
@@ -136,11 +136,11 @@ void UDPConnectionClient::read(char* buffer, size_t numBytes) {
         (struct sockaddr*)&server, &size);
       if (res < 0)
         throw SystemException(errno,
-          "UDPConnectionClient::readBuffer()::read()");
+          "UDPConnectionClient::read()::read()");
       bytesRead += res;
     }
     else
-      throw IOException("UDPConnectionClient::readBuffer(): timeout occured");
+      throw IOException("UDPConnectionClient::read(): timeout occured");
   }
 }
 
@@ -161,17 +161,17 @@ void UDPConnectionClient::write(const char* buffer, size_t numBytes) {
       &waitd);
     if(res < 0)
       throw SystemException(errno,
-        "UDPConnectionClient::writeBuffer()::select()");
+        "UDPConnectionClient::write()::select()");
     if (FD_ISSET(mSocket, &writeFlags)) {
       FD_CLR(mSocket, &writeFlags);
       res = sendto(mSocket, &buffer[bytesWritten], numBytes - bytesWritten, 0,
         (const struct sockaddr*)&mServer, sizeof(struct sockaddr_in));
       if (res < 0)
         throw SystemException(errno,
-          "UDPConnectionClient::writeBuffer()::write()");
+          "UDPConnectionClient::write()::write()");
       bytesWritten += res;
     }
     else
-      throw IOException("UDPConnectionClient::writeBuffer(): timeout occured");
+      throw IOException("UDPConnectionClient::write(): timeout occured");
   }
 }
