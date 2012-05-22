@@ -150,10 +150,6 @@ void CalibratedInstallationParams::read(BinaryReader& stream) {
   stream >> mReserved4;
   stream >> mReserved5;
   stream >> mReserved6;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("CalibratedInstallationParams::read(): wrong pad");
 }
 
 void CalibratedInstallationParams::read(std::istream& stream) {

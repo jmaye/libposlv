@@ -82,19 +82,15 @@ void BaseGPS1ModemStatus::read(BinaryReader& stream) {
   if (byteCount != mByteCount)
     throw IOException("BaseGPS1ModemStatus::read(): wrong byte count");
   stream >> mTimeDistance;
-  for (size_t i = 0; i < 16; i++)
+  for (size_t i = 0; i < sizeof(mModemResponse); i++)
     stream >> mModemResponse[i];
-  for (size_t i = 0; i < 48; i++)
+  for (size_t i = 0; i < sizeof(mConnectionStatus); i++)
     stream >> mConnectionStatus[i];
   stream >> mNumberOfRedialsPerDisconnect;
   stream >> mMaximumNumberOfRedialsPerDisconnect;
   stream >> mNumberOfDisconnects;
   stream >> mDataGapLength;
   stream >> mMaximumDataGapLength;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("BaseGPS1ModemStatus::read(): wrong pad");
 }
 
 void BaseGPS1ModemStatus::read(std::istream& stream) {

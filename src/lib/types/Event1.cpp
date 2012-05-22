@@ -64,10 +64,6 @@ void Event1::read(BinaryReader& stream) {
     throw IOException("Event1::read(): wrong byte count");
   stream >> mTimeDistance;
   stream >> mEventPulseNumber;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("Event1::read(): wrong pad");
 }
 
 void Event1::read(std::istream& stream) {

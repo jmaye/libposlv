@@ -24,8 +24,7 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-TimeDistance::TimeDistance() :
-    mChecksum(0) {
+TimeDistance::TimeDistance() {
 }
 
 TimeDistance::TimeDistance(const TimeDistance& other) :
@@ -56,23 +55,10 @@ TimeDistance::~TimeDistance() {
 
 void TimeDistance::read(BinaryReader& stream) {
   stream >> mTime1;
-  mChecksum += ((uint16_t*)&mTime1)[0];
-  mChecksum += ((uint16_t*)&mTime1)[1];
-  mChecksum += ((uint16_t*)&mTime1)[2];
-  mChecksum += ((uint16_t*)&mTime1)[3];
   stream >> mTime2;
-  mChecksum += ((uint16_t*)&mTime2)[0];
-  mChecksum += ((uint16_t*)&mTime2)[1];
-  mChecksum += ((uint16_t*)&mTime2)[2];
-  mChecksum += ((uint16_t*)&mTime2)[3];
   stream >> mDistanceTag;
-  mChecksum += ((uint16_t*)&mDistanceTag)[0];
-  mChecksum += ((uint16_t*)&mDistanceTag)[1];
-  mChecksum += ((uint16_t*)&mDistanceTag)[2];
-  mChecksum += ((uint16_t*)&mDistanceTag)[3];
   stream >> mTimeType;
   stream >> mDistanceType;
-  mChecksum += mDistanceType << 8 | mTimeType;
 }
 
 void TimeDistance::read(std::istream& stream) {

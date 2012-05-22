@@ -77,93 +77,41 @@ BaseGPS1Control::~BaseGPS1Control() {
 /******************************************************************************/
 
 void BaseGPS1Control::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("BaseGPS1Control::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mBaseGPSInputType;
-  mChecksum += mBaseGPSInputType;
   stream >> mLineControl;
   stream >> mModemControl;
-  mChecksum += (mModemControl << 8) | mLineControl;
   stream >> mConnectionControl;
-  stream >> mPhoneNumber[0];
-  mChecksum += (mPhoneNumber[0] << 8) | mConnectionControl;
-  for (size_t i = 1; i < 32; i+=2) {
+  for (size_t i = 0; i < sizeof(mPhoneNumber); ++i)
     stream >> mPhoneNumber[i];
-    if (i != 31) {
-      stream >> mPhoneNumber[i + 1];
-      mChecksum += (mPhoneNumber[i + 1] << 8) | mPhoneNumber[i];
-    }
-  }
   stream >> mNumRedials;
-  mChecksum += (mNumRedials << 8) | mPhoneNumber[31];
-  for (size_t i = 0; i < 64; i+=2) {
+  for (size_t i = 0; i < sizeof(mCommandString); ++i)
     stream >> mCommandString[i];
-    stream >> mCommandString[i + 1];
-    mChecksum += (mCommandString[i + 1] << 8) | mCommandString[i];
-  }
-  for (size_t i = 0; i < 128; i+=2) {
+  for (size_t i = 0; i < sizeof(mInitString); ++i)
     stream >> mInitString[i];
-    stream >> mInitString[i + 1];
-    mChecksum += (mInitString[i + 1] << 8) | mInitString[i];
-  }
   stream >> mTimeoutLength;
-  mChecksum += mTimeoutLength;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("BaseGPS1Control::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void BaseGPS1Control::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mBaseGPSInputType;
-  checksum += mBaseGPSInputType;
   stream << mLineControl;
   stream << mModemControl;
-  checksum += (mModemControl << 8) | mLineControl;
   stream << mConnectionControl;
-  stream << mPhoneNumber[0];
-  checksum += (mPhoneNumber[0] << 8) | mConnectionControl;
-  for (size_t i = 1; i < 32; i+=2) {
+  for (size_t i = 0; i < sizeof(mPhoneNumber); ++i)
     stream << mPhoneNumber[i];
-    if (i != 31) {
-      stream << mPhoneNumber[i + 1];
-      checksum += (mPhoneNumber[i + 1] << 8) | mPhoneNumber[i];
-    }
-  }
   stream << mNumRedials;
-  checksum += (mNumRedials << 8) | mPhoneNumber[31];
-  for (size_t i = 0; i < 64; i+=2) {
+  for (size_t i = 0; i < sizeof(mCommandString); ++i)
     stream << mCommandString[i];
-    stream << mCommandString[i + 1];
-    checksum += (mCommandString[i + 1] << 8) | mCommandString[i];
-  }
-  for (size_t i = 0; i < 128; i+=2) {
+  for (size_t i = 0; i < sizeof(mInitString); ++i)
     stream << mInitString[i];
-    stream << mInitString[i + 1];
-    checksum += (mInitString[i + 1] << 8) | mInitString[i];
-  }
   stream << mTimeoutLength;
-  checksum += mTimeoutLength;
-  uint16_t pad = 0;
-  stream << pad;
-  checksum += pad;
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void BaseGPS1Control::read(std::istream& stream) {

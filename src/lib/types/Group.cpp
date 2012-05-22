@@ -27,22 +27,19 @@
 
 Group::Group(uint16_t typeID) :
     Packet("$GRP"),
-    mTypeID(typeID),
-    mChecksum(47770) {
+    mTypeID(typeID) {
     Factory<uint16_t, Group>::getInstance().registerType(this, mTypeID);
 }
 
 Group::Group(const Group& other) :
     Packet(other),
-    mTypeID(other.mTypeID),
-    mChecksum(other.mChecksum) {
+    mTypeID(other.mTypeID) {
 }
 
 Group& Group::operator = (const Group& other) {
   if (this != &other) {
     Packet::operator=(other);
     mTypeID = other.mTypeID;
-    mChecksum = other.mChecksum;
   }
   return *this;
 }
@@ -56,8 +53,4 @@ Group::~Group() {
 
 uint16_t Group::getTypeID() const {
   return mTypeID;
-}
-
-uint16_t Group::getChecksum() const {
-  return mChecksum;
 }

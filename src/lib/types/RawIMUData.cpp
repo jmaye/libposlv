@@ -74,7 +74,7 @@ void RawIMUData::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;
-  for (size_t i = 0; i < 6; i++)
+  for (size_t i = 0; i < sizeof(mIMUHeader); i++)
     stream >> mIMUHeader[i];
   stream >> mVariableMsgByteCount;
   if (mIMURawData)
@@ -83,13 +83,6 @@ void RawIMUData::read(BinaryReader& stream) {
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mIMURawData[i];
   stream >> mDataChecksum;
-  uint32_t padSize = byteCount - mVariableMsgByteCount - 40;
-  uint8_t pad;
-  for (size_t i = 0; i < padSize; i++) {
-    stream >> pad;
-    if (pad != 0)
-      throw IOException("RawIMUData::read(): wrong pad");
-  }
 }
 
 void RawIMUData::read(std::istream& stream) {

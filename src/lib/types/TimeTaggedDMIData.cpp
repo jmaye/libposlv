@@ -69,36 +69,17 @@ TimeTaggedDMIData::~TimeTaggedDMIData() {
 /******************************************************************************/
 
 void TimeTaggedDMIData::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("TimeTaggedDMIData::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTimeDistance;
-  mChecksum += mTimeDistance.mChecksum;
   stream >> mSignedDistanceTraveled;
-  mChecksum += ((uint16_t*)&mSignedDistanceTraveled)[0];
-  mChecksum += ((uint16_t*)&mSignedDistanceTraveled)[1];
-  mChecksum += ((uint16_t*)&mSignedDistanceTraveled)[2];
-  mChecksum += ((uint16_t*)&mSignedDistanceTraveled)[3];
   stream >> mUnsignedDistanceTraveled;
-  mChecksum += ((uint16_t*)&mUnsignedDistanceTraveled)[0];
-  mChecksum += ((uint16_t*)&mUnsignedDistanceTraveled)[1];
-  mChecksum += ((uint16_t*)&mUnsignedDistanceTraveled)[2];
-  mChecksum += ((uint16_t*)&mUnsignedDistanceTraveled)[3];
   stream >> mDMIScaleFactor;
-  mChecksum += mDMIScaleFactor;
   stream >> mDataStatus;
   stream >> mDMIType;
-  mChecksum += mDMIType << 8 | mDataStatus;
   stream >> mDMIDataRate;
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("TimeTaggedDMIData::read(): wrong pad");
-  mChecksum += pad << 8 | mDMIDataRate;
-  mChecksum = 65536 - mChecksum;
 }
 
 void TimeTaggedDMIData::read(std::istream& stream) {

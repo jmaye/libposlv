@@ -79,47 +79,22 @@ VersionStatistics::~VersionStatistics() {
 /******************************************************************************/
 
 void VersionStatistics::read(BinaryReader &stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("VersionStatistics::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTimeDistance;
-  mChecksum += mTimeDistance.mChecksum;
-  for (size_t i = 0; i < 120; i++)
+  for (size_t i = 0; i < sizeof(mSystemVersion); i++)
     stream >> mSystemVersion[i];
-  for (size_t i = 1; i < 120; i += 2)
-    mChecksum += mSystemVersion[i] << 8 | mSystemVersion[i - 1];
-  for (size_t i = 0; i < 80; i++)
+  for (size_t i = 0; i < sizeof(mPrimaryGPSVersion); i++)
     stream >> mPrimaryGPSVersion[i];
-  for (size_t i = 1; i < 80; i += 2)
-    mChecksum += mPrimaryGPSVersion[i] << 8 | mPrimaryGPSVersion[i - 1];
-  for (size_t i = 0; i < 80; i++)
+  for (size_t i = 0; i < sizeof(mSecondaryGPSversion); i++)
     stream >> mSecondaryGPSversion[i];
-  for (size_t i = 1; i < 80; i += 2)
-    mChecksum += mSecondaryGPSversion[i] << 8 | mSecondaryGPSversion[i - 1];
   stream >> mTotalHours;
-  mChecksum += ((uint16_t*)&mTotalHours)[0];
-  mChecksum += ((uint16_t*)&mTotalHours)[1];
   stream >> mNumberOfRuns;
-  mChecksum += ((uint16_t*)&mNumberOfRuns)[0];
-  mChecksum += ((uint16_t*)&mNumberOfRuns)[1];
   stream >> mAverageLengthOfRun;
-  mChecksum += ((uint16_t*)&mAverageLengthOfRun)[0];
-  mChecksum += ((uint16_t*)&mAverageLengthOfRun)[1];
   stream >> mLongestRun;
-  mChecksum += ((uint16_t*)&mLongestRun)[0];
-  mChecksum += ((uint16_t*)&mLongestRun)[1];
   stream >> mCurrentRun;
-  mChecksum += ((uint16_t*)&mCurrentRun)[0];
-  mChecksum += ((uint16_t*)&mCurrentRun)[1];
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("VersionStatistics::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void VersionStatistics::read(std::istream& stream) {

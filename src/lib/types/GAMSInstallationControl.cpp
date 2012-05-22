@@ -71,71 +71,29 @@ GAMSInstallationControl::~GAMSInstallationControl() {
 /******************************************************************************/
 
 void GAMSInstallationControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("GAMSInstallationControl::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mAntennaSeparation;
-  mChecksum += ((uint16_t*)&mAntennaSeparation)[0];
-  mChecksum += ((uint16_t*)&mAntennaSeparation)[1];
   stream >> mBaselineX;
-  mChecksum += ((uint16_t*)&mBaselineX)[0];
-  mChecksum += ((uint16_t*)&mBaselineX)[1];
   stream >> mBaselineY;
-  mChecksum += ((uint16_t*)&mBaselineY)[0];
-  mChecksum += ((uint16_t*)&mBaselineY)[1];
   stream >> mBaselineZ;
-  mChecksum += ((uint16_t*)&mBaselineZ)[0];
-  mChecksum += ((uint16_t*)&mBaselineZ)[1];
   stream >> mMaxHeadingError;
-  mChecksum += ((uint16_t*)&mMaxHeadingError)[0];
-  mChecksum += ((uint16_t*)&mMaxHeadingError)[1];
   stream >> mHeadingCorrection;
-  mChecksum += ((uint16_t*)&mHeadingCorrection)[0];
-  mChecksum += ((uint16_t*)&mHeadingCorrection)[1];
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("GAMSInstallationControl::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void GAMSInstallationControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mAntennaSeparation;
-  checksum += ((uint16_t*)&mAntennaSeparation)[0];
-  checksum += ((uint16_t*)&mAntennaSeparation)[1];
   stream << mBaselineX;
-  checksum += ((uint16_t*)&mBaselineX)[0];
-  checksum += ((uint16_t*)&mBaselineX)[1];
   stream << mBaselineY;
-  checksum += ((uint16_t*)&mBaselineY)[0];
-  checksum += ((uint16_t*)&mBaselineY)[1];
   stream << mBaselineZ;
-  checksum += ((uint16_t*)&mBaselineZ)[0];
-  checksum += ((uint16_t*)&mBaselineZ)[1];
   stream << mMaxHeadingError;
-  checksum += ((uint16_t*)&mMaxHeadingError)[0];
-  checksum += ((uint16_t*)&mMaxHeadingError)[1];
   stream << mHeadingCorrection;
-  checksum += ((uint16_t*)&mHeadingCorrection)[0];
-  checksum += ((uint16_t*)&mHeadingCorrection)[1];
-  uint16_t pad = 0;
-  stream << pad;
-  checksum += pad;
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void GAMSInstallationControl::read(std::istream& stream) {

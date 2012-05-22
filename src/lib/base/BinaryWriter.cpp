@@ -81,3 +81,8 @@ BinaryWriter& BinaryWriter::operator << (double value) {
   writeBuffer(reinterpret_cast<const char*>(&value), sizeof(value));
   return *this;
 }
+
+BinaryWriter& BinaryWriter::operator << (const std::string& value) {
+  writeBuffer(reinterpret_cast<const char*>(value.c_str()), value.size());
+  return *this;
+}

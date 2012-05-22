@@ -82,56 +82,23 @@ VehicleNavigationPerformance::~VehicleNavigationPerformance() {
 /******************************************************************************/
 
 void VehicleNavigationPerformance::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("VehicleNavigationPerformance::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTimeDistance;
-  mChecksum += mTimeDistance.mChecksum;
   stream >> mNorthPositionRMSError;
-  mChecksum += ((uint16_t*)&mNorthPositionRMSError)[0];
-  mChecksum += ((uint16_t*)&mNorthPositionRMSError)[1];
   stream >> mEastPositionRMSError;
-  mChecksum += ((uint16_t*)&mEastPositionRMSError)[0];
-  mChecksum += ((uint16_t*)&mEastPositionRMSError)[1];
   stream >> mDownPositionRMSError;
-  mChecksum += ((uint16_t*)&mDownPositionRMSError)[0];
-  mChecksum += ((uint16_t*)&mDownPositionRMSError)[1];
   stream >> mNorthVelocityRMSError;
-  mChecksum += ((uint16_t*)&mNorthVelocityRMSError)[0];
-  mChecksum += ((uint16_t*)&mNorthVelocityRMSError)[1];
   stream >> mEastVelocityRMSError;
-  mChecksum += ((uint16_t*)&mEastVelocityRMSError)[0];
-  mChecksum += ((uint16_t*)&mEastVelocityRMSError)[1];
   stream >> mDownVelocityRMSError;
-  mChecksum += ((uint16_t*)&mDownVelocityRMSError)[0];
-  mChecksum += ((uint16_t*)&mDownVelocityRMSError)[1];
   stream >> mRollRMSError;
-  mChecksum += ((uint16_t*)&mRollRMSError)[0];
-  mChecksum += ((uint16_t*)&mRollRMSError)[1];
   stream >> mPitchRMSError;
-  mChecksum += ((uint16_t*)&mPitchRMSError)[0];
-  mChecksum += ((uint16_t*)&mPitchRMSError)[1];
   stream >> mHeadingRMSError;
-  mChecksum += ((uint16_t*)&mHeadingRMSError)[0];
-  mChecksum += ((uint16_t*)&mHeadingRMSError)[1];
   stream >> mErrorEllipsoidSemiMajor;
-  mChecksum += ((uint16_t*)&mErrorEllipsoidSemiMajor)[0];
-  mChecksum += ((uint16_t*)&mErrorEllipsoidSemiMajor)[1];
   stream >> mErrorEllipsoidSemiMinor;
-  mChecksum += ((uint16_t*)&mErrorEllipsoidSemiMinor)[0];
-  mChecksum += ((uint16_t*)&mErrorEllipsoidSemiMinor)[1];
   stream >> mErrorEllipsoidOrientation;
-  mChecksum += ((uint16_t*)&mErrorEllipsoidOrientation)[0];
-  mChecksum += ((uint16_t*)&mErrorEllipsoidOrientation)[1];
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("VehicleNavigationPerformance::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void VehicleNavigationPerformance::read(std::istream& stream) {

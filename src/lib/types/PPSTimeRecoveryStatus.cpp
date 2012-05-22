@@ -69,10 +69,6 @@ void PPSTimeRecoveryStatus::read(BinaryReader& stream) {
   stream >> mTimeDistance;
   stream >> mPPSCount;
   stream >> mTimeSynchroStatus;
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("PPSTimeRecoveryStatus::read(): wrong pad");
 }
 
 void PPSTimeRecoveryStatus::read(std::istream& stream) {

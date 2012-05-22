@@ -85,13 +85,6 @@ void PrimaryGPSDataStream::read(BinaryReader& stream) {
   mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; ++i)
     stream >> mGPSReceiverRawData[i];
-  size_t padSize = byteCount - mVariableMsgByteCount - 38;
-  uint8_t pad;
-  for (size_t i = 0; i < padSize; ++i) {
-    stream >> pad;
-    if (pad != 0)
-      throw IOException("PrimaryGPSDataStream::read(): wrong pad");
-  }
 }
 
 void PrimaryGPSDataStream::read(std::istream& stream) {

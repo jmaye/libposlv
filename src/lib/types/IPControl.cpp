@@ -73,59 +73,33 @@ IPControl::~IPControl() {
 /******************************************************************************/
 
 void IPControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("IPControl::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mNetworkPart1;
   stream >> mNetworkPart2;
-  mChecksum += ((mNetworkPart2 << 8) | mNetworkPart1);
   stream >> mHostPart1;
   stream >> mHostPart2;
-  mChecksum += ((mHostPart2 << 8) | mHostPart1);
   stream >> mSubNetworkPart1;
   stream >> mSubNetworkPart2;
-  mChecksum += ((mSubNetworkPart2 << 8) | mSubNetworkPart1);
   stream >> mSubHostPart1;
   stream >> mSubHostPart2;
-  mChecksum += ((mSubHostPart2 << 8) | mSubHostPart1);
-  uint16_t pad = 0;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("IPControl::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void IPControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mNetworkPart1;
   stream << mNetworkPart2;
-  checksum += ((mNetworkPart2 << 8) | mNetworkPart1);
   stream << mHostPart1;
   stream << mHostPart2;
-  checksum += ((mHostPart2 << 8) | mHostPart1);
   stream << mSubNetworkPart1;
   stream << mSubNetworkPart2;
-  checksum += ((mSubNetworkPart2 << 8) | mSubNetworkPart1);
   stream << mSubHostPart1;
   stream << mSubHostPart2;
-  checksum += ((mSubHostPart2 << 8) | mSubHostPart1);
-  uint16_t pad = 0;
-  stream << pad;
-  checksum += pad;
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void IPControl::read(std::istream& stream) {

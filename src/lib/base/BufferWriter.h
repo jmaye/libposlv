@@ -16,31 +16,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file POSLVWriter.h
-    \brief This file defines the POSLVWriter class which is an interface
-           for all messages writing to the Applanix device.
+/** \file BufferWriter.h
+    \brief This file defines the BufferWriter class which allows writing binary
+           data to a byte buffer.
   */
 
-#ifndef POSLVWRITER_H
-#define POSLVWRITER_H
+#ifndef BUFFERWRITER_H
+#define BUFFERWRITER_H
+
+#include <vector>
 
 #include "base/BinaryWriter.h"
 
-class Message;
-
-/** The POSLVWriter class is an interface for all messages writing to the
-    Applanix device.
-    \brief Applanix POS LV writing interface for messages
+/** The BufferWriter class allows for writing binary data to a byte buffer.
+    \brief Buffer reader
   */
-class POSLVWriter :
+class BufferWriter :
   public BinaryWriter {
   /** \name Private constructors
     @{
     */
   /// Copy constructor
-  POSLVWriter(const POSLVWriter& other);
+  BufferWriter(const BufferWriter& other);
   /// Assignment operator
-  POSLVWriter& operator = (const POSLVWriter& other);
+  BufferWriter& operator = (const BufferWriter& other);
   /** @}
     */
 
@@ -48,31 +47,46 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Default constructor
-  POSLVWriter();
+  /// Constructs object
+  BufferWriter(size_t reservedSize = 1000);
   /// Destructor
-  virtual ~POSLVWriter();
+  virtual ~BufferWriter();
   /** @}
     */
 
-  /** \name Methods
+  /** \name Accessors
     @{
     */
-  /// Sends a message to the Applanix
-  void sendMessage(const Message& message);
-  /** @}
-    */
-
-  /** \name Constants
-    @{
-    */
-  /// Maximum packet size
-  static const size_t mMaxPacketSize = 1500;
+  /// Get the position in the buffer
+  size_t getPos() const;
+  /// Set the position in the buffer
+  void setPos(size_t pos);
+  /// Returns the buffer size
+  size_t getBufferSize() const;
+  /// Returns the buffer
+  const char* getBuffer() const;
   /** @}
     */
 
 protected:
+  /** \name Protected methods
+    @{
+    */
+  /// Writes a buffer of byte
+  virtual void writeBuffer(const char* buffer, ssize_t numBytes);
+  /** @}
+    */
+
+  /** \name Protected members
+    @{
+    */
+  /// Associated byte array
+  std::vector<char> mBuffer;
+  /// Position of the reader
+  size_t mPos;
+  /** @}
+    */
 
 };
 
-#endif // POSLVWRITER
+#endif // BUFFERWRITER_H

@@ -61,8 +61,6 @@ public:
     */
   /// Returns the type ID of the Message
   uint16_t getTypeID() const;
-  /// Returns the checksum of the Message
-  uint16_t getChecksum() const;
   /** @}
     */
 
@@ -116,8 +114,6 @@ protected:
     */
   /// Type ID
   uint16_t mTypeID;
-  /// Computed checksum when reading
-  uint16_t mChecksum;
   /** @}
     */
 

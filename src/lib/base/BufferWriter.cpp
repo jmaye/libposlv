@@ -16,75 +16,52 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/SaveRestoreControl.h"
+#include "base/BufferWriter.h"
 
-#include "base/BinaryReader.h"
-#include "base/BinaryWriter.h"
+#include <cstring>
 
-/******************************************************************************/
-/* Statics                                                                    */
-/******************************************************************************/
-
-const SaveRestoreControl SaveRestoreControl::mProto;
+#include "exceptions/OutOfBoundException.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-SaveRestoreControl::SaveRestoreControl() :
-    Message(54) {
+BufferWriter::BufferWriter(size_t reservedSize) :
+    mPos(0) {
+  mBuffer.reserve(reservedSize);
 }
 
-SaveRestoreControl::SaveRestoreControl(const SaveRestoreControl& other) :
-    Message(other),
-    mTransactionNumber(other.mTransactionNumber),
-    mControl(other.mControl) {
-}
-
-SaveRestoreControl& SaveRestoreControl::operator =
-    (const SaveRestoreControl& other) {
-  if (this != &other) {
-    Message::operator=(other);
-    mTransactionNumber = other.mTransactionNumber;
-    mControl = other.mControl;
-  }
-  return *this;
-}
-
-SaveRestoreControl::~SaveRestoreControl() {
+BufferWriter::~BufferWriter() {
 }
 
 /******************************************************************************/
-/* Stream operations                                                          */
+/* Accessors                                                                  */
 /******************************************************************************/
 
-void SaveRestoreControl::read(BinaryReader& stream) {
+size_t BufferWriter::getPos() const {
+  return mPos;
 }
 
-void SaveRestoreControl::write(BinaryWriter& stream) const {
-  stream << mTypeID;
-  stream << mByteCount;
-  stream << mTransactionNumber;
-  stream << mControl;
+void BufferWriter::setPos(size_t pos) {
+  if (pos >= mBuffer.size())
+    throw OutOfBoundException<size_t>(mPos,
+      "BufferWriter::setPos(): invalid position");
+  mPos = pos;
 }
 
-void SaveRestoreControl::read(std::istream& stream) {
+size_t BufferWriter::getBufferSize() const {
+  return mBuffer.size();
 }
 
-void SaveRestoreControl::write(std::ostream& stream) const {
-}
-
-void SaveRestoreControl::read(std::ifstream& stream) {
-}
-
-void SaveRestoreControl::write(std::ofstream& stream) const {
-  stream << mTypeID;
+const char* BufferWriter::getBuffer() const {
+  return &mBuffer[0];
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-SaveRestoreControl* SaveRestoreControl::clone() const {
-  return new SaveRestoreControl(*this);
+void BufferWriter::writeBuffer(const char* buffer, ssize_t numBytes) {
+  mBuffer.insert(mBuffer.begin() + mPos, buffer, buffer + numBytes);
+  mPos += numBytes;
 }

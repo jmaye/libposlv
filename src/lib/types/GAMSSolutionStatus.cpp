@@ -84,15 +84,11 @@ void GAMSSolutionStatus::read(BinaryReader& stream) {
   stream >> mAPrioriPDOP;
   stream >> mComputedAntennaSeparation;
   stream >> mSolutionStatus;
-  for (size_t i = 0; i < 12; i++)
+  for (size_t i = 0; i < sizeof(mPRNAssignment); i++)
     stream >> mPRNAssignment[i];
   stream >> mCycleSlipFlag;
   stream >> mGAMSHeading;
   stream >> mGAMSHeadingRMSError;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("GAMSSolutionStatus::read(): wrong pad");
 }
 
 void GAMSSolutionStatus::read(std::istream& stream) {

@@ -65,14 +65,10 @@ PrimaryDataPortControl::~PrimaryDataPortControl() {
 /******************************************************************************/
 
 void PrimaryDataPortControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
-  mChecksum += byteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mNumGroups;
-  mChecksum += mNumGroups;
   size_t padSize = (mNumGroups % 2) ? 0 : 2;
   if (byteCount != (mByteCount + (2 * mNumGroups) + padSize))
     throw IOException("PrimaryDataPortControl::read(): wrong byte count");
@@ -80,47 +76,22 @@ void PrimaryDataPortControl::read(BinaryReader& stream) {
     uint16_t groupID;
     stream >> groupID;
     mGroupsIDVector.push_back(groupID);
-    mChecksum += groupID;
   }
   stream >> mOutputRate;
-  mChecksum += mOutputRate;
-  if (padSize) {
-    uint16_t pad;
-    stream >> pad;
-    mChecksum += pad;
-    if (pad != 0)
-      throw IOException("PrimaryDataPortControl::read(): wrong pad");
-  }
-  mChecksum = 65536 - mChecksum;
 }
 
 void PrimaryDataPortControl::write(BinaryWriter& stream) const {
   if (mGroupsIDVector.size() != mNumGroups)
     throw IOException("PrimaryDataPortControl::write(): wrong number of "
       "groups");
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   size_t padSize = (mNumGroups % 2) ? 0 : 2;
   stream << mByteCount + (2 * mNumGroups) + padSize;
-  checksum += mByteCount + (2 * mNumGroups) + padSize;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mNumGroups;
-  checksum += mNumGroups;
-  for (size_t i = 0; i < mGroupsIDVector.size(); i++) {
+  for (size_t i = 0; i < mGroupsIDVector.size(); i++)
     stream << mGroupsIDVector[i];
-    checksum += mGroupsIDVector[i];
-  }
   stream << mOutputRate;
-  checksum += mOutputRate;
-  if (padSize) {
-    uint16_t pad = 0;
-    stream << pad;
-    checksum += pad;
-  }
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void PrimaryDataPortControl::read(std::istream& stream) {

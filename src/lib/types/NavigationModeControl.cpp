@@ -61,37 +61,19 @@ NavigationModeControl::~NavigationModeControl() {
 /******************************************************************************/
 
 void NavigationModeControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("NavigationModeControl::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mNavigationMode;
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("NavigationModeControl::read(): wrong pad");
-  mChecksum += ((pad << 8) | mNavigationMode);
-  mChecksum = 65536 - mChecksum;
 }
 
 void NavigationModeControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mNavigationMode;
-  uint8_t pad = 0;
-  stream << pad;
-  checksum += ((pad << 8) | mNavigationMode);
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void NavigationModeControl::read(std::istream& stream) {

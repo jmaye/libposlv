@@ -70,69 +70,29 @@ AidingSensorControl::~AidingSensorControl() {
 /******************************************************************************/
 
 void AidingSensorControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("AidingSensorControl::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mDMIScaleFactor;
-  mChecksum += ((uint16_t*)&mDMIScaleFactor)[0];
-  mChecksum += ((uint16_t*)&mDMIScaleFactor)[1];
   stream >> mRefDMIX;
-  mChecksum += ((uint16_t*)&mRefDMIX)[0];
-  mChecksum += ((uint16_t*)&mRefDMIX)[1];
   stream >> mRefDMIY;
-  mChecksum += ((uint16_t*)&mRefDMIY)[0];
-  mChecksum += ((uint16_t*)&mRefDMIY)[1];
   stream >> mRefDMIZ;
-  mChecksum += ((uint16_t*)&mRefDMIZ)[0];
-  mChecksum += ((uint16_t*)&mRefDMIZ)[1];
-  for (size_t i = 0; i < 7; i++) {
+  for (size_t i = 0; i < sizeof(mReserved); i++)
     stream >> mReserved[i];
-    mChecksum += ((uint16_t*)&mReserved[i])[0];
-    mChecksum += ((uint16_t*)&mReserved[i])[1];
-  }
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("AidingSensorControl::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void AidingSensorControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mDMIScaleFactor;
-  checksum += ((uint16_t*)&mDMIScaleFactor)[0];
-  checksum += ((uint16_t*)&mDMIScaleFactor)[1];
   stream << mRefDMIX;
-  checksum += ((uint16_t*)&mRefDMIX)[0];
-  checksum += ((uint16_t*)&mRefDMIX)[1];
   stream << mRefDMIY;
-  checksum += ((uint16_t*)&mRefDMIY)[0];
-  checksum += ((uint16_t*)&mRefDMIY)[1];
   stream << mRefDMIZ;
-  checksum += ((uint16_t*)&mRefDMIZ)[0];
-  checksum += ((uint16_t*)&mRefDMIZ)[1];
-  for (size_t i = 0; i < 7; i++) {
+  for (size_t i = 0; i < sizeof(mReserved); i++)
     stream << mReserved[i];
-    checksum += ((uint16_t*)&mReserved[i])[0];
-    checksum += ((uint16_t*)&mReserved[i])[1];
-  }
-  uint16_t pad = 0;
-  stream << pad;
-  checksum += pad;
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void AidingSensorControl::read(std::istream& stream) {

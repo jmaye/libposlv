@@ -67,55 +67,27 @@ ZUPDControl::~ZUPDControl() {
 /******************************************************************************/
 
 void ZUPDControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("ZUPDControl::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mControl;
-  mChecksum += mControl;
   stream >> mDetectZeroVelocityThreshold;
-  mChecksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[0];
-  mChecksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[1];
   stream >> mRejectZeroVelocityThreshold;
-  mChecksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[0];
-  mChecksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[1];
   stream >> mZeroVelocityTestPeriod;
-  mChecksum += ((uint16_t*)&mZeroVelocityTestPeriod)[0];
-  mChecksum += ((uint16_t*)&mZeroVelocityTestPeriod)[1];
   stream >> mZUPDStd;
-  mChecksum += ((uint16_t*)&mZUPDStd)[0];
-  mChecksum += ((uint16_t*)&mZUPDStd)[1];
-  mChecksum = 65536 - mChecksum;
 }
 
 void ZUPDControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mControl;
-  checksum += mControl;
   stream << mDetectZeroVelocityThreshold;
-  checksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[0];
-  checksum += ((uint16_t*)&mDetectZeroVelocityThreshold)[1];
   stream << mRejectZeroVelocityThreshold;
-  checksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[0];
-  checksum += ((uint16_t*)&mRejectZeroVelocityThreshold)[1];
   stream << mZeroVelocityTestPeriod;
-  checksum += ((uint16_t*)&mZeroVelocityTestPeriod)[0];
-  checksum += ((uint16_t*)&mZeroVelocityTestPeriod)[1];
   stream << mZUPDStd;
-  checksum += ((uint16_t*)&mZUPDStd)[0];
-  checksum += ((uint16_t*)&mZUPDStd)[1];
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void ZUPDControl::read(std::istream& stream) {

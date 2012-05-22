@@ -102,7 +102,7 @@ void Auxiliary2GPSStatus::read(BinaryReader& stream) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = (byteCount - mByteCount) / 20;
+  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
   if (mChannelStatusData)
     delete []mChannelStatusData;
   if (mChannelNumber > 0)
@@ -119,10 +119,6 @@ void Auxiliary2GPSStatus::read(BinaryReader& stream) {
   stream >> mGeoidalSeparation;
   stream >> mNMEAMessageReceived;
   stream >> mAux12InUse;
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("Auxiliary2GPSStatus::read(): wrong pad");
 }
 
 void Auxiliary2GPSStatus::read(std::istream& stream) {

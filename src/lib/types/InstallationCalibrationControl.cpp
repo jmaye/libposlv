@@ -65,18 +65,11 @@ void InstallationCalibrationControl::read(BinaryReader& stream) {
 }
 
 void InstallationCalibrationControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mCalibrationAction;
   stream << mCalibrationSelect;
-  checksum += ((mCalibrationSelect << 8) | mCalibrationAction);
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void InstallationCalibrationControl::read(std::istream& stream) {

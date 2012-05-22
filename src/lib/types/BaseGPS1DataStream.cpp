@@ -75,7 +75,7 @@ void BaseGPS1DataStream::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;
-  for (size_t i = 0; i < 6; i++)
+  for (size_t i = 0; i < sizeof(mReserved); i++)
     stream >> mReserved[i];
   stream >> mVariableMsgByteCount;
   if (mGPSReceiverRawData)
@@ -83,14 +83,6 @@ void BaseGPS1DataStream::read(BinaryReader& stream) {
   mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
   for (size_t i = 0; i < mVariableMsgByteCount; i++)
     stream >> mGPSReceiverRawData[i];
-  size_t padSize = byteCount - mVariableMsgByteCount - 38;
-
-  uint8_t pad;
-  for (size_t i = 0; i < padSize; i++) {
-    stream >> pad;
-    if (pad != 0)
-      throw IOException("BaseGPS1DataStream::read(): wrong pad");
-  }
 }
 
 void BaseGPS1DataStream::read(std::istream& stream) {

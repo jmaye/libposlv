@@ -77,10 +77,6 @@ void LoggingParamStatus::read(BinaryReader& stream) {
   stream >> mDiskLoggingTimeRemaining;
   stream >> mDiskKbytesTotal;
   stream >> mLoggingState;
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("LoggingParamStatus::read(): wrong pad");
 }
 
 

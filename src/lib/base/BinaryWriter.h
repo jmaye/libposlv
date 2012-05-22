@@ -27,6 +27,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#include <string>
+
 /** The BinaryWriter class is an interface for writing basic types to a binary
     stream.
     \brief Binary writer
@@ -76,6 +78,8 @@ public:
   BinaryWriter& operator << (float value);
   /// Writes 64-bit floating point
   BinaryWriter& operator << (double value);
+  /// Writes a string
+  BinaryWriter& operator << (const std::string& value);
   /** @}
     */
 
@@ -90,4 +94,4 @@ protected:
 
 };
 
-#endif // BINARYWRITER
+#endif // BINARYWRITER_H

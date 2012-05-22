@@ -82,14 +82,10 @@ void IINSolutionStatus::read(BinaryReader& stream) {
   stream >> mAPrioriPDOP;
   stream >> mBaselineLength;
   stream >> mIINProcessingStatus;
-  for (size_t i = 0; i < 12; i++)
+  for (size_t i = 0; i < sizeof(mPRNAssignment); i++)
     stream >> mPRNAssignment[i];
   stream >> mL1CycleSlipFlag;
   stream >> mL2CycleSlipFlag;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("IINSolutionStatus::read(): wrong pad");
 }
 
 void IINSolutionStatus::read(std::istream& stream) {

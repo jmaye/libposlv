@@ -65,53 +65,27 @@ COMPortControl::~COMPortControl() {
 /******************************************************************************/
 
 void COMPortControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
-  mChecksum += byteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mNumPorts;
-  mChecksum += mNumPorts;
   if (byteCount != mByteCount + (8 * mNumPorts))
     throw IOException("COMPortControl::read(): wrong byte count");
-  for (size_t i = 0; i < mNumPorts; i++) {
+  for (size_t i = 0; i < mNumPorts; i++)
     stream >> mpParameters[i];
-    mChecksum += mpParameters[i].getChecksum();
-  }
   stream >> mPortMask;
-  mChecksum += mPortMask;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("COMPortControl::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void COMPortControl::write(BinaryWriter& stream) const {
   if (mNumPorts > 10)
     throw IOException("COMPortControl::write(): 10 COM ports maximum");
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount + (8 * mNumPorts);
-  checksum += mByteCount + (8 * mNumPorts);
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mNumPorts;
-  checksum += mNumPorts;
-  for (size_t i = 0; i < mNumPorts; i++) {
+  for (size_t i = 0; i < mNumPorts; i++)
     stream << mpParameters[i];
-    checksum += mpParameters[i].getChecksum();
-  }
   stream << mPortMask;
-  checksum += mPortMask;
-  uint16_t pad = 0;
-  stream << pad;
-  checksum += pad;
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void COMPortControl::read(std::istream& stream) {

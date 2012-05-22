@@ -56,13 +56,6 @@ public:
   /** @}
     */
 
-    /** \name Methods
-    @{
-    */
-  uint16_t getChecksum() const;
-  /** @}
-    */
-
   /** \name Members
     @{
     */

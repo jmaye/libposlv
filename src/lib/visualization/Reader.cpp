@@ -55,7 +55,7 @@ void Reader::setPollingTime(double pollingTime) {
 void Reader::timerTimeout() {
   try {
     boost::shared_ptr<Packet> packet = mDevice.readPacket();
-    emit(packet);
+    emit packetRead(packet);
     emit deviceConnected(true);
   }
   catch (IOException& e) {

@@ -63,19 +63,10 @@ void GAMSCalibrationControl::read(BinaryReader& stream) {
 }
 
 void GAMSCalibrationControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mCalibrationAction;
-  uint8_t pad = 0;
-  stream << pad;
-  checksum += ((pad << 8) | mCalibrationAction);
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void GAMSCalibrationControl::read(std::istream& stream) {

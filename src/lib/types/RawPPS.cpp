@@ -64,10 +64,6 @@ void RawPPS::read(BinaryReader& stream) {
     throw IOException("RawPPS::read(): wrong byte count");
   stream >> mTimeDistance;
   stream >> mPPSPulseCount;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("RawPPS::read(): wrong pad");
 }
 
 void RawPPS::read(std::istream& stream) {

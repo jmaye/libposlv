@@ -134,11 +134,6 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(BinaryReader& stream) {
   stream >> mUserIDCode;
   stream >> mUserAccess;
   stream >> mDecoderState;
-  uint8_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("PrimaryGPSReceiverIntegratedDGPSStatus::read(): "
-      "wrong pad");
 }
 
 void PrimaryGPSReceiverIntegratedDGPSStatus::read(std::istream& stream) {

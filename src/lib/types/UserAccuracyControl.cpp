@@ -66,59 +66,25 @@ UserAccuracyControl::~UserAccuracyControl() {
 /******************************************************************************/
 
 void UserAccuracyControl::read(BinaryReader& stream) {
-  mChecksum += mTypeID;
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
     throw IOException("UserAccuracyControl::read(): wrong byte count");
-  mChecksum += mByteCount;
   stream >> mTransactionNumber;
-  mChecksum += mTransactionNumber;
   stream >> mAttitudeAccuracy;
-  mChecksum += ((uint16_t*)&mAttitudeAccuracy)[0];
-  mChecksum += ((uint16_t*)&mAttitudeAccuracy)[1];
   stream >> mHeadingAccuracy;
-  mChecksum += ((uint16_t*)&mHeadingAccuracy)[0];
-  mChecksum += ((uint16_t*)&mHeadingAccuracy)[1];
   stream >> mPositionAccuracy;
-  mChecksum += ((uint16_t*)&mPositionAccuracy)[0];
-  mChecksum += ((uint16_t*)&mPositionAccuracy)[1];
   stream >> mVelocityAccuracy;
-  mChecksum += ((uint16_t*)&mVelocityAccuracy)[0];
-  mChecksum += ((uint16_t*)&mVelocityAccuracy)[1];
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("UserAccuracyControl::read(): wrong pad");
-  mChecksum += pad;
-  mChecksum = 65536 - mChecksum;
 }
 
 void UserAccuracyControl::write(BinaryWriter& stream) const {
-  uint16_t checksum = mChecksum;
   stream << mTypeID;
-  checksum += mTypeID;
   stream << mByteCount;
-  checksum += mByteCount;
   stream << mTransactionNumber;
-  checksum += mTransactionNumber;
   stream << mAttitudeAccuracy;
-  checksum += ((uint16_t*)&mAttitudeAccuracy)[0];
-  checksum += ((uint16_t*)&mAttitudeAccuracy)[1];
   stream << mHeadingAccuracy;
-  checksum += ((uint16_t*)&mHeadingAccuracy)[0];
-  checksum += ((uint16_t*)&mHeadingAccuracy)[1];
   stream << mPositionAccuracy;
-  checksum += ((uint16_t*)&mPositionAccuracy)[0];
-  checksum += ((uint16_t*)&mPositionAccuracy)[1];
   stream << mVelocityAccuracy;
-  checksum += ((uint16_t*)&mVelocityAccuracy)[0];
-  checksum += ((uint16_t*)&mVelocityAccuracy)[1];
-  uint16_t pad = 0;
-  stream << pad;
-  checksum += pad;
-  checksum = 65536 - checksum;
-  stream << checksum;
 }
 
 void UserAccuracyControl::read(std::istream& stream) {

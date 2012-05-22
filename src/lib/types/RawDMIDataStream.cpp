@@ -74,10 +74,6 @@ void RawDMIDataStream::read(BinaryReader& stream) {
   stream >> mRectifiedPulseCount;
   stream >> mEventCount;
   stream >> mReservedCount;
-  uint16_t pad;
-  stream >> pad;
-  if (pad != 0)
-    throw IOException("RawDMIDataStream::read(): wrong pad");
 }
 
 void RawDMIDataStream::read(std::istream& stream) {

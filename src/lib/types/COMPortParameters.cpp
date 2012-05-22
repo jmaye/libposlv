@@ -98,15 +98,3 @@ BinaryWriter& operator << (BinaryWriter& stream, const
   obj.write(stream);
   return stream;
 }
-
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-uint16_t COMPortParameters::getChecksum() const {
-  uint16_t checksum = (mParity << 8) | mBaudrate;
-  checksum += (mFlowControl << 8) | mDataStopBits;
-  checksum += mInputSelect;
-  checksum += mOutputSelect;
-  return checksum;
-}

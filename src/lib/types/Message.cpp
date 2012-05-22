@@ -26,22 +26,19 @@
 
 Message::Message(uint16_t typeID) :
     Packet("$MSG"),
-    mTypeID(typeID),
-    mChecksum(47003) {
+    mTypeID(typeID) {
   Factory<uint16_t, Message>::getInstance().registerType(this, mTypeID);
 }
 
 Message::Message(const Message& other) :
     Packet(other),
-    mTypeID(other.mTypeID),
-    mChecksum(other.mChecksum) {
+    mTypeID(other.mTypeID) {
 }
 
 Message& Message::operator = (const Message& other) {
   if (this != &other) {
     Packet::operator=(other);
     mTypeID = other.mTypeID;
-    mChecksum = other.mChecksum;
   }
   return *this;
 }
@@ -55,10 +52,6 @@ Message::~Message() {
 
 uint16_t Message::getTypeID() const {
   return mTypeID;
-}
-
-uint16_t Message::getChecksum() const {
-  return mChecksum;
 }
 
 /******************************************************************************/

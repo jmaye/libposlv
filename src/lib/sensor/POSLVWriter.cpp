@@ -19,9 +19,11 @@
 #include "sensor/POSLVWriter.h"
 
 #include <string>
+#include <limits>
 
-#include "base/Factory.h"
 #include "types/Message.h"
+#include "base/BufferWriter.h"
+#include "sensor/Checksum.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -39,10 +41,22 @@ POSLVWriter::~POSLVWriter() {
 /******************************************************************************/
 
 void POSLVWriter::sendMessage(const Message& message) {
-  std::string msgHeader = "$MSG";
-  writeBuffer(reinterpret_cast<const char*>(msgHeader.c_str()),
-    msgHeader.size());
-  *this << message;
-  std::string msgEnd = "$#";
-  writeBuffer(reinterpret_cast<const char*>(msgEnd.c_str()), msgEnd.size());
+  BufferWriter bufferWriter;
+  bufferWriter << std::string("$MSG");
+  bufferWriter << message;
+  const size_t padSize = (bufferWriter.getBufferSize() + 2 * sizeof(uint16_t))
+    % 4;
+  for (size_t i = 0; i < padSize; ++i) {
+    const uint8_t pad = 0;
+    bufferWriter << pad;
+  }
+  std::string end = "$#";
+  const uint16_t sum = Checksum::getSum(bufferWriter.getBuffer(),
+    bufferWriter.getBufferSize()) +
+    Checksum::getSum(reinterpret_cast<const char*>(end.c_str()), end.size());
+  const uint16_t checksum = std::numeric_limits<unsigned short>::max() + 1 -
+    sum;
+  bufferWriter << checksum;
+  bufferWriter << end;
+  writeBuffer(bufferWriter.getBuffer(), bufferWriter.getBufferSize());
 }

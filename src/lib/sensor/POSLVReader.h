@@ -31,6 +31,7 @@
 #include "base/BinaryReader.h"
 
 class Packet;
+class BufferReader;
 
 /** The POSLVReader class is an interface for reading groups and messages from
     the Applanix device.
@@ -74,7 +75,7 @@ protected:
   /// Reads the start string
   std::string readStartString();
   /// Reads the end string
-  std::string readEndString();
+  std::string readEndString(BufferReader& bufferReader);
   /** @}
     */
 
