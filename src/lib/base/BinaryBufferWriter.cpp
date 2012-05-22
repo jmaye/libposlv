@@ -16,9 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "base/BufferWriter.h"
-
-#include <cstring>
+#include "base/BinaryBufferWriter.h"
 
 #include "exceptions/OutOfBoundException.h"
 
@@ -26,34 +24,34 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BufferWriter::BufferWriter(size_t reservedSize) :
+BinaryBufferWriter::BinaryBufferWriter(size_t reservedSize) :
     mPos(0) {
   mBuffer.reserve(reservedSize);
 }
 
-BufferWriter::~BufferWriter() {
+BinaryBufferWriter::~BinaryBufferWriter() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-size_t BufferWriter::getPos() const {
+size_t BinaryBufferWriter::getPos() const {
   return mPos;
 }
 
-void BufferWriter::setPos(size_t pos) {
+void BinaryBufferWriter::setPos(size_t pos) {
   if (pos >= mBuffer.size())
     throw OutOfBoundException<size_t>(mPos,
-      "BufferWriter::setPos(): invalid position");
+      "BinaryBufferWriter::setPos(): invalid position");
   mPos = pos;
 }
 
-size_t BufferWriter::getBufferSize() const {
+size_t BinaryBufferWriter::getBufferSize() const {
   return mBuffer.size();
 }
 
-const char* BufferWriter::getBuffer() const {
+const char* BinaryBufferWriter::getBuffer() const {
   return &mBuffer[0];
 }
 
@@ -61,7 +59,7 @@ const char* BufferWriter::getBuffer() const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void BufferWriter::writeBuffer(const char* buffer, ssize_t numBytes) {
+void BinaryBufferWriter::write(const char* buffer, size_t numBytes) {
   mBuffer.insert(mBuffer.begin() + mPos, buffer, buffer + numBytes);
   mPos += numBytes;
 }

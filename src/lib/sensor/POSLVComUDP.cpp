@@ -35,9 +35,9 @@ POSLVComUDP::~POSLVComUDP() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void POSLVComUDP::readBuffer(char* buffer, ssize_t numBytes) {
+void POSLVComUDP::read(char* buffer, size_t numBytes) {
   if (mBytesBuffer.size() < (size_t)numBytes) {
-    ssize_t numBytesRead = mConnection.readBuffer(mPacketsBuffer,
+    ssize_t numBytesRead = mConnection.read(mPacketsBuffer,
       mMaxPacketSize);
     for (size_t i = 0; i < (size_t)numBytesRead; ++i)
       mBytesBuffer.push(mPacketsBuffer[i]);

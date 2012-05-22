@@ -35,10 +35,10 @@ POSLVComTCP::~POSLVComTCP() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void POSLVComTCP::writeBuffer(const char* buffer, ssize_t numBytes) {
-  mConnection.writeBuffer(buffer, numBytes);
+void POSLVComTCP::write(const char* buffer, size_t numBytes) {
+  mConnection.write(buffer, numBytes);
 }
 
-void POSLVComTCP::readBuffer(char* buffer, ssize_t numBytes) {
-  mConnection.readBuffer(buffer, numBytes);
+void POSLVComTCP::read(char* buffer, size_t numBytes) {
+  mConnection.read(buffer, numBytes);
 }

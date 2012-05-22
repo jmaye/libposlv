@@ -16,30 +16,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file BufferReader.h
-    \brief This file defines the BufferReader class which allows reading binary
-           data from a byte buffer.
+/** \file BinaryBufferReader.h
+    \brief This file defines the BinaryBufferReader class which allows reading
+           binary data from a byte buffer.
   */
 
-#ifndef BUFFERREADER_H
-#define BUFFERREADER_H
+#ifndef BINARYBUFFERREADER_H
+#define BINARYBUFFERREADER_H
 
 #include <vector>
 
 #include "base/BinaryReader.h"
 
-/** The BufferReader class allows for reading binary data from a byte buffer.
-    \brief Buffer reader
+/** The BinaryBufferReader class allows for reading binary data from a byte
+    buffer.
+    \brief Binary buffer reader
   */
-class BufferReader :
+class BinaryBufferReader :
   public BinaryReader {
   /** \name Private constructors
     @{
     */
   /// Copy constructor
-  BufferReader(const BufferReader& other);
+  BinaryBufferReader(const BinaryBufferReader& other);
   /// Assignment operator
-  BufferReader& operator = (const BufferReader& other);
+  BinaryBufferReader& operator = (const BinaryBufferReader& other);
   /** @}
     */
 
@@ -48,9 +49,9 @@ public:
     @{
     */
   /// Constructs object
-  BufferReader(const char* buffer, size_t size);
+  BinaryBufferReader(const char* buffer, size_t size);
   /// Destructor
-  virtual ~BufferReader();
+  virtual ~BinaryBufferReader();
   /** @}
     */
 
@@ -68,15 +69,15 @@ public:
   /** @}
     */
 
-protected:
-  /** \name Protected methods
+  /** \name Methods
     @{
     */
-  /// Reads a buffer of byte
-  virtual void readBuffer(char* buffer, ssize_t numBytes);
+  /// Perform read on the stream
+  virtual void read(char* buffer, size_t numBytes);
   /** @}
     */
 
+protected:
   /** \name Protected members
     @{
     */
@@ -89,4 +90,4 @@ protected:
 
 };
 
-#endif // BUFFERREADER_H
+#endif // BINARYBUFFERREADER_H

@@ -265,12 +265,12 @@ bool SerialConnection::isOpen() const {
   return (mHandle != 0);
 }
 
-void SerialConnection::readBuffer(char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+void SerialConnection::read(char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
   double intPart;
   double fractPart = modf(mTimeout , &intPart);
-  ssize_t bytesRead = 0;
+  size_t bytesRead = 0;
   while (bytesRead < numBytes) {
     struct timeval waitd;
     waitd.tv_sec = intPart;
@@ -294,12 +294,12 @@ void SerialConnection::readBuffer(char* buffer, ssize_t numBytes) {
   }
 }
 
-void SerialConnection::writeBuffer(const char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+void SerialConnection::write(const char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
   double intPart;
   double fractPart = modf(mTimeout , &intPart);
-  ssize_t bytesWritten = 0;
+  size_t bytesWritten = 0;
   while (bytesWritten < numBytes) {
     struct timeval waitd;
     waitd.tv_sec = intPart;

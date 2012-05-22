@@ -22,7 +22,7 @@
 #include <limits>
 
 #include "types/Message.h"
-#include "base/BufferWriter.h"
+#include "base/BinaryBufferWriter.h"
 #include "sensor/Checksum.h"
 #include "exceptions/IOException.h"
 
@@ -41,7 +41,7 @@ POSLVWriter::~POSLVWriter() {
 /******************************************************************************/
 
 void POSLVWriter::sendMessage(const Message& message) {
-  BufferWriter bufferWriter;
+  BinaryBufferWriter bufferWriter;
   bufferWriter << std::string("$MSG");
   bufferWriter << message;
   const size_t padSize = (bufferWriter.getBufferSize() + 2 * sizeof(uint16_t))
@@ -58,5 +58,5 @@ void POSLVWriter::sendMessage(const Message& message) {
     sum;
   bufferWriter << checksum;
   bufferWriter << end;
-  writeBuffer(bufferWriter.getBuffer(), bufferWriter.getBufferSize());
+  write(bufferWriter.getBuffer(), bufferWriter.getBufferSize());
 }

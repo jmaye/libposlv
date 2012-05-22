@@ -103,8 +103,8 @@ bool UDPConnectionServer::isOpen() const {
   return (mSocket != 0);
 }
 
-ssize_t UDPConnectionServer::readBuffer(char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+size_t UDPConnectionServer::read(char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
   double intPart;
   double fracPart = modf(mTimeout, &intPart);
@@ -133,10 +133,10 @@ ssize_t UDPConnectionServer::readBuffer(char* buffer, ssize_t numBytes) {
   return 0;
 }
 
-void UDPConnectionServer::writeBuffer(const char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+void UDPConnectionServer::write(const char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
-  ssize_t bytesWritten = 0;
+  size_t bytesWritten = 0;
   while (bytesWritten != numBytes) {
     double intPart;
     double fracPart = modf(mTimeout, &intPart);

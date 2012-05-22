@@ -16,30 +16,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file BufferWriter.h
-    \brief This file defines the BufferWriter class which allows writing binary
-           data to a byte buffer.
+/** \file BinaryBufferWriter.h
+    \brief This file defines the BinaryBufferWriter class which allows writing
+           binary data to a byte buffer.
   */
 
-#ifndef BUFFERWRITER_H
-#define BUFFERWRITER_H
+#ifndef BINARYBUFFERWRITER_H
+#define BINARYBUFFERWRITER_H
 
 #include <vector>
 
 #include "base/BinaryWriter.h"
 
-/** The BufferWriter class allows for writing binary data to a byte buffer.
-    \brief Buffer reader
+/** The BinaryBufferWriter class allows for writing binary data to a byte
+    buffer.
+    \brief Binary buffer writer
   */
-class BufferWriter :
+class BinaryBufferWriter :
   public BinaryWriter {
   /** \name Private constructors
     @{
     */
   /// Copy constructor
-  BufferWriter(const BufferWriter& other);
+  BinaryBufferWriter(const BinaryBufferWriter& other);
   /// Assignment operator
-  BufferWriter& operator = (const BufferWriter& other);
+  BinaryBufferWriter& operator = (const BinaryBufferWriter& other);
   /** @}
     */
 
@@ -48,9 +49,9 @@ public:
     @{
     */
   /// Constructs object
-  BufferWriter(size_t reservedSize = 1000);
+  BinaryBufferWriter(size_t reservedSize = 1000);
   /// Destructor
-  virtual ~BufferWriter();
+  virtual ~BinaryBufferWriter();
   /** @}
     */
 
@@ -68,14 +69,16 @@ public:
   /** @}
     */
 
-protected:
-  /** \name Protected methods
+  /** \name Methods
     @{
     */
-  /// Writes a buffer of byte
-  virtual void writeBuffer(const char* buffer, ssize_t numBytes);
+  /// Performs write on the stream
+  virtual void write(const char* buffer, size_t numBytes);
   /** @}
     */
+
+protected:
+
 
   /** \name Protected members
     @{
@@ -89,4 +92,4 @@ protected:
 
 };
 
-#endif // BUFFERWRITER_H
+#endif // BINARYBUFFERWRITER_H

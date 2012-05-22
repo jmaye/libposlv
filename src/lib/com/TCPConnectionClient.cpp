@@ -112,10 +112,10 @@ bool TCPConnectionClient::isOpen() const {
   return (mSocket != 0);
 }
 
-void TCPConnectionClient::readBuffer(char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+void TCPConnectionClient::read(char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
-  ssize_t bytesRead = 0;
+  size_t bytesRead = 0;
   while (bytesRead != numBytes) {
     double intPart;
     double fracPart = modf(mTimeout, &intPart);
@@ -143,10 +143,10 @@ void TCPConnectionClient::readBuffer(char* buffer, ssize_t numBytes) {
   }
 }
 
-void TCPConnectionClient::writeBuffer(const char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+void TCPConnectionClient::write(const char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
-  ssize_t bytesWritten = 0;
+  size_t bytesWritten = 0;
   while (bytesWritten != numBytes) {
     double intPart;
     double fracPart = modf(mTimeout, &intPart);

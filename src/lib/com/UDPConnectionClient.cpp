@@ -110,10 +110,10 @@ bool UDPConnectionClient::isOpen() const {
   return (mSocket != 0);
 }
 
-void UDPConnectionClient::readBuffer(char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+void UDPConnectionClient::read(char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
-  ssize_t bytesRead = 0;
+  size_t bytesRead = 0;
   while (bytesRead != numBytes) {
     double intPart;
     double fracPart = modf(mTimeout, &intPart);
@@ -144,10 +144,10 @@ void UDPConnectionClient::readBuffer(char* buffer, ssize_t numBytes) {
   }
 }
 
-void UDPConnectionClient::writeBuffer(const char* buffer, ssize_t numBytes) {
-  if (isOpen() == false)
+void UDPConnectionClient::write(const char* buffer, size_t numBytes) {
+  if (!isOpen())
     open();
-  ssize_t bytesWritten = 0;
+  size_t bytesWritten = 0;
   while (bytesWritten != numBytes) {
     double intPart;
     double fracPart = modf(mTimeout, &intPart);

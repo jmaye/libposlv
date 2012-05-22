@@ -109,7 +109,7 @@ bool TCPConnectionServer::isOpen() const {
   return (mSocket != 0);
 }
 
-void TCPConnectionServer::readBuffer(char* buffer, ssize_t numBytes) {
+void TCPConnectionServer::read(char* buffer, size_t numBytes) {
 //newsockfd = accept(sockfd,
 //                 (struct sockaddr *) &cli_addr,
 //                 &clilen);
@@ -138,7 +138,7 @@ void TCPConnectionServer::readBuffer(char* buffer, ssize_t numBytes) {
 //    throw IOException("TCPConnectionServer::readBuffer(): read timeout");
 }
 
-void TCPConnectionServer::writeBuffer(const char* buffer, ssize_t numBytes) {
+void TCPConnectionServer::write(const char* buffer, size_t numBytes) {
 //  if (isOpen() == false)
 //    open();
 //  double intPart;

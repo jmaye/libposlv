@@ -65,15 +65,15 @@ public:
   /** @}
     */
 
-protected:
-  /** \name Protected methods
+  /** \name Methods
     @{
     */
-  /// Reads a buffer of bytes
-  virtual void readBuffer(char* buffer, ssize_t numBytes);
+  /// Performs read on the stream
+  virtual void read(char* buffer, size_t numBytes);
   /** @}
     */
 
+protected:
   /** \name Protected members
     @{
     */

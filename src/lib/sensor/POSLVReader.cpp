@@ -24,7 +24,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "base/Factory.h"
-#include "base/BufferReader.h"
+#include "base/BinaryBufferReader.h"
 #include "sensor/Checksum.h"
 #include "exceptions/IOException.h"
 
@@ -70,7 +70,7 @@ std::string POSLVReader::readStartString() {
   return outputString;
 }
 
-std::string POSLVReader::readEndString(BufferReader& bufferReader) {
+std::string POSLVReader::readEndString(BinaryBufferReader& bufferReader) {
   std::string outputString;
   uint8_t control;
   bufferReader >> control;
@@ -91,8 +91,8 @@ boost::shared_ptr<Packet> POSLVReader::readPacket() {
   memcpy(&buffer[start.size()], reinterpret_cast<char*>(&id), sizeof(uint16_t));
   memcpy(&buffer[start.size() + sizeof(uint16_t)],
     reinterpret_cast<char*>(&byteCount), sizeof(uint16_t));
-  readBuffer(&buffer[2 * sizeof(uint16_t) + start.size()], byteCount);
-  BufferReader bufferReader(&buffer[sizeof(uint16_t) + start.size()],
+  read(&buffer[2 * sizeof(uint16_t) + start.size()], byteCount);
+  BinaryBufferReader bufferReader(&buffer[sizeof(uint16_t) + start.size()],
     byteCount + sizeof(uint16_t));
   const uint16_t sum = Checksum::getSum(buffer, sizeof(buffer));
   if (sum)

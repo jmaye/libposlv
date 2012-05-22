@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "base/BufferReader.h"
+#include "base/BinaryBufferReader.h"
 
 #include <cstring>
 
@@ -26,35 +26,35 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BufferReader::BufferReader(const char* buffer, size_t size) :
+BinaryBufferReader::BinaryBufferReader(const char* buffer, size_t size) :
     mPos(0) {
   mBuffer.reserve(size);
   mBuffer.assign(buffer, buffer + size);
 }
 
-BufferReader::~BufferReader() {
+BinaryBufferReader::~BinaryBufferReader() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-size_t BufferReader::getPos() const {
+size_t BinaryBufferReader::getPos() const {
   return mPos;
 }
 
-void BufferReader::setPos(size_t pos) {
+void BinaryBufferReader::setPos(size_t pos) {
   if (pos >= mBuffer.size())
     throw OutOfBoundException<size_t>(mPos,
-      "BufferReader::setPos(): invalid position");
+      "BinaryBufferReader::setPos(): invalid position");
   mPos = pos;
 }
 
-size_t BufferReader::getBufferSize() const {
+size_t BinaryBufferReader::getBufferSize() const {
   return mBuffer.size();
 }
 
-size_t BufferReader::getReadLeft() const {
+size_t BinaryBufferReader::getReadLeft() const {
   return mBuffer.size() - mPos;
 }
 
@@ -62,10 +62,10 @@ size_t BufferReader::getReadLeft() const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void BufferReader::readBuffer(char* buffer, ssize_t numBytes) {
+void BinaryBufferReader::read(char* buffer, size_t numBytes) {
   if (mPos + numBytes >= mBuffer.size())
     throw OutOfBoundException<size_t>(mPos,
-      "BufferReader::readBuffer(): no more bytes available");
+      "BinaryBufferReader::readBuffer(): no more bytes available");
   memcpy(buffer, &mBuffer[mPos], numBytes);
   mPos += numBytes;
 }

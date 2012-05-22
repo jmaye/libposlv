@@ -57,17 +57,17 @@ public:
   /** @}
     */
 
-protected:
-  /** \name Protected methods
+  /** \name Methods
     @{
     */
-  /// Writes a buffer of bytes
-  virtual void writeBuffer(const char* buffer, ssize_t numBytes);
-  /// Reads a buffer of bytes
-  virtual void readBuffer(char* buffer, ssize_t numBytes);
+  /// Performs write on the stream
+  virtual void write(const char* buffer, size_t numBytes);
+  /// Performs read on the stream
+  virtual void read(char* buffer, size_t numBytes);
   /** @}
     */
 
+protected:
   /** \name Protected members
     @{
     */

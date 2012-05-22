@@ -83,12 +83,11 @@ public:
   /** @}
     */
 
-protected:
-  /** \name Protected methods
+  /** \name Methods
     @{
     */
-  /// Writes a buffer of byte
-  virtual void writeBuffer(const char* buffer, ssize_t numBytes) = 0;
+  /// Performs write on the stream
+  virtual void write(const char* buffer, size_t numBytes) = 0;
   /** @}
     */
 
