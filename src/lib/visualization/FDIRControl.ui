@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>870</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -554,7 +554,7 @@
   <widget class="Led" name="primGPSRejectedLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>200</y>
      <width>16</width>
      <height>16</height>
@@ -564,7 +564,7 @@
   <widget class="Led" name="primGPSOmniXPLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>440</y>
      <width>16</width>
      <height>16</height>
@@ -574,7 +574,7 @@
   <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>320</y>
      <width>211</width>
      <height>17</height>
@@ -587,7 +587,7 @@
   <widget class="Led" name="excessPOSErrorLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>380</y>
      <width>16</width>
      <height>16</height>
@@ -597,7 +597,7 @@
   <widget class="QLabel" name="label_24">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>160</y>
      <width>161</width>
      <height>17</height>
@@ -610,7 +610,7 @@
   <widget class="Led" name="dmiRejectedLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>180</y>
      <width>16</width>
      <height>16</height>
@@ -620,7 +620,7 @@
   <widget class="QLabel" name="label_25">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>40</y>
      <width>221</width>
      <height>17</height>
@@ -633,7 +633,7 @@
   <widget class="QLabel" name="label_26">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>360</y>
      <width>261</width>
      <height>17</height>
@@ -646,7 +646,7 @@
   <widget class="QLabel" name="label_27">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>380</y>
      <width>231</width>
      <height>17</height>
@@ -659,7 +659,7 @@
   <widget class="QLabel" name="label_28">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>460</y>
      <width>241</width>
      <height>17</height>
@@ -672,7 +672,7 @@
   <widget class="QLabel" name="label_29">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>180</y>
      <width>191</width>
      <height>17</height>
@@ -685,7 +685,7 @@
   <widget class="Led" name="inertialMaxLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>40</y>
      <width>16</width>
      <height>16</height>
@@ -695,7 +695,7 @@
   <widget class="Led" name="excessPrimGPSClockLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>400</y>
      <width>16</width>
      <height>16</height>
@@ -705,7 +705,7 @@
   <widget class="QLabel" name="label_30">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>260</y>
      <width>161</width>
      <height>17</height>
@@ -718,7 +718,7 @@
   <widget class="Led" name="gamsRejectedLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>160</y>
      <width>16</width>
      <height>16</height>
@@ -728,7 +728,7 @@
   <widget class="QLabel" name="label_31">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>300</y>
      <width>261</width>
      <height>17</height>
@@ -741,7 +741,7 @@
   <widget class="QLabel" name="label_32">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>280</y>
      <width>161</width>
      <height>17</height>
@@ -754,7 +754,7 @@
   <widget class="QLabel" name="label_33">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>240</y>
      <width>161</width>
      <height>17</height>
@@ -767,7 +767,7 @@
   <widget class="Led" name="excGAMSOffsetLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>340</y>
      <width>16</width>
      <height>16</height>
@@ -777,7 +777,7 @@
   <widget class="QLabel" name="label_34">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>400</y>
      <width>231</width>
      <height>17</height>
@@ -790,7 +790,7 @@
   <widget class="QLabel" name="label_35">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>420</y>
      <width>231</width>
      <height>17</height>
@@ -803,7 +803,7 @@
   <widget class="QLabel" name="label_36">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>140</y>
      <width>201</width>
      <height>17</height>
@@ -816,7 +816,7 @@
   <widget class="Led" name="dmiSpeedMaxLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>100</y>
      <width>16</width>
      <height>16</height>
@@ -826,7 +826,7 @@
   <widget class="Led" name="yAccFailureLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>240</y>
      <width>16</width>
      <height>16</height>
@@ -836,7 +836,7 @@
   <widget class="Led" name="zGyroFailureLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>320</y>
      <width>16</width>
      <height>16</height>
@@ -846,7 +846,7 @@
   <widget class="QLabel" name="label_37">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>220</y>
      <width>161</width>
      <height>17</height>
@@ -859,7 +859,7 @@
   <widget class="Led" name="primGPSPosRejectedLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>120</y>
      <width>16</width>
      <height>16</height>
@@ -869,7 +869,7 @@
   <widget class="QLabel" name="label_38">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>120</y>
      <width>201</width>
      <height>17</height>
@@ -882,7 +882,7 @@
   <widget class="Led" name="xGyroFailureLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>280</y>
      <width>16</width>
      <height>16</height>
@@ -892,7 +892,7 @@
   <widget class="QLabel" name="label_39">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>200</y>
      <width>241</width>
      <height>17</height>
@@ -905,7 +905,7 @@
   <widget class="QLabel" name="label_40">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>80</y>
      <width>301</width>
      <height>17</height>
@@ -918,7 +918,7 @@
   <widget class="Led" name="excessPrimGPSErrorLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>360</y>
      <width>16</width>
      <height>16</height>
@@ -928,7 +928,7 @@
   <widget class="Led" name="primGPSOmniVBSLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>460</y>
      <width>16</width>
      <height>16</height>
@@ -938,7 +938,7 @@
   <widget class="Led" name="primGPSVelMaxLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>60</y>
      <width>16</width>
      <height>16</height>
@@ -948,7 +948,7 @@
   <widget class="QLabel" name="label_41">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>440</y>
      <width>231</width>
      <height>17</height>
@@ -961,7 +961,7 @@
   <widget class="QLabel" name="label_42">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>60</y>
      <width>271</width>
      <height>17</height>
@@ -974,7 +974,7 @@
   <widget class="QLabel" name="label_43">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>100</y>
      <width>211</width>
      <height>17</height>
@@ -987,7 +987,7 @@
   <widget class="Led" name="yGyroFailureLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>300</y>
      <width>16</width>
      <height>16</height>
@@ -997,7 +997,7 @@
   <widget class="QLabel" name="label_44">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>340</y>
      <width>221</width>
      <height>17</height>
@@ -1010,7 +1010,7 @@
   <widget class="Led" name="zAccFailureLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>260</y>
      <width>16</width>
      <height>16</height>
@@ -1020,7 +1020,7 @@
   <widget class="Led" name="xAccFailureLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>220</y>
      <width>16</width>
      <height>16</height>
@@ -1030,7 +1030,7 @@
   <widget class="Led" name="primGPSOmniHPLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>420</y>
      <width>16</width>
      <height>16</height>
@@ -1040,7 +1040,7 @@
   <widget class="Led" name="primGPSPosMaxLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>80</y>
      <width>16</width>
      <height>16</height>
@@ -1050,7 +1050,7 @@
   <widget class="Led" name="primGPSVelRejectedLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>140</y>
      <width>16</width>
      <height>16</height>
@@ -1060,7 +1060,7 @@
   <widget class="Led" name="primGPSPPPLed" native="true">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>350</x>
      <y>480</y>
      <width>16</width>
      <height>16</height>
@@ -1070,7 +1070,7 @@
   <widget class="QLabel" name="label_52">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>380</x>
      <y>480</y>
      <width>251</width>
      <height>17</height>

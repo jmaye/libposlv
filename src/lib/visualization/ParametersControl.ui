@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>912</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>600</y>
+     <x>460</x>
+     <y>690</y>
      <width>461</width>
-     <height>41</height>
+     <height>61</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="IPLayout">
@@ -146,10 +146,10 @@
   <widget class="QWidget" name="gridLayoutWidget_3">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>340</y>
+     <x>460</x>
+     <y>10</y>
      <width>461</width>
-     <height>91</height>
+     <height>128</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="dmiLayout">
@@ -262,10 +262,10 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>440</y>
+     <x>460</x>
+     <y>500</y>
      <width>461</width>
-     <height>151</height>
+     <height>191</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gamsLayout">
@@ -430,10 +430,10 @@
   <widget class="QWidget" name="gridLayoutWidget_4">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>180</y>
+     <x>460</x>
+     <y>300</y>
      <width>461</width>
-     <height>151</height>
+     <height>201</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gravityLayout">
@@ -469,13 +469,6 @@
      <widget class="QLabel" name="label_12">
       <property name="text">
        <string>Longitude of validity [deg]:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_13">
-      <property name="text">
-       <string>Altitude of validity [deg]:</string>
       </property>
      </widget>
     </item>
@@ -574,6 +567,13 @@
       </property>
      </widget>
     </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_13">
+      <property name="text">
+       <string>Altitude of validity [deg]:</string>
+      </property>
+     </widget>
+    </item>
     <item row="5" column="1">
      <widget class="QDoubleSpinBox" name="altValSpinBox">
       <property name="readOnly">
@@ -598,8 +598,8 @@
   <widget class="QWidget" name="gridLayoutWidget_5">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>10</y>
+     <x>460</x>
+     <y>140</y>
      <width>461</width>
      <height>161</height>
     </rect>
@@ -639,9 +639,6 @@
        <string>ZUPD standard deviation [m/s]:</string>
       </property>
      </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QTextBrowser" name="zupdCtrlText"/>
     </item>
     <item row="1" column="1">
      <widget class="QDoubleSpinBox" name="detectSpinBox">
@@ -719,15 +716,18 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="zupdCtrlText"/>
+    </item>
    </layout>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget_6">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>580</y>
+     <y>570</y>
      <width>441</width>
-     <height>91</height>
+     <height>128</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="userAccuracyLayout">
@@ -840,10 +840,10 @@
   <widget class="QWidget" name="gridLayoutWidget_7">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>640</y>
-     <width>461</width>
-     <height>31</height>
+     <x>10</x>
+     <y>700</y>
+     <width>441</width>
+     <height>51</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="navModeLayout">
@@ -855,7 +855,7 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QTextBrowser" name="navModeText"/>
+     <widget class="QLineEdit" name="navModeText"/>
     </item>
    </layout>
   </widget>
@@ -865,7 +865,7 @@
      <x>10</x>
      <y>10</y>
      <width>439</width>
-     <height>561</height>
+     <height>557</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="generalLayout">
@@ -945,15 +945,6 @@
        <string>X IMU wrt Ref. Frame Angle [deg]:</string>
       </property>
      </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QTextBrowser" name="time1Text"/>
-    </item>
-    <item row="1" column="1">
-     <widget class="QTextBrowser" name="time2Text"/>
-    </item>
-    <item row="2" column="1">
-     <widget class="QTextBrowser" name="distTypeText"/>
     </item>
     <item row="4" column="1">
      <widget class="QDoubleSpinBox" name="refIMUXSpinBox">
@@ -1211,9 +1202,6 @@
       </property>
      </widget>
     </item>
-    <item row="16" column="1">
-     <widget class="QTextBrowser" name="multiPathText"/>
-    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_40">
       <property name="text">
@@ -1221,8 +1209,32 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="time1Text">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="time2Text">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="distTypeText"/>
+    </item>
     <item row="3" column="1">
-     <widget class="QTextBrowser" name="autoStartText"/>
+     <widget class="QLineEdit" name="autoStartText"/>
+    </item>
+    <item row="16" column="1">
+     <widget class="QLineEdit" name="multiPathText">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
     <item row="16" column="0">
      <widget class="QLabel" name="label_39">

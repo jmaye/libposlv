@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>311</width>
-     <height>680</height>
+     <height>711</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="calibrationLayout">

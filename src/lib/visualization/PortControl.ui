@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,37 +25,43 @@
    <property name="title">
     <string>Display Port</string>
    </property>
-   <widget class="QTextBrowser" name="displayPortText">
+   <widget class="QTextEdit" name="displayPortText">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>256</width>
-      <height>192</height>
+      <width>361</width>
+      <height>191</height>
      </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="primDataPortGroupBox">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>370</x>
      <y>10</y>
-     <width>311</width>
+     <width>421</width>
      <height>271</height>
     </rect>
    </property>
    <property name="title">
     <string>Primary Data Port</string>
    </property>
-   <widget class="QTextBrowser" name="primDataPortText">
+   <widget class="QTextEdit" name="primDataPortText">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>256</width>
-      <height>192</height>
+      <width>361</width>
+      <height>191</height>
      </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -71,24 +77,27 @@
    <property name="title">
     <string>Secondary Data Port</string>
    </property>
-   <widget class="QTextBrowser" name="secDataPortText">
+   <widget class="QTextEdit" name="secDataPortText">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>256</width>
-      <height>192</height>
+      <width>361</width>
+      <height>191</height>
      </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="comPortGroupBox">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>370</x>
      <y>240</y>
      <width>471</width>
-     <height>231</height>
+     <height>271</height>
     </rect>
    </property>
    <property name="title">
@@ -100,7 +109,7 @@
       <x>10</x>
       <y>20</y>
       <width>224</width>
-      <height>201</height>
+      <height>231</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="com1PortLayout">
@@ -131,18 +140,12 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QTextBrowser" name="com1ParityText"/>
-     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>COM1 Stop Bits:</string>
        </property>
       </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QTextBrowser" name="com1StopText"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_4">
@@ -151,9 +154,6 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QTextBrowser" name="com1FlowText"/>
-     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
@@ -161,18 +161,47 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QTextBrowser" name="com1InputText"/>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="com1ParityText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>COM1 Output Select</string>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="com1StopText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="com1FlowText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="com1InputText">
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QTextBrowser" name="com1OutputText"/>
+      <widget class="QLineEdit" name="com1OutputText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>COM1 Output Select:</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -182,7 +211,7 @@
       <x>240</x>
       <y>20</y>
       <width>224</width>
-      <height>201</height>
+      <height>231</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="com2PortLayout">
@@ -213,18 +242,12 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QTextBrowser" name="com2ParityText"/>
-     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_9">
        <property name="text">
         <string>COM2 Stop Bits:</string>
        </property>
       </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QTextBrowser" name="com2StopText"/>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_10">
@@ -233,18 +256,12 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QTextBrowser" name="com2FlowText"/>
-     </item>
      <item row="4" column="0">
       <widget class="QLabel" name="label_11">
        <property name="text">
         <string>COM2 Input Select:</string>
        </property>
       </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QTextBrowser" name="com2InputText"/>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_12">
@@ -253,8 +270,40 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="com2ParityText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="com2StopText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="com2FlowText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="com2InputText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="5" column="1">
-      <widget class="QTextBrowser" name="com2OutputText"/>
+      <widget class="QLineEdit" name="com2OutputText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

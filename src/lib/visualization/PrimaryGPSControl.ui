@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>511</width>
-     <height>431</height>
+     <height>596</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="primaryGPSLayout">
@@ -50,18 +50,12 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QTextBrowser" name="navPrimGPSText"/>
-    </item>
     <item row="2" column="0">
      <widget class="QLabel" name="primGPSTypelabel">
       <property name="text">
        <string>GPS Type:</string>
       </property>
      </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QTextBrowser" name="primGPSTypeText"/>
     </item>
     <item row="9" column="0">
      <widget class="QLabel" name="geoidalPrimGPSLabel">
@@ -95,9 +89,6 @@
        <string>Time Sync. Status:</string>
       </property>
      </widget>
-    </item>
-    <item row="12" column="1">
-     <widget class="QTextBrowser" name="timeStatusText"/>
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label">
@@ -289,6 +280,27 @@
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="navPrimGPSText">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="primGPSTypeText">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="1">
+     <widget class="QLineEdit" name="timeStatusText">
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

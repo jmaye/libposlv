@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -19,7 +25,7 @@
      <x>10</x>
      <y>10</y>
      <width>441</width>
-     <height>721</height>
+     <height>741</height>
     </rect>
    </property>
    <property name="title">
@@ -31,7 +37,7 @@
       <x>0</x>
       <y>20</y>
       <width>423</width>
-      <height>631</height>
+      <height>691</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="solutionLayout">
@@ -481,23 +487,6 @@
        </property>
       </widget>
      </item>
-     <item row="18" column="0">
-      <widget class="QLabel" name="alignmentLabel">
-       <property name="text">
-        <string>Alignment Status:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="18" column="1">
-      <widget class="QTextBrowser" name="alignmentText">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="1">
       <widget class="QDoubleSpinBox" name="velNorthSpinBox">
        <property name="readOnly">
@@ -514,6 +503,20 @@
        </property>
        <property name="maximum">
         <double>1000000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="18" column="1">
+      <widget class="QLineEdit" name="alignmentText">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="18" column="0">
+      <widget class="QLabel" name="alignmentLabel">
+       <property name="text">
+        <string>Alignment Status:</string>
        </property>
       </widget>
      </item>
@@ -537,8 +540,8 @@
      <rect>
       <x>0</x>
       <y>20</y>
-      <width>371</width>
-      <height>392</height>
+      <width>421</width>
+      <height>431</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="performanceLayout">

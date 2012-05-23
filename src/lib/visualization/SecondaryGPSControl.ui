@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>511</width>
-     <height>361</height>
+     <height>501</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="secondaryGPSLayout">
@@ -50,18 +50,12 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QTextBrowser" name="navSecGPSText"/>
-    </item>
     <item row="2" column="0">
      <widget class="QLabel" name="secGPSTypelabel">
       <property name="text">
        <string>GPS Type:</string>
       </property>
      </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QTextBrowser" name="secGPSTypeText"/>
     </item>
     <item row="9" column="0">
      <widget class="QLabel" name="geoidalSecGPSLabel">
@@ -258,6 +252,16 @@
        <double>1000000.000000000000000</double>
       </property>
      </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="navSecGPSText">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="secGPSTypeText"/>
     </item>
    </layout>
   </widget>

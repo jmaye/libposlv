@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>511</width>
-     <height>131</height>
+     <height>185</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="iinLayout">
@@ -76,9 +76,6 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QTextBrowser" name="statusText"/>
-    </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
@@ -96,6 +93,13 @@
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="statusText">
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

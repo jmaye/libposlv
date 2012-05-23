@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>670</height>
+    <width>930</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>511</width>
-     <height>201</height>
+     <height>281</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="dmiLayout">
@@ -98,9 +98,6 @@
       </property>
      </widget>
     </item>
-    <item row="21" column="1">
-     <widget class="QTextBrowser" name="statusText"/>
-    </item>
     <item row="21" column="0">
      <widget class="QLabel" name="statusLabel">
       <property name="text">
@@ -114,9 +111,6 @@
        <string>DMI Type:</string>
       </property>
      </widget>
-    </item>
-    <item row="24" column="1">
-     <widget class="QTextBrowser" name="typeText"/>
     </item>
     <item row="25" column="0">
      <widget class="QLabel" name="rateLabel">
@@ -135,6 +129,20 @@
       </property>
       <property name="maximum">
        <number>1000000</number>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="1">
+     <widget class="QLineEdit" name="statusText">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="24" column="1">
+     <widget class="QLineEdit" name="typeText">
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
