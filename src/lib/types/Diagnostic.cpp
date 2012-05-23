@@ -67,6 +67,9 @@ void Diagnostic::read(BinaryReader& stream) {
     stream >> byte;
 }
 
+void Diagnostic::write(BinaryWriter& stream) const {
+}
+
 void Diagnostic::read(std::istream& stream) {
 }
 

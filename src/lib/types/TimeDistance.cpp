@@ -19,6 +19,7 @@
 #include "types/TimeDistance.h"
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -61,6 +62,9 @@ void TimeDistance::read(BinaryReader& stream) {
   stream >> mDistanceType;
 }
 
+void TimeDistance::write(BinaryWriter& stream) const {
+}
+
 void TimeDistance::read(std::istream& stream) {
 }
 
@@ -85,5 +89,10 @@ void TimeDistance::write(std::ofstream& stream) const {
 
 BinaryReader& operator >> (BinaryReader& stream, TimeDistance& obj) {
   obj.read(stream);
+  return stream;
+}
+
+BinaryWriter& operator << (BinaryWriter& stream, const TimeDistance& obj) {
+  obj.write(stream);
   return stream;
 }

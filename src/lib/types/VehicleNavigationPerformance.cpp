@@ -101,6 +101,9 @@ void VehicleNavigationPerformance::read(BinaryReader& stream) {
   stream >> mErrorEllipsoidOrientation;
 }
 
+void VehicleNavigationPerformance::write(BinaryWriter& stream) const {
+}
+
 void VehicleNavigationPerformance::read(std::istream& stream) {
 }
 

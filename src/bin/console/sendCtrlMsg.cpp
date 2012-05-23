@@ -35,13 +35,13 @@ int main(int argc, char** argv) {
   }
   TCPConnectionClient connection(argv[1], atoi(argv[2]));
   POSLVComTCP device(connection);
-  boost::shared_ptr<Message> msg(
+  boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(57));
   InstallationCalibrationControl& calMsg =
-    msg->typeCast<InstallationCalibrationControl>();
+    packet->messageCast().typeCast<InstallationCalibrationControl>();
   calMsg.mTransactionNumber = 10;
   calMsg.mCalibrationAction = 3;
   calMsg.mCalibrationSelect = 0xFF;
-  device.sendMessage(calMsg);
+  device.writePacket(packet);
   return 0;
 }

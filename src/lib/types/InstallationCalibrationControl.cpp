@@ -65,17 +65,19 @@ void InstallationCalibrationControl::read(BinaryReader& stream) {
 }
 
 void InstallationCalibrationControl::write(BinaryWriter& stream) const {
-  stream << mTypeID;
-  stream << mByteCount;
-  stream << mTransactionNumber;
-  stream << mCalibrationAction;
-  stream << mCalibrationSelect;
+  stream << mTypeID << mByteCount << mTransactionNumber << mCalibrationAction
+    << mCalibrationSelect;
 }
 
 void InstallationCalibrationControl::read(std::istream& stream) {
 }
 
 void InstallationCalibrationControl::write(std::ostream& stream) const {
+  stream << mTypeID << std::endl
+    << mByteCount << std::endl
+    << mTransactionNumber << std::endl
+    << (uint16_t)mCalibrationAction << std::endl
+    << (uint16_t)mCalibrationSelect;
 }
 
 void InstallationCalibrationControl::read(std::ifstream& stream) {

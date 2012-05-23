@@ -20,9 +20,8 @@
 
 #include <bitset>
 
-#include <boost/shared_ptr.hpp>
-
 #include "base/Factory.h"
+#include "types/Packet.h"
 #include "types/Message.h"
 #include "types/InstallationCalibrationControl.h"
 #include "types/GAMSCalibrationControl.h"
@@ -70,13 +69,13 @@ void AutoCalibrationControl::applyGeneralPressed() {
   if (mUi->posCheckBox->isChecked())
     selectBitSet.set(7);
   uint8_t select = selectBitSet.to_ulong();
-  boost::shared_ptr<Message> msg(
+  boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(57));
   InstallationCalibrationControl& calMsg =
-    msg->typeCast<InstallationCalibrationControl>();
+    packet->messageCast().typeCast<InstallationCalibrationControl>();
   calMsg.mCalibrationAction = control;
   calMsg.mCalibrationSelect = select;
-  sendMessage(msg);
+  emit writePacket(packet);
 }
 
 void AutoCalibrationControl::applyGAMSPressed() {
@@ -91,10 +90,10 @@ void AutoCalibrationControl::applyGAMSPressed() {
     control = 3;
   else
     control = 0;
-  boost::shared_ptr<Message> msg(
+  boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(58));
   GAMSCalibrationControl& calMsg =
-    msg->typeCast<GAMSCalibrationControl>();
+    packet->messageCast().typeCast<GAMSCalibrationControl>();
   calMsg.mCalibrationAction = control;
-  sendMessage(msg);
+  emit writePacket(packet);
 }

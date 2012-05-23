@@ -79,6 +79,8 @@ void LoggingParamStatus::read(BinaryReader& stream) {
   stream >> mLoggingState;
 }
 
+void LoggingParamStatus::write(BinaryWriter& stream) const {
+}
 
 void LoggingParamStatus::read(std::istream& stream) {
 }

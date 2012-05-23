@@ -80,6 +80,9 @@ void UserTimeStatus::read(BinaryReader& stream) {
   stream >> mTimeSynchMessageReceived;
 }
 
+void UserTimeStatus::write(BinaryWriter& stream) const {
+}
+
 void UserTimeStatus::read(std::istream& stream) {
 }
 

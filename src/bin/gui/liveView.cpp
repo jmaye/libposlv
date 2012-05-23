@@ -85,61 +85,61 @@ int main(int argc, char** argv) {
     &mainWindow,
     SLOT(deviceConnected(bool)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &navigationControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &primaryGPSControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &secondaryGPSControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &gamsControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &imuControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &dmiControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &iinControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &statusControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &fdirControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &calibrationControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &versionControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &timeControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &parametersControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &portControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&reader,
@@ -147,60 +147,60 @@ int main(int argc, char** argv) {
     &mainWindow,
     SLOT(deviceConnected(bool)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &navigationControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &primaryGPSControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &secondaryGPSControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &gamsControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &imuControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &dmiControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &iinControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &statusControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &fdirControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &calibrationControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &versionControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &timeControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &parametersControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
-    SIGNAL(packetRead(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &portControl,
-    SLOT(packetRead(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   return ret;
 }

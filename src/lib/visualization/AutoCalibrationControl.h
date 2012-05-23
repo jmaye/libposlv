@@ -30,7 +30,7 @@
 #include "base/Singleton.h"
 
 class Ui_AutoCalibrationControl;
-class Message;
+class Packet;
 
 /** The AutoCalibrationControl class is the control for the auto calibration of
     the Applanix.
@@ -87,7 +87,7 @@ signals:
   /** \name Qt signals
     @{
     */
-  void sendMessage(boost::shared_ptr<Message> msg);
+  void writePacket(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

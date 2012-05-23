@@ -122,6 +122,9 @@ void VehicleNavigationSolution::read(BinaryReader& stream) {
   stream >> mAlignementStatus;
 }
 
+void VehicleNavigationSolution::write(BinaryWriter& stream) const {
+}
+
 void VehicleNavigationSolution::read(std::istream& stream) {
 }
 

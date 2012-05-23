@@ -24,6 +24,10 @@
 #include "exceptions/IOException.h"
 #include "exceptions/SystemException.h"
 
+#include "base/Factory.h"
+#include "types/Acknowledge.h"
+#include <cstring>
+
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
@@ -34,6 +38,7 @@ TCPCom::TCPCom(POSLVComTCP& device, double pollingTime) :
   connect(&mReadTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
   mReadTimer.setInterval(pollingTime);
   mReadTimer.start();
+  qRegisterMetaType<boost::shared_ptr<Packet> >();
 }
 
 TCPCom::~TCPCom() {
@@ -57,11 +62,21 @@ void TCPCom::setPollingTime(double pollingTime) {
 /******************************************************************************/
 
 void TCPCom::timerTimeout() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(0));
+  Acknowledge& msg = packet->messageCast().typeCast<Acknowledge>();
+  msg.mTransactionNumber = 10;
+  msg.mID = 57;
+  msg.mResponseCode = 4;
+  msg.mNewParamsStatus = 0;
+  std::string name("TEST");
+  memcpy(msg.mParameterName, name.c_str(), name.size());
+  emit readPacket(packet);
   try {
     if (!mDevice.getConnection().isOpen())
       mDevice.getConnection().open();
     boost::shared_ptr<Packet> packet = mDevice.readPacket();
-    emit packetRead(packet);
+    emit readPacket(packet);
     emit deviceConnected(true);
   }
   catch (IOException& e) {
@@ -74,5 +89,19 @@ void TCPCom::timerTimeout() {
   }
 }
 
-void TCPCom::sendMessage(boost::shared_ptr<Message> msg) {
+void TCPCom::writePacket(boost::shared_ptr<Packet> packet) {
+  try {
+    if (!mDevice.getConnection().isOpen())
+      mDevice.getConnection().open();
+    mDevice.writePacket(packet);
+    emit deviceConnected(true);
+  }
+  catch (IOException& e) {
+    std::cerr << e.what() << std::endl;
+    emit deviceConnected(false);
+  }
+  catch (SystemException& e) {
+    std::cerr << e.what() << std::endl;
+    emit deviceConnected(false);
+  }
 }

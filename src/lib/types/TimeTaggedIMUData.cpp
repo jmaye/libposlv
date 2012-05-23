@@ -94,6 +94,9 @@ void TimeTaggedIMUData::read(BinaryReader& stream) {
   stream >> mIMUStatus;
 }
 
+void TimeTaggedIMUData::write(BinaryWriter& stream) const {
+}
+
 void TimeTaggedIMUData::read(std::istream& stream) {
 }
 

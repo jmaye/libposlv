@@ -72,6 +72,9 @@ void PrimaryGPSReceiverDGPSStaDB::read(BinaryReader& stream) {
     stream >> mStationRecord[i];
 }
 
+void PrimaryGPSReceiverDGPSStaDB::write(BinaryWriter& stream) const {
+}
+
 void PrimaryGPSReceiverDGPSStaDB::read(std::istream& stream) {
 }
 

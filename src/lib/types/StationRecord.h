@@ -29,6 +29,7 @@
 #include "base/Serializable.h"
 
 class BinaryReader;
+class BinaryWriter;
 
 /** The class StationRecord represents a Station Record for the Applanix.
     \brief Station record
@@ -37,6 +38,9 @@ class StationRecord :
   public Serializable {
   /// Reads from stream
   friend BinaryReader& operator >> (BinaryReader& stream, StationRecord& obj);
+  /// Write stream operator
+  friend BinaryWriter& operator << (BinaryWriter& stream, const StationRecord&
+    obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -88,6 +92,8 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from stream
   virtual void read(BinaryReader& stream);
+  /// Writes to the network
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 

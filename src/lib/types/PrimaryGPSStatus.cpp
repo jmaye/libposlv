@@ -121,6 +121,9 @@ void PrimaryGPSStatus::read(BinaryReader& stream) {
   stream >> mGPSStatus;
 }
 
+void PrimaryGPSStatus::write(BinaryWriter& stream) const {
+}
+
 void PrimaryGPSStatus::read(std::istream& stream) {
 }
 

@@ -93,6 +93,9 @@ void BaseGPS2ModemStatus::read(BinaryReader& stream) {
   stream >> mMaximumDataGapLength;
 }
 
+void BaseGPS2ModemStatus::write(BinaryWriter& stream) const {
+}
+
 void BaseGPS2ModemStatus::read(std::istream& stream) {
 }
 

@@ -41,7 +41,7 @@ VersionControl::~VersionControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionControl::packetRead(boost::shared_ptr<Packet> packet) {
+void VersionControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<VersionStatistics>()) {

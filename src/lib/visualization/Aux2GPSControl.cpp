@@ -51,7 +51,7 @@ Aux2GPSControl::~Aux2GPSControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Aux2GPSControl::packetRead(boost::shared_ptr<Packet> packet) {
+void Aux2GPSControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<Auxiliary2GPSStatus>()) {

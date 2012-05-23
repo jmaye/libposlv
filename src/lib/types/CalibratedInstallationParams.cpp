@@ -19,6 +19,7 @@
 #include "types/CalibratedInstallationParams.h"
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -150,6 +151,9 @@ void CalibratedInstallationParams::read(BinaryReader& stream) {
   stream >> mReserved4;
   stream >> mReserved5;
   stream >> mReserved6;
+}
+
+void CalibratedInstallationParams::write(BinaryWriter& stream) const {
 }
 
 void CalibratedInstallationParams::read(std::istream& stream) {

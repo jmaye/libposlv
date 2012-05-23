@@ -56,3 +56,8 @@ BinaryReader& operator >> (BinaryReader& stream, Packet& obj) {
   obj.read(stream);
   return stream;
 }
+
+BinaryWriter& operator << (BinaryWriter& stream, const Packet& obj) {
+  obj.write(stream);
+  return stream;
+}

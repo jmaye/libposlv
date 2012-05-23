@@ -27,6 +27,7 @@
 #include "base/Serializable.h"
 
 class BinaryReader;
+class BinaryWriter;
 
 /** The class ChannelStatusData represents the Channel Status for the Applanix.
     \brief Channel Status
@@ -35,6 +36,9 @@ class ChannelStatusData :
   public virtual Serializable {
   /// Reads from UDP connection
   friend BinaryReader& operator >> (BinaryReader& stream,
+    ChannelStatusData& obj);
+  /// Write stream operator
+  friend BinaryWriter& operator << (BinaryWriter& stream, const
     ChannelStatusData& obj);
 public:
   /** \name Constructors/Destructor
@@ -83,6 +87,8 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(BinaryReader& stream);
+  /// Writes to the network
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 

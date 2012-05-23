@@ -53,12 +53,3 @@ Message::~Message() {
 uint16_t Message::getTypeID() const {
   return mTypeID;
 }
-
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-BinaryWriter& operator << (BinaryWriter& stream, const Message& obj) {
-  obj.write(stream);
-  return stream;
-}

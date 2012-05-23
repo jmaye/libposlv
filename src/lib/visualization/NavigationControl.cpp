@@ -51,7 +51,7 @@ NavigationControl::~NavigationControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void NavigationControl::packetRead(boost::shared_ptr<Packet> packet) {
+void NavigationControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<VehicleNavigationSolution>()) {

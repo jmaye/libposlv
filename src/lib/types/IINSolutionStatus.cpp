@@ -88,6 +88,9 @@ void IINSolutionStatus::read(BinaryReader& stream) {
   stream >> mL2CycleSlipFlag;
 }
 
+void IINSolutionStatus::write(BinaryWriter& stream) const {
+}
+
 void IINSolutionStatus::read(std::istream& stream) {
 }
 

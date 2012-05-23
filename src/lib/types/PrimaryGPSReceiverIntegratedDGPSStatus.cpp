@@ -136,6 +136,9 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(BinaryReader& stream) {
   stream >> mDecoderState;
 }
 
+void PrimaryGPSReceiverIntegratedDGPSStatus::write(BinaryWriter& stream) const {
+}
+
 void PrimaryGPSReceiverIntegratedDGPSStatus::read(std::istream& stream) {
 }
 

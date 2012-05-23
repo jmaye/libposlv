@@ -63,16 +63,17 @@ void GAMSCalibrationControl::read(BinaryReader& stream) {
 }
 
 void GAMSCalibrationControl::write(BinaryWriter& stream) const {
-  stream << mTypeID;
-  stream << mByteCount;
-  stream << mTransactionNumber;
-  stream << mCalibrationAction;
+  stream << mTypeID << mByteCount << mTransactionNumber << mCalibrationAction;
 }
 
 void GAMSCalibrationControl::read(std::istream& stream) {
 }
 
 void GAMSCalibrationControl::write(std::ostream& stream) const {
+  stream << mTypeID << std::endl
+    << mByteCount << std::endl
+    << mTransactionNumber << std::endl
+    << (uint16_t)mCalibrationAction;
 }
 
 void GAMSCalibrationControl::read(std::ifstream& stream) {

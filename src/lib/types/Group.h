@@ -29,8 +29,6 @@
 #include "exceptions/TypeCastException.h"
 #include "types/Packet.h"
 
-class BinaryReader;
-
 /** The class Group is the base class for all Applanix messages.
     \brief Base class for Applanix messages
   */

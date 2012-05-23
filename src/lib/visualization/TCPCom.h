@@ -26,12 +26,14 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
+#include <QtCore/QMetaType>
 
 #include <boost/shared_ptr.hpp>
 
 class POSLVComTCP;
 class Packet;
-class Message;
+
+Q_DECLARE_METATYPE(boost::shared_ptr<Packet>);
 
 /** The TCPCom class handles TCP connection for the UI.
     \brief TCP Communication for Applanix UI
@@ -92,7 +94,7 @@ protected slots:
   /// Timeout of the timer
   void timerTimeout();
   /// Send a packet to the Applanix
-  void sendMessage(boost::shared_ptr<Message> msg);
+  void writePacket(boost::shared_ptr<Packet> packet);
   /** @}
     */
 
@@ -101,7 +103,7 @@ signals:
     @{
     */
   /// Packet read
-  void packetRead(boost::shared_ptr<Packet> packet);
+  void readPacket(boost::shared_ptr<Packet> packet);
   /// Device connected
   void deviceConnected(bool connected);
   /** @}

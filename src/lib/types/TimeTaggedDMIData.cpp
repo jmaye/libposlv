@@ -82,6 +82,9 @@ void TimeTaggedDMIData::read(BinaryReader& stream) {
   stream >> mDMIDataRate;
 }
 
+void TimeTaggedDMIData::write(BinaryWriter& stream) const {
+}
+
 void TimeTaggedDMIData::read(std::istream& stream) {
 }
 

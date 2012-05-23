@@ -94,6 +94,9 @@ void GeneralStatusFDIR::read(BinaryReader& stream) {
   stream >> mExtendedStatus;
 }
 
+void GeneralStatusFDIR::write(BinaryWriter& stream) const {
+}
+
 void GeneralStatusFDIR::read(std::istream& stream) {
 }
 

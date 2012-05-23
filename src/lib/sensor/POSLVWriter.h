@@ -24,9 +24,11 @@
 #ifndef POSLVWRITER_H
 #define POSLVWRITER_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "base/BinaryWriter.h"
 
-class Message;
+class Packet;
 
 /** The POSLVWriter class is an interface for all messages writing to the
     Applanix device.
@@ -58,16 +60,8 @@ public:
   /** \name Methods
     @{
     */
-  /// Sends a message to the Applanix
-  void sendMessage(const Message& message);
-  /** @}
-    */
-
-  /** \name Constants
-    @{
-    */
-  /// Maximum packet size
-  static const size_t mMaxPacketSize = 1500;
+  /// Writes a packet to the Applanix device
+  void writePacket(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

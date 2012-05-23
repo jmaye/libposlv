@@ -16,30 +16,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file PortControl.h
-    \brief This file defines the PortControl class which is the control
-           for the time
+/** \file AcknowledgeControl.h
+    \brief This file defines the AcknowledgeControl class which is the
+           control for acknowledge of the Applanix
   */
 
-#ifndef PORTCONTROL_H
-#define PORTCONTROL_H
+#ifndef ACKNOWLEDGECONTROL_H
+#define ACKNOWLEDGECONTROL_H
 
 #include <map>
+#include <string>
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_PortControl;
+class Ui_AcknowledgeControl;
 class Packet;
 
-/** The PortControl class is the control for the time of the Applanix.
-    \brief Time control
+/** The AcknowledgeControl class is the control for the auto calibration of
+    the Applanix.
+    \brief Auto calibration control
   */
-class PortControl :
+class AcknowledgeControl :
   public Control,
-  public Singleton<PortControl> {
+  public Singleton<AcknowledgeControl> {
 
 Q_OBJECT
 
@@ -47,9 +49,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  PortControl(const PortControl& other);
+  AcknowledgeControl(const AcknowledgeControl& other);
   /// Assignment operator
-  PortControl& operator = (const PortControl& other);
+  AcknowledgeControl& operator = (const AcknowledgeControl& other);
   /** @}
     */
 
@@ -58,9 +60,9 @@ public:
     @{
     */
   /// Default constructor
-  PortControl();
+  AcknowledgeControl();
   /// Destructor
-  virtual ~PortControl();
+  virtual ~AcknowledgeControl();
   /** @}
     */
 
@@ -69,19 +71,9 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_PortControl* mUi;
-  /// Mapping for baudrate
-  std::map<uint8_t, uint32_t> mBaudrateMap;
-  /// Mapping for parity
-  std::map<uint8_t, std::string> mParityMap;
-  /// Mapping for stop bits
-  std::map<uint8_t, std::string> mStopMap;
-  /// Mapping for flow control
-  std::map<uint8_t, std::string> mFlowMap;
-  /// Mapping for input select
-  std::map<uint16_t, std::string> mInputMap;
-  /// Mapping for output select
-  std::map<uint16_t, std::string> mOutputMap;
+  Ui_AcknowledgeControl* mUi;
+  /// Mapping for the status messages
+  std::map<uint16_t, std::string> mStatusMsg;
   /** @}
     */
 
@@ -96,4 +88,4 @@ protected slots:
 
 };
 
-#endif // PORTCONTROL_H
+#endif // ACKNOWLEDGECONTROL_H

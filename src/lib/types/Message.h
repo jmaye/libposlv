@@ -29,18 +29,11 @@
 #include "exceptions/TypeCastException.h"
 #include "types/Packet.h"
 
-class BinaryReader;
-class BinaryWriter;
-
 /** The class Message is the base class for all Applanix messages.
     \brief Base class for Applanix messages
   */
 class Message :
-//  public virtual Serializable,
   public Packet {
-  /// Stream operator for writing to a connection
-  friend BinaryWriter& operator << (BinaryWriter& stream, const
-    Message& obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -101,14 +94,6 @@ public:
     */
 
 protected:
-  /** \name Stream methods
-    @{
-    */
-  /// Writes to the network
-  virtual void write(BinaryWriter& stream) const = 0;
-  /** @}
-    */
-
   /** \name Protected members
     @{
     */

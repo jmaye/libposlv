@@ -76,6 +76,9 @@ void RawDMIDataStream::read(BinaryReader& stream) {
   stream >> mReservedCount;
 }
 
+void RawDMIDataStream::write(BinaryWriter& stream) const {
+}
+
 void RawDMIDataStream::read(std::istream& stream) {
 }
 

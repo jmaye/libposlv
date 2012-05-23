@@ -34,6 +34,7 @@ UDPReader::UDPReader(POSLVComUDP& device, double pollingTime) :
   connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
   mTimer.setInterval(pollingTime);
   mTimer.start();
+  qRegisterMetaType<boost::shared_ptr<Packet> >();
 }
 
 UDPReader::~UDPReader() {
@@ -61,7 +62,7 @@ void UDPReader::timerTimeout() {
     if (!mDevice.getConnection().isOpen())
       mDevice.getConnection().open();
     boost::shared_ptr<Packet> packet = mDevice.readPacket();
-    emit packetRead(packet);
+    emit readPacket(packet);
     emit deviceConnected(true);
   }
   catch (IOException& e) {

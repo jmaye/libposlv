@@ -19,7 +19,6 @@
 #include "types/Group.h"
 
 #include "base/Factory.h"
-#include "base/BinaryReader.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */

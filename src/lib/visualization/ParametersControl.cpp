@@ -68,7 +68,7 @@ ParametersControl::~ParametersControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void ParametersControl::packetRead(boost::shared_ptr<Packet> packet) {
+void ParametersControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfMessage()) {
     const Message& message = packet->messageCast();
     if (message.instanceOf<IPControl>()) {

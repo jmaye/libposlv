@@ -86,6 +86,8 @@ public:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(BinaryReader& stream);
+  /// Writes to the network
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 

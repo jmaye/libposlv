@@ -19,6 +19,7 @@
 #include "types/ChannelStatusData.h"
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -64,6 +65,9 @@ void ChannelStatusData::read(BinaryReader& stream) {
   stream >> mSVL2SNR;
 }
 
+void ChannelStatusData::write(BinaryWriter& stream) const {
+}
+
 void ChannelStatusData::read(std::istream& stream) {
 }
 
@@ -89,5 +93,10 @@ void ChannelStatusData::write(std::ofstream& stream) const {
 
 BinaryReader& operator >> (BinaryReader& stream, ChannelStatusData& obj) {
   obj.read(stream);
+  return stream;
+}
+
+BinaryWriter& operator << (BinaryWriter& stream, const ChannelStatusData& obj) {
+  obj.write(stream);
   return stream;
 }

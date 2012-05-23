@@ -21,7 +21,7 @@
 #include <string>
 #include <limits>
 
-#include "types/Message.h"
+#include "types/Packet.h"
 #include "base/BinaryBufferWriter.h"
 #include "sensor/Checksum.h"
 #include "exceptions/IOException.h"
@@ -40,10 +40,10 @@ POSLVWriter::~POSLVWriter() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void POSLVWriter::sendMessage(const Message& message) {
+void POSLVWriter::writePacket(boost::shared_ptr<Packet> packet) {
   BinaryBufferWriter bufferWriter;
-  bufferWriter << std::string("$MSG");
-  bufferWriter << message;
+  bufferWriter << packet->getStart();
+  bufferWriter << *packet;
   const size_t padSize = (bufferWriter.getBufferSize() + 2 * sizeof(uint16_t))
     % 4;
   for (size_t i = 0; i < padSize; ++i) {

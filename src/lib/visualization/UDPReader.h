@@ -26,11 +26,14 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
+#include <QtCore/QMetaType>
 
 #include <boost/shared_ptr.hpp>
 
 class POSLVComUDP;
 class Packet;
+
+Q_DECLARE_METATYPE(boost::shared_ptr<Packet>);
 
 /** The UDPReader class continuously polls for packets from the Applanix.
     \brief UDP Reader for Applanix
@@ -98,7 +101,7 @@ signals:
     @{
     */
   /// Packet read
-  void packetRead(boost::shared_ptr<Packet> packet);
+  void readPacket(boost::shared_ptr<Packet> packet);
   /// Device connected
   void deviceConnected(bool connected);
   /** @}

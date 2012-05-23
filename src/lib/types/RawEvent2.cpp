@@ -66,6 +66,9 @@ void RawEvent2::read(BinaryReader& stream) {
   stream >> mEvent2PulseCount;
 }
 
+void RawEvent2::write(BinaryWriter& stream) const {
+}
+
 void RawEvent2::read(std::istream& stream) {
 }
 

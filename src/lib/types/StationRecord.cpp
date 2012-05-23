@@ -19,6 +19,7 @@
 #include "types/StationRecord.h"
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -70,6 +71,9 @@ void StationRecord::read(BinaryReader& stream) {
   stream >> mModulationRate;
 }
 
+void StationRecord::write(BinaryWriter& stream) const {
+}
+
 void StationRecord::read(std::istream& stream) {
 }
 
@@ -100,5 +104,10 @@ void StationRecord::write(std::ofstream& stream) const {
 
 BinaryReader& operator >> (BinaryReader& stream, StationRecord& obj) {
   obj.read(stream);
+  return stream;
+}
+
+BinaryWriter& operator << (BinaryWriter& stream, const StationRecord& obj) {
+  obj.write(stream);
   return stream;
 }

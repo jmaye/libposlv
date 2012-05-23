@@ -91,6 +91,9 @@ void GAMSSolutionStatus::read(BinaryReader& stream) {
   stream >> mGAMSHeadingRMSError;
 }
 
+void GAMSSolutionStatus::write(BinaryWriter& stream) const {
+}
+
 void GAMSSolutionStatus::read(std::istream& stream) {
 }
 

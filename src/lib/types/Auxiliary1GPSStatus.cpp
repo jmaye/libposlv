@@ -121,6 +121,9 @@ void Auxiliary1GPSStatus::read(BinaryReader& stream) {
   stream >> mAux12InUse;
 }
 
+void Auxiliary1GPSStatus::write(BinaryWriter& stream) const {
+}
+
 void Auxiliary1GPSStatus::read(std::istream& stream) {
 }
 

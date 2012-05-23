@@ -66,6 +66,9 @@ void RawPPS::read(BinaryReader& stream) {
   stream >> mPPSPulseCount;
 }
 
+void RawPPS::write(BinaryWriter& stream) const {
+}
+
 void RawPPS::read(std::istream& stream) {
 }
 

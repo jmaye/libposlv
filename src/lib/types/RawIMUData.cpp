@@ -85,6 +85,9 @@ void RawIMUData::read(BinaryReader& stream) {
   stream >> mDataChecksum;
 }
 
+void RawIMUData::write(BinaryWriter& stream) const {
+}
+
 void RawIMUData::read(std::istream& stream) {
 }
 

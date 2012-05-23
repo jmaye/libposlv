@@ -97,6 +97,9 @@ void VersionStatistics::read(BinaryReader &stream) {
   stream >> mCurrentRun;
 }
 
+void VersionStatistics::write(BinaryWriter &stream) const {
+}
+
 void VersionStatistics::read(std::istream& stream) {
 }
 

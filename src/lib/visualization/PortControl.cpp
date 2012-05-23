@@ -76,7 +76,7 @@ PortControl::~PortControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void PortControl::packetRead(boost::shared_ptr<Packet> packet) {
+void PortControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfMessage()) {
     const Message& message = packet->messageCast();
     if (message.instanceOf<DisplayPortControl>()) {

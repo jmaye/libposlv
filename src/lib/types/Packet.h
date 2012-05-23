@@ -30,6 +30,7 @@
 #include "exceptions/TypeCastException.h"
 
 class BinaryReader;
+class BinaryWriter;
 class Group;
 class Message;
 
@@ -38,8 +39,10 @@ class Message;
   */
 class Packet:
   public virtual Serializable {
-  /// Stream operator
+  /// Read stream operator
   friend BinaryReader& operator >> (BinaryReader& stream, Packet& obj);
+  /// Write stream operator
+  friend BinaryWriter& operator << (BinaryWriter& stream, const Packet& obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -139,6 +142,8 @@ protected:
   virtual void write(std::ofstream& stream) const = 0;
   /// Reads from the stream
   virtual void read(BinaryReader& stream) = 0;
+  /// Writes to the stream
+  virtual void write(BinaryWriter& stream) const = 0;
   /** @}
     */
 

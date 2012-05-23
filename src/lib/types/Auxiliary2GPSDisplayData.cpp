@@ -84,6 +84,9 @@ void Auxiliary2GPSDisplayData::read(BinaryReader& stream) {
     stream >> mGPSRawData[i];
 }
 
+void Auxiliary2GPSDisplayData::write(BinaryWriter& stream) const {
+}
+
 void Auxiliary2GPSDisplayData::read(std::istream& stream) {
 }
 

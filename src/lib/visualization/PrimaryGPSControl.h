@@ -83,7 +83,7 @@ protected slots:
     @{
     */
   /// Packet read
-  void packetRead(boost::shared_ptr<Packet> packet);
+  void readPacket(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

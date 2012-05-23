@@ -49,7 +49,7 @@ IINControl::~IINControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void IINControl::packetRead(boost::shared_ptr<Packet> packet) {
+void IINControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<IINSolutionStatus>()) {

@@ -49,7 +49,7 @@ GAMSControl::~GAMSControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void GAMSControl::packetRead(boost::shared_ptr<Packet> packet) {
+void GAMSControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<GAMSSolutionStatus>()) {

@@ -47,7 +47,7 @@ IMUControl::~IMUControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void IMUControl::packetRead(boost::shared_ptr<Packet> packet) {
+void IMUControl::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<TimeTaggedIMUData>()) {

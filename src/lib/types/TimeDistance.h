@@ -24,7 +24,12 @@
 #ifndef TIMEDISTANCE_H
 #define TIMEDISTANCE_H
 
-#include "types/Group.h"
+#include <stdint.h>
+
+#include "base/Serializable.h"
+
+class BinaryReader;
+class BinaryWriter;
 
 /** The class TimeDistance represents a Time/Distance record of the Applanix.
     \brief Time/Distance field
@@ -34,6 +39,9 @@ class TimeDistance :
   /// Reads from UDP
   friend BinaryReader& operator >> (BinaryReader& stream,
     TimeDistance& obj);
+  /// Write stream operator
+  friend BinaryWriter& operator << (BinaryWriter& stream, const TimeDistance&
+    obj);
 public:
   /** \name Constructors/Destructor
     @{
@@ -79,6 +87,8 @@ protected:
   virtual void write(std::ofstream& stream) const;
   /// Reads from the network
   virtual void read(BinaryReader& stream);
+  /// Writes to the network
+  virtual void write(BinaryWriter& stream) const;
   /** @}
     */
 
