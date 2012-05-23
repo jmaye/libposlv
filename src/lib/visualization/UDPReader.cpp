@@ -16,15 +16,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/Reader.h"
+#include "visualization/UDPReader.h"
 
+#include "sensor/POSLVComUDP.h"
+#include "com/UDPConnectionServer.h"
+#include "types/Packet.h"
 #include "exceptions/IOException.h"
+#include "exceptions/SystemException.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Reader::Reader(POSLVComUDP& device, double pollingTime) :
+UDPReader::UDPReader(POSLVComUDP& device, double pollingTime) :
     mDevice(device),
     mPollingTime(pollingTime) {
   connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
@@ -32,18 +36,18 @@ Reader::Reader(POSLVComUDP& device, double pollingTime) :
   mTimer.start();
 }
 
-Reader::~Reader() {
+UDPReader::~UDPReader() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-double Reader::getPollingTime() const {
+double UDPReader::getPollingTime() const {
   return mPollingTime;
 }
 
-void Reader::setPollingTime(double pollingTime) {
+void UDPReader::setPollingTime(double pollingTime) {
   mPollingTime = pollingTime;
   mTimer.setInterval(pollingTime);
 }
@@ -52,13 +56,19 @@ void Reader::setPollingTime(double pollingTime) {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Reader::timerTimeout() {
+void UDPReader::timerTimeout() {
   try {
+    if (!mDevice.getConnection().isOpen())
+      mDevice.getConnection().open();
     boost::shared_ptr<Packet> packet = mDevice.readPacket();
     emit packetRead(packet);
     emit deviceConnected(true);
   }
   catch (IOException& e) {
+    std::cerr << e.what() << std::endl;
+    emit deviceConnected(false);
+  }
+  catch (SystemException& e) {
     std::cerr << e.what() << std::endl;
     emit deviceConnected(false);
   }

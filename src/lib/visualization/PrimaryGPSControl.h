@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_PrimaryGPSControl;
-class Group;
+class Packet;
 
 /** The PrimaryGPSControl class is the control for the primary GPS of the
     Applanix.

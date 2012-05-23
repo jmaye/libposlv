@@ -21,6 +21,8 @@
 #include "types/PrimaryGPSStatus.h"
 #include "types/PPSTimeRecoveryStatus.h"
 #include "types/Group.h"
+#include "types/Packet.h"
+
 #include "ui_PrimaryGPSControl.h"
 
 /******************************************************************************/

@@ -90,10 +90,14 @@ double UDPConnectionClient::getTimeout() const {
 /******************************************************************************/
 
 void UDPConnectionClient::open() {
+  if (isOpen())
+    return;
   mSocket = socket(AF_INET, SOCK_DGRAM, 0);
-  if (mSocket < 0)
+  if (mSocket < 0) {
+    mSocket = 0;
     throw SystemException(errno,
       "UDPConnectionClient::open()::open()");
+  }
 }
 
 void UDPConnectionClient::close() {

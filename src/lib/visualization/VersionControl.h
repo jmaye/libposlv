@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_VersionControl;
-class Group;
+class Packet;
 
 /** The VersionControl class is the control for the version of the Applanix.
     \brief Version control

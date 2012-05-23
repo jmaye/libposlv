@@ -31,10 +31,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_NavigationControl;
-class Group;
+class Packet;
 
 /** The NavigationControl class is the control for the navigation of the
     Applanix.

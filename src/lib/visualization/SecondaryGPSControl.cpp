@@ -20,6 +20,8 @@
 
 #include "types/SecondaryGPSStatus.h"
 #include "types/Group.h"
+#include "types/Packet.h"
+
 #include "ui_SecondaryGPSControl.h"
 
 /******************************************************************************/

@@ -19,8 +19,10 @@
 #include "visualization/Aux1GPSControl.h"
 
 #include "types/Auxiliary1GPSStatus.h"
-#include "ui_Aux1GPSControl.h"
+#include "types/Packet.h"
 #include "types/Group.h"
+
+#include "ui_Aux1GPSControl.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */

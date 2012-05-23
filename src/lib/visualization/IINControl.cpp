@@ -20,6 +20,8 @@
 
 #include "types/IINSolutionStatus.h"
 #include "types/Group.h"
+#include "types/Packet.h"
+
 #include "ui_IINControl.h"
 
 /******************************************************************************/

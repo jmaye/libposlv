@@ -32,6 +32,18 @@ POSLVComTCP::~POSLVComTCP() {
 }
 
 /******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
+
+TCPConnectionClient& POSLVComTCP::getConnection() {
+  return mConnection;
+}
+
+const TCPConnectionClient& POSLVComTCP::getConnection() const {
+  return mConnection;
+}
+
+/******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 

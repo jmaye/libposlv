@@ -67,6 +67,16 @@ public:
   /** @}
     */
 
+  /** \name Accessors
+    @{
+    */
+  /// Return the connection
+  TCPConnectionClient& getConnection();
+  /// Return the connection
+  const TCPConnectionClient& getConnection() const;
+  /** @}
+    */
+
 protected:
   /** \name Protected members
     @{

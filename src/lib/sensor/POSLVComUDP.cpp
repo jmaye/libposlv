@@ -32,6 +32,18 @@ POSLVComUDP::~POSLVComUDP() {
 }
 
 /******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
+
+UDPConnectionServer& POSLVComUDP::getConnection() {
+  return mConnection;
+}
+
+const UDPConnectionServer& POSLVComUDP::getConnection() const {
+  return mConnection;
+}
+
+/******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 

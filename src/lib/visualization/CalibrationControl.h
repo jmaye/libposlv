@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_CalibrationControl;
-class Group;
+class Packet;
 
 /** The CalibrationControl class is the control for the calibration of the
     Applanix.

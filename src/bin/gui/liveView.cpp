@@ -27,7 +27,7 @@
 #include "visualization/MainWindow.h"
 #include "com/UDPConnectionServer.h"
 #include "sensor/POSLVComUDP.h"
-#include "visualization/Reader.h"
+#include "visualization/UDPReader.h"
 #include "visualization/NavigationControl.h"
 #include "visualization/PrimaryGPSControl.h"
 #include "visualization/SecondaryGPSControl.h"
@@ -76,8 +76,8 @@ int main(int argc, char** argv) {
   mainWindow.addControl("Ports", portControl);
   UDPConnectionServer connection(5600);
   POSLVComUDP device(connection);
-  Reader reader(device);
-  QThread*readerThread = new QThread;
+  UDPReader reader(device);
+  QThread* readerThread = new QThread;
   reader.moveToThread(readerThread);
   readerThread->start();
   QObject::connect(&reader,

@@ -20,6 +20,8 @@
 
 #include "types/Auxiliary2GPSStatus.h"
 #include "types/Group.h"
+#include "types/Packet.h"
+
 #include "ui_Aux2GPSControl.h"
 
 /******************************************************************************/

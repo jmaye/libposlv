@@ -20,6 +20,8 @@
 
 #include "types/VersionStatistics.h"
 #include "types/Group.h"
+#include "types/Packet.h"
+
 #include "ui_VersionControl.h"
 
 /******************************************************************************/

@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_IINControl;
-class Group;
+class Packet;
 
 /** The IINControl class is the control for the IIN solution of the Applanix.
     \brief IIN solution control

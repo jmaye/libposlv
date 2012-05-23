@@ -27,6 +27,8 @@
 #include "types/NavigationModeControl.h"
 #include "types/GeneralInstallationControl.h"
 #include "types/Message.h"
+#include "types/Packet.h"
+
 #include "ui_ParametersControl.h"
 
 /******************************************************************************/

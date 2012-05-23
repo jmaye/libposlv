@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AutoCalibrationControl</class>
+ <widget class="QWidget" name="AutoCalibrationControl">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>930</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QGroupBox" name="GeneralBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>181</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>General</string>
+   </property>
+   <widget class="QGroupBox" name="actionGeneralBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>30</y>
+      <width>151</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Action</string>
+    </property>
+    <widget class="QRadioButton" name="stopGeneralRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>109</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stop all</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="manualGeneralRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>109</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Manual</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="autoGeneralRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>109</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Auto</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="normalGeneralRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>131</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Normal transfer</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="forcedGeneralRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>131</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Forced transfer</string>
+     </property>
+    </widget>
+    <zorder>stopGeneralRadioButton</zorder>
+    <zorder>manualGeneralRadioButton</zorder>
+    <zorder>autoGeneralRadioButton</zorder>
+    <zorder>normalGeneralRadioButton</zorder>
+    <zorder>forcedGeneralRadioButton</zorder>
+    <zorder>selectGeneralBox</zorder>
+   </widget>
+   <widget class="QGroupBox" name="selectGeneralBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>131</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Select</string>
+    </property>
+    <widget class="QCheckBox" name="gpsCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>111</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Primary GPS</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="dmiLeverCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>94</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>DMI lever</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="dmiScaleCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>94</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>DMI scale</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="posCheckBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>111</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Position fix</string>
+     </property>
+    </widget>
+    <zorder>gpsCheckBox</zorder>
+    <zorder>dmiLeverCheckBox</zorder>
+    <zorder>dmiScaleCheckBox</zorder>
+    <zorder>posCheckBox</zorder>
+    <zorder>GeneralBox</zorder>
+   </widget>
+   <widget class="QPushButton" name="applyGeneralButton">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>310</y>
+      <width>93</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="GAMSBox">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>10</y>
+     <width>161</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>GAMS</string>
+   </property>
+   <widget class="QGroupBox" name="actionGAMSBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>151</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Action</string>
+    </property>
+    <widget class="QRadioButton" name="stopGAMSRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>109</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Stop</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="beginGAMSRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Begin/Resume</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="suspendGAMSRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>109</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Suspend</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="forceGAMSRadioButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>131</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Force</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="applyGAMSButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>170</y>
+      <width>93</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Apply</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>applyGAMSButton</sender>
+   <signal>pressed()</signal>
+   <receiver>AutoCalibrationControl</receiver>
+   <slot>applyGAMSPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>applyGeneralButton</sender>
+   <signal>pressed()</signal>
+   <receiver>AutoCalibrationControl</receiver>
+   <slot>applyGeneralPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>96</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>applyGeneralPressed()</slot>
+  <slot>applyGAMSPressed()</slot>
+ </slots>
+</ui>

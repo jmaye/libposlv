@@ -16,74 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file DMIControl.h
-    \brief This file defines the DMIControl class which is the control
-           for the DMI
-  */
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#ifndef DMICONTROL_H
-#define DMICONTROL_H
+template <typename T>
+BinaryStreamReader<T>::BinaryStreamReader(T& stream) :
+    mStream(stream) {
+}
 
-#include "boost/shared_ptr.hpp"
+template <typename T>
+BinaryStreamReader<T>::~BinaryStreamReader() {
+}
 
-#include "visualization/Control.h"
-#include "base/Singleton.h"
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
-class Ui_DMIControl;
-class Packet;
-
-/** The DMIControl class is the control for the DMI of the Applanix.
-    \brief DMI control
-  */
-class DMIControl :
-  public Control,
-  public Singleton<DMIControl> {
-
-Q_OBJECT
-
-  /** \name Private constructors
-    @{
-    */
-  /// Copy constructor
-  DMIControl(const DMIControl& other);
-  /// Assignment operator
-  DMIControl& operator = (const DMIControl& other);
-  /** @}
-    */
-
-public:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Default constructor
-  DMIControl();
-  /// Destructor
-  virtual ~DMIControl();
-  /** @}
-    */
-
-protected:
-  /** \name Protected members
-    @{
-    */
-  /// Pointer to the UI
-  Ui_DMIControl* mUi;
-  /// Mapping for the status messages
-  std::map<uint8_t, std::string> mStatusMsg;
-  /// Mapping for the type messages
-  std::map<uint8_t, std::string> mTypeMsg;
-  /** @}
-    */
-
-protected slots:
-  /** \name Protected slots
-    @{
-    */
-  /// Packet read
-  void packetRead(boost::shared_ptr<Packet> packet);
-  /** @}
-    */
-
-};
-
-#endif // DMICONTROL_H
+template <typename T>
+void BinaryStreamReader<T>::read(char* buffer, size_t numBytes) {
+  mStream.read(buffer, numBytes);
+}

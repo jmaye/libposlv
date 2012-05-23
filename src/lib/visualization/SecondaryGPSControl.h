@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_SecondaryGPSControl;
-class Group;
+class Packet;
 
 /** The SecondaryGPSControl class is the control for the secondary GPS of the
     Applanix.

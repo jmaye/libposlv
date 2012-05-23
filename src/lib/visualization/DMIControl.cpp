@@ -20,6 +20,8 @@
 
 #include "types/TimeTaggedDMIData.h"
 #include "types/Group.h"
+#include "types/Packet.h"
+
 #include "ui_DMIControl.h"
 
 /******************************************************************************/

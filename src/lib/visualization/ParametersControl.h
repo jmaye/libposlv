@@ -30,10 +30,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_ParametersControl;
-class Message;
+class Packet;
 
 /** The ParametersControl class is the control for the parameters of the
     Applanix.

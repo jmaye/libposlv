@@ -18,11 +18,13 @@
 
 #include "visualization/FDIRControl.h"
 
+#include <bitset>
+
 #include "types/GeneralStatusFDIR.h"
 #include "types/Group.h"
-#include "ui_FDIRControl.h"
+#include "types/Packet.h"
 
-#include <bitset>
+#include "ui_FDIRControl.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */

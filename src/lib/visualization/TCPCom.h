@@ -16,28 +16,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file DMIControl.h
-    \brief This file defines the DMIControl class which is the control
-           for the DMI
+/** \file TCPCom.h
+    \brief This file defines the TCPCom class which handles TCP connection for
+           the UI.
   */
 
-#ifndef DMICONTROL_H
-#define DMICONTROL_H
+#ifndef TCPCOM_H
+#define TCPCOM_H
 
-#include "boost/shared_ptr.hpp"
+#include <QtCore/QObject>
+#include <QtCore/QTimer>
 
-#include "visualization/Control.h"
-#include "base/Singleton.h"
+#include <boost/shared_ptr.hpp>
 
-class Ui_DMIControl;
+class POSLVComTCP;
 class Packet;
+class Message;
 
-/** The DMIControl class is the control for the DMI of the Applanix.
-    \brief DMI control
+/** The TCPCom class handles TCP connection for the UI.
+    \brief TCP Communication for Applanix UI
   */
-class DMIControl :
-  public Control,
-  public Singleton<DMIControl> {
+class TCPCom :
+  public QObject {
 
 Q_OBJECT
 
@@ -45,9 +45,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  DMIControl(const DMIControl& other);
+  TCPCom(const TCPCom& other);
   /// Assignment operator
-  DMIControl& operator = (const DMIControl& other);
+  TCPCom& operator = (const TCPCom& other);
   /** @}
     */
 
@@ -55,10 +55,20 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Default constructor
-  DMIControl();
+  /// Constructs object
+  TCPCom(POSLVComTCP& device, double pollingTime = 500);
   /// Destructor
-  virtual ~DMIControl();
+  virtual ~TCPCom();
+  /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  /// Returns the polling time
+  double getPollingTime() const;
+  /// Sets the polling time
+  void setPollingTime(double pollingTime);
   /** @}
     */
 
@@ -66,24 +76,37 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Pointer to the UI
-  Ui_DMIControl* mUi;
-  /// Mapping for the status messages
-  std::map<uint8_t, std::string> mStatusMsg;
-  /// Mapping for the type messages
-  std::map<uint8_t, std::string> mTypeMsg;
+  /// Device
+  POSLVComTCP& mDevice;
+  /// Read timer
+  QTimer mReadTimer;
+  /// Polling time
+  double mPollingTime;
   /** @}
     */
 
 protected slots:
-  /** \name Protected slots
+  /** \name Qt slots
+    @{
+    */
+  /// Timeout of the timer
+  void timerTimeout();
+  /// Send a packet to the Applanix
+  void sendMessage(boost::shared_ptr<Message> msg);
+  /** @}
+    */
+
+signals:
+  /** \name Qt signals
     @{
     */
   /// Packet read
   void packetRead(boost::shared_ptr<Packet> packet);
+  /// Device connected
+  void deviceConnected(bool connected);
   /** @}
     */
 
 };
 
-#endif // DMICONTROL_H
+#endif // TCPCOM_H

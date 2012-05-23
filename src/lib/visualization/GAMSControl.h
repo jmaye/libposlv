@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_GAMSControl;
-class Group;
+class Packet;
 
 /** The GAMSControl class is the control for the GAMS solution of the Applanix.
     \brief GAMS solution control

@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_TimeControl;
-class Group;
+class Packet;
 
 /** The TimeControl class is the control for the time of the Applanix.
     \brief Time control

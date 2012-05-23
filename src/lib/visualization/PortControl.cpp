@@ -25,6 +25,8 @@
 #include "types/SecondaryDataPortControl.h"
 #include "types/COMPortControl.h"
 #include "types/Message.h"
+#include "types/Packet.h"
+
 #include "ui_PortControl.h"
 
 /******************************************************************************/

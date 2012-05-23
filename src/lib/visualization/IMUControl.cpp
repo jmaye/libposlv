@@ -18,11 +18,13 @@
 
 #include "visualization/IMUControl.h"
 
+#include <sstream>
+
 #include "types/TimeTaggedIMUData.h"
 #include "types/Group.h"
-#include "ui_IMUControl.h"
+#include "types/Packet.h"
 
-#include <sstream>
+#include "ui_IMUControl.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */

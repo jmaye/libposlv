@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_Aux2GPSControl;
-class Group;
+class Packet;
 
 /** The Aux2GPSControl class is the control for the auxiliary 2 GPS of the
     Applanix.

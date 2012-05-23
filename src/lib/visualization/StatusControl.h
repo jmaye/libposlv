@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_StatusControl;
-class Group;
+class Packet;
 
 /** The StatusControl class is the control for the status of the Applanix.
     \brief Status control

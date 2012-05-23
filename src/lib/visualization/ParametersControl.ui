@@ -19,7 +19,7 @@
      <x>460</x>
      <y>690</y>
      <width>461</width>
-     <height>61</height>
+     <height>62</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="IPLayout">
@@ -265,7 +265,7 @@
      <x>460</x>
      <y>500</y>
      <width>461</width>
-     <height>191</height>
+     <height>194</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gamsLayout">

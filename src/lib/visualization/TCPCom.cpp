@@ -16,25 +16,63 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "base/BinaryStreamReader.h"
+#include "visualization/TCPCom.h"
 
-#include <iostream>
+#include "sensor/POSLVComTCP.h"
+#include "com/TCPConnectionClient.h"
+#include "types/Packet.h"
+#include "exceptions/IOException.h"
+#include "exceptions/SystemException.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BinaryStreamReader::BinaryStreamReader(std::istream& stream) :
-    mStream(stream) {
+TCPCom::TCPCom(POSLVComTCP& device, double pollingTime) :
+    mDevice(device),
+    mPollingTime(pollingTime) {
+  connect(&mReadTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+  mReadTimer.setInterval(pollingTime);
+  mReadTimer.start();
 }
 
-BinaryStreamReader::~BinaryStreamReader() {
+TCPCom::~TCPCom() {
+}
+
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
+
+double TCPCom::getPollingTime() const {
+  return mPollingTime;
+}
+
+void TCPCom::setPollingTime(double pollingTime) {
+  mPollingTime = pollingTime;
+  mReadTimer.setInterval(pollingTime);
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void BinaryStreamReader::read(char* buffer, size_t numBytes) {
-  mStream.read(buffer, numBytes);
+void TCPCom::timerTimeout() {
+  try {
+    if (!mDevice.getConnection().isOpen())
+      mDevice.getConnection().open();
+    boost::shared_ptr<Packet> packet = mDevice.readPacket();
+    emit packetRead(packet);
+    emit deviceConnected(true);
+  }
+  catch (IOException& e) {
+    std::cerr << e.what() << std::endl;
+    emit deviceConnected(false);
+  }
+  catch (SystemException& e) {
+    std::cerr << e.what() << std::endl;
+    emit deviceConnected(false);
+  }
+}
+
+void TCPCom::sendMessage(boost::shared_ptr<Message> msg) {
 }

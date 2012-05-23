@@ -16,26 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Reader.h
-    \brief This file defines the Reader class which continuously polls for
-           packets from the Applanix device
+/** \file AutoCalibrationControl.h
+    \brief This file defines the AutoCalibrationControl class which is the
+           control for auto calibration of the Applanix
   */
 
-#ifndef READER_H
-#define READER_H
+#ifndef AUTOCALIBRATIONCONTROL_H
+#define AUTOCALIBRATIONCONTROL_H
 
-#include <QtCore/QObject>
-#include <QtCore/QTimer>
+#include <boost/shared_ptr.hpp>
 
+#include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "sensor/POSLVComUDP.h"
-#include "types/Packet.h"
 
-/** The Reader class continuously polls for packets from the Applanix.
-    \brief Reader for Applanix
+class Ui_AutoCalibrationControl;
+class Message;
+
+/** The AutoCalibrationControl class is the control for the auto calibration of
+    the Applanix.
+    \brief Auto calibration control
   */
-class Reader :
-  public QObject {
+class AutoCalibrationControl :
+  public Control,
+  public Singleton<AutoCalibrationControl> {
 
 Q_OBJECT
 
@@ -43,9 +46,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  Reader(const Reader& other);
+  AutoCalibrationControl(const AutoCalibrationControl& other);
   /// Assignment operator
-  Reader& operator = (const Reader& other);
+  AutoCalibrationControl& operator = (const AutoCalibrationControl& other);
   /** @}
     */
 
@@ -53,20 +56,10 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs reader with polling time and device
-  Reader(POSLVComUDP& device, double pollingTime = 500);
+  /// Default constructor
+  AutoCalibrationControl();
   /// Destructor
-  virtual ~Reader();
-  /** @}
-    */
-
-  /** \name Accessors
-    @{
-    */
-  /// Returns the polling time
-  double getPollingTime() const;
-  /// Sets the polling time
-  void setPollingTime(double pollingTime);
+  virtual ~AutoCalibrationControl();
   /** @}
     */
 
@@ -74,21 +67,19 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Device
-  POSLVComUDP& mDevice;
-  /// Timer
-  QTimer mTimer;
-  /// Polling time
-  double mPollingTime;
+  /// Pointer to the UI
+  Ui_AutoCalibrationControl* mUi;
   /** @}
     */
 
 protected slots:
-  /** \name Qt slots
+  /** \name Protected slots
     @{
     */
-  /// Timeout of the timer
-  void timerTimeout();
+  /// Apply general calibration
+  void applyGeneralPressed();
+  /// Apply GAMS calibration
+  void applyGAMSPressed();
   /** @}
     */
 
@@ -96,13 +87,10 @@ signals:
   /** \name Qt signals
     @{
     */
-  /// Packet read
-  void packetRead(boost::shared_ptr<Packet> packet);
-  /// Device connected
-  void deviceConnected(bool connected);
+  void sendMessage(boost::shared_ptr<Message> msg);
   /** @}
     */
 
 };
 
-#endif // READER_H
+#endif // AUTOCALIBRATIONCONTROL_H

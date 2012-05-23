@@ -73,6 +73,16 @@ public:
   /** @}
     */
 
+  /** \name Accessors
+    @{
+    */
+  /// Return the connection
+  UDPConnectionServer& getConnection();
+  /// Return the connection
+  const UDPConnectionServer& getConnection() const;
+  /** @}
+    */
+
 protected:
   /** \name Protected members
     @{

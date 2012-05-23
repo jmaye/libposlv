@@ -28,10 +28,9 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "types/Packet.h"
 
 class Ui_FDIRControl;
-class Group;
+class Packet;
 
 /** The FDIRControl class is the control for the FDIR of the Applanix.
     \brief FDIR control
