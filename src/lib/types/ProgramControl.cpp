@@ -20,6 +20,7 @@
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -56,6 +57,12 @@ ProgramControl::~ProgramControl() {
 /******************************************************************************/
 
 void ProgramControl::read(BinaryReader& stream) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("ProgramControl::read(): wrong byte count");
+  stream >> mTransactionNumber;
+  stream >> mControl;
 }
 
 void ProgramControl::write(BinaryWriter& stream) const {

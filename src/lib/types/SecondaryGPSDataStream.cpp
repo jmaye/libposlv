@@ -87,7 +87,6 @@ SecondaryGPSDataStream::~SecondaryGPSDataStream() {
 void SecondaryGPSDataStream::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
-
   stream >> mTimeDistance;
   stream >> mGPSReceiverType;
   stream >> mReserved;

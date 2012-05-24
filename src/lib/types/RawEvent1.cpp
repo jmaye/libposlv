@@ -19,6 +19,7 @@
 #include "types/RawEvent1.h"
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/

@@ -19,6 +19,7 @@
 #include "types/Event2.h"
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/

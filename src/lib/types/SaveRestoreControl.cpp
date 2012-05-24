@@ -20,6 +20,7 @@
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -59,6 +60,12 @@ SaveRestoreControl::~SaveRestoreControl() {
 /******************************************************************************/
 
 void SaveRestoreControl::read(BinaryReader& stream) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("SaveRestoreControl::read(): wrong byte count");
+  stream >> mTransactionNumber;
+  stream >> mControl;
 }
 
 void SaveRestoreControl::write(BinaryWriter& stream) const {

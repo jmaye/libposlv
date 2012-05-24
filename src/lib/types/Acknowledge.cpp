@@ -75,7 +75,8 @@ void Acknowledge::read(BinaryReader& stream) {
   stream >> mID;
   stream >> mResponseCode;
   stream >> mNewParamsStatus;
-  for (size_t i = 0; i < 32; i++)
+  for (size_t i = 0; i < sizeof(mParameterName) / sizeof(mParameterName[0]);
+      i++)
     stream >> mParameterName[i];
 }
 
