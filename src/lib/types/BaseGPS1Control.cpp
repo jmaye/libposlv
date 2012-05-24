@@ -86,12 +86,13 @@ void BaseGPS1Control::read(BinaryReader& stream) {
   stream >> mLineControl;
   stream >> mModemControl;
   stream >> mConnectionControl;
-  for (size_t i = 0; i < sizeof(mPhoneNumber); ++i)
+  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
     stream >> mPhoneNumber[i];
   stream >> mNumRedials;
-  for (size_t i = 0; i < sizeof(mCommandString); ++i)
+  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
+      ++i)
     stream >> mCommandString[i];
-  for (size_t i = 0; i < sizeof(mInitString); ++i)
+  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
     stream >> mInitString[i];
   stream >> mTimeoutLength;
 }
@@ -104,12 +105,13 @@ void BaseGPS1Control::write(BinaryWriter& stream) const {
   stream << mLineControl;
   stream << mModemControl;
   stream << mConnectionControl;
-  for (size_t i = 0; i < sizeof(mPhoneNumber); ++i)
+  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
     stream << mPhoneNumber[i];
   stream << mNumRedials;
-  for (size_t i = 0; i < sizeof(mCommandString); ++i)
+  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
+      ++i)
     stream << mCommandString[i];
-  for (size_t i = 0; i < sizeof(mInitString); ++i)
+  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
     stream << mInitString[i];
   stream << mTimeoutLength;
 }

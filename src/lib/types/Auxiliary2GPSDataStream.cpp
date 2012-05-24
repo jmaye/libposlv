@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -35,6 +36,7 @@ const Auxiliary2GPSDataStream Auxiliary2GPSDataStream::mProto;
 
 Auxiliary2GPSDataStream::Auxiliary2GPSDataStream() :
     Group(10008),
+    mVariableMsgByteCount(0),
     mGPSReceiverRawData(0) {
 }
 
@@ -43,9 +45,13 @@ Auxiliary2GPSDataStream::Auxiliary2GPSDataStream(const Auxiliary2GPSDataStream&
     Group(other),
     mTimeDistance(other.mTimeDistance),
     mVariableMsgByteCount(other.mVariableMsgByteCount) {
-  mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
-  memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
-    sizeof(mGPSReceiverRawData));
+  if (mVariableMsgByteCount) {
+    mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
+    memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
+      sizeof(mGPSReceiverRawData));
+  }
+  else
+    mGPSReceiverRawData = 0;
   memcpy(mReserved, other.mReserved, sizeof(mReserved));
 }
 
@@ -56,9 +62,13 @@ Auxiliary2GPSDataStream& Auxiliary2GPSDataStream::operator =
     mTimeDistance = other.mTimeDistance;
     memcpy(mReserved, other.mReserved, sizeof(mReserved));
     mVariableMsgByteCount = other.mVariableMsgByteCount;
-    mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
-    memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
-      sizeof(mGPSReceiverRawData));
+    if (mVariableMsgByteCount) {
+      mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
+      memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
+        sizeof(mGPSReceiverRawData));
+    }
+    else
+      mGPSReceiverRawData = 0;
   }
   return *this;
 }
@@ -76,7 +86,7 @@ void Auxiliary2GPSDataStream::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;
-  for (size_t i = 0; i < sizeof(mReserved); i++)
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
     stream >> mReserved[i];
   stream >> mVariableMsgByteCount;
   if (mGPSReceiverRawData)

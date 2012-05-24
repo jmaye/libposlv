@@ -58,7 +58,7 @@ public:
     @{
     */
   /// Constructs reader with polling time and device
-  UDPReader(POSLVComUDP& device, double pollingTime = 500);
+  UDPReader(POSLVComUDP& device, double pollingTime = 10);
   /// Destructor
   virtual ~UDPReader();
   /** @}

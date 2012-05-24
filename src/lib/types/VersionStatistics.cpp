@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -84,11 +85,14 @@ void VersionStatistics::read(BinaryReader &stream) {
   if (byteCount != mByteCount)
     throw IOException("VersionStatistics::read(): wrong byte count");
   stream >> mTimeDistance;
-  for (size_t i = 0; i < sizeof(mSystemVersion); i++)
+  for (size_t i = 0; i < sizeof(mSystemVersion) / sizeof(mSystemVersion[0]);
+      i++)
     stream >> mSystemVersion[i];
-  for (size_t i = 0; i < sizeof(mPrimaryGPSVersion); i++)
+  for (size_t i = 0; i < sizeof(mPrimaryGPSVersion) /
+      sizeof(mPrimaryGPSVersion[0]); i++)
     stream >> mPrimaryGPSVersion[i];
-  for (size_t i = 0; i < sizeof(mSecondaryGPSversion); i++)
+  for (size_t i = 0; i < sizeof(mSecondaryGPSversion) /
+      sizeof(mSecondaryGPSversion[0]); i++)
     stream >> mSecondaryGPSversion[i];
   stream >> mTotalHours;
   stream >> mNumberOfRuns;

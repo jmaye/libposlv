@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -35,7 +36,8 @@ const Auxiliary2GPSStatus Auxiliary2GPSStatus::mProto;
 
 Auxiliary2GPSStatus::Auxiliary2GPSStatus() :
     Group(13),
-    mChannelStatusData(0) {
+    mChannelStatusData(0),
+    mChannelNumber(0) {
 }
 
 Auxiliary2GPSStatus::Auxiliary2GPSStatus(const Auxiliary2GPSStatus& other) :
@@ -55,9 +57,13 @@ Auxiliary2GPSStatus::Auxiliary2GPSStatus(const Auxiliary2GPSStatus& other) :
     mNMEAMessageReceived(other.mNMEAMessageReceived),
     mAux12InUse(other.mAux12InUse),
     mChannelNumber(other.mChannelNumber) {
-  mChannelStatusData = new ChannelStatusData[other.mChannelNumber];
-  memcpy(mChannelStatusData, other.mChannelStatusData,
-    sizeof(mChannelStatusData));
+  if (mChannelNumber) {
+    mChannelStatusData = new ChannelStatusData[other.mChannelNumber];
+    memcpy(mChannelStatusData, other.mChannelStatusData,
+      sizeof(mChannelStatusData));
+  }
+  else
+    mChannelStatusData = 0;
 }
 
 Auxiliary2GPSStatus& Auxiliary2GPSStatus::operator =
@@ -79,9 +85,13 @@ Auxiliary2GPSStatus& Auxiliary2GPSStatus::operator =
     mNMEAMessageReceived = other.mNMEAMessageReceived;
     mAux12InUse = other.mAux12InUse;
     mChannelNumber = other.mChannelNumber;
-    mChannelStatusData = new ChannelStatusData[other.mChannelNumber];
-    memcpy(mChannelStatusData, other.mChannelStatusData,
-      sizeof(mChannelStatusData));
+    if (mChannelNumber) {
+      mChannelStatusData = new ChannelStatusData[other.mChannelNumber];
+      memcpy(mChannelStatusData, other.mChannelStatusData,
+        sizeof(mChannelStatusData));
+    }
+    else
+      mChannelStatusData = 0;
   }
   return *this;
 }
@@ -102,7 +112,7 @@ void Auxiliary2GPSStatus::read(BinaryReader& stream) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  mChannelNumber = mNumberOfSVTracked;
   if (mChannelStatusData)
     delete []mChannelStatusData;
   if (mChannelNumber > 0)

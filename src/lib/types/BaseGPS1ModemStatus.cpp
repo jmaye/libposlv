@@ -82,9 +82,11 @@ void BaseGPS1ModemStatus::read(BinaryReader& stream) {
   if (byteCount != mByteCount)
     throw IOException("BaseGPS1ModemStatus::read(): wrong byte count");
   stream >> mTimeDistance;
-  for (size_t i = 0; i < sizeof(mModemResponse); i++)
+  for (size_t i = 0; i < sizeof(mModemResponse) / sizeof(mModemResponse[0]);
+      i++)
     stream >> mModemResponse[i];
-  for (size_t i = 0; i < sizeof(mConnectionStatus); i++)
+  for (size_t i = 0; i < sizeof(mConnectionStatus) /
+      sizeof(mConnectionStatus[0]); i++)
     stream >> mConnectionStatus[i];
   stream >> mNumberOfRedialsPerDisconnect;
   stream >> mMaximumNumberOfRedialsPerDisconnect;

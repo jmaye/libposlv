@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -35,6 +36,7 @@ const Auxiliary1GPSDisplayData Auxiliary1GPSDisplayData::mProto;
 
 Auxiliary1GPSDisplayData::Auxiliary1GPSDisplayData() :
     Group(23),
+    mVariableMsgByteCount(0),
     mGPSRawData(0) {
 }
 
@@ -43,8 +45,12 @@ Auxiliary1GPSDisplayData::Auxiliary1GPSDisplayData(const
     Group(other),
     mTimeDistance(other.mTimeDistance),
     mVariableMsgByteCount(other.mVariableMsgByteCount) {
-    mGPSRawData = new uint8_t[mVariableMsgByteCount];
-    memcpy(mGPSRawData, other.mGPSRawData, sizeof(mGPSRawData));
+    if (mVariableMsgByteCount) {
+      mGPSRawData = new uint8_t[mVariableMsgByteCount];
+      memcpy(mGPSRawData, other.mGPSRawData, sizeof(mGPSRawData));
+    }
+    else
+      mGPSRawData = 0;
     memcpy(mReserved, other.mReserved, sizeof(mReserved));
 }
 
@@ -55,8 +61,12 @@ Auxiliary1GPSDisplayData& Auxiliary1GPSDisplayData::operator =
     mTimeDistance = other.mTimeDistance;
     memcpy(mReserved, other.mReserved, sizeof(mReserved));
     mVariableMsgByteCount = other.mVariableMsgByteCount;
-    mGPSRawData = new uint8_t[mVariableMsgByteCount];
-    memcpy(mGPSRawData, other.mGPSRawData, sizeof(mGPSRawData));
+    if (mVariableMsgByteCount) {
+      mGPSRawData = new uint8_t[mVariableMsgByteCount];
+      memcpy(mGPSRawData, other.mGPSRawData, sizeof(mGPSRawData));
+    }
+    else
+      mGPSRawData = 0;
   }
   return *this;
 }
@@ -74,7 +84,7 @@ void Auxiliary1GPSDisplayData::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   stream >> mTimeDistance;
-  for (size_t i = 0; i < sizeof(mReserved); i++)
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
     stream >> mReserved[i];
   stream >> mVariableMsgByteCount;
   if (mGPSRawData)

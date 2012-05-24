@@ -84,7 +84,8 @@ void GAMSSolutionStatus::read(BinaryReader& stream) {
   stream >> mAPrioriPDOP;
   stream >> mComputedAntennaSeparation;
   stream >> mSolutionStatus;
-  for (size_t i = 0; i < sizeof(mPRNAssignment); i++)
+  for (size_t i = 0; i < sizeof(mPRNAssignment) / sizeof(mPRNAssignment[0]);
+      i++)
     stream >> mPRNAssignment[i];
   stream >> mCycleSlipFlag;
   stream >> mGAMSHeading;

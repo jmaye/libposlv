@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -35,6 +36,7 @@ const PrimaryGPSDataStream PrimaryGPSDataStream::mProto;
 
 PrimaryGPSDataStream::PrimaryGPSDataStream() :
     Group(10001),
+    mVariableMsgByteCount(0),
     mGPSReceiverRawData(0) {
 }
 
@@ -44,9 +46,13 @@ PrimaryGPSDataStream::PrimaryGPSDataStream(const PrimaryGPSDataStream& other) :
     mGPSReceiverType(other.mGPSReceiverType),
     mReserved(other.mReserved),
     mVariableMsgByteCount(other.mVariableMsgByteCount) {
-  mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
-  memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
-    sizeof(mGPSReceiverRawData));
+  if (mVariableMsgByteCount) {
+    mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
+    memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
+      sizeof(mGPSReceiverRawData));
+  }
+  else
+    mGPSReceiverRawData = 0;
 }
 
 PrimaryGPSDataStream& PrimaryGPSDataStream::operator =
@@ -57,9 +63,13 @@ PrimaryGPSDataStream& PrimaryGPSDataStream::operator =
     mGPSReceiverType = other.mGPSReceiverType;
     mReserved = other.mReserved;
     mVariableMsgByteCount = other.mVariableMsgByteCount;
-    mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
-    memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
-      sizeof(mGPSReceiverRawData));
+    if (mVariableMsgByteCount) {
+      mGPSReceiverRawData = new uint8_t[mVariableMsgByteCount];
+      memcpy(mGPSReceiverRawData, other.mGPSReceiverRawData,
+        sizeof(mGPSReceiverRawData));
+    }
+    else
+      mGPSReceiverRawData = 0;
   }
   return *this;
 }

@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -35,6 +36,7 @@ const RawIMUData RawIMUData::mProto;
 
 RawIMUData::RawIMUData() :
     Group(10002),
+    mVariableMsgByteCount(0),
     mIMURawData(0) {
 }
 
@@ -43,8 +45,12 @@ RawIMUData::RawIMUData(const RawIMUData& other) :
     mTimeDistance(other.mTimeDistance),
     mVariableMsgByteCount(other.mVariableMsgByteCount),
     mDataChecksum(other.mDataChecksum) {
-  mIMURawData = new uint8_t[mVariableMsgByteCount];
-  memcpy(mIMURawData, other.mIMURawData, sizeof(mIMURawData));
+  if (mVariableMsgByteCount) {
+    mIMURawData = new uint8_t[mVariableMsgByteCount];
+    memcpy(mIMURawData, other.mIMURawData, sizeof(mIMURawData));
+  }
+  else
+    mIMURawData = 0;
   memcpy(mIMUHeader, other.mIMUHeader, sizeof(mIMUHeader));
 }
 
@@ -54,8 +60,12 @@ RawIMUData& RawIMUData::operator = (const RawIMUData& other) {
     mTimeDistance = other.mTimeDistance;
     memcpy(mIMUHeader, other.mIMUHeader, sizeof(mIMUHeader));
     mVariableMsgByteCount = other.mVariableMsgByteCount;
-    mIMURawData = new uint8_t[mVariableMsgByteCount];
-    memcpy(mIMURawData, other.mIMURawData, sizeof(mIMURawData));
+    if (mVariableMsgByteCount) {
+      mIMURawData = new uint8_t[mVariableMsgByteCount];
+      memcpy(mIMURawData, other.mIMURawData, sizeof(mIMURawData));
+    }
+    else
+      mIMURawData = 0;
     mDataChecksum = other.mDataChecksum;
   }
   return *this;

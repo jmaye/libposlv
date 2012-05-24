@@ -52,16 +52,16 @@ std::string POSLVReader::readStartString() {
     outputString.clear();
     outputString.push_back(control);
     *this >> control;
-    if (control != 'G' || control != 'M')
+    if (control != 'G' && control != 'M')
       continue;
     outputString.push_back(control);
     *this >> control;
-    if ((control != 'R' && outputString == "$G") ||
+    if ((control != 'R' && outputString == "$G") &&
         (control != 'S' && outputString == "$M"))
       continue;
     outputString.push_back(control);
     *this >> control;
-    if ((control != 'P' && outputString == "$GR") ||
+    if ((control != 'P' && outputString == "$GR") &&
         (control != 'G' && outputString == "$MS"))
       continue;
     outputString.push_back(control);
@@ -88,9 +88,9 @@ boost::shared_ptr<Packet> POSLVReader::readPacket() {
   *this >> byteCount;
   char buffer[byteCount + 2 * sizeof(uint16_t) + start.size()];
   memcpy(&buffer[0], start.c_str(), start.size());
-  memcpy(&buffer[start.size()], reinterpret_cast<char*>(&id), sizeof(uint16_t));
-  memcpy(&buffer[start.size() + sizeof(uint16_t)],
-    reinterpret_cast<char*>(&byteCount), sizeof(uint16_t));
+  memcpy(&buffer[start.size()], reinterpret_cast<char*>(&id), sizeof(id));
+  memcpy(&buffer[start.size() + sizeof(id)],
+    reinterpret_cast<char*>(&byteCount), sizeof(byteCount));
   read(&buffer[2 * sizeof(uint16_t) + start.size()], byteCount);
   BinaryBufferReader bufferReader(&buffer[sizeof(uint16_t) + start.size()],
     byteCount + sizeof(uint16_t));

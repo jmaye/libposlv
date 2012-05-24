@@ -23,6 +23,7 @@
 #include "types/Packet.h"
 #include "exceptions/IOException.h"
 #include "exceptions/SystemException.h"
+#include "exceptions/TypeCreationException.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -72,5 +73,9 @@ void UDPReader::timerTimeout() {
   catch (SystemException& e) {
     std::cerr << e.what() << std::endl;
     emit deviceConnected(false);
+  }
+  catch (TypeCreationException<unsigned short>& e) {
+    //std::cerr << e.what() << std::endl;
+    emit deviceConnected(true);
   }
 }

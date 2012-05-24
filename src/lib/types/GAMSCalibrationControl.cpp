@@ -20,6 +20,7 @@
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
+#include "exceptions/IOException.h"
 
 /******************************************************************************/
 /* Statics                                                                    */
@@ -60,6 +61,12 @@ GAMSCalibrationControl::~GAMSCalibrationControl() {
 /******************************************************************************/
 
 void GAMSCalibrationControl::read(BinaryReader& stream) {
+  uint16_t byteCount;
+  stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("InstallationCalibrationControl::read(): "
+      "wrong byte count");
+  stream >> mTransactionNumber >> mCalibrationAction;
 }
 
 void GAMSCalibrationControl::write(BinaryWriter& stream) const {

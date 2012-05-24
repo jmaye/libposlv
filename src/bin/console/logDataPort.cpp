@@ -27,6 +27,8 @@
 #include "sensor/POSLVComTCP.h"
 #include "types/Packet.h"
 #include "base/Timestamp.h"
+#include "exceptions/IOException.h"
+#include "exceptions/TypeCreationException.h"
 
 int main(int argc, char** argv) {
   if (argc != 4) {
@@ -37,12 +39,22 @@ int main(int argc, char** argv) {
   TCPConnectionClient connection(argv[1], atoi(argv[2]));
   POSLVComTCP device(connection);
   while (true) {
-    boost::shared_ptr<Packet> packet = device.readPacket();
-    std::ofstream logFile(argv[3], std::ios_base::app);
-    logFile << std::fixed << Timestamp::now() << " ";
-    logFile << *packet;
-    logFile << std::endl;
-    logFile.close();
+    try {
+      boost::shared_ptr<Packet> packet = device.readPacket();
+      std::ofstream logFile(argv[3], std::ios_base::app);
+      logFile << std::fixed << Timestamp::now() << " ";
+      logFile << *packet;
+      logFile << std::endl;
+      logFile.close();
+    }
+    catch (IOException& e) {
+      std::cerr << e.what() << std::endl;
+      continue;
+    }
+    catch (TypeCreationException<unsigned short>& e) {
+      //std::cerr << e.what() << std::endl;
+      continue;
+    }
   }
   return 0;
 }

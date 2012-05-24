@@ -79,7 +79,7 @@ void AidingSensorControl::read(BinaryReader& stream) {
   stream >> mRefDMIX;
   stream >> mRefDMIY;
   stream >> mRefDMIZ;
-  for (size_t i = 0; i < sizeof(mReserved); i++)
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
     stream >> mReserved[i];
 }
 
@@ -91,7 +91,7 @@ void AidingSensorControl::write(BinaryWriter& stream) const {
   stream << mRefDMIX;
   stream << mRefDMIY;
   stream << mRefDMIZ;
-  for (size_t i = 0; i < sizeof(mReserved); i++)
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
     stream << mReserved[i];
 }
 

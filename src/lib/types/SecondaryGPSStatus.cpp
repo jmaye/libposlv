@@ -21,6 +21,7 @@
 #include <cstring>
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -35,7 +36,8 @@ const SecondaryGPSStatus SecondaryGPSStatus::mProto;
 
 SecondaryGPSStatus::SecondaryGPSStatus() :
     Group(11),
-    mChannelStatusData(0) {
+    mChannelStatusData(0),
+    mChannelNumber(0) {
 }
 
 SecondaryGPSStatus::SecondaryGPSStatus(const SecondaryGPSStatus& other) :
@@ -55,9 +57,13 @@ SecondaryGPSStatus::SecondaryGPSStatus(const SecondaryGPSStatus& other) :
     mGPSReceiverType(other.mGPSReceiverType),
     mGPSStatus(other.mGPSStatus),
     mChannelNumber(other.mChannelNumber) {
-  mChannelStatusData = new ChannelStatusData[mChannelNumber];
-  memcpy(mChannelStatusData, other.mChannelStatusData,
-    sizeof(mChannelStatusData));
+  if (mChannelNumber) {
+    mChannelStatusData = new ChannelStatusData[mChannelNumber];
+    memcpy(mChannelStatusData, other.mChannelStatusData,
+      sizeof(mChannelStatusData));
+  }
+  else
+    mChannelStatusData = 0;
 }
 
 SecondaryGPSStatus& SecondaryGPSStatus::operator =
@@ -79,9 +85,13 @@ SecondaryGPSStatus& SecondaryGPSStatus::operator =
     mGPSReceiverType = other.mGPSReceiverType;
     mGPSStatus = other.mGPSStatus;
     mChannelNumber = other.mChannelNumber;
-    mChannelStatusData = new ChannelStatusData[mChannelNumber];
-    memcpy(mChannelStatusData, other.mChannelStatusData,
-      sizeof(mChannelStatusData));
+    if (mChannelNumber) {
+      mChannelStatusData = new ChannelStatusData[mChannelNumber];
+      memcpy(mChannelStatusData, other.mChannelStatusData,
+        sizeof(mChannelStatusData));
+    }
+    else
+      mChannelStatusData = 0;
   }
   return *this;
 }
@@ -102,7 +112,7 @@ void SecondaryGPSStatus::read(BinaryReader& stream) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = (byteCount - mByteCount) / mChannelStatusByteCount;
+  mChannelNumber = mNumberOfSVTracked;
   if (mChannelStatusData)
     delete []mChannelStatusData;
   if (mChannelNumber > 0)
