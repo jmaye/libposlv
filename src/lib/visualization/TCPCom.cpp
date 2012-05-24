@@ -24,10 +24,6 @@
 #include "exceptions/IOException.h"
 #include "exceptions/SystemException.h"
 
-#include "base/Factory.h"
-#include "types/Acknowledge.h"
-#include <cstring>
-
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
@@ -62,16 +58,6 @@ void TCPCom::setPollingTime(double pollingTime) {
 /******************************************************************************/
 
 void TCPCom::timerTimeout() {
-  boost::shared_ptr<Packet> packet(
-    Factory<uint16_t, Message>::getInstance().create(0));
-  Acknowledge& msg = packet->messageCast().typeCast<Acknowledge>();
-  msg.mTransactionNumber = 10;
-  msg.mID = 57;
-  msg.mResponseCode = 4;
-  msg.mNewParamsStatus = 0;
-  std::string name("TEST");
-  memcpy(msg.mParameterName, name.c_str(), name.size());
-  emit readPacket(packet);
   try {
     if (!mDevice.getConnection().isOpen())
       mDevice.getConnection().open();
