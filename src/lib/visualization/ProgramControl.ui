@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProgramControl</class>
+ <widget class="QWidget" name="ProgramControl">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>930</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>50</y>
+     <width>160</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="actionLayout">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="connectButton">
+      <property name="text">
+       <string>Connect</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="disconnectButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Disconnect</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPushButton" name="resetGAMSButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Reset GAMS</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="resetPOSButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Reset POS</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QPushButton" name="shutdownButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Shutdown POS</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>connectButton</sender>
+   <signal>pressed()</signal>
+   <receiver>ProgramControl</receiver>
+   <slot>connectPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>64</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>disconnectButton</sender>
+   <signal>pressed()</signal>
+   <receiver>ProgramControl</receiver>
+   <slot>disconnectPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetPOSButton</sender>
+   <signal>pressed()</signal>
+   <receiver>ProgramControl</receiver>
+   <slot>resetPOSPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>130</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetGAMSButton</sender>
+   <signal>pressed()</signal>
+   <receiver>ProgramControl</receiver>
+   <slot>resetGAMSPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>shutdownButton</sender>
+   <signal>pressed()</signal>
+   <receiver>ProgramControl</receiver>
+   <slot>shutdownPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>connectPressed()</slot>
+  <slot>disconnectPressed()</slot>
+  <slot>resetPOSPressed()</slot>
+  <slot>resetGAMSPressed()</slot>
+  <slot>shutdownPressed()</slot>
+ </slots>
+</ui>

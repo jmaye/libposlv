@@ -50,6 +50,9 @@
      </item>
      <item row="0" column="1">
       <widget class="QDoubleSpinBox" name="latSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -76,6 +79,9 @@
      </item>
      <item row="1" column="1">
       <widget class="QDoubleSpinBox" name="longSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -102,6 +108,9 @@
      </item>
      <item row="2" column="1">
       <widget class="QDoubleSpinBox" name="altSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -135,6 +144,9 @@
      </item>
      <item row="4" column="1">
       <widget class="QDoubleSpinBox" name="velEastSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -154,6 +166,9 @@
      </item>
      <item row="5" column="1">
       <widget class="QDoubleSpinBox" name="velDownSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -173,6 +188,9 @@
      </item>
      <item row="6" column="1">
       <widget class="QDoubleSpinBox" name="rollSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -213,6 +231,9 @@
      </item>
      <item row="7" column="1">
       <widget class="QDoubleSpinBox" name="pitchSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -239,6 +260,9 @@
      </item>
      <item row="8" column="1">
       <widget class="QDoubleSpinBox" name="headingSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -258,6 +282,9 @@
      </item>
      <item row="9" column="1">
       <widget class="QDoubleSpinBox" name="wanderSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -291,6 +318,9 @@
      </item>
      <item row="10" column="1">
       <widget class="QDoubleSpinBox" name="trackSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -317,6 +347,9 @@
      </item>
      <item row="11" column="1">
       <widget class="QDoubleSpinBox" name="speedSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -343,6 +376,9 @@
      </item>
      <item row="12" column="1">
       <widget class="QDoubleSpinBox" name="rateLongSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -369,6 +405,9 @@
      </item>
      <item row="13" column="1">
       <widget class="QDoubleSpinBox" name="rateTransSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -395,6 +434,9 @@
      </item>
      <item row="14" column="1">
       <widget class="QDoubleSpinBox" name="rateDownSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -421,6 +463,9 @@
      </item>
      <item row="15" column="1">
       <widget class="QDoubleSpinBox" name="accLongSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -447,6 +492,9 @@
      </item>
      <item row="16" column="1">
       <widget class="QDoubleSpinBox" name="accTransSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="buttonSymbols">
         <enum>QAbstractSpinBox::NoButtons</enum>
        </property>
@@ -470,6 +518,9 @@
      </item>
      <item row="17" column="1">
       <widget class="QDoubleSpinBox" name="accDownSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -489,6 +540,9 @@
      </item>
      <item row="3" column="1">
       <widget class="QDoubleSpinBox" name="velNorthSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -508,6 +562,9 @@
      </item>
      <item row="18" column="1">
       <widget class="QLineEdit" name="alignmentText">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -603,6 +660,9 @@
      </item>
      <item row="1" column="1">
       <widget class="QDoubleSpinBox" name="posNorthRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -622,6 +682,9 @@
      </item>
      <item row="2" column="1">
       <widget class="QDoubleSpinBox" name="posEastRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -641,6 +704,9 @@
      </item>
      <item row="3" column="1">
       <widget class="QDoubleSpinBox" name="posDownRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -660,6 +726,9 @@
      </item>
      <item row="4" column="1">
       <widget class="QDoubleSpinBox" name="velNorthRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -679,6 +748,9 @@
      </item>
      <item row="5" column="1">
       <widget class="QDoubleSpinBox" name="velEastRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -698,6 +770,9 @@
      </item>
      <item row="6" column="1">
       <widget class="QDoubleSpinBox" name="velDownRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -717,6 +792,9 @@
      </item>
      <item row="7" column="1">
       <widget class="QDoubleSpinBox" name="rollRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -736,6 +814,9 @@
      </item>
      <item row="8" column="1">
       <widget class="QDoubleSpinBox" name="pitchRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -755,6 +836,9 @@
      </item>
      <item row="9" column="1">
       <widget class="QDoubleSpinBox" name="headingRMSSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -795,6 +879,9 @@
      </item>
      <item row="10" column="1">
       <widget class="QDoubleSpinBox" name="semiMajorSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -814,6 +901,9 @@
      </item>
      <item row="11" column="1">
       <widget class="QDoubleSpinBox" name="semiMinorSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -833,6 +923,9 @@
      </item>
      <item row="12" column="1">
       <widget class="QDoubleSpinBox" name="orientationSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>

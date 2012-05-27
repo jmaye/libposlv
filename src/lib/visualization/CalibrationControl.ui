@@ -32,6 +32,9 @@
     </item>
     <item row="0" column="1">
      <widget class="QDoubleSpinBox" name="primGPSXSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -58,6 +61,9 @@
     </item>
     <item row="1" column="1">
      <widget class="QDoubleSpinBox" name="primGPSYSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -84,6 +90,9 @@
     </item>
     <item row="2" column="1">
      <widget class="QDoubleSpinBox" name="primGPSZSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -110,6 +119,9 @@
     </item>
     <item row="3" column="1">
      <widget class="QSpinBox" name="primGPSFOMSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -154,6 +166,9 @@
     </item>
     <item row="7" column="1">
      <widget class="QSpinBox" name="aux1GPSFOMSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -170,6 +185,9 @@
     </item>
     <item row="6" column="1">
      <widget class="QDoubleSpinBox" name="aux1GPSZSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -189,6 +207,9 @@
     </item>
     <item row="5" column="1">
      <widget class="QDoubleSpinBox" name="aux1GPSYSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -208,6 +229,9 @@
     </item>
     <item row="4" column="1">
      <widget class="QDoubleSpinBox" name="aux1GPSXSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -255,6 +279,9 @@
     </item>
     <item row="11" column="1">
      <widget class="QSpinBox" name="aux2GPSFOMSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -271,6 +298,9 @@
     </item>
     <item row="10" column="1">
      <widget class="QDoubleSpinBox" name="aux2GPSZSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -290,6 +320,9 @@
     </item>
     <item row="9" column="1">
      <widget class="QDoubleSpinBox" name="aux2GPSYSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -309,6 +342,9 @@
     </item>
     <item row="8" column="1">
      <widget class="QDoubleSpinBox" name="aux2GPSXSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -349,6 +385,9 @@
     </item>
     <item row="15" column="1">
      <widget class="QSpinBox" name="dmiFOMSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -365,6 +404,9 @@
     </item>
     <item row="14" column="1">
      <widget class="QDoubleSpinBox" name="dmiZSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -384,6 +426,9 @@
     </item>
     <item row="13" column="1">
      <widget class="QDoubleSpinBox" name="dmiYSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -403,6 +448,9 @@
     </item>
     <item row="12" column="1">
      <widget class="QDoubleSpinBox" name="dmiXSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -443,6 +491,9 @@
     </item>
     <item row="17" column="1">
      <widget class="QSpinBox" name="dmiScaleFOMSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -459,6 +510,9 @@
     </item>
     <item row="16" column="1">
      <widget class="QDoubleSpinBox" name="dmiScaleSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="readOnly">
        <bool>true</bool>
       </property>
@@ -467,6 +521,12 @@
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
       </property>
      </widget>
     </item>
@@ -486,6 +546,9 @@
    </property>
   </widget>
   <widget class="Led" name="dmiLeverProgressLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -509,6 +572,9 @@
    </property>
   </widget>
   <widget class="Led" name="fixLeverCompleteLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -519,6 +585,9 @@
    </property>
   </widget>
   <widget class="Led" name="dmiScaleCompleteLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -529,6 +598,9 @@
    </property>
   </widget>
   <widget class="Led" name="dmiLeverCompleteLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -539,6 +611,9 @@
    </property>
   </widget>
   <widget class="Led" name="primGPSCompleteLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -549,6 +624,9 @@
    </property>
   </widget>
   <widget class="Led" name="fixLeverProgressLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -559,6 +637,9 @@
    </property>
   </widget>
   <widget class="Led" name="dmiScaleProgressLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
@@ -595,6 +676,9 @@
    </property>
   </widget>
   <widget class="Led" name="primGPSProgressLed" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>360</x>
