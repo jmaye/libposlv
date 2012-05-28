@@ -16,34 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file BaseGPS2Control.h
-    \brief This file defines the BaseGPS2Control class, which
-           represents the Base GPS 2 Control message from the Applanix
+/** \file UserAccuracySpec.h
+    \brief This file defines the UserAccuracySpec class, which
+           represents the User Accuracy Control message from the Applanix
   */
 
-#ifndef BASEGPS2CONTROL_H
-#define BASEGPS2CONTROL_H
+#ifndef USERACCURACYSPEC_H
+#define USERACCURACYSPEC_H
 
 #include "types/Message.h"
 
-/** The class BaseGPS2Control represents the  Base GPS 2 Control message from
-    the Applanix.
-    \brief Base GPS 2 Control message
+/** The class UserAccuracySpec represents the User Accuracy Control
+    message from the Applanix.
+    \brief User Accuracy Control message
   */
-class BaseGPS2Control :
+class UserAccuracySpec :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  BaseGPS2Control();
+  UserAccuracySpec();
   /// Copy constructor
-  BaseGPS2Control(const BaseGPS2Control& other);
+  UserAccuracySpec(const UserAccuracySpec& other);
   /// Assignement operator
-  BaseGPS2Control& operator = (const BaseGPS2Control& other);
+  UserAccuracySpec& operator = (const UserAccuracySpec& other);
   /// Destructor
-  virtual ~BaseGPS2Control();
+  virtual ~UserAccuracySpec();
   /** @}
     */
 
@@ -51,7 +51,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual BaseGPS2Control* clone() const;
+  virtual UserAccuracySpec* clone() const;
   /** @}
     */
 
@@ -59,29 +59,19 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 240;
+  static const uint16_t mByteCount = 24;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Select Base GPS input type
-  uint16_t mBaseGPSInputType;
-  /// Line control
-  uint8_t mLineControl;
-  /// Modem control
-  uint8_t mModemControl;
-  /// Connection control
-  uint8_t mConnectionControl;
-  /// Phone number
-  uint8_t mPhoneNumber[32];
-  /// Number of redials
-  uint8_t mNumRedials;
-  /// Modem command string
-  uint8_t mCommandString[64];
-  /// Modem initialization string
-  uint8_t mInitString[128];
-  /// Data timeout length
-  uint16_t mTimeoutLength;
+  /// Attitude accuracy
+  float mAttitudeAccuracy;
+  /// Heading accuracy
+  float mHeadingAccuracy;
+  /// Position accuracy
+  float mPositionAccuracy;
+  /// Velocity accuracy
+  float mVelocityAccuracy;
   /// Prototype for this group
-  static const BaseGPS2Control mProto;
+  static const UserAccuracySpec mProto;
   /** @}
     */
 
@@ -106,4 +96,4 @@ protected:
 
 };
 
-#endif // BASEGPS2CONTROL_H
+#endif // USERACCURACYSPEC_H

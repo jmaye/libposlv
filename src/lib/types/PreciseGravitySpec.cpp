@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/GAMSInstallationControl.h"
+#include "types/PreciseGravitySpec.h"
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -26,86 +26,85 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const GAMSInstallationControl GAMSInstallationControl::mProto;
+const PreciseGravitySpec PreciseGravitySpec::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-GAMSInstallationControl::GAMSInstallationControl() :
-    Message(21) {
+PreciseGravitySpec::PreciseGravitySpec() :
+    Message(40) {
 }
 
-GAMSInstallationControl::GAMSInstallationControl(const GAMSInstallationControl&
-    other) :
+PreciseGravitySpec::PreciseGravitySpec(const PreciseGravitySpec& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
-    mAntennaSeparation(other.mAntennaSeparation),
-    mBaselineX(other.mBaselineX),
-    mBaselineY(other.mBaselineY),
-    mBaselineZ(other.mBaselineZ),
-    mMaxHeadingError(other.mMaxHeadingError),
-    mHeadingCorrection(other.mHeadingCorrection) {
+    mMagnitude(other.mMagnitude),
+    mNorthDeflection(other.mNorthDeflection),
+    mEastDeflection(other.mEastDeflection),
+    mLatitudeValidity(other.mLatitudeValidity),
+    mLongitudeValidity(other.mLongitudeValidity),
+    mAltitudeValidity(other.mAltitudeValidity) {
 }
 
-GAMSInstallationControl& GAMSInstallationControl::operator =
-    (const GAMSInstallationControl& other) {
+PreciseGravitySpec& PreciseGravitySpec::operator = (const PreciseGravitySpec&
+    other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
-    mAntennaSeparation = other.mAntennaSeparation;
-    mBaselineX = other.mBaselineX;
-    mBaselineY = other.mBaselineY;
-    mBaselineZ = other.mBaselineZ;
-    mMaxHeadingError = other.mMaxHeadingError;
-    mHeadingCorrection = other.mHeadingCorrection;
+    mMagnitude = other.mMagnitude;
+    mNorthDeflection = other.mNorthDeflection;
+    mEastDeflection = other.mEastDeflection;
+    mLatitudeValidity = other.mLatitudeValidity;
+    mLongitudeValidity = other.mLongitudeValidity;
+    mAltitudeValidity = other.mAltitudeValidity;
   }
   return *this;
 }
 
-GAMSInstallationControl::~GAMSInstallationControl() {
+PreciseGravitySpec::~PreciseGravitySpec() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GAMSInstallationControl::read(BinaryReader& stream) {
+void PreciseGravitySpec::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("GAMSInstallationControl::read(): wrong byte count");
+    throw IOException("PreciseGravitySpec::read(): wrong byte count");
   stream >> mTransactionNumber;
-  stream >> mAntennaSeparation;
-  stream >> mBaselineX;
-  stream >> mBaselineY;
-  stream >> mBaselineZ;
-  stream >> mMaxHeadingError;
-  stream >> mHeadingCorrection;
+  stream >> mMagnitude;
+  stream >> mNorthDeflection;
+  stream >> mEastDeflection;
+  stream >> mLatitudeValidity;
+  stream >> mLongitudeValidity;
+  stream >> mAltitudeValidity;
 }
 
-void GAMSInstallationControl::write(BinaryWriter& stream) const {
+void PreciseGravitySpec::write(BinaryWriter& stream) const {
   stream << mTypeID;
   stream << mByteCount;
   stream << mTransactionNumber;
-  stream << mAntennaSeparation;
-  stream << mBaselineX;
-  stream << mBaselineY;
-  stream << mBaselineZ;
-  stream << mMaxHeadingError;
-  stream << mHeadingCorrection;
+  stream << mMagnitude;
+  stream << mNorthDeflection;
+  stream << mEastDeflection;
+  stream << mLatitudeValidity;
+  stream << mLongitudeValidity;
+  stream << mAltitudeValidity;
 }
 
-void GAMSInstallationControl::read(std::istream& stream) {
+void PreciseGravitySpec::read(std::istream& stream) {
 }
 
-void GAMSInstallationControl::write(std::ostream& stream) const {
+void PreciseGravitySpec::write(std::ostream& stream) const {
 }
 
-void GAMSInstallationControl::read(std::ifstream& stream) {
+void PreciseGravitySpec::read(std::ifstream& stream) {
 }
 
-void GAMSInstallationControl::write(std::ofstream& stream) const {
+void PreciseGravitySpec::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -113,6 +112,6 @@ void GAMSInstallationControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-GAMSInstallationControl* GAMSInstallationControl::clone() const {
-  return new GAMSInstallationControl(*this);
+PreciseGravitySpec* PreciseGravitySpec::clone() const {
+  return new PreciseGravitySpec(*this);
 }

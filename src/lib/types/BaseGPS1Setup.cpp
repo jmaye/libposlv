@@ -16,7 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/GravityControl.h"
+#include "types/BaseGPS1Setup.h"
+
+#include <cstring>
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -26,84 +28,104 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const GravityControl GravityControl::mProto;
+const BaseGPS1Setup BaseGPS1Setup::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-GravityControl::GravityControl() :
-    Message(40) {
+BaseGPS1Setup::BaseGPS1Setup() :
+    Message(37) {
 }
 
-GravityControl::GravityControl(const GravityControl& other) :
+BaseGPS1Setup::BaseGPS1Setup(const BaseGPS1Setup& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
-    mMagnitude(other.mMagnitude),
-    mNorthDeflection(other.mNorthDeflection),
-    mEastDeflection(other.mEastDeflection),
-    mLatitudeValidity(other.mLatitudeValidity),
-    mLongitudeValidity(other.mLongitudeValidity),
-    mAltitudeValidity(other.mAltitudeValidity) {
+    mBaseGPSInputType(other.mBaseGPSInputType),
+    mLineControl(other.mLineControl),
+    mModemControl(other.mModemControl),
+    mConnectionControl(other.mConnectionControl),
+    mNumRedials(other.mNumRedials),
+    mTimeoutLength(other.mTimeoutLength) {
+  memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
+  memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
+  memcpy(mInitString, other.mInitString, sizeof(mInitString));
 }
 
-GravityControl& GravityControl::operator = (const GravityControl& other) {
+BaseGPS1Setup& BaseGPS1Setup::operator = (const BaseGPS1Setup& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
-    mMagnitude = other.mMagnitude;
-    mNorthDeflection = other.mNorthDeflection;
-    mEastDeflection = other.mEastDeflection;
-    mLatitudeValidity = other.mLatitudeValidity;
-    mLongitudeValidity = other.mLongitudeValidity;
-    mAltitudeValidity = other.mAltitudeValidity;
+    mBaseGPSInputType = other.mBaseGPSInputType;
+    mLineControl = other.mLineControl;
+    mModemControl = other.mModemControl;
+    mConnectionControl = other.mConnectionControl;
+    memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
+    mNumRedials = other.mNumRedials;
+    memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
+    memcpy(mInitString, other.mInitString, sizeof(mInitString));
+    mTimeoutLength = other.mTimeoutLength;
   }
   return *this;
 }
 
-GravityControl::~GravityControl() {
+BaseGPS1Setup::~BaseGPS1Setup() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GravityControl::read(BinaryReader& stream) {
+void BaseGPS1Setup::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("GravityControl::read(): wrong byte count");
+    throw IOException("BaseGPS1Setup::read(): wrong byte count");
   stream >> mTransactionNumber;
-  stream >> mMagnitude;
-  stream >> mNorthDeflection;
-  stream >> mEastDeflection;
-  stream >> mLatitudeValidity;
-  stream >> mLongitudeValidity;
-  stream >> mAltitudeValidity;
+  stream >> mBaseGPSInputType;
+  stream >> mLineControl;
+  stream >> mModemControl;
+  stream >> mConnectionControl;
+  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
+    stream >> mPhoneNumber[i];
+  stream >> mNumRedials;
+  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
+      ++i)
+    stream >> mCommandString[i];
+  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
+    stream >> mInitString[i];
+  stream >> mTimeoutLength;
 }
 
-void GravityControl::write(BinaryWriter& stream) const {
+void BaseGPS1Setup::write(BinaryWriter& stream) const {
   stream << mTypeID;
   stream << mByteCount;
   stream << mTransactionNumber;
-  stream << mMagnitude;
-  stream << mNorthDeflection;
-  stream << mEastDeflection;
-  stream << mLatitudeValidity;
-  stream << mLongitudeValidity;
-  stream << mAltitudeValidity;
+  stream << mBaseGPSInputType;
+  stream << mLineControl;
+  stream << mModemControl;
+  stream << mConnectionControl;
+  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
+    stream << mPhoneNumber[i];
+  stream << mNumRedials;
+  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
+      ++i)
+    stream << mCommandString[i];
+  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
+    stream << mInitString[i];
+  stream << mTimeoutLength;
 }
 
-void GravityControl::read(std::istream& stream) {
+void BaseGPS1Setup::read(std::istream& stream) {
 }
 
-void GravityControl::write(std::ostream& stream) const {
+void BaseGPS1Setup::write(std::ostream& stream) const {
 }
 
-void GravityControl::read(std::ifstream& stream) {
+void BaseGPS1Setup::read(std::ifstream& stream) {
 }
 
-void GravityControl::write(std::ofstream& stream) const {
+void BaseGPS1Setup::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -111,6 +133,6 @@ void GravityControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-GravityControl* GravityControl::clone() const {
-  return new GravityControl(*this);
+BaseGPS1Setup* BaseGPS1Setup::clone() const {
+  return new BaseGPS1Setup(*this);
 }

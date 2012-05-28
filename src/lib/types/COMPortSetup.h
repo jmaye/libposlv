@@ -16,34 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file GravityControl.h
-    \brief This file defines the GravityControl class, which
-           represents the Gravity Control message from the Applanix
+/** \file COMPortSetup.h
+    \brief This file defines the COMPortSetup class, which
+           represents the COM Port Setup message from the Applanix
   */
 
-#ifndef GRAVITYCONTROL_H
-#define GRAVITYCONTROL_H
+#ifndef COMPORTSETUP_H
+#define COMPORTSETUP_H
 
 #include "types/Message.h"
+#include "types/COMPortParameters.h"
 
-/** The class GravityControl represents the Gravity Control
-    message from the Applanix.
-    \brief Gravity Control message
+/** The class COMPortSetup represents the COM Port Setup message from the
+    Applanix.
+    \brief COM Port Setup message
   */
-class GravityControl :
+class COMPortSetup :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  GravityControl();
+  COMPortSetup();
   /// Copy constructor
-  GravityControl(const GravityControl& other);
+  COMPortSetup(const COMPortSetup& other);
   /// Assignement operator
-  GravityControl& operator = (const GravityControl& other);
+  COMPortSetup& operator = (const COMPortSetup& other);
   /// Destructor
-  virtual ~GravityControl();
+  virtual ~COMPortSetup();
   /** @}
     */
 
@@ -51,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual GravityControl* clone() const;
+  virtual COMPortSetup* clone() const;
   /** @}
     */
 
@@ -59,23 +60,17 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 56;
+  static const uint16_t mByteCount = 12;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Magnitude
-  double mMagnitude;
-  /// North deflection
-  double mNorthDeflection;
-  /// East deflection
-  double mEastDeflection;
-  /// Latitude of validity
-  double mLatitudeValidity;
-  /// Longitude of validity
-  double mLongitudeValidity;
-  /// Altitude of validity
-  double mAltitudeValidity;
+  /// Number of COM ports
+  uint16_t mNumPorts;
+  /// COM Port Parameters
+  COMPortParameters mpParameters[10];
+  /// Port mask
+  uint16_t mPortMask;
   /// Prototype for this group
-  static const GravityControl mProto;
+  static const COMPortSetup mProto;
   /** @}
     */
 
@@ -100,4 +95,4 @@ protected:
 
 };
 
-#endif // GRAVITYCONTROL_H
+#endif // COMPORTSETUP_H

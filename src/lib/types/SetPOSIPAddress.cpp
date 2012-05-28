@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/IPControl.h"
+#include "types/SetPOSIPAddress.h"
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -26,17 +26,17 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const IPControl IPControl::mProto;
+const SetPOSIPAddress SetPOSIPAddress::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-IPControl::IPControl() :
+SetPOSIPAddress::SetPOSIPAddress() :
     Message(32) {
 }
 
-IPControl::IPControl(const IPControl& other) :
+SetPOSIPAddress::SetPOSIPAddress(const SetPOSIPAddress& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
     mNetworkPart1(other.mNetworkPart1),
@@ -49,7 +49,7 @@ IPControl::IPControl(const IPControl& other) :
     mSubHostPart2(other.mSubHostPart2) {
 }
 
-IPControl& IPControl::operator = (const IPControl& other) {
+SetPOSIPAddress& SetPOSIPAddress::operator = (const SetPOSIPAddress& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
@@ -65,18 +65,18 @@ IPControl& IPControl::operator = (const IPControl& other) {
   return *this;
 }
 
-IPControl::~IPControl() {
+SetPOSIPAddress::~SetPOSIPAddress() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void IPControl::read(BinaryReader& stream) {
+void SetPOSIPAddress::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("IPControl::read(): wrong byte count");
+    throw IOException("SetPOSIPAddress::read(): wrong byte count");
   stream >> mTransactionNumber;
   stream >> mNetworkPart1;
   stream >> mNetworkPart2;
@@ -88,7 +88,7 @@ void IPControl::read(BinaryReader& stream) {
   stream >> mSubHostPart2;
 }
 
-void IPControl::write(BinaryWriter& stream) const {
+void SetPOSIPAddress::write(BinaryWriter& stream) const {
   stream << mTypeID;
   stream << mByteCount;
   stream << mTransactionNumber;
@@ -102,16 +102,16 @@ void IPControl::write(BinaryWriter& stream) const {
   stream << mSubHostPart2;
 }
 
-void IPControl::read(std::istream& stream) {
+void SetPOSIPAddress::read(std::istream& stream) {
 }
 
-void IPControl::write(std::ostream& stream) const {
+void SetPOSIPAddress::write(std::ostream& stream) const {
 }
 
-void IPControl::read(std::ifstream& stream) {
+void SetPOSIPAddress::read(std::ifstream& stream) {
 }
 
-void IPControl::write(std::ofstream& stream) const {
+void SetPOSIPAddress::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -119,6 +119,6 @@ void IPControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-IPControl* IPControl::clone() const {
-  return new IPControl(*this);
+SetPOSIPAddress* SetPOSIPAddress::clone() const {
+  return new SetPOSIPAddress(*this);
 }

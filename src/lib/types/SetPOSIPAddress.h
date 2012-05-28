@@ -16,34 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file GAMSInstallationControl.h
-    \brief This file defines the GAMSInstallationControl class, which
-           represents the GAMS Installation Control message from the Applanix
+/** \file SetPOSIPAddress.h
+    \brief This file defines the SetPOSIPAddress class, which
+           represents the IP Control message from the Applanix
   */
 
-#ifndef GAMSINSTALLATIONCONTROL_H
-#define GAMSINSTALLATIONCONTROL_H
+#ifndef SETPOSIPADDRESS_H
+#define SETPOSIPADDRESS_H
 
 #include "types/Message.h"
 
-/** The class GAMSInstallationControl represents the GAMS Installation Control
-    message from the Applanix.
-    \brief GAMS Installation Control message
+/** The class SetPOSIPAddress represents the IP Control message from the
+    Applanix.
+    \brief IP Control message
   */
-class GAMSInstallationControl :
+class SetPOSIPAddress :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  GAMSInstallationControl();
+  SetPOSIPAddress();
   /// Copy constructor
-  GAMSInstallationControl(const GAMSInstallationControl& other);
+  SetPOSIPAddress(const SetPOSIPAddress& other);
   /// Assignement operator
-  GAMSInstallationControl& operator = (const GAMSInstallationControl& other);
+  SetPOSIPAddress& operator = (const SetPOSIPAddress& other);
   /// Destructor
-  virtual ~GAMSInstallationControl();
+  virtual ~SetPOSIPAddress();
   /** @}
     */
 
@@ -51,7 +51,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual GAMSInstallationControl* clone() const;
+  virtual SetPOSIPAddress* clone() const;
   /** @}
     */
 
@@ -59,23 +59,27 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 32;
+  static const uint16_t mByteCount = 16;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Primary-secondary antenna separation
-  float mAntennaSeparation;
-  /// Baseline vector X component
-  float mBaselineX;
-  /// Baseline vector Y component
-  float mBaselineY;
-  /// Baseline vector Z component
-  float mBaselineZ;
-  /// Maximum heading error RMS for calibration
-  float mMaxHeadingError;
-  /// Heading correction
-  float mHeadingCorrection;
+  /// IP Address: Network part 1
+  uint8_t mNetworkPart1;
+  /// IP Address: Network part 2
+  uint8_t mNetworkPart2;
+  /// IP Address: Host part 1
+  uint8_t mHostPart1;
+  /// IP Address: Host part 2
+  uint8_t mHostPart2;
+  /// Subnet: Network part 1
+  uint8_t mSubNetworkPart1;
+  /// Subnet: Network part 2
+  uint8_t mSubNetworkPart2;
+  /// Subnet: Host part 1
+  uint8_t mSubHostPart1;
+  /// Subnet: Host part 2
+  uint8_t mSubHostPart2;
   /// Prototype for this group
-  static const GAMSInstallationControl mProto;
+  static const SetPOSIPAddress mProto;
   /** @}
     */
 
@@ -100,4 +104,4 @@ protected:
 
 };
 
-#endif // GAMSINSTALLATIONCONTROL_H
+#endif // SETPOSIPADDRESS_H

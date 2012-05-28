@@ -16,33 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file IPControl.h
-    \brief This file defines the IPControl class, which
-           represents the IP Control message from the Applanix
+/** \file GeneralInstallProcessParams.h
+    \brief This file defines the GeneralInstallProcessParams class, which
+           represents the General Installation Control message from the Applanix
   */
 
-#ifndef IPCONTROL_H
-#define IPCONTROL_H
+#ifndef GENERALINSTALLPROCESSPARAMS_H
+#define GENERALINSTALLPROCESSPARAMS_H
 
 #include "types/Message.h"
 
-/** The class IPControl represents the IP Control message from the Applanix.
-    \brief IP Control message
+/** The class GeneralInstallProcessParams represents the General Installation
+    Control message from the Applanix.
+    \brief General Installation Control message
   */
-class IPControl :
+class GeneralInstallProcessParams :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  IPControl();
+  GeneralInstallProcessParams();
   /// Copy constructor
-  IPControl(const IPControl& other);
+  GeneralInstallProcessParams(const GeneralInstallProcessParams& other);
   /// Assignement operator
-  IPControl& operator = (const IPControl& other);
+  GeneralInstallProcessParams& operator =
+    (const GeneralInstallProcessParams& other);
   /// Destructor
-  virtual ~IPControl();
+  virtual ~GeneralInstallProcessParams();
   /** @}
     */
 
@@ -50,7 +52,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual IPControl* clone() const;
+  virtual GeneralInstallProcessParams* clone() const;
   /** @}
     */
 
@@ -58,27 +60,55 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 16;
+  static const uint16_t mByteCount = 84;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// IP Address: Network part 1
-  uint8_t mNetworkPart1;
-  /// IP Address: Network part 2
-  uint8_t mNetworkPart2;
-  /// IP Address: Host part 1
-  uint8_t mHostPart1;
-  /// IP Address: Host part 2
-  uint8_t mHostPart2;
-  /// Subnet: Network part 1
-  uint8_t mSubNetworkPart1;
-  /// Subnet: Network part 2
-  uint8_t mSubNetworkPart2;
-  /// Subnet: Host part 1
-  uint8_t mSubHostPart1;
-  /// Subnet: Host part 2
-  uint8_t mSubHostPart2;
+  /// Time types
+  uint8_t mTimeTypes;
+  /// Distance type
+  uint8_t mDistanceType;
+  /// Select/deselect AutoStart
+  uint8_t mAutoStart;
+  /// Reference to IMU X lever arm
+  float mRefIMUX;
+  /// Reference to IMU Y lever arm
+  float mRefIMUY;
+  /// Reference to IMU Z lever arm
+  float mRefIMUZ;
+  /// Reference to Primary GPS X lever arm
+  float mRefPrimGPSX;
+  /// Reference to Primary GPS Y lever arm
+  float mRefPrimGPSY;
+  /// Reference to Primary GPS Z lever arm
+  float mRefPrimGPSZ;
+  /// Reference to Auxiliary 1 GPS X lever arm
+  float mRefAux1GPSX;
+  /// Reference to Auxiliary 1 GPS Y lever arm
+  float mRefAux1GPSY;
+  /// Reference to Auxiliary 1 GPS Z lever arm
+  float mRefAux1GPSZ;
+  /// Reference to Auxiliary 2 GPS X lever arm
+  float mRefAux2GPSX;
+  /// Reference to Auxiliary 2 GPS Y lever arm
+  float mRefAux2GPSY;
+  /// Reference to Auxiliary 2 GPS Z lever arm
+  float mRefAux2GPSZ;
+  /// X IMU wrt Reference frame mounting angle
+  float mXIMURefMountingAngle;
+  /// Y IMU wrt Reference frame mounting angle
+  float mYIMURefMountingAngle;
+  /// Z IMU wrt Reference frame mounting angle
+  float mZIMURefMountingAngle;
+  /// X Reference frame wrt Vehicle frame mounting angle
+  float mXRefVehicleMountingAngle;
+  /// Y Reference frame wrt Vehicle frame mounting angle
+  float mYRefVehicleMountingAngle;
+  /// Z Reference frame wrt Vehicle frame mounting angle
+  float mZRefVehicleMountingAngle;
+  /// Multipath environment
+  uint8_t mMultipathEnvironment;
   /// Prototype for this group
-  static const IPControl mProto;
+  static const GeneralInstallProcessParams mProto;
   /** @}
     */
 
@@ -103,4 +133,4 @@ protected:
 
 };
 
-#endif // IPCONTROL_H
+#endif // GENERALINSTALLPROCESSPARAMS_H

@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/GeneralInstallationControl.h"
+#include "types/GeneralInstallProcessParams.h"
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -26,18 +26,18 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const GeneralInstallationControl GeneralInstallationControl::mProto;
+const GeneralInstallProcessParams GeneralInstallProcessParams::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-GeneralInstallationControl::GeneralInstallationControl() :
+GeneralInstallProcessParams::GeneralInstallProcessParams() :
     Message(20) {
 }
 
-GeneralInstallationControl::GeneralInstallationControl(const
-    GeneralInstallationControl& other) :
+GeneralInstallProcessParams::GeneralInstallProcessParams(const
+    GeneralInstallProcessParams& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
     mTimeTypes(other.mTimeTypes),
@@ -64,8 +64,8 @@ GeneralInstallationControl::GeneralInstallationControl(const
     mMultipathEnvironment(other.mMultipathEnvironment) {
 }
 
-GeneralInstallationControl& GeneralInstallationControl::operator =
-    (const GeneralInstallationControl& other) {
+GeneralInstallProcessParams& GeneralInstallProcessParams::operator =
+    (const GeneralInstallProcessParams& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
@@ -95,18 +95,18 @@ GeneralInstallationControl& GeneralInstallationControl::operator =
   return *this;
 }
 
-GeneralInstallationControl::~GeneralInstallationControl() {
+GeneralInstallProcessParams::~GeneralInstallProcessParams() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void GeneralInstallationControl::read(BinaryReader& stream) {
+void GeneralInstallProcessParams::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("GeneralInstallationControl::read(): wrong byte count");
+    throw IOException("GeneralInstallProcessParams::read(): wrong byte count");
   stream >> mTransactionNumber;
   stream >> mTimeTypes;
   stream >> mDistanceType;
@@ -132,7 +132,7 @@ void GeneralInstallationControl::read(BinaryReader& stream) {
   stream >> mMultipathEnvironment;
 }
 
-void GeneralInstallationControl::write(BinaryWriter& stream) const {
+void GeneralInstallProcessParams::write(BinaryWriter& stream) const {
   stream << mTypeID;
   stream << mByteCount;
   stream << mTransactionNumber;
@@ -160,16 +160,16 @@ void GeneralInstallationControl::write(BinaryWriter& stream) const {
   stream << mMultipathEnvironment;
 }
 
-void GeneralInstallationControl::read(std::istream& stream) {
+void GeneralInstallProcessParams::read(std::istream& stream) {
 }
 
-void GeneralInstallationControl::write(std::ostream& stream) const {
+void GeneralInstallProcessParams::write(std::ostream& stream) const {
 }
 
-void GeneralInstallationControl::read(std::ifstream& stream) {
+void GeneralInstallProcessParams::read(std::ifstream& stream) {
 }
 
-void GeneralInstallationControl::write(std::ofstream& stream) const {
+void GeneralInstallProcessParams::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -177,6 +177,6 @@ void GeneralInstallationControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-GeneralInstallationControl* GeneralInstallationControl::clone() const {
-  return new GeneralInstallationControl(*this);
+GeneralInstallProcessParams* GeneralInstallProcessParams::clone() const {
+  return new GeneralInstallProcessParams(*this);
 }

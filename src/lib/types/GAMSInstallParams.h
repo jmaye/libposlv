@@ -16,34 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file UserAccuracyControl.h
-    \brief This file defines the UserAccuracyControl class, which
-           represents the User Accuracy Control message from the Applanix
+/** \file GAMSInstallParams.h
+    \brief This file defines the GAMSInstallParams class, which
+           represents the GAMS Installation Control message from the Applanix
   */
 
-#ifndef USERACCURACYCONTROL_H
-#define USERACCURACYCONTROL_H
+#ifndef GAMSINSTALLPARAMS_H
+#define GAMSINSTALLPARAMS_H
 
 #include "types/Message.h"
 
-/** The class UserAccuracyControl represents the User Accuracy Control
+/** The class GAMSInstallParams represents the GAMS Installation Control
     message from the Applanix.
-    \brief User Accuracy Control message
+    \brief GAMS Installation Control message
   */
-class UserAccuracyControl :
+class GAMSInstallParams :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  UserAccuracyControl();
+  GAMSInstallParams();
   /// Copy constructor
-  UserAccuracyControl(const UserAccuracyControl& other);
+  GAMSInstallParams(const GAMSInstallParams& other);
   /// Assignement operator
-  UserAccuracyControl& operator = (const UserAccuracyControl& other);
+  GAMSInstallParams& operator = (const GAMSInstallParams& other);
   /// Destructor
-  virtual ~UserAccuracyControl();
+  virtual ~GAMSInstallParams();
   /** @}
     */
 
@@ -51,7 +51,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual UserAccuracyControl* clone() const;
+  virtual GAMSInstallParams* clone() const;
   /** @}
     */
 
@@ -59,19 +59,23 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 24;
+  static const uint16_t mByteCount = 32;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Attitude accuracy
-  float mAttitudeAccuracy;
-  /// Heading accuracy
-  float mHeadingAccuracy;
-  /// Position accuracy
-  float mPositionAccuracy;
-  /// Velocity accuracy
-  float mVelocityAccuracy;
+  /// Primary-secondary antenna separation
+  float mAntennaSeparation;
+  /// Baseline vector X component
+  float mBaselineX;
+  /// Baseline vector Y component
+  float mBaselineY;
+  /// Baseline vector Z component
+  float mBaselineZ;
+  /// Maximum heading error RMS for calibration
+  float mMaxHeadingError;
+  /// Heading correction
+  float mHeadingCorrection;
   /// Prototype for this group
-  static const UserAccuracyControl mProto;
+  static const GAMSInstallParams mProto;
   /** @}
     */
 
@@ -96,4 +100,4 @@ protected:
 
 };
 
-#endif // USERACCURACYCONTROL_H
+#endif // GAMSINSTALLPARAMS_H

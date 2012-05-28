@@ -16,34 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file BaseGPS1Control.h
-    \brief This file defines the BaseGPS1Control class, which
+/** \file BaseGPS1Setup.h
+    \brief This file defines the BaseGPS1Setup class, which
            represents the Base GPS 1 Control message from the Applanix
   */
 
-#ifndef BASEGPS1CONTROL_H
-#define BASEGPS1CONTROL_H
+#ifndef BASEGPS1SETUP_H
+#define BASEGPS1SETUP_H
 
 #include "types/Message.h"
 
-/** The class BaseGPS1Control represents the  Base GPS 1 Control message from
+/** The class BaseGPS1Setup represents the  Base GPS 1 Control message from
     the Applanix.
     \brief Base GPS 1 Control message
   */
-class BaseGPS1Control :
+class BaseGPS1Setup :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  BaseGPS1Control();
+  BaseGPS1Setup();
   /// Copy constructor
-  BaseGPS1Control(const BaseGPS1Control& other);
+  BaseGPS1Setup(const BaseGPS1Setup& other);
   /// Assignement operator
-  BaseGPS1Control& operator = (const BaseGPS1Control& other);
+  BaseGPS1Setup& operator = (const BaseGPS1Setup& other);
   /// Destructor
-  virtual ~BaseGPS1Control();
+  virtual ~BaseGPS1Setup();
   /** @}
     */
 
@@ -51,7 +51,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual BaseGPS1Control* clone() const;
+  virtual BaseGPS1Setup* clone() const;
   /** @}
     */
 
@@ -81,7 +81,7 @@ public:
   /// Data timeout length
   uint16_t mTimeoutLength;
   /// Prototype for this group
-  static const BaseGPS1Control mProto;
+  static const BaseGPS1Setup mProto;
   /** @}
     */
 
@@ -106,4 +106,4 @@ protected:
 
 };
 
-#endif // BASEGPS1CONTROL_H
+#endif // BASEGPS1SETUP_H

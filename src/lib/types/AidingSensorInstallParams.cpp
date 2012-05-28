@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/BaseGPS2Control.h"
+#include "types/AidingSensorInstallParams.h"
 
 #include <cstring>
 
@@ -28,104 +28,84 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const BaseGPS2Control BaseGPS2Control::mProto;
+const AidingSensorInstallParams AidingSensorInstallParams::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BaseGPS2Control::BaseGPS2Control() :
-    Message(38) {
+AidingSensorInstallParams::AidingSensorInstallParams() :
+    Message(22) {
 }
 
-BaseGPS2Control::BaseGPS2Control(const BaseGPS2Control& other) :
+AidingSensorInstallParams::AidingSensorInstallParams(const
+    AidingSensorInstallParams& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
-    mBaseGPSInputType(other.mBaseGPSInputType),
-    mLineControl(other.mLineControl),
-    mModemControl(other.mModemControl),
-    mConnectionControl(other.mConnectionControl),
-    mNumRedials(other.mNumRedials),
-    mTimeoutLength(other.mTimeoutLength) {
-  memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
-  memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
-  memcpy(mInitString, other.mInitString, sizeof(mInitString));
+    mDMIScaleFactor(other.mDMIScaleFactor),
+    mRefDMIX(other.mRefDMIX),
+    mRefDMIY(other.mRefDMIY),
+    mRefDMIZ(other.mRefDMIZ) {
+  memcpy(mReserved, other.mReserved, sizeof(mReserved));
 }
 
-BaseGPS2Control& BaseGPS2Control::operator = (const BaseGPS2Control& other) {
+AidingSensorInstallParams& AidingSensorInstallParams::operator =
+    (const AidingSensorInstallParams& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
-    mBaseGPSInputType = other.mBaseGPSInputType;
-    mLineControl = other.mLineControl;
-    mModemControl = other.mModemControl;
-    mConnectionControl = other.mConnectionControl;
-    memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
-    mNumRedials = other.mNumRedials;
-    memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
-    memcpy(mInitString, other.mInitString, sizeof(mInitString));
-    mTimeoutLength = other.mTimeoutLength;
+    mDMIScaleFactor = other.mDMIScaleFactor;
+    mRefDMIX = other.mRefDMIX;
+    mRefDMIY = other.mRefDMIY;
+    mRefDMIZ = other.mRefDMIZ;
+    memcpy(mReserved, other.mReserved, sizeof(mReserved));
   }
   return *this;
 }
 
-BaseGPS2Control::~BaseGPS2Control() {
+AidingSensorInstallParams::~AidingSensorInstallParams() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void BaseGPS2Control::read(BinaryReader& stream) {
+void AidingSensorInstallParams::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("BaseGPS2Control::read(): wrong byte count");
+    throw IOException("AidingSensorInstallParams::read(): wrong byte count");
   stream >> mTransactionNumber;
-  stream >> mBaseGPSInputType;
-  stream >> mLineControl;
-  stream >> mModemControl;
-  stream >> mConnectionControl;
-  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
-    stream >> mPhoneNumber[i];
-  stream >> mNumRedials;
-  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
-      ++i)
-    stream >> mCommandString[i];
-  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
-    stream >> mInitString[i];
-  stream >> mTimeoutLength;
+  stream >> mDMIScaleFactor;
+  stream >> mRefDMIX;
+  stream >> mRefDMIY;
+  stream >> mRefDMIZ;
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
+    stream >> mReserved[i];
 }
 
-void BaseGPS2Control::write(BinaryWriter& stream) const {
+void AidingSensorInstallParams::write(BinaryWriter& stream) const {
   stream << mTypeID;
   stream << mByteCount;
   stream << mTransactionNumber;
-  stream << mBaseGPSInputType;
-  stream << mLineControl;
-  stream << mModemControl;
-  stream << mConnectionControl;
-  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
-    stream << mPhoneNumber[i];
-  stream << mNumRedials;
-  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
-      ++i)
-    stream << mCommandString[i];
-  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
-    stream << mInitString[i];
-  stream << mTimeoutLength;
+  stream << mDMIScaleFactor;
+  stream << mRefDMIX;
+  stream << mRefDMIY;
+  stream << mRefDMIZ;
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
+    stream << mReserved[i];
 }
 
-void BaseGPS2Control::read(std::istream& stream) {
+void AidingSensorInstallParams::read(std::istream& stream) {
 }
 
-void BaseGPS2Control::write(std::ostream& stream) const {
+void AidingSensorInstallParams::write(std::ostream& stream) const {
 }
 
-void BaseGPS2Control::read(std::ifstream& stream) {
+void AidingSensorInstallParams::read(std::ifstream& stream) {
 }
 
-void BaseGPS2Control::write(std::ofstream& stream) const {
+void AidingSensorInstallParams::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -133,6 +113,6 @@ void BaseGPS2Control::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-BaseGPS2Control* BaseGPS2Control::clone() const {
-  return new BaseGPS2Control(*this);
+AidingSensorInstallParams* AidingSensorInstallParams::clone() const {
+  return new AidingSensorInstallParams(*this);
 }

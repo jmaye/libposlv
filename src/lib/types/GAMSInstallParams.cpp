@@ -16,9 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/AidingSensorControl.h"
-
-#include <cstring>
+#include "types/GAMSInstallParams.h"
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -28,83 +26,85 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const AidingSensorControl AidingSensorControl::mProto;
+const GAMSInstallParams GAMSInstallParams::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-AidingSensorControl::AidingSensorControl() :
-    Message(22) {
+GAMSInstallParams::GAMSInstallParams() :
+    Message(21) {
 }
 
-AidingSensorControl::AidingSensorControl(const AidingSensorControl& other) :
+GAMSInstallParams::GAMSInstallParams(const GAMSInstallParams& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
-    mDMIScaleFactor(other.mDMIScaleFactor),
-    mRefDMIX(other.mRefDMIX),
-    mRefDMIY(other.mRefDMIY),
-    mRefDMIZ(other.mRefDMIZ) {
-  memcpy(mReserved, other.mReserved, sizeof(mReserved));
+    mAntennaSeparation(other.mAntennaSeparation),
+    mBaselineX(other.mBaselineX),
+    mBaselineY(other.mBaselineY),
+    mBaselineZ(other.mBaselineZ),
+    mMaxHeadingError(other.mMaxHeadingError),
+    mHeadingCorrection(other.mHeadingCorrection) {
 }
 
-AidingSensorControl& AidingSensorControl::operator =
-    (const AidingSensorControl& other) {
+GAMSInstallParams& GAMSInstallParams::operator =
+    (const GAMSInstallParams& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
-    mDMIScaleFactor = other.mDMIScaleFactor;
-    mRefDMIX = other.mRefDMIX;
-    mRefDMIY = other.mRefDMIY;
-    mRefDMIZ = other.mRefDMIZ;
-    memcpy(mReserved, other.mReserved, sizeof(mReserved));
+    mAntennaSeparation = other.mAntennaSeparation;
+    mBaselineX = other.mBaselineX;
+    mBaselineY = other.mBaselineY;
+    mBaselineZ = other.mBaselineZ;
+    mMaxHeadingError = other.mMaxHeadingError;
+    mHeadingCorrection = other.mHeadingCorrection;
   }
   return *this;
 }
 
-AidingSensorControl::~AidingSensorControl() {
+GAMSInstallParams::~GAMSInstallParams() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void AidingSensorControl::read(BinaryReader& stream) {
+void GAMSInstallParams::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("AidingSensorControl::read(): wrong byte count");
+    throw IOException("GAMSInstallParams::read(): wrong byte count");
   stream >> mTransactionNumber;
-  stream >> mDMIScaleFactor;
-  stream >> mRefDMIX;
-  stream >> mRefDMIY;
-  stream >> mRefDMIZ;
-  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
-    stream >> mReserved[i];
+  stream >> mAntennaSeparation;
+  stream >> mBaselineX;
+  stream >> mBaselineY;
+  stream >> mBaselineZ;
+  stream >> mMaxHeadingError;
+  stream >> mHeadingCorrection;
 }
 
-void AidingSensorControl::write(BinaryWriter& stream) const {
+void GAMSInstallParams::write(BinaryWriter& stream) const {
   stream << mTypeID;
   stream << mByteCount;
   stream << mTransactionNumber;
-  stream << mDMIScaleFactor;
-  stream << mRefDMIX;
-  stream << mRefDMIY;
-  stream << mRefDMIZ;
-  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
-    stream << mReserved[i];
+  stream << mAntennaSeparation;
+  stream << mBaselineX;
+  stream << mBaselineY;
+  stream << mBaselineZ;
+  stream << mMaxHeadingError;
+  stream << mHeadingCorrection;
 }
 
-void AidingSensorControl::read(std::istream& stream) {
+void GAMSInstallParams::read(std::istream& stream) {
 }
 
-void AidingSensorControl::write(std::ostream& stream) const {
+void GAMSInstallParams::write(std::ostream& stream) const {
 }
 
-void AidingSensorControl::read(std::ifstream& stream) {
+void GAMSInstallParams::read(std::ifstream& stream) {
 }
 
-void AidingSensorControl::write(std::ofstream& stream) const {
+void GAMSInstallParams::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -112,6 +112,6 @@ void AidingSensorControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-AidingSensorControl* AidingSensorControl::clone() const {
-  return new AidingSensorControl(*this);
+GAMSInstallParams* GAMSInstallParams::clone() const {
+  return new GAMSInstallParams(*this);
 }

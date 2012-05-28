@@ -16,34 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file AidingSensorControl.h
-    \brief This file defines the AidingSensorControl class, which
-           represents the Aiding Sensor Control message from the Applanix
+/** \file BaseGPS2Setup.h
+    \brief This file defines the BaseGPS2Setup class, which
+           represents the Base GPS 2 Control message from the Applanix
   */
 
-#ifndef AIDINGSENSORCONTROL_H
-#define AIDINGSENSORCONTROL_H
+#ifndef BASEGPS2SETUP_H
+#define BASEGPS2SETUP_H
 
 #include "types/Message.h"
 
-/** The class AidingSensorControl represents the Aiding Sensor Control
-    message from the Applanix.
-    \brief Aiding Sensor Control message
+/** The class BaseGPS2Setup represents the  Base GPS 2 Control message from
+    the Applanix.
+    \brief Base GPS 2 Control message
   */
-class AidingSensorControl :
+class BaseGPS2Setup :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  AidingSensorControl();
+  BaseGPS2Setup();
   /// Copy constructor
-  AidingSensorControl(const AidingSensorControl& other);
+  BaseGPS2Setup(const BaseGPS2Setup& other);
   /// Assignement operator
-  AidingSensorControl& operator = (const AidingSensorControl& other);
+  BaseGPS2Setup& operator = (const BaseGPS2Setup& other);
   /// Destructor
-  virtual ~AidingSensorControl();
+  virtual ~BaseGPS2Setup();
   /** @}
     */
 
@@ -51,7 +51,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual AidingSensorControl* clone() const;
+  virtual BaseGPS2Setup* clone() const;
   /** @}
     */
 
@@ -59,21 +59,29 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 52;
+  static const uint16_t mByteCount = 240;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// DMI scale factor
-  float mDMIScaleFactor;
-  /// Ref. to DMI X
-  float mRefDMIX;
-  /// Ref. to DMI Y
-  float mRefDMIY;
-  /// Ref. to DMI Z
-  float mRefDMIZ;
-  /// Reserved stuff
-  float mReserved[7];
+  /// Select Base GPS input type
+  uint16_t mBaseGPSInputType;
+  /// Line control
+  uint8_t mLineControl;
+  /// Modem control
+  uint8_t mModemControl;
+  /// Connection control
+  uint8_t mConnectionControl;
+  /// Phone number
+  uint8_t mPhoneNumber[32];
+  /// Number of redials
+  uint8_t mNumRedials;
+  /// Modem command string
+  uint8_t mCommandString[64];
+  /// Modem initialization string
+  uint8_t mInitString[128];
+  /// Data timeout length
+  uint16_t mTimeoutLength;
   /// Prototype for this group
-  static const AidingSensorControl mProto;
+  static const BaseGPS2Setup mProto;
   /** @}
     */
 
@@ -98,4 +106,4 @@ protected:
 
 };
 
-#endif // AIDINGSENSORCONTROL_H
+#endif // BASEGPS2SETUP_H

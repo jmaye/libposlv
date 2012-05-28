@@ -16,9 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/COMPortControl.h"
-
-#include <cstring>
+#include "types/UserAccuracySpec.h"
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -28,76 +26,76 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const COMPortControl COMPortControl::mProto;
+const UserAccuracySpec UserAccuracySpec::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-COMPortControl::COMPortControl() :
-    Message(34) {
+UserAccuracySpec::UserAccuracySpec() :
+    Message(24) {
 }
 
-COMPortControl::COMPortControl(const COMPortControl& other) :
+UserAccuracySpec::UserAccuracySpec(const UserAccuracySpec& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
-    mNumPorts(other.mNumPorts),
-    mPortMask(other.mPortMask) {
-  memcpy(mpParameters, other.mpParameters, sizeof(mpParameters));
+    mAttitudeAccuracy(other.mAttitudeAccuracy),
+    mHeadingAccuracy(other.mHeadingAccuracy),
+    mPositionAccuracy(other.mPositionAccuracy),
+    mVelocityAccuracy(other.mVelocityAccuracy) {
 }
 
-COMPortControl& COMPortControl::operator = (const COMPortControl& other) {
+UserAccuracySpec& UserAccuracySpec::operator = (const UserAccuracySpec& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
-    mNumPorts = other.mNumPorts;
-    memcpy(mpParameters, other.mpParameters, sizeof(mpParameters));
-    mPortMask = other.mPortMask;
+    mAttitudeAccuracy = other.mAttitudeAccuracy;
+    mHeadingAccuracy = other.mHeadingAccuracy;
+    mPositionAccuracy = other.mPositionAccuracy;
+    mVelocityAccuracy = other.mVelocityAccuracy;
   }
   return *this;
 }
 
-COMPortControl::~COMPortControl() {
+UserAccuracySpec::~UserAccuracySpec() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void COMPortControl::read(BinaryReader& stream) {
+void UserAccuracySpec::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
+  if (byteCount != mByteCount)
+    throw IOException("UserAccuracySpec::read(): wrong byte count");
   stream >> mTransactionNumber;
-  stream >> mNumPorts;
-  if (byteCount != mByteCount + (8 * mNumPorts))
-    throw IOException("COMPortControl::read(): wrong byte count");
-  for (size_t i = 0; i < mNumPorts; i++)
-    stream >> mpParameters[i];
-  stream >> mPortMask;
+  stream >> mAttitudeAccuracy;
+  stream >> mHeadingAccuracy;
+  stream >> mPositionAccuracy;
+  stream >> mVelocityAccuracy;
 }
 
-void COMPortControl::write(BinaryWriter& stream) const {
-  if (mNumPorts > 10)
-    throw IOException("COMPortControl::write(): 10 COM ports maximum");
+void UserAccuracySpec::write(BinaryWriter& stream) const {
   stream << mTypeID;
-  stream << mByteCount + (8 * mNumPorts);
+  stream << mByteCount;
   stream << mTransactionNumber;
-  stream << mNumPorts;
-  for (size_t i = 0; i < mNumPorts; i++)
-    stream << mpParameters[i];
-  stream << mPortMask;
+  stream << mAttitudeAccuracy;
+  stream << mHeadingAccuracy;
+  stream << mPositionAccuracy;
+  stream << mVelocityAccuracy;
 }
 
-void COMPortControl::read(std::istream& stream) {
+void UserAccuracySpec::read(std::istream& stream) {
 }
 
-void COMPortControl::write(std::ostream& stream) const {
+void UserAccuracySpec::write(std::ostream& stream) const {
 }
 
-void COMPortControl::read(std::ifstream& stream) {
+void UserAccuracySpec::read(std::ifstream& stream) {
 }
 
-void COMPortControl::write(std::ofstream& stream) const {
+void UserAccuracySpec::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -105,6 +103,6 @@ void COMPortControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-COMPortControl* COMPortControl::clone() const {
-  return new COMPortControl(*this);
+UserAccuracySpec* UserAccuracySpec::clone() const {
+  return new UserAccuracySpec(*this);
 }

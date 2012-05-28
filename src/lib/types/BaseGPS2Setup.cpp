@@ -16,7 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/UserAccuracyControl.h"
+#include "types/BaseGPS2Setup.h"
+
+#include <cstring>
 
 #include "base/BinaryReader.h"
 #include "base/BinaryWriter.h"
@@ -26,77 +28,104 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const UserAccuracyControl UserAccuracyControl::mProto;
+const BaseGPS2Setup BaseGPS2Setup::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-UserAccuracyControl::UserAccuracyControl() :
-    Message(24) {
+BaseGPS2Setup::BaseGPS2Setup() :
+    Message(38) {
 }
 
-UserAccuracyControl::UserAccuracyControl(const UserAccuracyControl& other) :
+BaseGPS2Setup::BaseGPS2Setup(const BaseGPS2Setup& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
-    mAttitudeAccuracy(other.mAttitudeAccuracy),
-    mHeadingAccuracy(other.mHeadingAccuracy),
-    mPositionAccuracy(other.mPositionAccuracy),
-    mVelocityAccuracy(other.mVelocityAccuracy) {
+    mBaseGPSInputType(other.mBaseGPSInputType),
+    mLineControl(other.mLineControl),
+    mModemControl(other.mModemControl),
+    mConnectionControl(other.mConnectionControl),
+    mNumRedials(other.mNumRedials),
+    mTimeoutLength(other.mTimeoutLength) {
+  memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
+  memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
+  memcpy(mInitString, other.mInitString, sizeof(mInitString));
 }
 
-UserAccuracyControl& UserAccuracyControl::operator =
-    (const UserAccuracyControl& other) {
+BaseGPS2Setup& BaseGPS2Setup::operator = (const BaseGPS2Setup& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
-    mAttitudeAccuracy = other.mAttitudeAccuracy;
-    mHeadingAccuracy = other.mHeadingAccuracy;
-    mPositionAccuracy = other.mPositionAccuracy;
-    mVelocityAccuracy = other.mVelocityAccuracy;
+    mBaseGPSInputType = other.mBaseGPSInputType;
+    mLineControl = other.mLineControl;
+    mModemControl = other.mModemControl;
+    mConnectionControl = other.mConnectionControl;
+    memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
+    mNumRedials = other.mNumRedials;
+    memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
+    memcpy(mInitString, other.mInitString, sizeof(mInitString));
+    mTimeoutLength = other.mTimeoutLength;
   }
   return *this;
 }
 
-UserAccuracyControl::~UserAccuracyControl() {
+BaseGPS2Setup::~BaseGPS2Setup() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void UserAccuracyControl::read(BinaryReader& stream) {
+void BaseGPS2Setup::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
   if (byteCount != mByteCount)
-    throw IOException("UserAccuracyControl::read(): wrong byte count");
+    throw IOException("BaseGPS2Setup::read(): wrong byte count");
   stream >> mTransactionNumber;
-  stream >> mAttitudeAccuracy;
-  stream >> mHeadingAccuracy;
-  stream >> mPositionAccuracy;
-  stream >> mVelocityAccuracy;
+  stream >> mBaseGPSInputType;
+  stream >> mLineControl;
+  stream >> mModemControl;
+  stream >> mConnectionControl;
+  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
+    stream >> mPhoneNumber[i];
+  stream >> mNumRedials;
+  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
+      ++i)
+    stream >> mCommandString[i];
+  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
+    stream >> mInitString[i];
+  stream >> mTimeoutLength;
 }
 
-void UserAccuracyControl::write(BinaryWriter& stream) const {
+void BaseGPS2Setup::write(BinaryWriter& stream) const {
   stream << mTypeID;
   stream << mByteCount;
   stream << mTransactionNumber;
-  stream << mAttitudeAccuracy;
-  stream << mHeadingAccuracy;
-  stream << mPositionAccuracy;
-  stream << mVelocityAccuracy;
+  stream << mBaseGPSInputType;
+  stream << mLineControl;
+  stream << mModemControl;
+  stream << mConnectionControl;
+  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
+    stream << mPhoneNumber[i];
+  stream << mNumRedials;
+  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
+      ++i)
+    stream << mCommandString[i];
+  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
+    stream << mInitString[i];
+  stream << mTimeoutLength;
 }
 
-void UserAccuracyControl::read(std::istream& stream) {
+void BaseGPS2Setup::read(std::istream& stream) {
 }
 
-void UserAccuracyControl::write(std::ostream& stream) const {
+void BaseGPS2Setup::write(std::ostream& stream) const {
 }
 
-void UserAccuracyControl::read(std::ifstream& stream) {
+void BaseGPS2Setup::read(std::ifstream& stream) {
 }
 
-void UserAccuracyControl::write(std::ofstream& stream) const {
+void BaseGPS2Setup::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -104,6 +133,6 @@ void UserAccuracyControl::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-UserAccuracyControl* UserAccuracyControl::clone() const {
-  return new UserAccuracyControl(*this);
+BaseGPS2Setup* BaseGPS2Setup::clone() const {
+  return new BaseGPS2Setup(*this);
 }

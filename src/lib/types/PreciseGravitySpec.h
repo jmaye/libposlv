@@ -16,35 +16,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file COMPortControl.h
-    \brief This file defines the COMPortControl class, which
-           represents the COM Port Setup message from the Applanix
+/** \file PreciseGravitySpec.h
+    \brief This file defines the PreciseGravitySpec class, which
+           represents the Gravity Control message from the Applanix
   */
 
-#ifndef COMPORTCONTROL_H
-#define COMPORTCONTROL_H
+#ifndef PRECISEGRAVITYSPEC_H
+#define PRECISEGRAVITYSPEC_H
 
 #include "types/Message.h"
-#include "types/COMPortParameters.h"
 
-/** The class COMPortControl represents the COM Port Setup message from the
-    Applanix.
-    \brief COM Port Setup message
+/** The class PreciseGravitySpec represents the Gravity Control
+    message from the Applanix.
+    \brief Gravity Control message
   */
-class COMPortControl :
+class PreciseGravitySpec :
   public Message {
 public:
   /** \name Constructors/Destructor
     @{
     */
   /// Default constructor
-  COMPortControl();
+  PreciseGravitySpec();
   /// Copy constructor
-  COMPortControl(const COMPortControl& other);
+  PreciseGravitySpec(const PreciseGravitySpec& other);
   /// Assignement operator
-  COMPortControl& operator = (const COMPortControl& other);
+  PreciseGravitySpec& operator = (const PreciseGravitySpec& other);
   /// Destructor
-  virtual ~COMPortControl();
+  virtual ~PreciseGravitySpec();
   /** @}
     */
 
@@ -52,7 +51,7 @@ public:
     @{
     */
   /// Returns a new prototype of this group
-  virtual COMPortControl* clone() const;
+  virtual PreciseGravitySpec* clone() const;
   /** @}
     */
 
@@ -60,17 +59,23 @@ public:
     @{
     */
   /// Nominal number of bytes in the message
-  static const uint16_t mByteCount = 12;
+  static const uint16_t mByteCount = 56;
   /// Transaction number
   uint16_t mTransactionNumber;
-  /// Number of COM ports
-  uint16_t mNumPorts;
-  /// COM Port Parameters
-  COMPortParameters mpParameters[10];
-  /// Port mask
-  uint16_t mPortMask;
+  /// Magnitude
+  double mMagnitude;
+  /// North deflection
+  double mNorthDeflection;
+  /// East deflection
+  double mEastDeflection;
+  /// Latitude of validity
+  double mLatitudeValidity;
+  /// Longitude of validity
+  double mLongitudeValidity;
+  /// Altitude of validity
+  double mAltitudeValidity;
   /// Prototype for this group
-  static const COMPortControl mProto;
+  static const PreciseGravitySpec mProto;
   /** @}
     */
 
@@ -95,4 +100,4 @@ protected:
 
 };
 
-#endif // COMPORTCONTROL_H
+#endif // PRECISEGRAVITYSPEC_H

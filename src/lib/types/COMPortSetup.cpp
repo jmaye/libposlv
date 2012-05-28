@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/BaseGPS1Control.h"
+#include "types/COMPortSetup.h"
 
 #include <cstring>
 
@@ -28,104 +28,76 @@
 /* Statics                                                                    */
 /******************************************************************************/
 
-const BaseGPS1Control BaseGPS1Control::mProto;
+const COMPortSetup COMPortSetup::mProto;
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BaseGPS1Control::BaseGPS1Control() :
-    Message(37) {
+COMPortSetup::COMPortSetup() :
+    Message(34) {
 }
 
-BaseGPS1Control::BaseGPS1Control(const BaseGPS1Control& other) :
+COMPortSetup::COMPortSetup(const COMPortSetup& other) :
     Message(other),
     mTransactionNumber(other.mTransactionNumber),
-    mBaseGPSInputType(other.mBaseGPSInputType),
-    mLineControl(other.mLineControl),
-    mModemControl(other.mModemControl),
-    mConnectionControl(other.mConnectionControl),
-    mNumRedials(other.mNumRedials),
-    mTimeoutLength(other.mTimeoutLength) {
-  memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
-  memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
-  memcpy(mInitString, other.mInitString, sizeof(mInitString));
+    mNumPorts(other.mNumPorts),
+    mPortMask(other.mPortMask) {
+  memcpy(mpParameters, other.mpParameters, sizeof(mpParameters));
 }
 
-BaseGPS1Control& BaseGPS1Control::operator = (const BaseGPS1Control& other) {
+COMPortSetup& COMPortSetup::operator = (const COMPortSetup& other) {
   if (this != &other) {
     Message::operator=(other);
     mTransactionNumber = other.mTransactionNumber;
-    mBaseGPSInputType = other.mBaseGPSInputType;
-    mLineControl = other.mLineControl;
-    mModemControl = other.mModemControl;
-    mConnectionControl = other.mConnectionControl;
-    memcpy(mPhoneNumber, other.mPhoneNumber, sizeof(mPhoneNumber));
-    mNumRedials = other.mNumRedials;
-    memcpy(mCommandString, other.mCommandString, sizeof(mCommandString));
-    memcpy(mInitString, other.mInitString, sizeof(mInitString));
-    mTimeoutLength = other.mTimeoutLength;
+    mNumPorts = other.mNumPorts;
+    memcpy(mpParameters, other.mpParameters, sizeof(mpParameters));
+    mPortMask = other.mPortMask;
   }
   return *this;
 }
 
-BaseGPS1Control::~BaseGPS1Control() {
+COMPortSetup::~COMPortSetup() {
 }
 
 /******************************************************************************/
 /* Stream operations                                                          */
 /******************************************************************************/
 
-void BaseGPS1Control::read(BinaryReader& stream) {
+void COMPortSetup::read(BinaryReader& stream) {
   uint16_t byteCount;
   stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("BaseGPS1Control::read(): wrong byte count");
   stream >> mTransactionNumber;
-  stream >> mBaseGPSInputType;
-  stream >> mLineControl;
-  stream >> mModemControl;
-  stream >> mConnectionControl;
-  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
-    stream >> mPhoneNumber[i];
-  stream >> mNumRedials;
-  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
-      ++i)
-    stream >> mCommandString[i];
-  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
-    stream >> mInitString[i];
-  stream >> mTimeoutLength;
+  stream >> mNumPorts;
+  if (byteCount != mByteCount + (8 * mNumPorts))
+    throw IOException("COMPortSetup::read(): wrong byte count");
+  for (size_t i = 0; i < mNumPorts; i++)
+    stream >> mpParameters[i];
+  stream >> mPortMask;
 }
 
-void BaseGPS1Control::write(BinaryWriter& stream) const {
+void COMPortSetup::write(BinaryWriter& stream) const {
+  if (mNumPorts > 10)
+    throw IOException("COMPortSetup::write(): 10 COM ports maximum");
   stream << mTypeID;
-  stream << mByteCount;
+  stream << mByteCount + (8 * mNumPorts);
   stream << mTransactionNumber;
-  stream << mBaseGPSInputType;
-  stream << mLineControl;
-  stream << mModemControl;
-  stream << mConnectionControl;
-  for (size_t i = 0; i < sizeof(mPhoneNumber) / sizeof(mPhoneNumber[0]); ++i)
-    stream << mPhoneNumber[i];
-  stream << mNumRedials;
-  for (size_t i = 0; i < sizeof(mCommandString) / sizeof(mCommandString[0]);
-      ++i)
-    stream << mCommandString[i];
-  for (size_t i = 0; i < sizeof(mInitString) / sizeof(mInitString[0]); ++i)
-    stream << mInitString[i];
-  stream << mTimeoutLength;
+  stream << mNumPorts;
+  for (size_t i = 0; i < mNumPorts; i++)
+    stream << mpParameters[i];
+  stream << mPortMask;
 }
 
-void BaseGPS1Control::read(std::istream& stream) {
+void COMPortSetup::read(std::istream& stream) {
 }
 
-void BaseGPS1Control::write(std::ostream& stream) const {
+void COMPortSetup::write(std::ostream& stream) const {
 }
 
-void BaseGPS1Control::read(std::ifstream& stream) {
+void COMPortSetup::read(std::ifstream& stream) {
 }
 
-void BaseGPS1Control::write(std::ofstream& stream) const {
+void COMPortSetup::write(std::ofstream& stream) const {
   stream << mTypeID;
 }
 
@@ -133,6 +105,6 @@ void BaseGPS1Control::write(std::ofstream& stream) const {
 /* Methods                                                                    */
 /******************************************************************************/
 
-BaseGPS1Control* BaseGPS1Control::clone() const {
-  return new BaseGPS1Control(*this);
+COMPortSetup* COMPortSetup::clone() const {
+  return new COMPortSetup(*this);
 }
