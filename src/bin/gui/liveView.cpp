@@ -28,52 +28,52 @@
 #include "com/UDPConnectionServer.h"
 #include "sensor/POSLVComUDP.h"
 #include "visualization/UDPReader.h"
-#include "visualization/NavigationControl.h"
-#include "visualization/PrimaryGPSControl.h"
-#include "visualization/SecondaryGPSControl.h"
-#include "visualization/GAMSControl.h"
-#include "visualization/IMUControl.h"
-#include "visualization/DMIControl.h"
-#include "visualization/IINControl.h"
-#include "visualization/StatusControl.h"
-#include "visualization/FDIRControl.h"
-#include "visualization/CalibrationControl.h"
-#include "visualization/VersionControl.h"
-#include "visualization/TimeControl.h"
-#include "visualization/ParametersControl.h"
-#include "visualization/PortControl.h"
+#include "visualization/NavigationTab.h"
+#include "visualization/PrimaryGPSStatusTab.h"
+#include "visualization/SecondaryGPSStatusTab.h"
+#include "visualization/GAMSStatusTab.h"
+#include "visualization/IMUDataTab.h"
+#include "visualization/DMIDataTab.h"
+#include "visualization/IINStatusTab.h"
+#include "visualization/GeneralStatusTab.h"
+#include "visualization/FDIRTab.h"
+#include "visualization/CalibratedInstallationParamsTab.h"
+#include "visualization/VersionTab.h"
+#include "visualization/TimeStatusTab.h"
+//#include "visualization/ParametersControl.h"
+//#include "visualization/PortControl.h"
 
 int main(int argc, char** argv) {
   QApplication application(argc, argv);
   MainWindow mainWindow;
-  NavigationControl navigationControl;
-  PrimaryGPSControl primaryGPSControl;
-  SecondaryGPSControl secondaryGPSControl;
-  GAMSControl gamsControl;
-  IMUControl imuControl;
-  DMIControl dmiControl;
-  IINControl iinControl;
-  StatusControl statusControl;
-  FDIRControl fdirControl;
-  CalibrationControl calibrationControl;
-  VersionControl versionControl;
-  TimeControl timeControl;
-  ParametersControl parametersControl;
-  PortControl portControl;
-  mainWindow.addControl("Navigation", navigationControl);
-  mainWindow.addControl("Primary GPS", primaryGPSControl);
-  mainWindow.addControl("Secondary GPS", secondaryGPSControl);
-  mainWindow.addControl("GAMS", gamsControl);
-  mainWindow.addControl("IMU", imuControl);
-  mainWindow.addControl("DMI", dmiControl);
-  mainWindow.addControl("IIN", iinControl);
-  mainWindow.addControl("Status", statusControl);
-  mainWindow.addControl("FDIR", fdirControl);
-  mainWindow.addControl("Calibration", calibrationControl);
-  mainWindow.addControl("Version", versionControl);
-  mainWindow.addControl("Time", timeControl);
-  mainWindow.addControl("Parameters", parametersControl);
-  mainWindow.addControl("Ports", portControl);
+  NavigationTab navigationTab;
+  PrimaryGPSStatusTab primaryGPSStatusTab;
+  SecondaryGPSStatusTab secondaryGPSStatusTab;
+  GAMSStatusTab gamsStatusTab;
+  IMUDataTab imuDataTab;
+  DMIDataTab dmiDataTab;
+  IINStatusTab iinStatusTab;
+  GeneralStatusTab generalStatusTab;
+  FDIRTab fdirTab;
+  CalibratedInstallationParamsTab calibratedInstallationParamsTab;
+  VersionTab versionTab;
+  TimeStatusTab timeStatusTab;
+  //ParametersControl parametersControl;
+  //PortControl portControl;
+  mainWindow.addControl("Navigation Data", navigationTab);
+  mainWindow.addControl("Primary GPS Status", primaryGPSStatusTab);
+  mainWindow.addControl("Secondary GPS Status", secondaryGPSStatusTab);
+  mainWindow.addControl("GAMS Status", gamsStatusTab);
+  mainWindow.addControl("IMU Data", imuDataTab);
+  mainWindow.addControl("DMI Data", dmiDataTab);
+  mainWindow.addControl("IIN Status", iinStatusTab);
+  mainWindow.addControl("General Status", generalStatusTab);
+  mainWindow.addControl("FDIR", fdirTab);
+  mainWindow.addControl("Calibration", calibratedInstallationParamsTab);
+  mainWindow.addControl("Version", versionTab);
+  mainWindow.addControl("Time", timeStatusTab);
+  //mainWindow.addControl("Parameters", parametersControl);
+  //mainWindow.addControl("Ports", portControl);
   UDPConnectionServer connection(5600);
   POSLVComUDP device(connection);
   UDPReader reader(device);
@@ -86,60 +86,60 @@ int main(int argc, char** argv) {
     SLOT(deviceConnected(bool)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &navigationControl,
+    &navigationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &primaryGPSControl,
+    &primaryGPSStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &secondaryGPSControl,
+    &secondaryGPSStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &gamsControl,
+    &gamsStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &imuControl,
+    &imuDataTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &dmiControl,
+    &dmiDataTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &iinControl,
+    &iinStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &statusControl,
+    &generalStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &fdirControl,
+    &fdirTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &calibrationControl,
+    &calibratedInstallationParamsTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &versionControl,
+    &versionTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &timeControl,
+    &timeStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&reader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &parametersControl,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&reader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &portControl,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::connect(&reader,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &parametersControl,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::connect(&reader,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &portControl,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&reader,
@@ -148,59 +148,59 @@ int main(int argc, char** argv) {
     SLOT(deviceConnected(bool)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &navigationControl,
+    &navigationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &primaryGPSControl,
+    &primaryGPSStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &secondaryGPSControl,
+    &secondaryGPSStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &gamsControl,
+    &gamsStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &imuControl,
+    &imuDataTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &dmiControl,
+    &dmiDataTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &iinControl,
+    &iinStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &statusControl,
+    &generalStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &fdirControl,
+    &fdirTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &calibrationControl,
+    &calibratedInstallationParamsTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &versionControl,
+    &versionTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&reader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &timeControl,
+    &timeStatusTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&reader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &parametersControl,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&reader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &portControl,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::disconnect(&reader,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &parametersControl,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::disconnect(&reader,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &portControl,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
   return ret;
 }
