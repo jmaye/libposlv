@@ -16,24 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/VersionTab.h"
+#include "visualization/SaveRestoreControlTab.h"
 
-#include "types/VersionStatistics.h"
-#include "types/Group.h"
+#include "types/Message.h"
 #include "types/Packet.h"
+#include "types/SaveRestoreControl.h"
 
-#include "ui_VersionTab.h"
+#include "ui_SaveRestoreControlTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-VersionTab::VersionTab() :
-    mUi(new Ui_VersionTab()) {
+SaveRestoreControlTab::SaveRestoreControlTab() :
+    mUi(new Ui_SaveRestoreControlTab()),
+    mControlMode(false) {
   mUi->setupUi(this);
+  setReadOnlyFields(true);
 }
 
-VersionTab::~VersionTab() {
+SaveRestoreControlTab::~SaveRestoreControlTab() {
   delete mUi;
 }
 
@@ -41,31 +43,19 @@ VersionTab::~VersionTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionTab::enableFields(bool enable) {
-  mUi->sysVerText->setEnabled(enable);
-  mUi->primGPSVerText->setEnabled(enable);
-  mUi->secGPSVerText->setEnabled(enable);
-  mUi->totHoursSpinBox->setEnabled(enable);
-  mUi->runsNbrSpinBox->setEnabled(enable);
-  mUi->avgRunLengthSpinBox->setEnabled(enable);
-  mUi->longestRunSpinBox->setEnabled(enable);
-  mUi->currentRunSpinBox->setEnabled(enable);
+void SaveRestoreControlTab::enableFields(bool enable) {
+  mUi->noOpRadioButton->setEnabled(enable);
+  mUi->saveRadioButton->setEnabled(enable);
+  mUi->restoreNVMRadioButton->setEnabled(enable);
+  mUi->restoreFactoryRadioButton->setEnabled(enable);
 }
 
-void VersionTab::readPacket(boost::shared_ptr<Packet> packet) {
-  if (packet->instanceOfGroup()) {
-    const Group& group = packet->groupCast();
-    if (group.instanceOf<VersionStatistics>()) {
-      enableFields(true);
-      const VersionStatistics& msg = group.typeCast<VersionStatistics>();
-      mUi->sysVerText->setText((const char*)msg.mSystemVersion);
-      mUi->primGPSVerText->setText((const char*)msg.mPrimaryGPSVersion);
-      mUi->secGPSVerText->setText((const char*)msg.mSecondaryGPSversion);
-      mUi->totHoursSpinBox->setValue(msg.mTotalHours);
-      mUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
-      mUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
-      mUi->longestRunSpinBox->setValue(msg.mLongestRun);
-      mUi->currentRunSpinBox->setValue(msg.mCurrentRun);
-    }
-  }
+void SaveRestoreControlTab::setReadOnlyFields(bool readonly) {
+  mUi->noOpRadioButton->setCheckable(readonly);
+  mUi->saveRadioButton->setCheckable(readonly);
+  mUi->restoreNVMRadioButton->setCheckable(readonly);
+  mUi->restoreFactoryRadioButton->setCheckable(readonly);
+}
+
+void SaveRestoreControlTab::applyPressed() {
 }

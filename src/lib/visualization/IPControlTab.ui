@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>IPControl</class>
- <widget class="QWidget" name="IPControl">
+ <class>IPControlTab</class>
+ <widget class="QWidget" name="IPControlTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -144,7 +144,7 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>IPControl</receiver>
+   <receiver>IPControlTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">

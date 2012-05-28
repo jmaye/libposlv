@@ -27,17 +27,17 @@
 #include "visualization/TCPCom.h"
 #include "sensor/POSLVComTCP.h"
 #include "visualization/MainWindow.h"
-#include "visualization/AutoCalibrationControl.h"
-#include "visualization/AcknowledgeControl.h"
+#include "visualization/AutoCalibrationTab.h"
+#include "visualization/AcknowledgeTab.h"
 
 int main(int argc, char** argv) {
   QApplication application(argc, argv);
   MainWindow mainWindow;
   mainWindow.setWindowTitle("Applanix POS LV Control");
-  AutoCalibrationControl autoCalibrationControl;
-  AcknowledgeControl acknowledgeControl;
-  mainWindow.addControl("Auto Calibration", autoCalibrationControl);
-  mainWindow.addControl("Acknowledge", acknowledgeControl);
+  AutoCalibrationTab autoCalibrationTab;
+  AcknowledgeTab acknowledgeTab;
+  mainWindow.addControl("Auto Calibration", autoCalibrationTab);
+  mainWindow.addControl("Acknowledge", acknowledgeTab);
   TCPConnectionClient connection("129.132.39.171", 5601);
   POSLVComTCP device(connection);
   TCPCom com(device);
@@ -48,13 +48,13 @@ int main(int argc, char** argv) {
     SIGNAL(deviceConnected(bool)),
     &mainWindow,
     SLOT(deviceConnected(bool)));
-  QObject::connect(&autoCalibrationControl,
+  QObject::connect(&autoCalibrationTab,
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &com,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
   QObject::connect(&com,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &acknowledgeControl,
+    &acknowledgeTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   mainWindow.show();
   const int ret = application.exec();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AutoCalibrationControl</class>
- <widget class="QWidget" name="AutoCalibrationControl">
+ <class>AutoCalibrationTab</class>
+ <widget class="QWidget" name="AutoCalibrationTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -44,7 +44,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
+       <y>40</y>
        <width>109</width>
        <height>22</height>
       </rect>
@@ -53,7 +53,7 @@
       <string>Stop all</string>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QRadioButton" name="manualGeneralRadioButton">
@@ -63,7 +63,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>40</y>
+       <y>60</y>
        <width>109</width>
        <height>22</height>
       </rect>
@@ -79,7 +79,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>60</y>
+       <y>80</y>
        <width>109</width>
        <height>22</height>
       </rect>
@@ -95,7 +95,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>80</y>
+       <y>100</y>
        <width>131</width>
        <height>22</height>
       </rect>
@@ -111,7 +111,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>100</y>
+       <y>120</y>
        <width>131</width>
        <height>22</height>
       </rect>
@@ -120,12 +120,31 @@
       <string>Forced transfer</string>
      </property>
     </widget>
+    <widget class="QRadioButton" name="noActionRadioButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>109</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>No action</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="selectGeneralBox">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>180</y>
       <width>131</width>
       <height>111</height>
      </rect>
@@ -330,7 +349,7 @@
   <connection>
    <sender>applyGAMSButton</sender>
    <signal>pressed()</signal>
-   <receiver>AutoCalibrationControl</receiver>
+   <receiver>AutoCalibrationTab</receiver>
    <slot>applyGAMSPressed()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -346,7 +365,7 @@
   <connection>
    <sender>applyGeneralButton</sender>
    <signal>pressed()</signal>
-   <receiver>AutoCalibrationControl</receiver>
+   <receiver>AutoCalibrationTab</receiver>
    <slot>applyGeneralPressed()</slot>
    <hints>
     <hint type="sourcelabel">

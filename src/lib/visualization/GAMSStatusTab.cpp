@@ -49,29 +49,20 @@ GAMSStatusTab::~GAMSStatusTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void GAMSStatusTab::enableFields() {
-  mUi->satGAMSSpinBox->setEnabled(true);
-  mUi->statusText->setEnabled(true);
-  mUi->antennaSpinBox->setEnabled(true);
-  mUi->headingSpinBox->setEnabled(true);
-  mUi->headingRMSSpinBox->setEnabled(true);
-  mUi->pdopSpinBox->setEnabled(true);
-}
-
-void GAMSStatusTab::disableFields() {
-  mUi->satGAMSSpinBox->setEnabled(false);
-  mUi->statusText->setEnabled(false);
-  mUi->antennaSpinBox->setEnabled(false);
-  mUi->headingSpinBox->setEnabled(false);
-  mUi->headingRMSSpinBox->setEnabled(false);
-  mUi->pdopSpinBox->setEnabled(false);
+void GAMSStatusTab::enableFields(bool enable) {
+  mUi->satGAMSSpinBox->setEnabled(enable);
+  mUi->statusText->setEnabled(enable);
+  mUi->antennaSpinBox->setEnabled(enable);
+  mUi->headingSpinBox->setEnabled(enable);
+  mUi->headingRMSSpinBox->setEnabled(enable);
+  mUi->pdopSpinBox->setEnabled(enable);
 }
 
 void GAMSStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<GAMSSolutionStatus>()) {
-      enableFields();
+      enableFields(true);
       const GAMSSolutionStatus& msg = group.typeCast<GAMSSolutionStatus>();
       mUi->satGAMSSpinBox->setValue(msg.mNumberOfSatellites);
       mUi->statusText->setText(mStatusMsg[msg.mSolutionStatus].c_str());

@@ -16,24 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/VersionTab.h"
+#include "visualization/GravityControlTab.h"
 
-#include "types/VersionStatistics.h"
-#include "types/Group.h"
+#include "types/Message.h"
 #include "types/Packet.h"
+#include "types/PreciseGravitySpec.h"
 
-#include "ui_VersionTab.h"
+#include "ui_GravityControlTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-VersionTab::VersionTab() :
-    mUi(new Ui_VersionTab()) {
+GravityControlTab::GravityControlTab() :
+    mUi(new Ui_GravityControlTab()),
+    mControlMode(false) {
   mUi->setupUi(this);
+  setReadOnlyFields(true);
 }
 
-VersionTab::~VersionTab() {
+GravityControlTab::~GravityControlTab() {
   delete mUi;
 }
 
@@ -41,31 +43,41 @@ VersionTab::~VersionTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionTab::enableFields(bool enable) {
-  mUi->sysVerText->setEnabled(enable);
-  mUi->primGPSVerText->setEnabled(enable);
-  mUi->secGPSVerText->setEnabled(enable);
-  mUi->totHoursSpinBox->setEnabled(enable);
-  mUi->runsNbrSpinBox->setEnabled(enable);
-  mUi->avgRunLengthSpinBox->setEnabled(enable);
-  mUi->longestRunSpinBox->setEnabled(enable);
-  mUi->currentRunSpinBox->setEnabled(enable);
+void GravityControlTab::enableFields(bool enable) {
+  mUi->magnitudeSpinBox->setEnabled(enable);
+  mUi->northDefSpinBox->setEnabled(enable);
+  mUi->eastDefSpinBox->setEnabled(enable);
+  mUi->latValSpinBox->setEnabled(enable);
+  mUi->longValSpinBox->setEnabled(enable);
+  mUi->altValSpinBox->setEnabled(enable);
 }
 
-void VersionTab::readPacket(boost::shared_ptr<Packet> packet) {
-  if (packet->instanceOfGroup()) {
-    const Group& group = packet->groupCast();
-    if (group.instanceOf<VersionStatistics>()) {
+void GravityControlTab::setReadOnlyFields(bool readonly) {
+  mUi->magnitudeSpinBox->setReadOnly(readonly);
+  mUi->northDefSpinBox->setReadOnly(readonly);
+  mUi->eastDefSpinBox->setReadOnly(readonly);
+  mUi->latValSpinBox->setReadOnly(readonly);
+  mUi->longValSpinBox->setReadOnly(readonly);
+  mUi->altValSpinBox->setReadOnly(readonly);
+}
+
+void GravityControlTab::applyPressed() {
+}
+
+void GravityControlTab::readPacket(boost::shared_ptr<Packet> packet) {
+  if (mControlMode)
+    return;
+  if (packet->instanceOfMessage()) {
+    const Message& message = packet->messageCast();
+    if (message.instanceOf<PreciseGravitySpec>()) {
       enableFields(true);
-      const VersionStatistics& msg = group.typeCast<VersionStatistics>();
-      mUi->sysVerText->setText((const char*)msg.mSystemVersion);
-      mUi->primGPSVerText->setText((const char*)msg.mPrimaryGPSVersion);
-      mUi->secGPSVerText->setText((const char*)msg.mSecondaryGPSversion);
-      mUi->totHoursSpinBox->setValue(msg.mTotalHours);
-      mUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
-      mUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
-      mUi->longestRunSpinBox->setValue(msg.mLongestRun);
-      mUi->currentRunSpinBox->setValue(msg.mCurrentRun);
+      const PreciseGravitySpec& msg = message.typeCast<PreciseGravitySpec>();
+      mUi->magnitudeSpinBox->setValue(msg.mMagnitude);
+      mUi->northDefSpinBox->setValue(msg.mNorthDeflection);
+      mUi->eastDefSpinBox->setValue(msg.mEastDeflection);
+      mUi->latValSpinBox->setValue(msg.mLatitudeValidity);
+      mUi->longValSpinBox->setValue(msg.mLongitudeValidity);
+      mUi->altValSpinBox->setValue(msg.mAltitudeValidity);
     }
   }
 }

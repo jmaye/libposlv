@@ -47,29 +47,20 @@ DMIDataTab::~DMIDataTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void DMIDataTab::enableFields() {
-  mUi->signedSpinBox->setEnabled(true);
-  mUi->unsignedSpinBox->setEnabled(true);
-  mUi->scaleSpinBox->setEnabled(true);
-  mUi->rateSpinBox->setEnabled(true);
-  mUi->statusText->setEnabled(true);
-  mUi->typeText->setEnabled(true);
-}
-
-void DMIDataTab::disableFields() {
-  mUi->signedSpinBox->setEnabled(false);
-  mUi->unsignedSpinBox->setEnabled(false);
-  mUi->scaleSpinBox->setEnabled(false);
-  mUi->rateSpinBox->setEnabled(false);
-  mUi->statusText->setEnabled(false);
-  mUi->typeText->setEnabled(false);
+void DMIDataTab::enableFields(bool enable) {
+  mUi->signedSpinBox->setEnabled(enable);
+  mUi->unsignedSpinBox->setEnabled(enable);
+  mUi->scaleSpinBox->setEnabled(enable);
+  mUi->rateSpinBox->setEnabled(enable);
+  mUi->statusText->setEnabled(enable);
+  mUi->typeText->setEnabled(enable);
 }
 
 void DMIDataTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<TimeTaggedDMIData>()) {
-      enableFields();
+      enableFields(true);
       const TimeTaggedDMIData& msg = group.typeCast<TimeTaggedDMIData>();
       mUi->signedSpinBox->setValue(msg.mSignedDistanceTraveled);
       mUi->unsignedSpinBox->setValue(msg.mUnsignedDistanceTraveled);

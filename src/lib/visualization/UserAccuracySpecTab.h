@@ -16,28 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FDIRTab.h
-    \brief This file defines the FDIRTab class which is the control
-           for the FDIR
+/** \file UserAccuracySpecTab.h
+    \brief This file defines the UserAccuracySpecTab class which is the control
+           for the user accuracy specification
   */
 
-#ifndef FDIRTAB_H
-#define FDIRTAB_H
+#ifndef USERACCURACYSPECTAB_H
+#define USERACCURACYSPECTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_FDIRTab;
+class Ui_UserAccuracySpecTab;
 class Packet;
 
-/** The FDIRTab class is the control for the FDIR of the Applanix.
-    \brief FDIR control
+/** The UserAccuracySpecTab class is the control for the user accuracy
+    specification of the Applanix.
+    \brief User accuracy specification control
   */
-class FDIRTab :
+class UserAccuracySpecTab :
   public Control,
-  public Singleton<FDIRTab> {
+  public Singleton<UserAccuracySpecTab> {
 
 Q_OBJECT
 
@@ -45,9 +46,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  FDIRTab(const FDIRTab& other);
+  UserAccuracySpecTab(const UserAccuracySpecTab& other);
   /// Assignment operator
-  FDIRTab& operator = (const FDIRTab& other);
+  UserAccuracySpecTab& operator = (const UserAccuracySpecTab& other);
   /** @}
     */
 
@@ -56,9 +57,9 @@ public:
     @{
     */
   /// Default constructor
-  FDIRTab();
+  UserAccuracySpecTab();
   /// Destructor
-  virtual ~FDIRTab();
+  virtual ~UserAccuracySpecTab();
   /** @}
     */
 
@@ -68,6 +69,8 @@ protected:
     */
   /// Enable the fields
   void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
   /** @}
     */
 
@@ -75,7 +78,9 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRTab* mUi;
+  Ui_UserAccuracySpecTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -85,9 +90,11 @@ protected slots:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
+  /// Apply pressed
+  void applyPressed();
   /** @}
     */
 
 };
 
-#endif // FDIRTAB_H
+#endif // USERACCURACYSPECTAB_H

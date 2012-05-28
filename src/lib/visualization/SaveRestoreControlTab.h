@@ -16,28 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FDIRTab.h
-    \brief This file defines the FDIRTab class which is the control
-           for the FDIR
+/** \file SaveRestoreControlTab.h
+    \brief This file defines the SaveRestoreControlTab class which is the
+           control for the save/restore function
   */
 
-#ifndef FDIRTAB_H
-#define FDIRTAB_H
+#ifndef SAVERESTORECONTROLTAB_H
+#define SAVERESTORECONTROLTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_FDIRTab;
+class Ui_SaveRestoreControlTab;
 class Packet;
 
-/** The FDIRTab class is the control for the FDIR of the Applanix.
-    \brief FDIR control
+/** The SaveRestoreControlTab class is the control for the save/restore function
+    of the Applanix.
+    \brief Save/Restore control
   */
-class FDIRTab :
+class SaveRestoreControlTab :
   public Control,
-  public Singleton<FDIRTab> {
+  public Singleton<SaveRestoreControlTab> {
 
 Q_OBJECT
 
@@ -45,9 +46,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  FDIRTab(const FDIRTab& other);
+  SaveRestoreControlTab(const SaveRestoreControlTab& other);
   /// Assignment operator
-  FDIRTab& operator = (const FDIRTab& other);
+  SaveRestoreControlTab& operator = (const SaveRestoreControlTab& other);
   /** @}
     */
 
@@ -56,9 +57,9 @@ public:
     @{
     */
   /// Default constructor
-  FDIRTab();
+  SaveRestoreControlTab();
   /// Destructor
-  virtual ~FDIRTab();
+  virtual ~SaveRestoreControlTab();
   /** @}
     */
 
@@ -68,6 +69,8 @@ protected:
     */
   /// Enable the fields
   void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
   /** @}
     */
 
@@ -75,7 +78,9 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRTab* mUi;
+  Ui_SaveRestoreControlTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -83,11 +88,11 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
+  /// Apply pressed
+  void applyPressed();
   /** @}
     */
 
 };
 
-#endif // FDIRTAB_H
+#endif // SAVERESTORECONTROLTAB_H

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NavigationModeControl</class>
- <widget class="QWidget" name="NavigationModeControl">
+ <class>SaveRestoreControlTab</class>
+ <widget class="QWidget" name="SaveRestoreControlTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,9 +16,9 @@
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>330</x>
      <y>20</y>
-     <width>141</width>
+     <width>261</width>
      <height>131</height>
     </rect>
    </property>
@@ -32,7 +32,7 @@
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>Standby</string>
+       <string>Save parameters in NVM</string>
       </property>
      </widget>
     </item>
@@ -42,12 +42,22 @@
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>Navigate</string>
+       <string>Restore user settings from NVM</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QRadioButton" name="restoreFactoryRadioButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Restore factory default settings</string>
       </property>
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QRadioButton" name="radioButton">
+     <widget class="QRadioButton" name="noOpRadioButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -83,7 +93,7 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>NavigationModeControl</receiver>
+   <receiver>SaveRestoreControlTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">

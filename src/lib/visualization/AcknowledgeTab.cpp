@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/AcknowledgeControl.h"
+#include "visualization/AcknowledgeTab.h"
 
 #include <QtGui/QLineEdit>
 #include <QtGui/QSpinBox>
@@ -25,14 +25,14 @@
 #include "types/Message.h"
 #include "types/Acknowledge.h"
 
-#include "ui_AcknowledgeControl.h"
+#include "ui_AcknowledgeTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-AcknowledgeControl::AcknowledgeControl() :
-    mUi(new Ui_AcknowledgeControl()) {
+AcknowledgeTab::AcknowledgeTab() :
+    mUi(new Ui_AcknowledgeTab()) {
   mUi->setupUi(this);
   mStatusMsg[0] = "Not applicable";
   mStatusMsg[1] = "Message accepted";
@@ -47,7 +47,7 @@ AcknowledgeControl::AcknowledgeControl() :
   mStatusMsg[10] = "Checksum error";
 }
 
-AcknowledgeControl::~AcknowledgeControl() {
+AcknowledgeTab::~AcknowledgeTab() {
   delete mUi;
 }
 
@@ -55,7 +55,7 @@ AcknowledgeControl::~AcknowledgeControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void AcknowledgeControl::readPacket(boost::shared_ptr<Packet> packet) {
+void AcknowledgeTab::readPacket(boost::shared_ptr<Packet> packet) {
     if (packet->instanceOfMessage())
       if (packet->messageCast().instanceOf<Acknowledge>()) {
         const Acknowledge& msg = packet->messageCast().typeCast<Acknowledge>();

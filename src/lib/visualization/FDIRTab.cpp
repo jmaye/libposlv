@@ -91,19 +91,15 @@ FDIRTab::~FDIRTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void FDIRTab::enableFields() {
-  mUi->fdir1IMUSpinBox->setEnabled(true);
-}
-
-void FDIRTab::disableFields() {
-  mUi->fdir1IMUSpinBox->setEnabled(false);
+void FDIRTab::enableFields(bool enable) {
+  mUi->fdir1IMUSpinBox->setEnabled(enable);
 }
 
 void FDIRTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<GeneralStatusFDIR>()) {
-      enableFields();
+      enableFields(true);
       const GeneralStatusFDIR& msg = group.typeCast<GeneralStatusFDIR>();
       mUi->fdir1IMUSpinBox->setValue(msg.mFDIRLevel1Failures);
       std::bitset<32> fdir1(msg.mFDIRLevel1Status);

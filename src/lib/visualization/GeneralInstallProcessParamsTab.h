@@ -16,28 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FDIRTab.h
-    \brief This file defines the FDIRTab class which is the control
-           for the FDIR
+/** \file GeneralInstallProcessParamsTab.h
+    \brief This file defines the GeneralInstallProcessParamsTab class which is
+           the control for the general installation parameters.
   */
 
-#ifndef FDIRTAB_H
-#define FDIRTAB_H
+#ifndef GENERALINSTALLPROCESSPARAMSTAB_H
+#define GENERALINSTALLPROCESSPARAMSTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_FDIRTab;
+class Ui_GeneralInstallProcessParamsTab;
 class Packet;
 
-/** The FDIRTab class is the control for the FDIR of the Applanix.
-    \brief FDIR control
+/** The GeneralInstallProcessParamsTab class is the control for the general
+    installation parameters of the Applanix.
+    \brief General installation parameters control
   */
-class FDIRTab :
+class GeneralInstallProcessParamsTab :
   public Control,
-  public Singleton<FDIRTab> {
+  public Singleton<GeneralInstallProcessParamsTab> {
 
 Q_OBJECT
 
@@ -45,9 +46,10 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  FDIRTab(const FDIRTab& other);
+  GeneralInstallProcessParamsTab(const GeneralInstallProcessParamsTab& other);
   /// Assignment operator
-  FDIRTab& operator = (const FDIRTab& other);
+  GeneralInstallProcessParamsTab& operator = (const
+    GeneralInstallProcessParamsTab& other);
   /** @}
     */
 
@@ -56,9 +58,9 @@ public:
     @{
     */
   /// Default constructor
-  FDIRTab();
+  GeneralInstallProcessParamsTab();
   /// Destructor
-  virtual ~FDIRTab();
+  virtual ~GeneralInstallProcessParamsTab();
   /** @}
     */
 
@@ -68,6 +70,8 @@ protected:
     */
   /// Enable the fields
   void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
   /** @}
     */
 
@@ -75,7 +79,9 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRTab* mUi;
+  Ui_GeneralInstallProcessParamsTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -85,9 +91,11 @@ protected slots:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
+  /// Apply pressed
+  void applyPressed();
   /** @}
     */
 
 };
 
-#endif // FDIRTAB_H
+#endif // GENERALINSTALLPROCESSPARAMSTAB_H

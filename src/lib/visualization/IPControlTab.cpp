@@ -16,24 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/VersionTab.h"
+#include "visualization/IPControlTab.h"
 
-#include "types/VersionStatistics.h"
-#include "types/Group.h"
+#include "types/Message.h"
 #include "types/Packet.h"
+#include "types/SetPOSIPAddress.h"
 
-#include "ui_VersionTab.h"
+#include "ui_IPControlTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-VersionTab::VersionTab() :
-    mUi(new Ui_VersionTab()) {
+IPControlTab::IPControlTab() :
+    mUi(new Ui_IPControlTab()),
+    mControlMode(false) {
   mUi->setupUi(this);
+  setReadOnlyFields(true);
 }
 
-VersionTab::~VersionTab() {
+IPControlTab::~IPControlTab() {
   delete mUi;
 }
 
@@ -41,31 +43,47 @@ VersionTab::~VersionTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionTab::enableFields(bool enable) {
-  mUi->sysVerText->setEnabled(enable);
-  mUi->primGPSVerText->setEnabled(enable);
-  mUi->secGPSVerText->setEnabled(enable);
-  mUi->totHoursSpinBox->setEnabled(enable);
-  mUi->runsNbrSpinBox->setEnabled(enable);
-  mUi->avgRunLengthSpinBox->setEnabled(enable);
-  mUi->longestRunSpinBox->setEnabled(enable);
-  mUi->currentRunSpinBox->setEnabled(enable);
+void IPControlTab::enableFields(bool enable) {
+  mUi->net1SpinBox->setEnabled(enable);
+  mUi->net2SpinBox->setEnabled(enable);
+  mUi->net3SpinBox->setEnabled(enable);
+  mUi->net4SpinBox->setEnabled(enable);
+  mUi->subnet1SpinBox->setEnabled(enable);
+  mUi->subnet2SpinBox->setEnabled(enable);
+  mUi->subnet3SpinBox->setEnabled(enable);
+  mUi->subnet4SpinBox->setEnabled(enable);
 }
 
-void VersionTab::readPacket(boost::shared_ptr<Packet> packet) {
-  if (packet->instanceOfGroup()) {
-    const Group& group = packet->groupCast();
-    if (group.instanceOf<VersionStatistics>()) {
+void IPControlTab::setReadOnlyFields(bool readonly) {
+  mUi->net1SpinBox->setReadOnly(readonly);
+  mUi->net2SpinBox->setReadOnly(readonly);
+  mUi->net3SpinBox->setReadOnly(readonly);
+  mUi->net4SpinBox->setReadOnly(readonly);
+  mUi->subnet1SpinBox->setReadOnly(readonly);
+  mUi->subnet2SpinBox->setReadOnly(readonly);
+  mUi->subnet3SpinBox->setReadOnly(readonly);
+  mUi->subnet4SpinBox->setReadOnly(readonly);
+}
+
+void IPControlTab::applyPressed() {
+}
+
+void IPControlTab::readPacket(boost::shared_ptr<Packet> packet) {
+  if (mControlMode)
+    return;
+  if (packet->instanceOfMessage()) {
+    const Message& message = packet->messageCast();
+    if (message.instanceOf<SetPOSIPAddress>()) {
       enableFields(true);
-      const VersionStatistics& msg = group.typeCast<VersionStatistics>();
-      mUi->sysVerText->setText((const char*)msg.mSystemVersion);
-      mUi->primGPSVerText->setText((const char*)msg.mPrimaryGPSVersion);
-      mUi->secGPSVerText->setText((const char*)msg.mSecondaryGPSversion);
-      mUi->totHoursSpinBox->setValue(msg.mTotalHours);
-      mUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
-      mUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
-      mUi->longestRunSpinBox->setValue(msg.mLongestRun);
-      mUi->currentRunSpinBox->setValue(msg.mCurrentRun);
+      const SetPOSIPAddress& msg = message.typeCast<SetPOSIPAddress>();
+      mUi->net1SpinBox->setValue(msg.mNetworkPart1);
+      mUi->net2SpinBox->setValue(msg.mNetworkPart2);
+      mUi->net3SpinBox->setValue(msg.mHostPart1);
+      mUi->net4SpinBox->setValue(msg.mHostPart2);
+      mUi->subnet1SpinBox->setValue(msg.mSubNetworkPart1);
+      mUi->subnet2SpinBox->setValue(msg.mSubNetworkPart2);
+      mUi->subnet3SpinBox->setValue(msg.mSubHostPart1);
+      mUi->subnet4SpinBox->setValue(msg.mSubHostPart2);
     }
   }
 }

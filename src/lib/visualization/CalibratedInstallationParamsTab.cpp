@@ -51,46 +51,25 @@ CalibratedInstallationParamsTab::~CalibratedInstallationParamsTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void CalibratedInstallationParamsTab::enableFields() {
-  mUi->primGPSXSpinBox->setEnabled(true);
-  mUi->primGPSYSpinBox->setEnabled(true);
-  mUi->primGPSZSpinBox->setEnabled(true);
-  mUi->primGPSFOMSpinBox->setEnabled(true);
-  mUi->aux1GPSXSpinBox->setEnabled(true);
-  mUi->aux1GPSYSpinBox->setEnabled(true);
-  mUi->aux1GPSZSpinBox->setEnabled(true);
-  mUi->aux1GPSFOMSpinBox->setEnabled(true);
-  mUi->aux2GPSXSpinBox->setEnabled(true);
-  mUi->aux2GPSYSpinBox->setEnabled(true);
-  mUi->aux2GPSZSpinBox->setEnabled(true);
-  mUi->aux2GPSFOMSpinBox->setEnabled(true);
-  mUi->dmiXSpinBox->setEnabled(true);
-  mUi->dmiYSpinBox->setEnabled(true);
-  mUi->dmiZSpinBox->setEnabled(true);
-  mUi->dmiFOMSpinBox->setEnabled(true);
-  mUi->dmiScaleSpinBox->setEnabled(true);
-  mUi->dmiScaleFOMSpinBox->setEnabled(true);
-}
-
-void CalibratedInstallationParamsTab::disableFields() {
-  mUi->primGPSXSpinBox->setEnabled(false);
-  mUi->primGPSYSpinBox->setEnabled(false);
-  mUi->primGPSZSpinBox->setEnabled(false);
-  mUi->primGPSFOMSpinBox->setEnabled(false);
-  mUi->aux1GPSXSpinBox->setEnabled(false);
-  mUi->aux1GPSYSpinBox->setEnabled(false);
-  mUi->aux1GPSZSpinBox->setEnabled(false);
-  mUi->aux1GPSFOMSpinBox->setEnabled(false);
-  mUi->aux2GPSXSpinBox->setEnabled(false);
-  mUi->aux2GPSYSpinBox->setEnabled(false);
-  mUi->aux2GPSZSpinBox->setEnabled(false);
-  mUi->aux2GPSFOMSpinBox->setEnabled(false);
-  mUi->dmiXSpinBox->setEnabled(false);
-  mUi->dmiYSpinBox->setEnabled(false);
-  mUi->dmiZSpinBox->setEnabled(false);
-  mUi->dmiFOMSpinBox->setEnabled(false);
-  mUi->dmiScaleSpinBox->setEnabled(false);
-  mUi->dmiScaleFOMSpinBox->setEnabled(false);
+void CalibratedInstallationParamsTab::enableFields(bool enable) {
+  mUi->primGPSXSpinBox->setEnabled(enable);
+  mUi->primGPSYSpinBox->setEnabled(enable);
+  mUi->primGPSZSpinBox->setEnabled(enable);
+  mUi->primGPSFOMSpinBox->setEnabled(enable);
+  mUi->aux1GPSXSpinBox->setEnabled(enable);
+  mUi->aux1GPSYSpinBox->setEnabled(enable);
+  mUi->aux1GPSZSpinBox->setEnabled(enable);
+  mUi->aux1GPSFOMSpinBox->setEnabled(enable);
+  mUi->aux2GPSXSpinBox->setEnabled(enable);
+  mUi->aux2GPSYSpinBox->setEnabled(enable);
+  mUi->aux2GPSZSpinBox->setEnabled(enable);
+  mUi->aux2GPSFOMSpinBox->setEnabled(enable);
+  mUi->dmiXSpinBox->setEnabled(enable);
+  mUi->dmiYSpinBox->setEnabled(enable);
+  mUi->dmiZSpinBox->setEnabled(enable);
+  mUi->dmiFOMSpinBox->setEnabled(enable);
+  mUi->dmiScaleSpinBox->setEnabled(enable);
+  mUi->dmiScaleFOMSpinBox->setEnabled(enable);
 }
 
 void CalibratedInstallationParamsTab::readPacket(boost::shared_ptr<Packet>
@@ -98,7 +77,7 @@ void CalibratedInstallationParamsTab::readPacket(boost::shared_ptr<Packet>
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<CalibratedInstallationParams>()) {
-      enableFields();
+      enableFields(true);
       const CalibratedInstallationParams& msg =
         group.typeCast<CalibratedInstallationParams>();
       mUi->primGPSXSpinBox->setValue(msg.mReferenceToPrimaryGPSXLeverArm);

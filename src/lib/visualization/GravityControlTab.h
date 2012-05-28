@@ -16,32 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file AcknowledgeControl.h
-    \brief This file defines the AcknowledgeControl class which is the
-           control for acknowledge of the Applanix
+/** \file GravityControlTab.h
+    \brief This file defines the GravityControlTab class which is the control
+           for the gravity
   */
 
-#ifndef ACKNOWLEDGECONTROL_H
-#define ACKNOWLEDGECONTROL_H
-
-#include <map>
-#include <string>
+#ifndef GRAVITYCONTROLTAB_H
+#define GRAVITYCONTROLTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_AcknowledgeControl;
+class Ui_GravityControlTab;
 class Packet;
 
-/** The AcknowledgeControl class is the control for the auto calibration of
-    the Applanix.
-    \brief Auto calibration control
+/** The GravityControlTab class is the control for the gravity
+    specification of the Applanix.
+    \brief Gravity specification
   */
-class AcknowledgeControl :
+class GravityControlTab :
   public Control,
-  public Singleton<AcknowledgeControl> {
+  public Singleton<GravityControlTab> {
 
 Q_OBJECT
 
@@ -49,9 +46,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  AcknowledgeControl(const AcknowledgeControl& other);
+  GravityControlTab(const GravityControlTab& other);
   /// Assignment operator
-  AcknowledgeControl& operator = (const AcknowledgeControl& other);
+  GravityControlTab& operator = (const GravityControlTab& other);
   /** @}
     */
 
@@ -60,20 +57,30 @@ public:
     @{
     */
   /// Default constructor
-  AcknowledgeControl();
+  GravityControlTab();
   /// Destructor
-  virtual ~AcknowledgeControl();
+  virtual ~GravityControlTab();
   /** @}
     */
 
 protected:
+  /** \name Protected methods
+    @{
+    */
+  /// Enable the fields
+  void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
+  /** @}
+    */
+
   /** \name Protected members
     @{
     */
   /// Pointer to the UI
-  Ui_AcknowledgeControl* mUi;
-  /// Mapping for the status messages
-  std::map<uint16_t, std::string> mStatusMsg;
+  Ui_GravityControlTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -83,9 +90,11 @@ protected slots:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
+  /// Apply pressed
+  void applyPressed();
   /** @}
     */
 
 };
 
-#endif // ACKNOWLEDGECONTROL_H
+#endif // GRAVITYCONTROLTAB_H

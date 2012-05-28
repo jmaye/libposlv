@@ -16,24 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/VersionTab.h"
+#include "visualization/GAMSInstallParamsTab.h"
 
-#include "types/VersionStatistics.h"
-#include "types/Group.h"
+#include "types/Message.h"
 #include "types/Packet.h"
+#include "types/GAMSInstallParams.h"
 
-#include "ui_VersionTab.h"
+#include "ui_GAMSInstallParamsTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-VersionTab::VersionTab() :
-    mUi(new Ui_VersionTab()) {
+GAMSInstallParamsTab::GAMSInstallParamsTab() :
+    mUi(new Ui_GAMSInstallParamsTab()),
+    mControlMode(false) {
   mUi->setupUi(this);
+  setReadOnlyFields(true);
 }
 
-VersionTab::~VersionTab() {
+GAMSInstallParamsTab::~GAMSInstallParamsTab() {
   delete mUi;
 }
 
@@ -41,31 +43,41 @@ VersionTab::~VersionTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionTab::enableFields(bool enable) {
-  mUi->sysVerText->setEnabled(enable);
-  mUi->primGPSVerText->setEnabled(enable);
-  mUi->secGPSVerText->setEnabled(enable);
-  mUi->totHoursSpinBox->setEnabled(enable);
-  mUi->runsNbrSpinBox->setEnabled(enable);
-  mUi->avgRunLengthSpinBox->setEnabled(enable);
-  mUi->longestRunSpinBox->setEnabled(enable);
-  mUi->currentRunSpinBox->setEnabled(enable);
+void GAMSInstallParamsTab::enableFields(bool enable) {
+  mUi->antennaSpinBox->setEnabled(enable);
+  mUi->baseXSpinBox->setEnabled(enable);
+  mUi->baseYSpinBox->setEnabled(enable);
+  mUi->baseZSpinBox->setEnabled(enable);
+  mUi->maxHeadSpinBox->setEnabled(enable);
+  mUi->headCorrSpinBox->setEnabled(enable);
 }
 
-void VersionTab::readPacket(boost::shared_ptr<Packet> packet) {
-  if (packet->instanceOfGroup()) {
-    const Group& group = packet->groupCast();
-    if (group.instanceOf<VersionStatistics>()) {
+void GAMSInstallParamsTab::setReadOnlyFields(bool readonly) {
+  mUi->antennaSpinBox->setReadOnly(readonly);
+  mUi->baseXSpinBox->setReadOnly(readonly);
+  mUi->baseYSpinBox->setReadOnly(readonly);
+  mUi->baseZSpinBox->setReadOnly(readonly);
+  mUi->maxHeadSpinBox->setReadOnly(readonly);
+  mUi->headCorrSpinBox->setReadOnly(readonly);
+}
+
+void GAMSInstallParamsTab::applyPressed() {
+}
+
+void GAMSInstallParamsTab::readPacket(boost::shared_ptr<Packet> packet) {
+  if (mControlMode)
+    return;
+  if (packet->instanceOfMessage()) {
+    const Message& message = packet->messageCast();
+    if (message.instanceOf<GAMSInstallParams>()) {
       enableFields(true);
-      const VersionStatistics& msg = group.typeCast<VersionStatistics>();
-      mUi->sysVerText->setText((const char*)msg.mSystemVersion);
-      mUi->primGPSVerText->setText((const char*)msg.mPrimaryGPSVersion);
-      mUi->secGPSVerText->setText((const char*)msg.mSecondaryGPSversion);
-      mUi->totHoursSpinBox->setValue(msg.mTotalHours);
-      mUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
-      mUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
-      mUi->longestRunSpinBox->setValue(msg.mLongestRun);
-      mUi->currentRunSpinBox->setValue(msg.mCurrentRun);
+      const GAMSInstallParams& msg = message.typeCast<GAMSInstallParams>();
+      mUi->antennaSpinBox->setValue(msg.mAntennaSeparation);
+      mUi->baseXSpinBox->setValue(msg.mBaselineX);
+      mUi->baseYSpinBox->setValue(msg.mBaselineY);
+      mUi->baseZSpinBox->setValue(msg.mBaselineZ);
+      mUi->maxHeadSpinBox->setValue(msg.mMaxHeadingError);
+      mUi->headCorrSpinBox->setValue(msg.mHeadingCorrection);
     }
   }
 }

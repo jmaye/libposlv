@@ -47,23 +47,17 @@ IMUDataTab::~IMUDataTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void IMUDataTab::enableFields() {
-  mUi->typeSpinBox->setEnabled(true);
-  mUi->rateSpinBox->setEnabled(true);
-  mUi->statusText->setEnabled(true);
-}
-
-void IMUDataTab::disableFields() {
-  mUi->typeSpinBox->setEnabled(false);
-  mUi->rateSpinBox->setEnabled(false);
-  mUi->statusText->setEnabled(false);
+void IMUDataTab::enableFields(bool enable) {
+  mUi->typeSpinBox->setEnabled(enable);
+  mUi->rateSpinBox->setEnabled(enable);
+  mUi->statusText->setEnabled(enable);
 }
 
 void IMUDataTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<TimeTaggedIMUData>()) {
-      enableFields();
+      enableFields(true);
       const TimeTaggedIMUData& msg = group.typeCast<TimeTaggedIMUData>();
       mUi->typeSpinBox->setValue(msg.mIMUType);
       size_t dataRate;

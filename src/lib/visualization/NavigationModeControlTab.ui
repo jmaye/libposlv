@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SaveRestoreControl</class>
- <widget class="QWidget" name="SaveRestoreControl">
+ <class>NavigationModeControlTab</class>
+ <widget class="QWidget" name="NavigationModeControlTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,9 +16,9 @@
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>400</x>
      <y>20</y>
-     <width>261</width>
+     <width>141</width>
      <height>131</height>
     </rect>
    </property>
@@ -27,32 +27,22 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
-     <widget class="QRadioButton" name="saveRadioButton">
+     <widget class="QRadioButton" name="standbyRadioButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>Save parameters in NVM</string>
+       <string>Standby</string>
       </property>
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QRadioButton" name="restoreNVMRadioButton">
+     <widget class="QRadioButton" name="navigateRadioButton">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="text">
-       <string>Restore user settings from NVM</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QRadioButton" name="restoreFactoryRadioButton">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Restore factory default settings</string>
+       <string>Navigate</string>
       </property>
      </widget>
     </item>
@@ -93,7 +83,7 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>SaveRestoreControl</receiver>
+   <receiver>NavigationModeControlTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">

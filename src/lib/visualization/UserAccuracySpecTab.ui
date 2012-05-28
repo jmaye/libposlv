@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GAMSParametersControl</class>
- <widget class="QWidget" name="GAMSParametersControl">
+ <class>UserAccuracySpecTab</class>
+ <widget class="QWidget" name="UserAccuracySpecTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,82 +16,30 @@
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>280</x>
      <y>20</y>
-     <width>491</width>
-     <height>251</height>
+     <width>351</width>
+     <height>181</height>
     </rect>
    </property>
    <property name="title">
     <string/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Heading correction:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QDoubleSpinBox" name="headCorrSpinBox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="decimals">
-       <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
-      </property>
-      <property name="maximum">
-       <double>1000000.000000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.100000000000000</double>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Maximum heading error RMS for calibration:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="maxHeadSpinBox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="decimals">
-       <number>4</number>
-      </property>
-      <property name="maximum">
-       <double>1000000.000000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.100000000000000</double>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>Baseline vector Z component:</string>
+       <string>User velocity accuracy:</string>
       </property>
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="baseZSpinBox">
+     <widget class="QDoubleSpinBox" name="velAccSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -104,20 +52,17 @@
     <item row="2" column="0">
      <widget class="QLabel" name="label_10">
       <property name="text">
-       <string>Baseline vector Y component:</string>
+       <string>User position accuracy:</string>
       </property>
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="baseYSpinBox">
+     <widget class="QDoubleSpinBox" name="posAccSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -130,20 +75,17 @@
     <item row="1" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
-       <string>Baseline vector X component:</string>
+       <string>User heading accuracy:</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="baseXSpinBox">
+     <widget class="QDoubleSpinBox" name="headingAccSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -156,12 +98,12 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label_12">
       <property name="text">
-       <string>Primary-secondary antenna separation:</string>
+       <string>User attitude accuracy:</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="antennaSpinBox">
+     <widget class="QDoubleSpinBox" name="attAccSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -170,9 +112,6 @@
       </property>
       <property name="decimals">
        <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -185,7 +124,7 @@
     <item row="1" column="2">
      <widget class="QLabel" name="label_14">
       <property name="text">
-       <string>[m]</string>
+       <string>[deg]</string>
       </property>
      </widget>
     </item>
@@ -199,28 +138,14 @@
     <item row="0" column="2">
      <widget class="QLabel" name="label_13">
       <property name="text">
-       <string>[m]</string>
+       <string>[deg]</string>
       </property>
      </widget>
     </item>
     <item row="3" column="2">
      <widget class="QLabel" name="label_16">
       <property name="text">
-       <string>[m]</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QLabel" name="label_17">
-      <property name="text">
-       <string>[deg]</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <widget class="QLabel" name="label_18">
-      <property name="text">
-       <string>[deg]</string>
+       <string>[m/s]</string>
       </property>
      </widget>
     </item>
@@ -233,7 +158,7 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>290</y>
+     <y>220</y>
      <width>93</width>
      <height>27</height>
     </rect>
@@ -248,12 +173,12 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>GAMSParametersControl</receiver>
+   <receiver>UserAccuracySpecTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>446</x>
-     <y>613</y>
+     <x>416</x>
+     <y>483</y>
     </hint>
     <hint type="destinationlabel">
      <x>464</x>

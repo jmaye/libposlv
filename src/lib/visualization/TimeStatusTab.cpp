@@ -41,23 +41,17 @@ TimeStatusTab::~TimeStatusTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void TimeStatusTab::enableFields() {
-  mUi->gpsTimeSpinBox->setEnabled(true);
-  mUi->posTimeSpinBox->setEnabled(true);
-  mUi->distanceSpinBox->setEnabled(true);
-}
-
-void TimeStatusTab::disableFields() {
-  mUi->gpsTimeSpinBox->setEnabled(false);
-  mUi->posTimeSpinBox->setEnabled(false);
-  mUi->distanceSpinBox->setEnabled(false);
+void TimeStatusTab::enableFields(bool enable) {
+  mUi->gpsTimeSpinBox->setEnabled(enable);
+  mUi->posTimeSpinBox->setEnabled(enable);
+  mUi->distanceSpinBox->setEnabled(enable);
 }
 
 void TimeStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<PPSTimeRecoveryStatus>()) {
-      enableFields();
+      enableFields(true);
       const PPSTimeRecoveryStatus& msg =
         group.typeCast<PPSTimeRecoveryStatus>();
       mUi->gpsTimeSpinBox->setValue(msg.mTimeDistance.mTime1);

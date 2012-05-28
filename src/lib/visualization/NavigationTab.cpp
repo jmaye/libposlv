@@ -51,79 +51,45 @@ NavigationTab::~NavigationTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void NavigationTab::enableFields() {
-  mUi->latSpinBox->setEnabled(true);
-  mUi->longSpinBox->setEnabled(true);
-  mUi->altSpinBox->setEnabled(true);
-  mUi->velNorthSpinBox->setEnabled(true);
-  mUi->velEastSpinBox->setEnabled(true);
-  mUi->velDownSpinBox->setEnabled(true);
-  mUi->rollSpinBox->setEnabled(true);
-  mUi->pitchSpinBox->setEnabled(true);
-  mUi->headingSpinBox->setEnabled(true);
-  mUi->wanderSpinBox->setEnabled(true);
-  mUi->trackSpinBox->setEnabled(true);
-  mUi->speedSpinBox->setEnabled(true);
-  mUi->rateLongSpinBox->setEnabled(true);
-  mUi->rateTransSpinBox->setEnabled(true);
-  mUi->rateDownSpinBox->setEnabled(true);
-  mUi->accLongSpinBox->setEnabled(true);
-  mUi->accTransSpinBox->setEnabled(true);
-  mUi->accDownSpinBox->setEnabled(true);
-  mUi->alignmentText->setEnabled(true);
-  mUi->posNorthRMSSpinBox->setEnabled(true);
-  mUi->posEastRMSSpinBox->setEnabled(true);
-  mUi->posDownRMSSpinBox->setEnabled(true);
-  mUi->velNorthRMSSpinBox->setEnabled(true);
-  mUi->velEastRMSSpinBox->setEnabled(true);
-  mUi->velDownRMSSpinBox->setEnabled(true);
-  mUi->rollRMSSpinBox->setEnabled(true);
-  mUi->pitchRMSSpinBox->setEnabled(true);
-  mUi->headingRMSSpinBox->setEnabled(true);
-  mUi->semiMajorSpinBox->setEnabled(true);
-  mUi->semiMinorSpinBox->setEnabled(true);
-  mUi->orientationSpinBox->setEnabled(true);
-}
-
-void NavigationTab::disableFields() {
-  mUi->latSpinBox->setEnabled(false);
-  mUi->longSpinBox->setEnabled(false);
-  mUi->altSpinBox->setEnabled(false);
-  mUi->velNorthSpinBox->setEnabled(false);
-  mUi->velEastSpinBox->setEnabled(false);
-  mUi->velDownSpinBox->setEnabled(false);
-  mUi->rollSpinBox->setEnabled(false);
-  mUi->pitchSpinBox->setEnabled(false);
-  mUi->headingSpinBox->setEnabled(false);
-  mUi->wanderSpinBox->setEnabled(false);
-  mUi->trackSpinBox->setEnabled(false);
-  mUi->speedSpinBox->setEnabled(false);
-  mUi->rateLongSpinBox->setEnabled(false);
-  mUi->rateTransSpinBox->setEnabled(false);
-  mUi->rateDownSpinBox->setEnabled(false);
-  mUi->accLongSpinBox->setEnabled(false);
-  mUi->accTransSpinBox->setEnabled(false);
-  mUi->accDownSpinBox->setEnabled(false);
-  mUi->alignmentText->setEnabled(false);
-  mUi->posNorthRMSSpinBox->setEnabled(false);
-  mUi->posEastRMSSpinBox->setEnabled(false);
-  mUi->posDownRMSSpinBox->setEnabled(false);
-  mUi->velNorthRMSSpinBox->setEnabled(false);
-  mUi->velEastRMSSpinBox->setEnabled(false);
-  mUi->velDownRMSSpinBox->setEnabled(false);
-  mUi->rollRMSSpinBox->setEnabled(false);
-  mUi->pitchRMSSpinBox->setEnabled(false);
-  mUi->headingRMSSpinBox->setEnabled(false);
-  mUi->semiMajorSpinBox->setEnabled(false);
-  mUi->semiMinorSpinBox->setEnabled(false);
-  mUi->orientationSpinBox->setEnabled(false);
+void NavigationTab::enableFields(bool enable) {
+  mUi->latSpinBox->setEnabled(enable);
+  mUi->longSpinBox->setEnabled(enable);
+  mUi->altSpinBox->setEnabled(enable);
+  mUi->velNorthSpinBox->setEnabled(enable);
+  mUi->velEastSpinBox->setEnabled(enable);
+  mUi->velDownSpinBox->setEnabled(enable);
+  mUi->rollSpinBox->setEnabled(enable);
+  mUi->pitchSpinBox->setEnabled(enable);
+  mUi->headingSpinBox->setEnabled(enable);
+  mUi->wanderSpinBox->setEnabled(enable);
+  mUi->trackSpinBox->setEnabled(enable);
+  mUi->speedSpinBox->setEnabled(enable);
+  mUi->rateLongSpinBox->setEnabled(enable);
+  mUi->rateTransSpinBox->setEnabled(enable);
+  mUi->rateDownSpinBox->setEnabled(enable);
+  mUi->accLongSpinBox->setEnabled(enable);
+  mUi->accTransSpinBox->setEnabled(enable);
+  mUi->accDownSpinBox->setEnabled(enable);
+  mUi->alignmentText->setEnabled(enable);
+  mUi->posNorthRMSSpinBox->setEnabled(enable);
+  mUi->posEastRMSSpinBox->setEnabled(enable);
+  mUi->posDownRMSSpinBox->setEnabled(enable);
+  mUi->velNorthRMSSpinBox->setEnabled(enable);
+  mUi->velEastRMSSpinBox->setEnabled(enable);
+  mUi->velDownRMSSpinBox->setEnabled(enable);
+  mUi->rollRMSSpinBox->setEnabled(enable);
+  mUi->pitchRMSSpinBox->setEnabled(enable);
+  mUi->headingRMSSpinBox->setEnabled(enable);
+  mUi->semiMajorSpinBox->setEnabled(enable);
+  mUi->semiMinorSpinBox->setEnabled(enable);
+  mUi->orientationSpinBox->setEnabled(enable);
 }
 
 void NavigationTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<VehicleNavigationSolution>()) {
-      enableFields();
+      enableFields(true);
       const VehicleNavigationSolution& msg =
         group.typeCast<VehicleNavigationSolution>();
       mUi->latSpinBox->setValue(msg.mLatitude);

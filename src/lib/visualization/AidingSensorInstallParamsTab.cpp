@@ -16,24 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/VersionTab.h"
+#include "visualization/AidingSensorInstallParamsTab.h"
 
-#include "types/VersionStatistics.h"
-#include "types/Group.h"
+#include "types/Message.h"
 #include "types/Packet.h"
+#include "types/AidingSensorInstallParams.h"
 
-#include "ui_VersionTab.h"
+#include "ui_AidingSensorInstallParamsTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-VersionTab::VersionTab() :
-    mUi(new Ui_VersionTab()) {
+AidingSensorInstallParamsTab::AidingSensorInstallParamsTab() :
+    mUi(new Ui_AidingSensorInstallParamsTab()),
+    mControlMode(false) {
   mUi->setupUi(this);
+  setReadOnlyFields(true);
 }
 
-VersionTab::~VersionTab() {
+AidingSensorInstallParamsTab::~AidingSensorInstallParamsTab() {
   delete mUi;
 }
 
@@ -41,31 +43,37 @@ VersionTab::~VersionTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionTab::enableFields(bool enable) {
-  mUi->sysVerText->setEnabled(enable);
-  mUi->primGPSVerText->setEnabled(enable);
-  mUi->secGPSVerText->setEnabled(enable);
-  mUi->totHoursSpinBox->setEnabled(enable);
-  mUi->runsNbrSpinBox->setEnabled(enable);
-  mUi->avgRunLengthSpinBox->setEnabled(enable);
-  mUi->longestRunSpinBox->setEnabled(enable);
-  mUi->currentRunSpinBox->setEnabled(enable);
+void AidingSensorInstallParamsTab::enableFields(bool enable) {
+  mUi->dmiScaleSpinBox->setEnabled(enable);
+  mUi->dmiXSpinBox->setEnabled(enable);
+  mUi->dmiYSpinBox->setEnabled(enable);
+  mUi->dmiZSpinBox->setEnabled(enable);
 }
 
-void VersionTab::readPacket(boost::shared_ptr<Packet> packet) {
-  if (packet->instanceOfGroup()) {
-    const Group& group = packet->groupCast();
-    if (group.instanceOf<VersionStatistics>()) {
+void AidingSensorInstallParamsTab::setReadOnlyFields(bool readonly) {
+  mUi->dmiScaleSpinBox->setReadOnly(readonly);
+  mUi->dmiXSpinBox->setReadOnly(readonly);
+  mUi->dmiYSpinBox->setReadOnly(readonly);
+  mUi->dmiZSpinBox->setReadOnly(readonly);
+}
+
+void AidingSensorInstallParamsTab::applyPressed() {
+}
+
+void AidingSensorInstallParamsTab::readPacket(boost::shared_ptr<Packet>
+    packet) {
+  if (mControlMode)
+    return;
+  if (packet->instanceOfMessage()) {
+    const Message& message = packet->messageCast();
+    if (message.instanceOf<AidingSensorInstallParams>()) {
       enableFields(true);
-      const VersionStatistics& msg = group.typeCast<VersionStatistics>();
-      mUi->sysVerText->setText((const char*)msg.mSystemVersion);
-      mUi->primGPSVerText->setText((const char*)msg.mPrimaryGPSVersion);
-      mUi->secGPSVerText->setText((const char*)msg.mSecondaryGPSversion);
-      mUi->totHoursSpinBox->setValue(msg.mTotalHours);
-      mUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
-      mUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
-      mUi->longestRunSpinBox->setValue(msg.mLongestRun);
-      mUi->currentRunSpinBox->setValue(msg.mCurrentRun);
+      const AidingSensorInstallParams& msg =
+        message.typeCast<AidingSensorInstallParams>();
+      mUi->dmiScaleSpinBox->setValue(msg.mDMIScaleFactor);
+      mUi->dmiXSpinBox->setValue(msg.mRefDMIX);
+      mUi->dmiYSpinBox->setValue(msg.mRefDMIY);
+      mUi->dmiZSpinBox->setValue(msg.mRefDMIZ);
     }
   }
 }

@@ -63,38 +63,25 @@ SecondaryGPSStatusTab::~SecondaryGPSStatusTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void SecondaryGPSStatusTab::enableFields() {
-  mUi->navSecGPSText->setEnabled(true);
-  mUi->satSecGPSSpinBox->setEnabled(true);
-  mUi->secGPSTypeText->setEnabled(true);
-  mUi->geoidalSecGPSSpinBox->setEnabled(true);
-  mUi->hdopSpinBox->setEnabled(true);
-  mUi->vdopSpinBox->setEnabled(true);
-  mUi->dgpsIDSpinBox->setEnabled(true);
-  mUi->corrLatencySpinBox->setEnabled(true);
-  mUi->navLatencySpinBox->setEnabled(true);
-  mUi->weekSpinBox->setEnabled(true);
-  mUi->offsetSpinBox->setEnabled(true);
-}
-
-void SecondaryGPSStatusTab::disableFields() {
-  mUi->navSecGPSText->setEnabled(false);
-  mUi->satSecGPSSpinBox->setEnabled(false);
-  mUi->secGPSTypeText->setEnabled(false);
-  mUi->geoidalSecGPSSpinBox->setEnabled(false);
-  mUi->hdopSpinBox->setEnabled(false);
-  mUi->vdopSpinBox->setEnabled(false);
-  mUi->dgpsIDSpinBox->setEnabled(false);
-  mUi->corrLatencySpinBox->setEnabled(false);
-  mUi->navLatencySpinBox->setEnabled(false);
-  mUi->weekSpinBox->setEnabled(false);
-  mUi->offsetSpinBox->setEnabled(false);
+void SecondaryGPSStatusTab::enableFields(bool enable) {
+  mUi->navSecGPSText->setEnabled(enable);
+  mUi->satSecGPSSpinBox->setEnabled(enable);
+  mUi->secGPSTypeText->setEnabled(enable);
+  mUi->geoidalSecGPSSpinBox->setEnabled(enable);
+  mUi->hdopSpinBox->setEnabled(enable);
+  mUi->vdopSpinBox->setEnabled(enable);
+  mUi->dgpsIDSpinBox->setEnabled(enable);
+  mUi->corrLatencySpinBox->setEnabled(enable);
+  mUi->navLatencySpinBox->setEnabled(enable);
+  mUi->weekSpinBox->setEnabled(enable);
+  mUi->offsetSpinBox->setEnabled(enable);
 }
 
 void SecondaryGPSStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<SecondaryGPSStatus>()) {
+      enableFields(true);
       const SecondaryGPSStatus& msg = group.typeCast<SecondaryGPSStatus>();
       mUi->navSecGPSText->setText(
         mStatusMsg[msg.mNavigationSolutionStatus].c_str());

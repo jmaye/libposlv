@@ -16,28 +16,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FDIRTab.h
-    \brief This file defines the FDIRTab class which is the control
-           for the FDIR
+/** \file AcknowledgeTab.h
+    \brief This file defines the AcknowledgeTab class which is the
+           control for acknowledge of the Applanix
   */
 
-#ifndef FDIRTAB_H
-#define FDIRTAB_H
+#ifndef ACKNOWLEDGETAB_H
+#define ACKNOWLEDGETAB_H
+
+#include <map>
+#include <string>
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_FDIRTab;
+class Ui_AcknowledgeTab;
 class Packet;
 
-/** The FDIRTab class is the control for the FDIR of the Applanix.
-    \brief FDIR control
+/** The AcknowledgeTab class is the control for the auto calibration of
+    the Applanix.
+    \brief Auto calibration control
   */
-class FDIRTab :
+class AcknowledgeTab :
   public Control,
-  public Singleton<FDIRTab> {
+  public Singleton<AcknowledgeTab> {
 
 Q_OBJECT
 
@@ -45,9 +49,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  FDIRTab(const FDIRTab& other);
+  AcknowledgeTab(const AcknowledgeTab& other);
   /// Assignment operator
-  FDIRTab& operator = (const FDIRTab& other);
+  AcknowledgeTab& operator = (const AcknowledgeTab& other);
   /** @}
     */
 
@@ -56,26 +60,20 @@ public:
     @{
     */
   /// Default constructor
-  FDIRTab();
+  AcknowledgeTab();
   /// Destructor
-  virtual ~FDIRTab();
+  virtual ~AcknowledgeTab();
   /** @}
     */
 
 protected:
-  /** \name Protected methods
-    @{
-    */
-  /// Enable the fields
-  void enableFields(bool enable);
-  /** @}
-    */
-
   /** \name Protected members
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRTab* mUi;
+  Ui_AcknowledgeTab* mUi;
+  /// Mapping for the status messages
+  std::map<uint16_t, std::string> mStatusMsg;
   /** @}
     */
 
@@ -90,4 +88,4 @@ protected slots:
 
 };
 
-#endif // FDIRTAB_H
+#endif // ACKNOWLEDGETAB_H

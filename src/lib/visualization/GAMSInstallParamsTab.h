@@ -16,28 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FDIRTab.h
-    \brief This file defines the FDIRTab class which is the control
-           for the FDIR
+/** \file GAMSInstallParamsTab.h
+    \brief This file defines the GAMSInstallParamsTab class which is
+           the control for the GAMS installation parameters.
   */
 
-#ifndef FDIRTAB_H
-#define FDIRTAB_H
+#ifndef GAMSINSTALLPARAMSTAB_H
+#define GAMSINSTALLPARAMSTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_FDIRTab;
+class Ui_GAMSInstallParamsTab;
 class Packet;
 
-/** The FDIRTab class is the control for the FDIR of the Applanix.
-    \brief FDIR control
+/** The GAMSInstallParamsTab class is the control for the GAMS
+    installation parameters of the Applanix.
+    \brief GAMS installation parameters control
   */
-class FDIRTab :
+class GAMSInstallParamsTab :
   public Control,
-  public Singleton<FDIRTab> {
+  public Singleton<GAMSInstallParamsTab> {
 
 Q_OBJECT
 
@@ -45,9 +46,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  FDIRTab(const FDIRTab& other);
+  GAMSInstallParamsTab(const GAMSInstallParamsTab& other);
   /// Assignment operator
-  FDIRTab& operator = (const FDIRTab& other);
+  GAMSInstallParamsTab& operator = (const GAMSInstallParamsTab& other);
   /** @}
     */
 
@@ -56,9 +57,9 @@ public:
     @{
     */
   /// Default constructor
-  FDIRTab();
+  GAMSInstallParamsTab();
   /// Destructor
-  virtual ~FDIRTab();
+  virtual ~GAMSInstallParamsTab();
   /** @}
     */
 
@@ -68,6 +69,8 @@ protected:
     */
   /// Enable the fields
   void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
   /** @}
     */
 
@@ -75,7 +78,9 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRTab* mUi;
+  Ui_GAMSInstallParamsTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -85,9 +90,11 @@ protected slots:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
+  /// Apply pressed
+  void applyPressed();
   /** @}
     */
 
 };
 
-#endif // FDIRTAB_H
+#endif // GAMSINSTALLPARAMSTAB_H

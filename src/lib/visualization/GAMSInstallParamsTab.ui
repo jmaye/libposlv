@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GravityControl</class>
- <widget class="QWidget" name="GravityControl">
+ <class>GAMSInstallParamsTab</class>
+ <widget class="QWidget" name="GAMSInstallParamsTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,9 +16,9 @@
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>210</x>
      <y>20</y>
-     <width>351</width>
+     <width>491</width>
      <height>251</height>
     </rect>
    </property>
@@ -26,20 +26,72 @@
     <string/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_9">
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_7">
       <property name="text">
-       <string>Latitude of validity:</string>
+       <string>Heading correction:</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="latValSpinBox">
+    <item row="5" column="1">
+     <widget class="QDoubleSpinBox" name="headCorrSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.100000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Maximum heading error RMS for calibration:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="maxHeadSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="maximum">
+       <double>1000000.000000000000000</double>
+      </property>
+      <property name="singleStep">
+       <double>0.100000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>Baseline vector Z component:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDoubleSpinBox" name="baseZSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="decimals">
+       <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -52,17 +104,20 @@
     <item row="2" column="0">
      <widget class="QLabel" name="label_10">
       <property name="text">
-       <string>East deflection:</string>
+       <string>Baseline vector Y component:</string>
       </property>
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="eastDefSpinBox">
+     <widget class="QDoubleSpinBox" name="baseYSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -75,17 +130,20 @@
     <item row="1" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
-       <string>North deflection:</string>
+       <string>Baseline vector X component:</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="northDefSpinBox">
+     <widget class="QDoubleSpinBox" name="baseXSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -98,12 +156,12 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label_12">
       <property name="text">
-       <string>Gravity magnitude:</string>
+       <string>Primary-secondary antenna separation:</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="magnitudeSpinBox">
+     <widget class="QDoubleSpinBox" name="antennaSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -112,6 +170,9 @@
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -124,70 +185,42 @@
     <item row="1" column="2">
      <widget class="QLabel" name="label_14">
       <property name="text">
-       <string>[arc/s]</string>
+       <string>[m]</string>
       </property>
      </widget>
     </item>
     <item row="2" column="2">
      <widget class="QLabel" name="label_15">
       <property name="text">
-       <string>[arc/s]</string>
+       <string>[m]</string>
       </property>
      </widget>
     </item>
     <item row="0" column="2">
      <widget class="QLabel" name="label_13">
       <property name="text">
-       <string>[m/s²]</string>
+       <string>[m]</string>
       </property>
      </widget>
     </item>
     <item row="3" column="2">
      <widget class="QLabel" name="label_16">
       <property name="text">
-       <string>[deg]</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Longitude of validity:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QDoubleSpinBox" name="longValSpinBox">
-      <property name="enabled">
-       <bool>false</bool>
+       <string>[m]</string>
       </property>
      </widget>
     </item>
     <item row="4" column="2">
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="label_17">
       <property name="text">
        <string>[deg]</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Altitude of validity:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QDoubleSpinBox" name="altValSpinBox">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="2">
-     <widget class="QLabel" name="label_4">
+     <widget class="QLabel" name="label_18">
       <property name="text">
-       <string>[m]</string>
+       <string>[deg]</string>
       </property>
      </widget>
     </item>
@@ -200,7 +233,7 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>330</y>
+     <y>290</y>
      <width>93</width>
      <height>27</height>
     </rect>
@@ -215,12 +248,12 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>GravityControl</receiver>
+   <receiver>GAMSInstallParamsTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>416</x>
-     <y>483</y>
+     <x>446</x>
+     <y>613</y>
     </hint>
     <hint type="destinationlabel">
      <x>464</x>

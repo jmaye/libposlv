@@ -67,9 +67,7 @@ protected:
     @{
     */
   /// Enable the fields
-  void enableFields();
-  /// Disable the fields
-  void disableFields();
+  void enableFields(bool enable);
   /** @}
     */
 

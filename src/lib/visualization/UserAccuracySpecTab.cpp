@@ -16,24 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/VersionTab.h"
+#include "visualization/UserAccuracySpecTab.h"
 
-#include "types/VersionStatistics.h"
-#include "types/Group.h"
+#include "types/Message.h"
 #include "types/Packet.h"
+#include "types/UserAccuracySpec.h"
 
-#include "ui_VersionTab.h"
+#include "ui_UserAccuracySpecTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-VersionTab::VersionTab() :
-    mUi(new Ui_VersionTab()) {
+UserAccuracySpecTab::UserAccuracySpecTab() :
+    mUi(new Ui_UserAccuracySpecTab()),
+    mControlMode(false) {
   mUi->setupUi(this);
+  setReadOnlyFields(true);
 }
 
-VersionTab::~VersionTab() {
+UserAccuracySpecTab::~UserAccuracySpecTab() {
   delete mUi;
 }
 
@@ -41,31 +43,35 @@ VersionTab::~VersionTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void VersionTab::enableFields(bool enable) {
-  mUi->sysVerText->setEnabled(enable);
-  mUi->primGPSVerText->setEnabled(enable);
-  mUi->secGPSVerText->setEnabled(enable);
-  mUi->totHoursSpinBox->setEnabled(enable);
-  mUi->runsNbrSpinBox->setEnabled(enable);
-  mUi->avgRunLengthSpinBox->setEnabled(enable);
-  mUi->longestRunSpinBox->setEnabled(enable);
-  mUi->currentRunSpinBox->setEnabled(enable);
+void UserAccuracySpecTab::enableFields(bool enable) {
+  mUi->attAccSpinBox->setEnabled(enable);
+  mUi->headingAccSpinBox->setEnabled(enable);
+  mUi->posAccSpinBox->setEnabled(enable);
+  mUi->velAccSpinBox->setEnabled(enable);
 }
 
-void VersionTab::readPacket(boost::shared_ptr<Packet> packet) {
-  if (packet->instanceOfGroup()) {
-    const Group& group = packet->groupCast();
-    if (group.instanceOf<VersionStatistics>()) {
+void UserAccuracySpecTab::setReadOnlyFields(bool readonly) {
+  mUi->attAccSpinBox->setReadOnly(readonly);
+  mUi->headingAccSpinBox->setReadOnly(readonly);
+  mUi->posAccSpinBox->setReadOnly(readonly);
+  mUi->velAccSpinBox->setReadOnly(readonly);
+}
+
+void UserAccuracySpecTab::applyPressed() {
+}
+
+void UserAccuracySpecTab::readPacket(boost::shared_ptr<Packet> packet) {
+  if (mControlMode)
+    return;
+  if (packet->instanceOfMessage()) {
+    const Message& message = packet->messageCast();
+    if (message.instanceOf<UserAccuracySpec>()) {
       enableFields(true);
-      const VersionStatistics& msg = group.typeCast<VersionStatistics>();
-      mUi->sysVerText->setText((const char*)msg.mSystemVersion);
-      mUi->primGPSVerText->setText((const char*)msg.mPrimaryGPSVersion);
-      mUi->secGPSVerText->setText((const char*)msg.mSecondaryGPSversion);
-      mUi->totHoursSpinBox->setValue(msg.mTotalHours);
-      mUi->runsNbrSpinBox->setValue(msg.mNumberOfRuns);
-      mUi->avgRunLengthSpinBox->setValue(msg.mAverageLengthOfRun);
-      mUi->longestRunSpinBox->setValue(msg.mLongestRun);
-      mUi->currentRunSpinBox->setValue(msg.mCurrentRun);
+      const UserAccuracySpec& msg = message.typeCast<UserAccuracySpec>();
+      mUi->attAccSpinBox->setValue(msg.mAttitudeAccuracy);
+      mUi->headingAccSpinBox->setValue(msg.mHeadingAccuracy);
+      mUi->posAccSpinBox->setValue(msg.mPositionAccuracy);
+      mUi->velAccSpinBox->setValue(msg.mVelocityAccuracy);
     }
   }
 }

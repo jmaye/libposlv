@@ -16,29 +16,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file AutoCalibrationControl.h
-    \brief This file defines the AutoCalibrationControl class which is the
-           control for auto calibration of the Applanix
+/** \file IPControlTab.h
+    \brief This file defines the IPControlTab class which is the control
+           for the IP of the device.
   */
 
-#ifndef AUTOCALIBRATIONCONTROL_H
-#define AUTOCALIBRATIONCONTROL_H
+#ifndef IPCONTROLTAB_H
+#define IPCONTROLTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_AutoCalibrationControl;
+class Ui_IPControlTab;
 class Packet;
 
-/** The AutoCalibrationControl class is the control for the auto calibration of
-    the Applanix.
-    \brief Auto calibration control
+/** The IPControlTab class is the control for the IP address of the Applanix.
+    \brief IP address control
   */
-class AutoCalibrationControl :
+class IPControlTab :
   public Control,
-  public Singleton<AutoCalibrationControl> {
+  public Singleton<IPControlTab> {
 
 Q_OBJECT
 
@@ -46,9 +45,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  AutoCalibrationControl(const AutoCalibrationControl& other);
+  IPControlTab(const IPControlTab& other);
   /// Assignment operator
-  AutoCalibrationControl& operator = (const AutoCalibrationControl& other);
+  IPControlTab& operator = (const IPControlTab& other);
   /** @}
     */
 
@@ -57,18 +56,30 @@ public:
     @{
     */
   /// Default constructor
-  AutoCalibrationControl();
+  IPControlTab();
   /// Destructor
-  virtual ~AutoCalibrationControl();
+  virtual ~IPControlTab();
   /** @}
     */
 
 protected:
+  /** \name Protected methods
+    @{
+    */
+  /// Enable the fields
+  void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
+  /** @}
+    */
+
   /** \name Protected members
     @{
     */
   /// Pointer to the UI
-  Ui_AutoCalibrationControl* mUi;
+  Ui_IPControlTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -76,21 +87,13 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Apply general calibration
-  void applyGeneralPressed();
-  /// Apply GAMS calibration
-  void applyGAMSPressed();
-  /** @}
-    */
-
-signals:
-  /** \name Qt signals
-    @{
-    */
-  void writePacket(boost::shared_ptr<Packet> packet);
+  /// Packet read
+  void readPacket(boost::shared_ptr<Packet> packet);
+  /// Apply pressed
+  void applyPressed();
   /** @}
     */
 
 };
 
-#endif // AUTOCALIBRATIONCONTROL_H
+#endif // IPCONTROLTAB_H

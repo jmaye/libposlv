@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ProgramControl</class>
- <widget class="QWidget" name="ProgramControl">
+ <class>ProgramControlTab</class>
+ <widget class="QWidget" name="ProgramControlTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -78,7 +78,7 @@
   <connection>
    <sender>connectButton</sender>
    <signal>pressed()</signal>
-   <receiver>ProgramControl</receiver>
+   <receiver>ProgramControlTab</receiver>
    <slot>connectPressed()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -94,7 +94,7 @@
   <connection>
    <sender>disconnectButton</sender>
    <signal>pressed()</signal>
-   <receiver>ProgramControl</receiver>
+   <receiver>ProgramControlTab</receiver>
    <slot>disconnectPressed()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -110,7 +110,7 @@
   <connection>
    <sender>resetPOSButton</sender>
    <signal>pressed()</signal>
-   <receiver>ProgramControl</receiver>
+   <receiver>ProgramControlTab</receiver>
    <slot>resetPOSPressed()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -126,7 +126,7 @@
   <connection>
    <sender>resetGAMSButton</sender>
    <signal>pressed()</signal>
-   <receiver>ProgramControl</receiver>
+   <receiver>ProgramControlTab</receiver>
    <slot>resetGAMSPressed()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -142,7 +142,7 @@
   <connection>
    <sender>shutdownButton</sender>
    <signal>pressed()</signal>
-   <receiver>ProgramControl</receiver>
+   <receiver>ProgramControlTab</receiver>
    <slot>shutdownPressed()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AccuracyControl</class>
- <widget class="QWidget" name="AccuracyControl">
+ <class>AidingSensorInstallParamsTab</class>
+ <widget class="QWidget" name="AidingSensorInstallParamsTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,9 +16,9 @@
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>240</x>
      <y>20</y>
-     <width>351</width>
+     <width>431</width>
      <height>181</height>
     </rect>
    </property>
@@ -29,17 +29,20 @@
     <item row="3" column="0">
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>User velocity accuracy:</string>
+       <string>Reference to DMI Z lever arm:</string>
       </property>
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="velAccSpinBox">
+     <widget class="QDoubleSpinBox" name="dmiZSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -52,17 +55,20 @@
     <item row="2" column="0">
      <widget class="QLabel" name="label_10">
       <property name="text">
-       <string>User position accuracy:</string>
+       <string>Reference to DMI Y lever arm:</string>
       </property>
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="posAccSpinBox">
+     <widget class="QDoubleSpinBox" name="dmiYSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -75,17 +81,20 @@
     <item row="1" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
-       <string>User heading accuracy:</string>
+       <string>Reference to DMI X lever arm:</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="headingAccSpinBox">
+     <widget class="QDoubleSpinBox" name="dmiXSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
+      </property>
+      <property name="minimum">
+       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -98,12 +107,12 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label_12">
       <property name="text">
-       <string>User attitude accuracy:</string>
+       <string>DMI scale factor:</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="attAccSpinBox">
+     <widget class="QDoubleSpinBox" name="dmiScaleSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -124,7 +133,7 @@
     <item row="1" column="2">
      <widget class="QLabel" name="label_14">
       <property name="text">
-       <string>[deg]</string>
+       <string>[m]</string>
       </property>
      </widget>
     </item>
@@ -138,14 +147,14 @@
     <item row="0" column="2">
      <widget class="QLabel" name="label_13">
       <property name="text">
-       <string>[deg]</string>
+       <string>[pulses/m]</string>
       </property>
      </widget>
     </item>
     <item row="3" column="2">
      <widget class="QLabel" name="label_16">
       <property name="text">
-       <string>[m/s]</string>
+       <string>[m]</string>
       </property>
      </widget>
     </item>
@@ -173,12 +182,12 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>AccuracyControl</receiver>
+   <receiver>AidingSensorInstallParamsTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>416</x>
-     <y>483</y>
+     <x>446</x>
+     <y>613</y>
     </hint>
     <hint type="destinationlabel">
      <x>464</x>

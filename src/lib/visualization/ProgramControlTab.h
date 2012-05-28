@@ -16,28 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FDIRTab.h
-    \brief This file defines the FDIRTab class which is the control
-           for the FDIR
+/** \file ProgramControlTab.h
+    \brief This file defines the ProgramControlTab class which is the
+           control for the program
   */
 
-#ifndef FDIRTAB_H
-#define FDIRTAB_H
+#ifndef PROGRAMCONTROLTAB_H
+#define PROGRAMCONTROLTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_FDIRTab;
+class Ui_ProgramControlTab;
 class Packet;
 
-/** The FDIRTab class is the control for the FDIR of the Applanix.
-    \brief FDIR control
+/** The ProgramControlTab class is the control for the program
+    of the Applanix.
+    \brief Program control
   */
-class FDIRTab :
+class ProgramControlTab :
   public Control,
-  public Singleton<FDIRTab> {
+  public Singleton<ProgramControlTab> {
 
 Q_OBJECT
 
@@ -45,9 +46,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  FDIRTab(const FDIRTab& other);
+  ProgramControlTab(const ProgramControlTab& other);
   /// Assignment operator
-  FDIRTab& operator = (const FDIRTab& other);
+  ProgramControlTab& operator = (const ProgramControlTab& other);
   /** @}
     */
 
@@ -56,9 +57,9 @@ public:
     @{
     */
   /// Default constructor
-  FDIRTab();
+  ProgramControlTab();
   /// Destructor
-  virtual ~FDIRTab();
+  virtual ~ProgramControlTab();
   /** @}
     */
 
@@ -68,6 +69,8 @@ protected:
     */
   /// Enable the fields
   void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
   /** @}
     */
 
@@ -75,7 +78,9 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRTab* mUi;
+  Ui_ProgramControlTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -83,11 +88,9 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
   /** @}
     */
 
 };
 
-#endif // FDIRTAB_H
+#endif // PROGRAMCONTROLTAB_H

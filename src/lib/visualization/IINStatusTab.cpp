@@ -49,25 +49,18 @@ IINStatusTab::~IINStatusTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void IINStatusTab::enableFields() {
-  mUi->satIINSpinBox->setEnabled(true);
-  mUi->statusText->setEnabled(true);
-  mUi->baselineSpinBox->setEnabled(true);
-  mUi->pdopSpinBox->setEnabled(true);
-}
-
-void IINStatusTab::disableFields() {
-  mUi->satIINSpinBox->setEnabled(false);
-  mUi->statusText->setEnabled(false);
-  mUi->baselineSpinBox->setEnabled(false);
-  mUi->pdopSpinBox->setEnabled(false);
+void IINStatusTab::enableFields(bool enable) {
+  mUi->satIINSpinBox->setEnabled(enable);
+  mUi->statusText->setEnabled(enable);
+  mUi->baselineSpinBox->setEnabled(enable);
+  mUi->pdopSpinBox->setEnabled(enable);
 }
 
 void IINStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<IINSolutionStatus>()) {
-      enableFields();
+      enableFields(true);
       const IINSolutionStatus& msg = group.typeCast<IINSolutionStatus>();
       mUi->satIINSpinBox->setValue(msg.mNumberOfSatellites);
       mUi->statusText->setText(mStatusMsg[msg.mIINProcessingStatus].c_str());

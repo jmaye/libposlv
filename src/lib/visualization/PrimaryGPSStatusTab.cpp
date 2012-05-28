@@ -68,43 +68,27 @@ PrimaryGPSStatusTab::~PrimaryGPSStatusTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void PrimaryGPSStatusTab::enableFields() {
-  mUi->navPrimGPSText->setEnabled(true);
-  mUi->satPrimGPSSpinBox->setEnabled(true);
-  mUi->primGPSTypeText->setEnabled(true);
-  mUi->geoidalPrimGPSSpinBox->setEnabled(true);
-  mUi->hdopSpinBox->setEnabled(true);
-  mUi->vdopSpinBox->setEnabled(true);
-  mUi->dgpsIDSpinBox->setEnabled(true);
-  mUi->corrLatencySpinBox->setEnabled(true);
-  mUi->navLatencySpinBox->setEnabled(true);
-  mUi->weekSpinBox->setEnabled(true);
-  mUi->offsetSpinBox->setEnabled(true);
-  mUi->ppsSpinBox->setEnabled(true);
-  mUi->timeStatusText->setEnabled(true);
-}
-
-void PrimaryGPSStatusTab::disableFields() {
-  mUi->navPrimGPSText->setEnabled(false);
-  mUi->satPrimGPSSpinBox->setEnabled(false);
-  mUi->primGPSTypeText->setEnabled(false);
-  mUi->geoidalPrimGPSSpinBox->setEnabled(false);
-  mUi->hdopSpinBox->setEnabled(false);
-  mUi->vdopSpinBox->setEnabled(false);
-  mUi->dgpsIDSpinBox->setEnabled(false);
-  mUi->corrLatencySpinBox->setEnabled(false);
-  mUi->navLatencySpinBox->setEnabled(false);
-  mUi->weekSpinBox->setEnabled(false);
-  mUi->offsetSpinBox->setEnabled(false);
-  mUi->ppsSpinBox->setEnabled(false);
-  mUi->timeStatusText->setEnabled(false);
+void PrimaryGPSStatusTab::enableFields(bool enable) {
+  mUi->navPrimGPSText->setEnabled(enable);
+  mUi->satPrimGPSSpinBox->setEnabled(enable);
+  mUi->primGPSTypeText->setEnabled(enable);
+  mUi->geoidalPrimGPSSpinBox->setEnabled(enable);
+  mUi->hdopSpinBox->setEnabled(enable);
+  mUi->vdopSpinBox->setEnabled(enable);
+  mUi->dgpsIDSpinBox->setEnabled(enable);
+  mUi->corrLatencySpinBox->setEnabled(enable);
+  mUi->navLatencySpinBox->setEnabled(enable);
+  mUi->weekSpinBox->setEnabled(enable);
+  mUi->offsetSpinBox->setEnabled(enable);
+  mUi->ppsSpinBox->setEnabled(enable);
+  mUi->timeStatusText->setEnabled(enable);
 }
 
 void PrimaryGPSStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<PrimaryGPSStatus>()) {
-      enableFields();
+      enableFields(true);
       const PrimaryGPSStatus& msg = group.typeCast<PrimaryGPSStatus>();
       mUi->navPrimGPSText->setText(
         mStatusMsg[msg.mNavigationSolutionStatus].c_str());

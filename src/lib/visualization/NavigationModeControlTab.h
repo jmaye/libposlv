@@ -16,28 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file FDIRTab.h
-    \brief This file defines the FDIRTab class which is the control
-           for the FDIR
+/** \file NavigationModeControlTab.h
+    \brief This file defines the NavigationModeControlTab class which is the
+           control of navigation mode.
   */
 
-#ifndef FDIRTAB_H
-#define FDIRTAB_H
+#ifndef NAVIGATIONMODECONTROLTAB_H
+#define NAVIGATIONMODECONTROLTAB_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_FDIRTab;
+class Ui_NavigationModeControlTab;
 class Packet;
 
-/** The FDIRTab class is the control for the FDIR of the Applanix.
-    \brief FDIR control
+/** The NavigationModeControlTab class is the control for the navigation mode of
+    the Applanix.
+    \brief Navigation mode control
   */
-class FDIRTab :
+class NavigationModeControlTab :
   public Control,
-  public Singleton<FDIRTab> {
+  public Singleton<NavigationModeControlTab> {
 
 Q_OBJECT
 
@@ -45,9 +46,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  FDIRTab(const FDIRTab& other);
+  NavigationModeControlTab(const NavigationModeControlTab& other);
   /// Assignment operator
-  FDIRTab& operator = (const FDIRTab& other);
+  NavigationModeControlTab& operator = (const NavigationModeControlTab& other);
   /** @}
     */
 
@@ -56,9 +57,9 @@ public:
     @{
     */
   /// Default constructor
-  FDIRTab();
+  NavigationModeControlTab();
   /// Destructor
-  virtual ~FDIRTab();
+  virtual ~NavigationModeControlTab();
   /** @}
     */
 
@@ -68,6 +69,8 @@ protected:
     */
   /// Enable the fields
   void enableFields(bool enable);
+  /// Sets readonly fields
+  void setReadOnlyFields(bool readonly);
   /** @}
     */
 
@@ -75,7 +78,9 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_FDIRTab* mUi;
+  Ui_NavigationModeControlTab* mUi;
+  /// Specifies if the tab is in control mode
+  bool mControlMode;
   /** @}
     */
 
@@ -85,9 +90,11 @@ protected slots:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
+  /// Apply pressed
+  void applyPressed();
   /** @}
     */
 
 };
 
-#endif // FDIRTAB_H
+#endif // NAVIGATIONMODECONTROLTAB_H

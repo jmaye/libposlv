@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GeneralParametersControl</class>
- <widget class="QWidget" name="GeneralParametersControl">
+ <class>GeneralInstallProcessParamsTab</class>
+ <widget class="QWidget" name="GeneralInstallProcessParamsTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -762,7 +762,7 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>GeneralParametersControl</receiver>
+   <receiver>GeneralInstallProcessParamsTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">

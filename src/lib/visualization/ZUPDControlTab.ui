@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ZUPDControl</class>
- <widget class="QWidget" name="ZUPDControl">
+ <class>ZUPDControlTab</class>
+ <widget class="QWidget" name="ZUPDControlTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -185,7 +185,7 @@
    <property name="title">
     <string>Control</string>
    </property>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="noZUPDRadioButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -204,7 +204,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="manualZUPDRadioButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -220,7 +220,7 @@
      <string>Manual ZUPD</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_3">
+   <widget class="QRadioButton" name="snvRadioButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -236,7 +236,7 @@
      <string>SNV-detected Auto-ZUPD</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_4">
+   <widget class="QRadioButton" name="dmiRadioButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -252,7 +252,7 @@
      <string>DMI-detected Auto-ZUPD</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_5">
+   <widget class="QRadioButton" name="gpsRadioButton">
     <property name="enabled">
      <bool>false</bool>
     </property>
@@ -275,7 +275,7 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>ZUPDControl</receiver>
+   <receiver>ZUPDControlTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">

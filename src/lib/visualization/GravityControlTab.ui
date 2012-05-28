@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DMIParametersControl</class>
- <widget class="QWidget" name="DMIParametersControl">
+ <class>GravityControlTab</class>
+ <widget class="QWidget" name="GravityControlTab">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,10 +16,10 @@
   <widget class="QGroupBox" name="groupBox_6">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>280</x>
      <y>20</y>
-     <width>431</width>
-     <height>181</height>
+     <width>351</width>
+     <height>251</height>
     </rect>
    </property>
    <property name="title">
@@ -29,20 +29,17 @@
     <item row="3" column="0">
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>Reference to DMI Z lever arm:</string>
+       <string>Latitude of validity:</string>
       </property>
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="dmiZSpinBox">
+     <widget class="QDoubleSpinBox" name="latValSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -55,20 +52,17 @@
     <item row="2" column="0">
      <widget class="QLabel" name="label_10">
       <property name="text">
-       <string>Reference to DMI Y lever arm:</string>
+       <string>East deflection:</string>
       </property>
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="dmiYSpinBox">
+     <widget class="QDoubleSpinBox" name="eastDefSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -81,20 +75,17 @@
     <item row="1" column="0">
      <widget class="QLabel" name="label_11">
       <property name="text">
-       <string>Reference to DMI X lever arm:</string>
+       <string>North deflection:</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="dmiXSpinBox">
+     <widget class="QDoubleSpinBox" name="northDefSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="decimals">
        <number>4</number>
-      </property>
-      <property name="minimum">
-       <double>-1000000.000000000000000</double>
       </property>
       <property name="maximum">
        <double>1000000.000000000000000</double>
@@ -107,12 +98,12 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label_12">
       <property name="text">
-       <string>DMI scale factor:</string>
+       <string>Gravity magnitude:</string>
       </property>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="dmiScaleSpinBox">
+     <widget class="QDoubleSpinBox" name="magnitudeSpinBox">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -133,26 +124,68 @@
     <item row="1" column="2">
      <widget class="QLabel" name="label_14">
       <property name="text">
-       <string>[m]</string>
+       <string>[arc/s]</string>
       </property>
      </widget>
     </item>
     <item row="2" column="2">
      <widget class="QLabel" name="label_15">
       <property name="text">
-       <string>[m]</string>
+       <string>[arc/s]</string>
       </property>
      </widget>
     </item>
     <item row="0" column="2">
      <widget class="QLabel" name="label_13">
       <property name="text">
-       <string>[pulses/m]</string>
+       <string>[m/s²]</string>
       </property>
      </widget>
     </item>
     <item row="3" column="2">
      <widget class="QLabel" name="label_16">
+      <property name="text">
+       <string>[deg]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Longitude of validity:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDoubleSpinBox" name="longValSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>[deg]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Altitude of validity:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QDoubleSpinBox" name="altValSpinBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QLabel" name="label_4">
       <property name="text">
        <string>[m]</string>
       </property>
@@ -167,7 +200,7 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>220</y>
+     <y>330</y>
      <width>93</width>
      <height>27</height>
     </rect>
@@ -182,12 +215,12 @@
   <connection>
    <sender>applyButton</sender>
    <signal>pressed()</signal>
-   <receiver>DMIParametersControl</receiver>
+   <receiver>GravityControlTab</receiver>
    <slot>applyPressed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>446</x>
-     <y>613</y>
+     <x>416</x>
+     <y>483</y>
     </hint>
     <hint type="destinationlabel">
      <x>464</x>
