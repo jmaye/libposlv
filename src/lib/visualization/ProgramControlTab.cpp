@@ -29,10 +29,8 @@
 /******************************************************************************/
 
 ProgramControlTab::ProgramControlTab() :
-    mUi(new Ui_ProgramControlTab()),
-    mControlMode(false) {
+    mUi(new Ui_ProgramControlTab()) {
   mUi->setupUi(this);
-  setReadOnlyFields(true);
 }
 
 ProgramControlTab::~ProgramControlTab() {
@@ -43,18 +41,19 @@ ProgramControlTab::~ProgramControlTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void ProgramControlTab::enableFields(bool enable) {
-  mUi->connectButton->setEnabled(enable);
-  mUi->disconnectButton->setEnabled(enable);
-  mUi->resetPOSButton->setEnabled(enable);
-  mUi->resetGAMSButton->setEnabled(enable);
-  mUi->shutdownButton->setEnabled(enable);
+void ProgramControlTab::connectPressed() {
+  emit connect(true);
 }
 
-void ProgramControlTab::setReadOnlyFields(bool readonly) {
-  mUi->connectButton->setCheckable(readonly);
-  mUi->disconnectButton->setCheckable(readonly);
-  mUi->resetPOSButton->setCheckable(readonly);
-  mUi->resetGAMSButton->setCheckable(readonly);
-  mUi->shutdownButton->setCheckable(readonly);
+void ProgramControlTab::disconnectPressed() {
+  emit connect(false);
+}
+
+void ProgramControlTab::resetPOSPressed() {
+}
+
+void ProgramControlTab::resetGAMSPressed() {
+}
+
+void ProgramControlTab::shutdownPressed() {
 }

@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/UDPReader.h"
+#include "visualization/UDPCom.h"
 
 #include "sensor/POSLVComUDP.h"
 #include "com/UDPConnectionServer.h"
@@ -29,27 +29,26 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-UDPReader::UDPReader(POSLVComUDP& device, double pollingTime) :
+UDPCom::UDPCom(POSLVComUDP& device, double pollingTime) :
     mDevice(device),
     mPollingTime(pollingTime) {
   connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
   mTimer.setInterval(pollingTime);
   mTimer.start();
-  qRegisterMetaType<boost::shared_ptr<Packet> >();
 }
 
-UDPReader::~UDPReader() {
+UDPCom::~UDPCom() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-double UDPReader::getPollingTime() const {
+double UDPCom::getPollingTime() const {
   return mPollingTime;
 }
 
-void UDPReader::setPollingTime(double pollingTime) {
+void UDPCom::setPollingTime(double pollingTime) {
   mPollingTime = pollingTime;
   mTimer.setInterval(pollingTime);
 }
@@ -58,7 +57,7 @@ void UDPReader::setPollingTime(double pollingTime) {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void UDPReader::timerTimeout() {
+void UDPCom::timerTimeout() {
   try {
     if (!mDevice.getConnection().isOpen())
       mDevice.getConnection().open();

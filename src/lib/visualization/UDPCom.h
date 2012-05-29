@@ -16,29 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file UDPReader.h
-    \brief This file defines the UDPReader class which continuously polls for
-           packets from the Applanix device
+/** \file UDPCom.h
+    \brief This file defines the UDPCom class which handles UDP communication
+           with the POS.
   */
 
-#ifndef UDPREADER_H
-#define UDPREADER_H
+#ifndef UDPCOM_H
+#define UDPCOM_H
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
-#include <QtCore/QMetaType>
 
 #include <boost/shared_ptr.hpp>
 
 class POSLVComUDP;
 class Packet;
 
-Q_DECLARE_METATYPE(boost::shared_ptr<Packet>);
-
-/** The UDPReader class continuously polls for packets from the Applanix.
-    \brief UDP Reader for Applanix
+/** The UDPCom class handles UDP communication with the Applanix.
+    \brief UDP communication with the Applanix
   */
-class UDPReader :
+class UDPCom :
   public QObject {
 
 Q_OBJECT
@@ -47,9 +44,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  UDPReader(const UDPReader& other);
+  UDPCom(const UDPCom& other);
   /// Assignment operator
-  UDPReader& operator = (const UDPReader& other);
+  UDPCom& operator = (const UDPCom& other);
   /** @}
     */
 
@@ -58,9 +55,9 @@ public:
     @{
     */
   /// Constructs reader with polling time and device
-  UDPReader(POSLVComUDP& device, double pollingTime = 10);
+  UDPCom(POSLVComUDP& device, double pollingTime = 1);
   /// Destructor
-  virtual ~UDPReader();
+  virtual ~UDPCom();
   /** @}
     */
 
@@ -109,4 +106,4 @@ signals:
 
 };
 
-#endif // UDPREADER_H
+#endif // UDPCOM_H

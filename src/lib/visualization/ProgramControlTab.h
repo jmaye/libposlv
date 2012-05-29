@@ -24,6 +24,8 @@
 #ifndef PROGRAMCONTROLTAB_H
 #define PROGRAMCONTROLTAB_H
 
+#include <QtCore/QTimer>
+
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
@@ -64,23 +66,11 @@ public:
     */
 
 protected:
-  /** \name Protected methods
-    @{
-    */
-  /// Enable the fields
-  void enableFields(bool enable);
-  /// Sets readonly fields
-  void setReadOnlyFields(bool readonly);
-  /** @}
-    */
-
   /** \name Protected members
     @{
     */
   /// Pointer to the UI
   Ui_ProgramControlTab* mUi;
-  /// Specifies if the tab is in control mode
-  bool mControlMode;
   /** @}
     */
 
@@ -88,6 +78,27 @@ protected slots:
   /** \name Protected slots
     @{
     */
+  /// Connect pressed
+  void connectPressed();
+  /// Disconnect pressed
+  void disconnectPressed();
+  /// Reset POS pressed
+  void resetPOSPressed();
+  /// Reset GAMS pressed
+  void resetGAMSPressed();
+  /// Shutdown pressed
+  void shutdownPressed();
+  /** @}
+    */
+
+signals:
+  /** \name Signals
+    @{
+    */
+  /// Connect to the POS
+  void connect(bool connect);
+  /// Sends a packet to the POS
+  void writePacket(boost::shared_ptr<Packet> packet);
   /** @}
     */
 

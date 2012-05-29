@@ -17,8 +17,8 @@
  ******************************************************************************/
 
 /** \file TCPCom.h
-    \brief This file defines the TCPCom class which handles TCP connection for
-           the UI.
+    \brief This file defines the TCPCom class which handles TCP communication
+           with the Applanix.
   */
 
 #ifndef TCPCOM_H
@@ -26,17 +26,14 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
-#include <QtCore/QMetaType>
 
 #include <boost/shared_ptr.hpp>
 
 class POSLVComTCP;
 class Packet;
 
-Q_DECLARE_METATYPE(boost::shared_ptr<Packet>);
-
-/** The TCPCom class handles TCP connection for the UI.
-    \brief TCP Communication for Applanix UI
+/** The TCPCom class handles TCP communication with the Applanix.
+    \brief TCP Communication with Applanix.
   */
 class TCPCom :
   public QObject {

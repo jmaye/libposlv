@@ -35,7 +35,6 @@ TCPCom::TCPCom(POSLVComTCP& device, double pollingTime) :
   connect(&mReadTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
   mReadTimer.setInterval(pollingTime);
   mReadTimer.start();
-  qRegisterMetaType<boost::shared_ptr<Packet> >();
 }
 
 TCPCom::~TCPCom() {
