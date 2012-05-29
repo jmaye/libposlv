@@ -193,3 +193,16 @@ void GeneralInstallProcessParamsTab::readPacket(boost::shared_ptr<Packet>
     }
   }
 }
+
+void GeneralInstallProcessParamsTab::deviceConnected(bool connected) {
+  if (connected) {
+    setReadOnlyFields(false);
+    mControlMode = true;
+    mUi->applyButton->setEnabled(true);
+  }
+  else {
+    setReadOnlyFields(true);
+    mControlMode = false;
+    mUi->applyButton->setEnabled(false);
+  }
+}

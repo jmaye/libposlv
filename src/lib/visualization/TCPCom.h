@@ -25,7 +25,6 @@
 #define TCPCOM_H
 
 #include <QtCore/QObject>
-#include <QtCore/QTimer>
 
 #include <boost/shared_ptr.hpp>
 
@@ -55,19 +54,9 @@ public:
     @{
     */
   /// Constructs object
-  TCPCom(POSLVComTCP& device, double pollingTime = 500);
+  TCPCom(POSLVComTCP& device);
   /// Destructor
   virtual ~TCPCom();
-  /** @}
-    */
-
-  /** \name Accessors
-    @{
-    */
-  /// Returns the polling time
-  double getPollingTime() const;
-  /// Sets the polling time
-  void setPollingTime(double pollingTime);
   /** @}
     */
 
@@ -77,10 +66,6 @@ protected:
     */
   /// Device
   POSLVComTCP& mDevice;
-  /// Read timer
-  QTimer mReadTimer;
-  /// Polling time
-  double mPollingTime;
   /** @}
     */
 
@@ -88,8 +73,8 @@ protected slots:
   /** \name Qt slots
     @{
     */
-  /// Timeout of the timer
-  void timerTimeout();
+  /// Connect to the Applanix
+  void connect(bool connect);
   /// Send a packet to the Applanix
   void writePacket(boost::shared_ptr<Packet> packet);
   /** @}

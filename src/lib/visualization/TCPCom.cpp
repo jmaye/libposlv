@@ -29,53 +29,53 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-TCPCom::TCPCom(POSLVComTCP& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime) {
-  connect(&mReadTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mReadTimer.setInterval(pollingTime);
-  mReadTimer.start();
+TCPCom::TCPCom(POSLVComTCP& device) :
+    mDevice(device) {
 }
 
 TCPCom::~TCPCom() {
 }
 
 /******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-double TCPCom::getPollingTime() const {
-  return mPollingTime;
-}
-
-void TCPCom::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mReadTimer.setInterval(pollingTime);
-}
-
-/******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void TCPCom::timerTimeout() {
+//void TCPCom::timerTimeout() {
+//  try {
+//    if (!mDevice.getConnection().isOpen())
+//      mDevice.getConnection().open();
+//    boost::shared_ptr<Packet> packet = mDevice.readPacket();
+//    emit readPacket(packet);
+//    emit deviceConnected(true);
+//  }
+//  catch (IOException& e) {
+//    std::cerr << e.what() << std::endl;
+//    emit deviceConnected(false);
+//  }
+//  catch (SystemException& e) {
+//    std::cerr << e.what() << std::endl;
+//    emit deviceConnected(false);
+//  }
+//  catch (TypeCreationException<unsigned short>& e) {
+//    //std::cerr << e.what() << std::endl;
+//    emit deviceConnected(true);
+//  }
+//}
+
+void TCPCom::connect(bool connect) {
   try {
-    if (!mDevice.getConnection().isOpen())
+    if (connect) {
       mDevice.getConnection().open();
-    boost::shared_ptr<Packet> packet = mDevice.readPacket();
-    emit readPacket(packet);
-    emit deviceConnected(true);
-  }
-  catch (IOException& e) {
-    std::cerr << e.what() << std::endl;
-    emit deviceConnected(false);
+      emit deviceConnected(true);
+    }
+    else {
+      mDevice.getConnection().close();
+      emit deviceConnected(false);
+    }
   }
   catch (SystemException& e) {
     std::cerr << e.what() << std::endl;
     emit deviceConnected(false);
-  }
-  catch (TypeCreationException<unsigned short>& e) {
-    //std::cerr << e.what() << std::endl;
-    emit deviceConnected(true);
   }
 }
 

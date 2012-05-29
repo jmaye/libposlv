@@ -87,3 +87,16 @@ void IPControlTab::readPacket(boost::shared_ptr<Packet> packet) {
     }
   }
 }
+
+void IPControlTab::deviceConnected(bool connected) {
+  if (connected) {
+    setReadOnlyFields(false);
+    mControlMode = true;
+    mUi->applyButton->setEnabled(true);
+  }
+  else {
+    setReadOnlyFields(true);
+    mControlMode = false;
+    mUi->applyButton->setEnabled(false);
+  }
+}

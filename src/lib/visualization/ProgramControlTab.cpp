@@ -18,6 +18,8 @@
 
 #include "visualization/ProgramControlTab.h"
 
+#include <QtGui/QMessageBox>
+
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/ProgramControl.h"
@@ -56,4 +58,25 @@ void ProgramControlTab::resetGAMSPressed() {
 }
 
 void ProgramControlTab::shutdownPressed() {
+}
+
+void ProgramControlTab::deviceConnected(bool connected) {
+  if (connected) {
+    mUi->connectButton->setEnabled(false);
+    mUi->disconnectButton->setEnabled(true);
+    mUi->resetPOSButton->setEnabled(true);
+    mUi->resetGAMSButton->setEnabled(true);
+    mUi->shutdownButton->setEnabled(true);
+    QMessageBox::information(this, "Applanix POS LV View",
+      "Device connected in control mode");
+  }
+  else {
+    mUi->connectButton->setEnabled(true);
+    mUi->disconnectButton->setEnabled(false);
+    mUi->resetPOSButton->setEnabled(false);
+    mUi->resetGAMSButton->setEnabled(false);
+    mUi->shutdownButton->setEnabled(false);
+    QMessageBox::information(this, "Applanix POS LV View",
+      "Device disconnected from control mode");
+  }
 }

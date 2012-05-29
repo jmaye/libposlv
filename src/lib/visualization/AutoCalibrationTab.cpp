@@ -201,3 +201,18 @@ void AutoCalibrationTab::readPacket(boost::shared_ptr<Packet> packet) {
     }
   }
 }
+
+void AutoCalibrationTab::deviceConnected(bool connected) {
+  if (connected) {
+    setReadOnlyFields(false);
+    mControlMode = true;
+    mUi->applyGAMSButton->setEnabled(true);
+    mUi->applyGeneralButton->setEnabled(true);
+  }
+  else {
+    setReadOnlyFields(true);
+    mControlMode = false;
+    mUi->applyGAMSButton->setEnabled(false);
+    mUi->applyGeneralButton->setEnabled(false);
+  }
+}

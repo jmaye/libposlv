@@ -94,6 +94,8 @@ protected slots:
   void applyGeneralPressed();
   /// Apply GAMS calibration
   void applyGAMSPressed();
+  /// Device connected
+  void deviceConnected(bool connected);
   /** @}
     */
 

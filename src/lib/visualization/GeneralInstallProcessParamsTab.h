@@ -93,6 +93,8 @@ protected slots:
   void readPacket(boost::shared_ptr<Packet> packet);
   /// Apply pressed
   void applyPressed();
+  /// Device connected
+  void deviceConnected(bool connected);
   /** @}
     */
 

@@ -63,18 +63,14 @@ void UDPCom::timerTimeout() {
       mDevice.getConnection().open();
     boost::shared_ptr<Packet> packet = mDevice.readPacket();
     emit readPacket(packet);
-    emit deviceConnected(true);
   }
   catch (IOException& e) {
     std::cerr << e.what() << std::endl;
-    emit deviceConnected(false);
   }
   catch (SystemException& e) {
     std::cerr << e.what() << std::endl;
-    emit deviceConnected(false);
   }
   catch (TypeCreationException<unsigned short>& e) {
-    //std::cerr << e.what() << std::endl;
-    emit deviceConnected(true);
+    std::cerr << e.what() << std::endl;
   }
 }

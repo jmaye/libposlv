@@ -88,6 +88,8 @@ protected slots:
   void resetGAMSPressed();
   /// Shutdown pressed
   void shutdownPressed();
+  /// Connection status
+  void deviceConnected(bool connected);
   /** @}
     */
 

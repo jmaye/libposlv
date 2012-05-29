@@ -124,7 +124,59 @@ int main(int argc, char** argv) {
   QThread* tcpThread = new QThread;
   tcpCom.moveToThread(tcpThread);
   tcpThread->start();
-  QObject::connect(&udpCom,
+  QObject::connect(&programControlTab,
+    SIGNAL(connect(bool)),
+    &tcpCom,
+    SLOT(connect(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &programControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &generalInstallProcessParamsTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &gamsInstallParamsTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &aidingSensorInstallParamsTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &userAccuracySpecTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &zupdControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &ipControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &gravityControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &navigationModeControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &saveRestoreControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &autoCalibrationTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &autoCalibrationTab,
+    SLOT(deviceConnected(bool)));
+  QObject::connect(&tcpCom,
     SIGNAL(deviceConnected(bool)),
     &mainWindow,
     SLOT(deviceConnected(bool)));
@@ -214,9 +266,61 @@ int main(int argc, char** argv) {
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   mainWindow.show();
   const int ret = application.exec();
-  QObject::disconnect(&udpCom,
+  QObject::disconnect(&programControlTab,
+    SIGNAL(connect(bool)),
+    &tcpCom,
+    SLOT(connect(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &programControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
     SIGNAL(deviceConnected(bool)),
     &mainWindow,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &generalInstallProcessParamsTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &gamsInstallParamsTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &aidingSensorInstallParamsTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &userAccuracySpecTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &zupdControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &ipControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &gravityControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &navigationModeControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &saveRestoreControlTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &autoCalibrationTab,
+    SLOT(deviceConnected(bool)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(deviceConnected(bool)),
+    &autoCalibrationTab,
     SLOT(deviceConnected(bool)));
   QObject::disconnect(&udpCom,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),

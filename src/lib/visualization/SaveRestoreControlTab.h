@@ -90,6 +90,8 @@ protected slots:
     */
   /// Apply pressed
   void applyPressed();
+  /// Device connected
+  void deviceConnected(bool connected);
   /** @}
     */
 

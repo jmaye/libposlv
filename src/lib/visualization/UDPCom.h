@@ -99,8 +99,6 @@ signals:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
-  /// Device connected
-  void deviceConnected(bool connected);
   /** @}
     */
 
