@@ -96,6 +96,15 @@ protected slots:
   /** @}
     */
 
+signals:
+  /** \name Signals
+    @{
+    */
+  /// Sends a packet to the POS
+  void writePacket(boost::shared_ptr<Packet> packet);
+  /** @}
+    */
+
 };
 
 #endif // IPCONTROLTAB_H

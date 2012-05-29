@@ -276,6 +276,45 @@ int main(int argc, char** argv) {
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
+
+  QObject::connect(&generalInstallProcessParamsTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&gamsInstallParamsTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&aidingSensorInstallParamsTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&userAccuracySpecTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&zupdControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&ipControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&gravityControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&navigationModeControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&saveRestoreControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+
+
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&programControlTab,
@@ -427,6 +466,42 @@ int main(int argc, char** argv) {
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&autoCalibrationTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&generalInstallProcessParamsTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&gamsInstallParamsTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&aidingSensorInstallParamsTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&userAccuracySpecTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&zupdControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&ipControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&gravityControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&navigationModeControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&saveRestoreControlTab,
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
