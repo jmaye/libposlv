@@ -81,9 +81,9 @@ int main(int argc, char** argv) {
   GAMSInstallParamsTab gamsInstallParamsTab;
   AidingSensorInstallParamsTab aidingSensorInstallParamsTab;
   UserAccuracySpecTab userAccuracySpecTab;
-  ZUPDControlTab zupdControlTab;
+  //ZUPDControlTab zupdControlTab;
   IPControlTab ipControlTab;
-  GravityControlTab gravityControlTab;
+  //GravityControlTab gravityControlTab;
   NavigationModeControlTab navigationModeControlTab;
   SaveRestoreControlTab saveRestoreControlTab;
   AutoCalibrationTab autoCalibrationTab;
@@ -105,9 +105,9 @@ int main(int argc, char** argv) {
   mainWindow.addControl("GAMS Parameters", gamsInstallParamsTab);
   mainWindow.addControl("DMI Parameters", aidingSensorInstallParamsTab);
   mainWindow.addControl("User Accuracy", userAccuracySpecTab);
-  mainWindow.addControl("ZUPD Parameters", zupdControlTab);
+  //mainWindow.addControl("ZUPD Parameters", zupdControlTab);
   mainWindow.addControl("IP Setup", ipControlTab);
-  mainWindow.addControl("Gravity Setup", gravityControlTab);
+  //mainWindow.addControl("Gravity Setup", gravityControlTab);
   mainWindow.addControl("Navigation Mode", navigationModeControlTab);
   mainWindow.addControl("Save/Restore", saveRestoreControlTab);
   mainWindow.addControl("Auto Calibration", autoCalibrationTab);
@@ -148,18 +148,18 @@ int main(int argc, char** argv) {
     SIGNAL(deviceConnected(bool)),
     &userAccuracySpecTab,
     SLOT(deviceConnected(bool)));
-  QObject::connect(&tcpCom,
-    SIGNAL(deviceConnected(bool)),
-    &zupdControlTab,
-    SLOT(deviceConnected(bool)));
+//  QObject::connect(&tcpCom,
+//    SIGNAL(deviceConnected(bool)),
+//    &zupdControlTab,
+//    SLOT(deviceConnected(bool)));
   QObject::connect(&tcpCom,
     SIGNAL(deviceConnected(bool)),
     &ipControlTab,
     SLOT(deviceConnected(bool)));
-  QObject::connect(&tcpCom,
-    SIGNAL(deviceConnected(bool)),
-    &gravityControlTab,
-    SLOT(deviceConnected(bool)));
+//  QObject::connect(&tcpCom,
+//    SIGNAL(deviceConnected(bool)),
+//    &gravityControlTab,
+//    SLOT(deviceConnected(bool)));
   QObject::connect(&tcpCom,
     SIGNAL(deviceConnected(bool)),
     &navigationModeControlTab,
@@ -244,18 +244,18 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &userAccuracySpecTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &zupdControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::connect(&udpCom,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &zupdControlTab,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &ipControlTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &gravityControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::connect(&udpCom,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &gravityControlTab,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &navigationModeControlTab,
@@ -293,18 +293,18 @@ int main(int argc, char** argv) {
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&zupdControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
-    &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+//  QObject::connect(&zupdControlTab,
+//    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+//    &tcpCom,
+//    SLOT(writePacket(boost::shared_ptr<Packet>)));
   QObject::connect(&ipControlTab,
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&gravityControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
-    &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+//  QObject::connect(&gravityControlTab,
+//    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+//    &tcpCom,
+//    SLOT(writePacket(boost::shared_ptr<Packet>)));
   QObject::connect(&navigationModeControlTab,
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
@@ -313,8 +313,6 @@ int main(int argc, char** argv) {
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
-
-
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&programControlTab,
@@ -345,18 +343,18 @@ int main(int argc, char** argv) {
     SIGNAL(deviceConnected(bool)),
     &userAccuracySpecTab,
     SLOT(deviceConnected(bool)));
-  QObject::disconnect(&tcpCom,
-    SIGNAL(deviceConnected(bool)),
-    &zupdControlTab,
-    SLOT(deviceConnected(bool)));
+//  QObject::disconnect(&tcpCom,
+//    SIGNAL(deviceConnected(bool)),
+//    &zupdControlTab,
+//    SLOT(deviceConnected(bool)));
   QObject::disconnect(&tcpCom,
     SIGNAL(deviceConnected(bool)),
     &ipControlTab,
     SLOT(deviceConnected(bool)));
-  QObject::disconnect(&tcpCom,
-    SIGNAL(deviceConnected(bool)),
-    &gravityControlTab,
-    SLOT(deviceConnected(bool)));
+//  QObject::disconnect(&tcpCom,
+//    SIGNAL(deviceConnected(bool)),
+//    &gravityControlTab,
+//    SLOT(deviceConnected(bool)));
   QObject::disconnect(&tcpCom,
     SIGNAL(deviceConnected(bool)),
     &navigationModeControlTab,
@@ -437,18 +435,18 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &userAccuracySpecTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &zupdControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::disconnect(&udpCom,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &zupdControlTab,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &ipControlTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &gravityControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+//  QObject::disconnect(&udpCom,
+//    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+//    &gravityControlTab,
+//    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &navigationModeControlTab,
@@ -485,18 +483,18 @@ int main(int argc, char** argv) {
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&zupdControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
-    &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+//  QObject::disconnect(&zupdControlTab,
+//    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+//    &tcpCom,
+//    SLOT(writePacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&ipControlTab,
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&gravityControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
-    &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+//  QObject::disconnect(&gravityControlTab,
+//    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+//    &tcpCom,
+//    SLOT(writePacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&navigationModeControlTab,
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,

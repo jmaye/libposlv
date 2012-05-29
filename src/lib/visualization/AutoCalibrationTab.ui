@@ -39,7 +39,7 @@
     </property>
     <widget class="QRadioButton" name="stopGeneralRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -58,7 +58,7 @@
     </widget>
     <widget class="QRadioButton" name="manualGeneralRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -74,7 +74,7 @@
     </widget>
     <widget class="QRadioButton" name="autoGeneralRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -90,7 +90,7 @@
     </widget>
     <widget class="QRadioButton" name="normalGeneralRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -106,7 +106,7 @@
     </widget>
     <widget class="QRadioButton" name="forcedGeneralRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -122,7 +122,7 @@
     </widget>
     <widget class="QRadioButton" name="noActionRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -154,7 +154,7 @@
     </property>
     <widget class="QCheckBox" name="gpsCheckBox">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -170,7 +170,7 @@
     </widget>
     <widget class="QCheckBox" name="dmiLeverCheckBox">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -186,7 +186,7 @@
     </widget>
     <widget class="QCheckBox" name="dmiScaleCheckBox">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -202,7 +202,7 @@
     </widget>
     <widget class="QCheckBox" name="posCheckBox">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -260,7 +260,7 @@
     </property>
     <widget class="QRadioButton" name="stopGAMSRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -279,7 +279,7 @@
     </widget>
     <widget class="QRadioButton" name="beginGAMSRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -295,7 +295,7 @@
     </widget>
     <widget class="QRadioButton" name="suspendGAMSRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -311,7 +311,7 @@
     </widget>
     <widget class="QRadioButton" name="forceGAMSRadioButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>

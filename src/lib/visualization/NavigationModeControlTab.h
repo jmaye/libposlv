@@ -69,8 +69,6 @@ protected:
     */
   /// Enable the fields
   void enableFields(bool enable);
-  /// Sets readonly fields
-  void setReadOnlyFields(bool readonly);
   /** @}
     */
 

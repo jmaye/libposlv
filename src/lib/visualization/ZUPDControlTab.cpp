@@ -60,11 +60,6 @@ void ZUPDControlTab::setReadOnlyFields(bool readonly) {
   mUi->rejectSpinBox->setReadOnly(readonly);
   mUi->testSpinBox->setReadOnly(readonly);
   mUi->zupdStdSpinBox->setReadOnly(readonly);
-  mUi->noZUPDRadioButton->setCheckable(readonly);
-  mUi->manualZUPDRadioButton->setCheckable(readonly);
-  mUi->snvRadioButton->setCheckable(readonly);
-  mUi->dmiRadioButton->setCheckable(readonly);
-  mUi->gpsRadioButton->setCheckable(readonly);
 }
 
 void ZUPDControlTab::applyPressed() {

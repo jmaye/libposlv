@@ -112,7 +112,7 @@ void Auxiliary2GPSStatus::read(BinaryReader& stream) {
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = mNumberOfSVTracked;
+  mChannelNumber = (byteCount - mByteCount) / 20;
   if (mChannelStatusData)
     delete []mChannelStatusData;
   if (mChannelNumber > 0)

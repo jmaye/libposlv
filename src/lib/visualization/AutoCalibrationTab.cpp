@@ -36,7 +36,6 @@ AutoCalibrationTab::AutoCalibrationTab() :
     mUi(new Ui_AutoCalibrationTab()),
     mControlMode(false) {
   mUi->setupUi(this);
-  setReadOnlyFields(true);
 }
 
 AutoCalibrationTab::~AutoCalibrationTab() {
@@ -46,35 +45,6 @@ AutoCalibrationTab::~AutoCalibrationTab() {
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
-
-void AutoCalibrationTab::enableFields(bool enable) {
-  mUi->stopGAMSRadioButton->setEnabled(enable);
-  mUi->beginGAMSRadioButton->setEnabled(enable);
-  mUi->suspendGAMSRadioButton->setEnabled(enable);
-  mUi->forceGAMSRadioButton->setEnabled(enable);
-  mUi->noActionRadioButton->setEnabled(enable);
-  mUi->stopGeneralRadioButton->setEnabled(enable);
-  mUi->manualGeneralRadioButton->setEnabled(enable);
-  mUi->autoGeneralRadioButton->setEnabled(enable);
-  mUi->normalGeneralRadioButton->setEnabled(enable);
-  mUi->forcedGeneralRadioButton->setEnabled(enable);
-  mUi->gpsCheckBox->setEnabled(enable);
-  mUi->dmiLeverCheckBox->setEnabled(enable);
-  mUi->dmiScaleCheckBox->setEnabled(enable);
-  mUi->posCheckBox->setEnabled(enable);
-
-}
-
-void AutoCalibrationTab::setReadOnlyFields(bool readonly) {
-  mUi->stopGAMSRadioButton->setCheckable(readonly);
-  mUi->beginGAMSRadioButton->setCheckable(readonly);
-  mUi->suspendGAMSRadioButton->setCheckable(readonly);
-  mUi->forceGAMSRadioButton->setCheckable(readonly);
-  mUi->gpsCheckBox->setCheckable(readonly);
-  mUi->dmiLeverCheckBox->setCheckable(readonly);
-  mUi->dmiScaleCheckBox->setCheckable(readonly);
-  mUi->posCheckBox->setCheckable(readonly);
-}
 
 void AutoCalibrationTab::applyGeneralPressed() {
   uint8_t control;
@@ -135,7 +105,6 @@ void AutoCalibrationTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfMessage()) {
     const Message& message = packet->messageCast();
     if (message.instanceOf<GAMSCalibrationControl>()) {
-      enableFields(true);
       const GAMSCalibrationControl& msg =
         message.typeCast<GAMSCalibrationControl>();
       switch (msg.mCalibrationAction) {
@@ -156,7 +125,6 @@ void AutoCalibrationTab::readPacket(boost::shared_ptr<Packet> packet) {
       }
     }
     if (message.instanceOf<InstallationCalibrationControl>()) {
-      enableFields(true);
       const InstallationCalibrationControl& msg =
         message.typeCast<InstallationCalibrationControl>();
       switch (msg.mCalibrationAction) {
@@ -204,13 +172,11 @@ void AutoCalibrationTab::readPacket(boost::shared_ptr<Packet> packet) {
 
 void AutoCalibrationTab::deviceConnected(bool connected) {
   if (connected) {
-    setReadOnlyFields(false);
     mControlMode = true;
     mUi->applyGAMSButton->setEnabled(true);
     mUi->applyGeneralButton->setEnabled(true);
   }
   else {
-    setReadOnlyFields(true);
     mControlMode = false;
     mUi->applyGAMSButton->setEnabled(false);
     mUi->applyGeneralButton->setEnabled(false);

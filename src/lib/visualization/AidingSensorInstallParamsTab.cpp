@@ -21,6 +21,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/AidingSensorInstallParams.h"
+#include "base/Factory.h"
 
 #include "ui_AidingSensorInstallParamsTab.h"
 
@@ -58,6 +59,15 @@ void AidingSensorInstallParamsTab::setReadOnlyFields(bool readonly) {
 }
 
 void AidingSensorInstallParamsTab::applyPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(22));
+  AidingSensorInstallParams& msg =
+    packet->messageCast().typeCast<AidingSensorInstallParams>();
+  msg.mDMIScaleFactor = mUi->dmiScaleSpinBox->value();
+  msg.mRefDMIX = mUi->dmiXSpinBox->value();
+  msg.mRefDMIY = mUi->dmiYSpinBox->value();
+  msg.mRefDMIZ = mUi->dmiZSpinBox->value();
+  emit writePacket(packet);
 }
 
 void AidingSensorInstallParamsTab::readPacket(boost::shared_ptr<Packet>

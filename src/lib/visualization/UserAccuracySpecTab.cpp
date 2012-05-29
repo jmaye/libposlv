@@ -21,6 +21,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/UserAccuracySpec.h"
+#include "base/Factory.h"
 
 #include "ui_UserAccuracySpecTab.h"
 
@@ -58,6 +59,15 @@ void UserAccuracySpecTab::setReadOnlyFields(bool readonly) {
 }
 
 void UserAccuracySpecTab::applyPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(24));
+  UserAccuracySpec& msg =
+    packet->messageCast().typeCast<UserAccuracySpec>();
+  msg.mAttitudeAccuracy = mUi->attAccSpinBox->value();
+  msg.mHeadingAccuracy = mUi->headingAccSpinBox->value();
+  msg.mPositionAccuracy = mUi->posAccSpinBox->value();
+  msg.mVelocityAccuracy = mUi->velAccSpinBox->value();
+  emit writePacket(packet);
 }
 
 void UserAccuracySpecTab::readPacket(boost::shared_ptr<Packet> packet) {

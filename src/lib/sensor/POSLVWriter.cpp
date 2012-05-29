@@ -44,11 +44,15 @@ void POSLVWriter::writePacket(boost::shared_ptr<Packet> packet) {
   BinaryBufferWriter bufferWriter;
   bufferWriter << packet->getStart();
   bufferWriter << *packet;
-  const size_t padSize = (bufferWriter.getBufferSize() + 2 * sizeof(uint16_t))
-    % 4;
-  for (size_t i = 0; i < padSize; ++i) {
-    const uint8_t pad = 0;
-    bufferWriter << pad;
+  const size_t currentSize = bufferWriter.getBufferSize() +
+    2 * sizeof(uint16_t);
+  if (currentSize % 4) {
+    const size_t padSize = ((size_t)(currentSize / 4.0) + 1) * 4 -
+      currentSize;
+    for (size_t i = 0; i < padSize; ++i) {
+      const uint8_t pad = 0;
+      bufferWriter << pad;
+    }
   }
   std::string end = "$#";
   const uint16_t sum = Checksum::getSum(bufferWriter.getBuffer(),

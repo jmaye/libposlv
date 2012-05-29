@@ -21,6 +21,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/SaveRestoreControl.h"
+#include "base/Factory.h"
 
 #include "ui_SaveRestoreControlTab.h"
 
@@ -32,7 +33,6 @@ SaveRestoreControlTab::SaveRestoreControlTab() :
     mUi(new Ui_SaveRestoreControlTab()),
     mControlMode(false) {
   mUi->setupUi(this);
-  setReadOnlyFields(true);
 }
 
 SaveRestoreControlTab::~SaveRestoreControlTab() {
@@ -43,31 +43,32 @@ SaveRestoreControlTab::~SaveRestoreControlTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void SaveRestoreControlTab::enableFields(bool enable) {
-  mUi->noOpRadioButton->setEnabled(enable);
-  mUi->saveRadioButton->setEnabled(enable);
-  mUi->restoreNVMRadioButton->setEnabled(enable);
-  mUi->restoreFactoryRadioButton->setEnabled(enable);
-}
-
-void SaveRestoreControlTab::setReadOnlyFields(bool readonly) {
-  mUi->noOpRadioButton->setCheckable(readonly);
-  mUi->saveRadioButton->setCheckable(readonly);
-  mUi->restoreNVMRadioButton->setCheckable(readonly);
-  mUi->restoreFactoryRadioButton->setCheckable(readonly);
-}
-
 void SaveRestoreControlTab::applyPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(54));
+  SaveRestoreControl& msg =
+    packet->messageCast().typeCast<SaveRestoreControl>();
+  uint8_t control;
+  if (mUi->noOpRadioButton->isChecked())
+    control = 0;
+  else if (mUi->saveRadioButton->isChecked())
+    control = 1;
+  else if (mUi->restoreNVMRadioButton->isChecked())
+    control = 2;
+  else if (mUi->restoreFactoryRadioButton->isChecked())
+    control = 3;
+  else
+    control = 0;
+  msg.mControl = control;
+  emit writePacket(packet);
 }
 
 void SaveRestoreControlTab::deviceConnected(bool connected) {
   if (connected) {
-    setReadOnlyFields(false);
     mControlMode = true;
     mUi->applyButton->setEnabled(true);
   }
   else {
-    setReadOnlyFields(true);
     mControlMode = false;
     mUi->applyButton->setEnabled(false);
   }

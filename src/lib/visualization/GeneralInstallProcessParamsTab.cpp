@@ -21,6 +21,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/GeneralInstallProcessParams.h"
+#include "base/Factory.h"
 
 #include "ui_GeneralInstallProcessParamsTab.h"
 
@@ -85,23 +86,55 @@ void GeneralInstallProcessParamsTab::setReadOnlyFields(bool readonly) {
   mUi->xRefVehicMountingAngleSpinBox->setReadOnly(readonly);
   mUi->yRefVehicMountingAngleSpinBox->setReadOnly(readonly);
   mUi->zRefVehicMountingAngleSpinBox->setReadOnly(readonly);
-  mUi->pos1TimeRadioButton->setCheckable(readonly);
-  mUi->gps1TimeRadioButton->setCheckable(readonly);
-  mUi->utc1TimeRadioButton->setCheckable(readonly);
-  mUi->pos2TimeRadioButton->setCheckable(readonly);
-  mUi->gps2TimeRadioButton->setCheckable(readonly);
-  mUi->utc2TimeRadioButton->setCheckable(readonly);
-  mUi->userTimeRadioButton->setCheckable(readonly);
-  mUi->posDistanceRadioButton->setCheckable(readonly);
-  mUi->dmiDistanceRadioButton->setCheckable(readonly);
-  mUi->disabledRadioButton->setCheckable(readonly);
-  mUi->enabledRadioButton->setCheckable(readonly);
-  mUi->lowRadioButton->setCheckable(readonly);
-  mUi->mediumRadioButton->setCheckable(readonly);
-  mUi->highRadioButton->setCheckable(readonly);
 }
 
 void GeneralInstallProcessParamsTab::applyPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(20));
+  GeneralInstallProcessParams& msg =
+    packet->messageCast().typeCast<GeneralInstallProcessParams>();
+  msg.mRefIMUX = mUi->refIMUXSpinBox->value();
+  msg.mRefIMUY = mUi->refIMUYSpinBox->value();
+  msg.mRefIMUZ = mUi->refIMUZSpinBox->value();
+  msg.mRefPrimGPSX = mUi->refPrimGPSXSpinBox->value();
+  msg.mRefPrimGPSY = mUi->refPrimGPSYSpinBox->value();
+  msg.mRefPrimGPSZ = mUi->refPrimGPSZSpinBox->value();
+  msg.mXIMURefMountingAngle = mUi->xIMURefMountingAngleSpinBox->value();
+  msg.mYIMURefMountingAngle = mUi->yIMURefMountingAngleSpinBox->value();
+  msg.mZIMURefMountingAngle = mUi->zIMURefMountingAngleSpinBox->value();
+  msg.mXRefVehicleMountingAngle = mUi->xRefVehicMountingAngleSpinBox->value();
+  msg.mYRefVehicleMountingAngle = mUi->yRefVehicMountingAngleSpinBox->value();
+  msg.mZRefVehicleMountingAngle = mUi->zRefVehicMountingAngleSpinBox->value();
+  if (mUi->lowRadioButton->isChecked())
+    msg.mMultipathEnvironment = 0;
+  else if (mUi->mediumRadioButton->isChecked())
+    msg.mMultipathEnvironment = 1;
+  else if (mUi->highRadioButton->isChecked())
+    msg.mMultipathEnvironment = 2;
+  if (mUi->posDistanceRadioButton->isChecked())
+    msg.mDistanceType = 1;
+  else if (mUi->dmiDistanceRadioButton->isChecked())
+    msg.mDistanceType = 2;
+  if (mUi->disabledRadioButton->isChecked())
+    msg.mAutoStart = 0;
+  else if (mUi->enabledRadioButton->isChecked())
+    msg.mAutoStart = 1;
+  msg.mTimeTypes = 0;
+  if (mUi->pos1TimeRadioButton->isChecked())
+    msg.mTimeTypes |= 0 & 0x0f;
+  else if (mUi->gps1TimeRadioButton->isChecked())
+    msg.mTimeTypes |= 1 & 0x0f;
+  else if (mUi->utc1TimeRadioButton->isChecked())
+    msg.mTimeTypes |= 2 & 0x0f;
+  if (mUi->pos2TimeRadioButton->isChecked())
+    msg.mTimeTypes |= (0 << 4) & 0xf0;
+  else if (mUi->gps2TimeRadioButton->isChecked())
+    msg.mTimeTypes |= (1 << 4) & 0xf0;
+  else if (mUi->utc2TimeRadioButton->isChecked())
+    msg.mTimeTypes |= (2 << 4) & 0xf0;
+  else if (mUi->userTimeRadioButton->isChecked())
+    msg.mTimeTypes |= (3 << 4) & 0xf0;
+  emit writePacket(packet);
 }
 
 void GeneralInstallProcessParamsTab::readPacket(boost::shared_ptr<Packet>

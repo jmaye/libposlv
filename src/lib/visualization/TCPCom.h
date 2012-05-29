@@ -54,9 +54,19 @@ public:
     @{
     */
   /// Constructs object
-  TCPCom(POSLVComTCP& device);
+  TCPCom(POSLVComTCP& device, double pollingTime = 1);
   /// Destructor
   virtual ~TCPCom();
+  /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  /// Returns the polling time
+  double getPollingTime() const;
+  /// Sets the polling time
+  void setPollingTime(double pollingTime);
   /** @}
     */
 

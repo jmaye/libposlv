@@ -21,6 +21,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/GAMSInstallParams.h"
+#include "base/Factory.h"
 
 #include "ui_GAMSInstallParamsTab.h"
 
@@ -62,6 +63,17 @@ void GAMSInstallParamsTab::setReadOnlyFields(bool readonly) {
 }
 
 void GAMSInstallParamsTab::applyPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(21));
+  GAMSInstallParams& msg =
+    packet->messageCast().typeCast<GAMSInstallParams>();
+  msg.mAntennaSeparation = mUi->antennaSpinBox->value();
+  msg.mBaselineX = mUi->baseXSpinBox->value();
+  msg.mBaselineY = mUi->baseYSpinBox->value();
+  msg.mBaselineZ = mUi->baseZSpinBox->value();
+  msg.mMaxHeadingError = mUi->maxHeadSpinBox->value();
+  msg.mHeadingCorrection = mUi->headCorrSpinBox->value();
+  emit writePacket(packet);
 }
 
 void GAMSInstallParamsTab::readPacket(boost::shared_ptr<Packet> packet) {

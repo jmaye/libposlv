@@ -54,7 +54,6 @@ void ProgramControlTab::disconnectPressed() {
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 1;
   emit writePacket(packet);
-  mTimer.stop();
   emit connect(false);
 }
 
@@ -97,6 +96,7 @@ void ProgramControlTab::deviceConnected(bool connected) {
     mUi->resetPOSButton->setEnabled(false);
     mUi->resetGAMSButton->setEnabled(false);
     mUi->shutdownButton->setEnabled(false);
+    mTimer.stop();
   }
 }
 

@@ -29,7 +29,7 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-TCPCom::TCPCom(POSLVComTCP& device) :
+TCPCom::TCPCom(POSLVComTCP& device, double pollingTime) :
     mDevice(device) {
 }
 
@@ -64,6 +64,15 @@ void TCPCom::writePacket(boost::shared_ptr<Packet> packet) {
   catch (IOException& e) {
     std::cerr << e.what() << std::endl;
     emit deviceConnected(false);
+  }
+  catch (SystemException& e) {
+    std::cerr << e.what() << std::endl;
+    emit deviceConnected(false);
+  }
+  try {
+    emit readPacket(mDevice.readPacket());
+  }
+  catch (IOException& e) {
   }
   catch (SystemException& e) {
     std::cerr << e.what() << std::endl;

@@ -21,6 +21,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/NavigationModeControl.h"
+#include "base/Factory.h"
 
 #include "ui_NavigationModeControlTab.h"
 
@@ -32,7 +33,6 @@ NavigationModeControlTab::NavigationModeControlTab() :
     mUi(new Ui_NavigationModeControlTab()),
     mControlMode(false) {
   mUi->setupUi(this);
-  setReadOnlyFields(true);
 }
 
 NavigationModeControlTab::~NavigationModeControlTab() {
@@ -49,13 +49,22 @@ void NavigationModeControlTab::enableFields(bool enable) {
   mUi->navigateRadioButton->setEnabled(enable);
 }
 
-void NavigationModeControlTab::setReadOnlyFields(bool readonly) {
-  mUi->noOpRadioButton->setCheckable(readonly);
-  mUi->standbyRadioButton->setCheckable(readonly);
-  mUi->navigateRadioButton->setCheckable(readonly);
-}
-
 void NavigationModeControlTab::applyPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(50));
+  NavigationModeControl& msg =
+    packet->messageCast().typeCast<NavigationModeControl>();
+  uint8_t control;
+  if (mUi->noOpRadioButton->isChecked())
+    control = 0;
+  else if (mUi->standbyRadioButton->isChecked())
+    control = 1;
+  else if (mUi->navigateRadioButton->isChecked())
+    control = 2;
+  else
+    control = 0;
+  msg.mNavigationMode = control;
+  emit writePacket(packet);
 }
 
 void NavigationModeControlTab::readPacket(boost::shared_ptr<Packet> packet) {
@@ -86,12 +95,10 @@ void NavigationModeControlTab::readPacket(boost::shared_ptr<Packet> packet) {
 
 void NavigationModeControlTab::deviceConnected(bool connected) {
   if (connected) {
-    setReadOnlyFields(false);
     mControlMode = true;
     mUi->applyButton->setEnabled(true);
   }
   else {
-    setReadOnlyFields(true);
     mControlMode = false;
     mUi->applyButton->setEnabled(false);
   }

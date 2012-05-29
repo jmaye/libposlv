@@ -64,16 +64,6 @@ public:
     */
 
 protected:
-  /** \name Protected methods
-    @{
-    */
-  /// Enable the fields
-  void enableFields(bool enable);
-  /// Sets readonly fields
-  void setReadOnlyFields(bool readonly);
-  /** @}
-    */
-
   /** \name Protected members
     @{
     */

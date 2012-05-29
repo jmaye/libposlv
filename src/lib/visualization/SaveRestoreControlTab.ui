@@ -29,7 +29,7 @@
     <item row="1" column="0">
      <widget class="QRadioButton" name="saveRadioButton">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="text">
        <string>Save parameters in NVM</string>
@@ -39,7 +39,7 @@
     <item row="2" column="0">
      <widget class="QRadioButton" name="restoreNVMRadioButton">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="text">
        <string>Restore user settings from NVM</string>
@@ -49,7 +49,7 @@
     <item row="3" column="0">
      <widget class="QRadioButton" name="restoreFactoryRadioButton">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="text">
        <string>Restore factory default settings</string>
@@ -59,7 +59,7 @@
     <item row="0" column="0">
      <widget class="QRadioButton" name="noOpRadioButton">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="text">
        <string>No operation</string>

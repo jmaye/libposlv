@@ -21,6 +21,7 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/SetPOSIPAddress.h"
+#include "base/Factory.h"
 
 #include "ui_IPControlTab.h"
 
@@ -66,6 +67,19 @@ void IPControlTab::setReadOnlyFields(bool readonly) {
 }
 
 void IPControlTab::applyPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(32));
+  SetPOSIPAddress& msg =
+    packet->messageCast().typeCast<SetPOSIPAddress>();
+  msg.mNetworkPart1 = mUi->net1SpinBox->value();
+  msg.mNetworkPart2 = mUi->net2SpinBox->value();
+  msg.mHostPart1 = mUi->net3SpinBox->value();
+  msg.mHostPart2 = mUi->net4SpinBox->value();
+  msg.mSubNetworkPart1 = mUi->subnet1SpinBox->value();
+  msg.mSubNetworkPart2 = mUi->subnet2SpinBox->value();
+  msg.mSubHostPart1 = mUi->subnet3SpinBox->value();
+  msg.mSubHostPart2 = mUi->subnet4SpinBox->value();
+  emit writePacket(packet);
 }
 
 void IPControlTab::readPacket(boost::shared_ptr<Packet> packet) {
