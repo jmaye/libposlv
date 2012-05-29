@@ -40,28 +40,6 @@ TCPCom::~TCPCom() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-//void TCPCom::timerTimeout() {
-//  try {
-//    if (!mDevice.getConnection().isOpen())
-//      mDevice.getConnection().open();
-//    boost::shared_ptr<Packet> packet = mDevice.readPacket();
-//    emit readPacket(packet);
-//    emit deviceConnected(true);
-//  }
-//  catch (IOException& e) {
-//    std::cerr << e.what() << std::endl;
-//    emit deviceConnected(false);
-//  }
-//  catch (SystemException& e) {
-//    std::cerr << e.what() << std::endl;
-//    emit deviceConnected(false);
-//  }
-//  catch (TypeCreationException<unsigned short>& e) {
-//    //std::cerr << e.what() << std::endl;
-//    emit deviceConnected(true);
-//  }
-//}
-
 void TCPCom::connect(bool connect) {
   try {
     if (connect) {
@@ -81,10 +59,7 @@ void TCPCom::connect(bool connect) {
 
 void TCPCom::writePacket(boost::shared_ptr<Packet> packet) {
   try {
-    if (!mDevice.getConnection().isOpen())
-      mDevice.getConnection().open();
     mDevice.writePacket(packet);
-    emit deviceConnected(true);
   }
   catch (IOException& e) {
     std::cerr << e.what() << std::endl;

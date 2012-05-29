@@ -18,11 +18,10 @@
 
 #include "visualization/ProgramControlTab.h"
 
-#include <QtGui/QMessageBox>
-
 #include "types/Message.h"
 #include "types/Packet.h"
 #include "types/ProgramControl.h"
+#include "base/Factory.h"
 
 #include "ui_ProgramControlTab.h"
 
@@ -33,6 +32,8 @@
 ProgramControlTab::ProgramControlTab() :
     mUi(new Ui_ProgramControlTab()) {
   mUi->setupUi(this);
+  QObject::connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+  mTimer.setInterval(10000);
 }
 
 ProgramControlTab::~ProgramControlTab() {
@@ -48,16 +49,37 @@ void ProgramControlTab::connectPressed() {
 }
 
 void ProgramControlTab::disconnectPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(90));
+  ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
+  msg.mControl = 1;
+  emit writePacket(packet);
+  mTimer.stop();
   emit connect(false);
 }
 
 void ProgramControlTab::resetPOSPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(90));
+  ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
+  msg.mControl = 101;
+  emit writePacket(packet);
 }
 
 void ProgramControlTab::resetGAMSPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(90));
+  ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
+  msg.mControl = 100;
+  emit writePacket(packet);
 }
 
 void ProgramControlTab::shutdownPressed() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(90));
+  ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
+  msg.mControl = 102;
+  emit writePacket(packet);
 }
 
 void ProgramControlTab::deviceConnected(bool connected) {
@@ -67,8 +89,7 @@ void ProgramControlTab::deviceConnected(bool connected) {
     mUi->resetPOSButton->setEnabled(true);
     mUi->resetGAMSButton->setEnabled(true);
     mUi->shutdownButton->setEnabled(true);
-    QMessageBox::information(this, "Applanix POS LV View",
-      "Device connected in control mode");
+    mTimer.start();
   }
   else {
     mUi->connectButton->setEnabled(true);
@@ -76,7 +97,13 @@ void ProgramControlTab::deviceConnected(bool connected) {
     mUi->resetPOSButton->setEnabled(false);
     mUi->resetGAMSButton->setEnabled(false);
     mUi->shutdownButton->setEnabled(false);
-    QMessageBox::information(this, "Applanix POS LV View",
-      "Device disconnected from control mode");
   }
+}
+
+void ProgramControlTab::timerTimeout() {
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Message>::getInstance().create(90));
+  ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
+  msg.mControl = 0;
+  emit writePacket(packet);
 }

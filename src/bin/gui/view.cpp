@@ -264,6 +264,10 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &autoCalibrationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&programControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&programControlTab,

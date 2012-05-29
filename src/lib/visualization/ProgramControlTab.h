@@ -71,6 +71,8 @@ protected:
     */
   /// Pointer to the UI
   Ui_ProgramControlTab* mUi;
+  /// Keepalive timer
+  QTimer mTimer;
   /** @}
     */
 
@@ -90,6 +92,8 @@ protected slots:
   void shutdownPressed();
   /// Connection status
   void deviceConnected(bool connected);
+  /// Keepalive timer timeout
+  void timerTimeout();
   /** @}
     */
 
