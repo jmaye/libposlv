@@ -264,7 +264,15 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &autoCalibrationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&tcpCom,
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    &acknowledgeTab,
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&programControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::connect(&autoCalibrationTab,
     SIGNAL(writePacket(boost::shared_ptr<Packet>)),
     &tcpCom,
     SLOT(writePacket(boost::shared_ptr<Packet>)));
@@ -410,5 +418,17 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &autoCalibrationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&tcpCom,
+    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    &acknowledgeTab,
+    SLOT(readPacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&programControlTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
+  QObject::disconnect(&autoCalibrationTab,
+    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    &tcpCom,
+    SLOT(writePacket(boost::shared_ptr<Packet>)));
   return ret;
 }
