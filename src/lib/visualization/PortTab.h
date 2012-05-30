@@ -16,13 +16,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file PortControl.h
-    \brief This file defines the PortControl class which is the control
-           for the time
+/** \file PortTab.h
+    \brief This file defines the PortTab class which is the control
+           for the ports
   */
 
-#ifndef PORTCONTROL_H
-#define PORTCONTROL_H
+#ifndef PORTTAB_H
+#define PORTTAB_H
 
 #include <map>
 
@@ -31,15 +31,15 @@
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_PortControl;
+class Ui_PortTab;
 class Packet;
 
-/** The PortControl class is the control for the time of the Applanix.
+/** The PortTab class is the control for the time of the Applanix.
     \brief Time control
   */
-class PortControl :
+class PortTab :
   public Control,
-  public Singleton<PortControl> {
+  public Singleton<PortTab> {
 
 Q_OBJECT
 
@@ -47,9 +47,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  PortControl(const PortControl& other);
+  PortTab(const PortTab& other);
   /// Assignment operator
-  PortControl& operator = (const PortControl& other);
+  PortTab& operator = (const PortTab& other);
   /** @}
     */
 
@@ -58,9 +58,9 @@ public:
     @{
     */
   /// Default constructor
-  PortControl();
+  PortTab();
   /// Destructor
-  virtual ~PortControl();
+  virtual ~PortTab();
   /** @}
     */
 
@@ -69,7 +69,7 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_PortControl* mUi;
+  Ui_PortTab* mUi;
   /// Mapping for baudrate
   std::map<uint8_t, uint32_t> mBaudrateMap;
   /// Mapping for parity
@@ -96,4 +96,4 @@ protected slots:
 
 };
 
-#endif // PORTCONTROL_H
+#endif // PORTTAB_H

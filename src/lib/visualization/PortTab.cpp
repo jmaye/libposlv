@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/PortControl.h"
+#include "visualization/PortTab.h"
 
 #include <sstream>
 
@@ -27,14 +27,14 @@
 #include "types/Message.h"
 #include "types/Packet.h"
 
-#include "ui_PortControl.h"
+#include "ui_PortTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-PortControl::PortControl() :
-    mUi(new Ui_PortControl()) {
+PortTab::PortTab() :
+    mUi(new Ui_PortTab()) {
   mUi->setupUi(this);
   mBaudrateMap[0] = 2400;
   mBaudrateMap[1] = 4800;
@@ -68,7 +68,7 @@ PortControl::PortControl() :
   mOutputMap[4] ="Base GPS 2";
 }
 
-PortControl::~PortControl() {
+PortTab::~PortTab() {
   delete mUi;
 }
 
@@ -76,7 +76,7 @@ PortControl::~PortControl() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void PortControl::readPacket(boost::shared_ptr<Packet> packet) {
+void PortTab::readPacket(boost::shared_ptr<Packet> packet) {
   if (packet->instanceOfMessage()) {
     const Message& message = packet->messageCast();
     if (message.instanceOf<DisplayPortControl>()) {
