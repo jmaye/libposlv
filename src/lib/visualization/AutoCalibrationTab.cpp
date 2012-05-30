@@ -47,6 +47,7 @@ AutoCalibrationTab::~AutoCalibrationTab() {
 /******************************************************************************/
 
 void AutoCalibrationTab::applyGeneralPressed() {
+  static uint16_t transactionNumber = 0;
   uint8_t control;
   if (mUi->stopGeneralRadioButton->isChecked())
     control = 1;
@@ -76,10 +77,12 @@ void AutoCalibrationTab::applyGeneralPressed() {
     packet->messageCast().typeCast<InstallationCalibrationControl>();
   calMsg.mCalibrationAction = control;
   calMsg.mCalibrationSelect = select;
+  calMsg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 
 void AutoCalibrationTab::applyGAMSPressed() {
+  static uint16_t transactionNumber = 0;
   uint8_t control;
   if (mUi->stopGAMSRadioButton->isChecked())
     control = 0;
@@ -96,6 +99,7 @@ void AutoCalibrationTab::applyGAMSPressed() {
   GAMSCalibrationControl& calMsg =
     packet->messageCast().typeCast<GAMSCalibrationControl>();
   calMsg.mCalibrationAction = control;
+  calMsg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 

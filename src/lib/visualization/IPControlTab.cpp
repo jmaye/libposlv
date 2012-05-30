@@ -67,6 +67,7 @@ void IPControlTab::setReadOnlyFields(bool readonly) {
 }
 
 void IPControlTab::applyPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(32));
   SetPOSIPAddress& msg =
@@ -79,6 +80,7 @@ void IPControlTab::applyPressed() {
   msg.mSubNetworkPart2 = mUi->subnet2SpinBox->value();
   msg.mSubHostPart1 = mUi->subnet3SpinBox->value();
   msg.mSubHostPart2 = mUi->subnet4SpinBox->value();
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 

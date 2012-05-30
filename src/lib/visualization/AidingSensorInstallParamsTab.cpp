@@ -59,10 +59,12 @@ void AidingSensorInstallParamsTab::setReadOnlyFields(bool readonly) {
 }
 
 void AidingSensorInstallParamsTab::applyPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(22));
   AidingSensorInstallParams& msg =
     packet->messageCast().typeCast<AidingSensorInstallParams>();
+  msg.mTransactionNumber = transactionNumber++;
   msg.mDMIScaleFactor = mUi->dmiScaleSpinBox->value();
   msg.mRefDMIX = mUi->dmiXSpinBox->value();
   msg.mRefDMIY = mUi->dmiYSpinBox->value();

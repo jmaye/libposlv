@@ -50,6 +50,7 @@ void NavigationModeControlTab::enableFields(bool enable) {
 }
 
 void NavigationModeControlTab::applyPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(50));
   NavigationModeControl& msg =
@@ -64,6 +65,7 @@ void NavigationModeControlTab::applyPressed() {
   else
     control = 0;
   msg.mNavigationMode = control;
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 

@@ -62,6 +62,7 @@ void GravityControlTab::setReadOnlyFields(bool readonly) {
 }
 
 void GravityControlTab::applyPressed() {
+  static uint16_t transactionNumber = 0;
 }
 
 void GravityControlTab::readPacket(boost::shared_ptr<Packet> packet) {

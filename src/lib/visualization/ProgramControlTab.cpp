@@ -49,35 +49,43 @@ void ProgramControlTab::connectPressed() {
 }
 
 void ProgramControlTab::disconnectPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 1;
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
   emit connect(false);
 }
 
 void ProgramControlTab::resetPOSPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 101;
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 
 void ProgramControlTab::resetGAMSPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 100;
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 
 void ProgramControlTab::shutdownPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 102;
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 

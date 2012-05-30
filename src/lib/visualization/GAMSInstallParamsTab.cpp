@@ -63,6 +63,7 @@ void GAMSInstallParamsTab::setReadOnlyFields(bool readonly) {
 }
 
 void GAMSInstallParamsTab::applyPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(21));
   GAMSInstallParams& msg =
@@ -73,6 +74,7 @@ void GAMSInstallParamsTab::applyPressed() {
   msg.mBaselineZ = mUi->baseZSpinBox->value();
   msg.mMaxHeadingError = mUi->maxHeadSpinBox->value();
   msg.mHeadingCorrection = mUi->headCorrSpinBox->value();
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 

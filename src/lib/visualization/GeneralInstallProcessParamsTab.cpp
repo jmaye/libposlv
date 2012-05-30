@@ -89,6 +89,7 @@ void GeneralInstallProcessParamsTab::setReadOnlyFields(bool readonly) {
 }
 
 void GeneralInstallProcessParamsTab::applyPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(20));
   GeneralInstallProcessParams& msg =
@@ -134,6 +135,7 @@ void GeneralInstallProcessParamsTab::applyPressed() {
     msg.mTimeTypes |= (2 << 4) & 0xf0;
   else if (mUi->userTimeRadioButton->isChecked())
     msg.mTimeTypes |= (3 << 4) & 0xf0;
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 

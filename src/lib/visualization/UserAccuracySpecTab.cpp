@@ -59,6 +59,7 @@ void UserAccuracySpecTab::setReadOnlyFields(bool readonly) {
 }
 
 void UserAccuracySpecTab::applyPressed() {
+  static uint16_t transactionNumber = 0;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(24));
   UserAccuracySpec& msg =
@@ -67,6 +68,7 @@ void UserAccuracySpecTab::applyPressed() {
   msg.mHeadingAccuracy = mUi->headingAccSpinBox->value();
   msg.mPositionAccuracy = mUi->posAccSpinBox->value();
   msg.mVelocityAccuracy = mUi->velAccSpinBox->value();
+  msg.mTransactionNumber = transactionNumber++;
   emit writePacket(packet);
 }
 
