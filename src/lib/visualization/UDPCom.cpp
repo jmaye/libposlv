@@ -64,10 +64,10 @@ void UDPCom::timerTimeout() {
     emit readPacket(mDevice.readPacket());
   }
   catch (IOException& e) {
-    std::cerr << e.what() << std::endl;
+    emit comException(e.what());
   }
   catch (SystemException& e) {
-    std::cerr << e.what() << std::endl;
+    emit comException(e.what());
   }
   catch (TypeCreationException<unsigned short>& e) {
     //std::cerr << e.what() << std::endl;

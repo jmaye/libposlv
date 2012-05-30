@@ -21,6 +21,8 @@
            the Applanix POS LV.
   */
 
+#include <string>
+
 #include <QtGui/QApplication>
 #include <QtCore/QThread>
 #include <QtCore/QMetaType>
@@ -58,9 +60,11 @@
 #include "visualization/AcknowledgeTab.h"
 
 Q_DECLARE_METATYPE(boost::shared_ptr<Packet>);
+Q_DECLARE_METATYPE(std::string);
 
 int main(int argc, char** argv) {
   qRegisterMetaType<boost::shared_ptr<Packet> >();
+  qRegisterMetaType<std::string>();
   QApplication application(argc, argv);
   MainWindow mainWindow;
   mainWindow.setWindowTitle("Applanix POS LV View");
@@ -124,6 +128,14 @@ int main(int argc, char** argv) {
   QThread* tcpThread = new QThread;
   tcpCom.moveToThread(tcpThread);
   tcpThread->start();
+  QObject::connect(&udpCom,
+    SIGNAL(comException(const std::string&)),
+    &mainWindow,
+    SLOT(comException(const std::string&)));
+  QObject::connect(&tcpCom,
+    SIGNAL(comException(const std::string&)),
+    &mainWindow,
+    SLOT(comException(const std::string&)));
   QObject::connect(&programControlTab,
     SIGNAL(connect(bool)),
     &tcpCom,

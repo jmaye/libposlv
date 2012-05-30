@@ -84,6 +84,8 @@ protected slots:
     */
   /// Is the Applanix connected?
   void deviceConnected(bool connected);
+  /// Com exception
+  void comException(const std::string& msg);
   /** @}
     */
 

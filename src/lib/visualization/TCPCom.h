@@ -98,6 +98,8 @@ signals:
   void readPacket(boost::shared_ptr<Packet> packet);
   /// Device connected
   void deviceConnected(bool connected);
+  /// Com connection
+  void comException(const std::string& msg);
   /** @}
     */
 

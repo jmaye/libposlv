@@ -52,8 +52,7 @@ void TCPCom::connect(bool connect) {
     }
   }
   catch (SystemException& e) {
-    std::cerr << e.what() << std::endl;
-    emit deviceConnected(false);
+    emit comException(e.what());
   }
 }
 
@@ -62,11 +61,11 @@ void TCPCom::writePacket(boost::shared_ptr<Packet> packet) {
     mDevice.writePacket(packet);
   }
   catch (IOException& e) {
-    std::cerr << e.what() << std::endl;
+    emit comException(e.what());
     emit deviceConnected(false);
   }
   catch (SystemException& e) {
-    std::cerr << e.what() << std::endl;
+    emit comException(e.what());
     emit deviceConnected(false);
   }
   try {
@@ -75,7 +74,7 @@ void TCPCom::writePacket(boost::shared_ptr<Packet> packet) {
   catch (IOException& e) {
   }
   catch (SystemException& e) {
-    std::cerr << e.what() << std::endl;
+    emit comException(e.what());
     emit deviceConnected(false);
   }
 }

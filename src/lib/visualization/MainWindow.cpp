@@ -52,3 +52,7 @@ void MainWindow::deviceConnected(bool connected) {
   else
     mUi->statusBar->showMessage("Disconnected");
 }
+
+void MainWindow::comException(const std::string& msg) {
+  mUi->statusBar->showMessage(QString(msg.c_str()));
+}

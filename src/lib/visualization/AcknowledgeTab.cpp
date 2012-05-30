@@ -92,3 +92,7 @@ void AcknowledgeTab::readPacket(boost::shared_ptr<Packet> packet) {
         mUi->ackWidget->setCellWidget(mUi->ackWidget->rowCount() - 1, 4, name);
       }
 }
+
+void AcknowledgeTab::clearPressed() {
+  mUi->ackWidget->clearContents();
+}

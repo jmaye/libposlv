@@ -99,6 +99,8 @@ signals:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
+  /// Com exception
+  void comException(const std::string& msg);
   /** @}
     */
 

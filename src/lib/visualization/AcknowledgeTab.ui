@@ -19,7 +19,7 @@
      <x>10</x>
      <y>10</y>
      <width>911</width>
-     <height>781</height>
+     <height>721</height>
     </rect>
    </property>
    <attribute name="horizontalHeaderDefaultSectionSize">
@@ -54,11 +54,40 @@
     </property>
    </column>
   </widget>
+  <widget class="QPushButton" name="clearButton">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>740</y>
+     <width>93</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>clearButton</sender>
+   <signal>pressed()</signal>
+   <receiver>AcknowledgeTab</receiver>
+   <slot>clearPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>466</x>
+     <y>773</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
-  <slot>applyGeneralPressed()</slot>
-  <slot>applyGAMSPressed()</slot>
+  <slot>clearPressed()</slot>
  </slots>
 </ui>

@@ -83,6 +83,8 @@ protected slots:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
+  /// Clear the window
+  void clearPressed();
   /** @}
     */
 
