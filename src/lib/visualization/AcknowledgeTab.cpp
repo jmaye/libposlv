@@ -94,5 +94,6 @@ void AcknowledgeTab::readPacket(boost::shared_ptr<Packet> packet) {
 }
 
 void AcknowledgeTab::clearPressed() {
-  mUi->ackWidget->clearContents();
+  while (mUi->ackWidget->rowCount())
+    mUi->ackWidget->removeRow(mUi->ackWidget->rowCount() - 1);
 }

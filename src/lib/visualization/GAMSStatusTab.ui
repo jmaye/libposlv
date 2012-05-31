@@ -181,6 +181,26 @@
     </item>
    </layout>
   </widget>
+  <widget class="QTableWidget" name="gamsTable">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>310</y>
+     <width>891</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>SV</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Slip</string>
+    </property>
+   </row>
+  </widget>
  </widget>
  <resources/>
  <connections/>

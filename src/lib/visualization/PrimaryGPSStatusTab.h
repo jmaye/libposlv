@@ -83,6 +83,8 @@ protected:
   std::map<uint16_t, std::string> mGPSTypeMsg;
   /// Mapping for time sync. messages
   std::map<uint8_t, std::string> mTimeSyncMsg;
+  /// Mapping for channel status
+  std::map<uint16_t, std::string> mChannelStatusMsg;
   /** @}
     */
 

@@ -81,6 +81,8 @@ protected:
   std::map<int8_t, std::string> mStatusMsg;
   /// Mapping for the GPS type messages
   std::map<uint16_t, std::string> mGPSTypeMsg;
+  /// Mapping for channel status
+  std::map<uint16_t, std::string> mChannelStatusMsg;
   /** @}
     */
 

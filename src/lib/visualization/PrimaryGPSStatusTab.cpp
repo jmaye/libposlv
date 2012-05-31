@@ -58,6 +58,12 @@ PrimaryGPSStatusTab::PrimaryGPSStatusTab() :
   mTimeSyncMsg[1] = "Synchronizing";
   mTimeSyncMsg[2] = "Fully synchronized";
   mTimeSyncMsg[3] = "Using old offset";
+  mChannelStatusMsg[0] = "L1 idle";
+  mChannelStatusMsg[1] = "Reserved";
+  mChannelStatusMsg[2] = "L1 acquisition";
+  mChannelStatusMsg[3] = "L1 code lock";
+  mChannelStatusMsg[4] = "Reserved";
+  mChannelStatusMsg[5] = "L1 phase lock";
 }
 
 PrimaryGPSStatusTab::~PrimaryGPSStatusTab() {
@@ -102,6 +108,47 @@ void PrimaryGPSStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
       mUi->navLatencySpinBox->setValue(msg.mGPSNavigationMessageLatency);
       mUi->weekSpinBox->setValue(msg.mGPSUTCWeekNumber);
       mUi->offsetSpinBox->setValue(msg.mGPSUTCTimeOffset);
+      while (mUi->channelsTable->rowCount())
+        mUi->channelsTable->removeRow(mUi->channelsTable->rowCount() - 1);
+      for (size_t i = 0; i < msg.mChannelNumber; ++i) {
+        mUi->channelsTable->insertRow(mUi->channelsTable->rowCount());
+        QSpinBox* PRN = new QSpinBox;
+        PRN->setReadOnly(true);
+        PRN->setValue(msg.mChannelStatusData[i].mSVPRN);
+        PRN->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        mUi->channelsTable->setCellWidget(mUi->channelsTable->rowCount() - 1, 0,
+          PRN);
+        QLineEdit* status = new QLineEdit;
+        status->setReadOnly(true);
+        status->setText(mChannelStatusMsg[
+          msg.mChannelStatusData[i].mChannelTrackingStatus].c_str());
+        mUi->channelsTable->setCellWidget(mUi->channelsTable->rowCount() - 1, 1,
+          status);
+        QDoubleSpinBox* azimuth = new QDoubleSpinBox;
+        azimuth->setReadOnly(true);
+        azimuth->setValue(msg.mChannelStatusData[i].mSVAzimuth);
+        azimuth->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        mUi->channelsTable->setCellWidget(mUi->channelsTable->rowCount() - 1, 2,
+          azimuth);
+        QDoubleSpinBox* elevation = new QDoubleSpinBox;
+        elevation->setReadOnly(true);
+        elevation->setValue(msg.mChannelStatusData[i].mSVElevation);
+        elevation->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        mUi->channelsTable->setCellWidget(mUi->channelsTable->rowCount() - 1, 3,
+          elevation);
+        QDoubleSpinBox* l1snr = new QDoubleSpinBox;
+        l1snr->setReadOnly(true);
+        l1snr->setValue(msg.mChannelStatusData[i].mSVL1SNR);
+        l1snr->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        mUi->channelsTable->setCellWidget(mUi->channelsTable->rowCount() - 1, 4,
+          l1snr);
+        QDoubleSpinBox* l2snr = new QDoubleSpinBox;
+        l2snr->setReadOnly(true);
+        l2snr->setValue(msg.mChannelStatusData[i].mSVL2SNR);
+        l2snr->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        mUi->channelsTable->setCellWidget(mUi->channelsTable->rowCount() - 1, 5,
+          l2snr);
+      }
     }
     if (group.instanceOf<PPSTimeRecoveryStatus>()) {
       const PPSTimeRecoveryStatus& msg =

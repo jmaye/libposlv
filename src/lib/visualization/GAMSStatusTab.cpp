@@ -18,6 +18,8 @@
 
 #include "visualization/GAMSStatusTab.h"
 
+#include <bitset>
+
 #include "types/GAMSSolutionStatus.h"
 #include "types/Group.h"
 #include "types/Packet.h"
@@ -70,6 +72,26 @@ void GAMSStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
       mUi->headingSpinBox->setValue(msg.mGAMSHeading);
       mUi->headingRMSSpinBox->setValue(msg.mGAMSHeadingRMSError);
       mUi->pdopSpinBox->setValue(msg.mAPrioriPDOP);
+      while (mUi->gamsTable->columnCount())
+        mUi->gamsTable->removeColumn(mUi->gamsTable->columnCount() - 1);
+      std::bitset<16> slipBits(msg.mCycleSlipFlag);
+      for (size_t i = 0; i < sizeof(msg.mPRNAssignment); ++i) {
+        if (msg.mPRNAssignment[i]) {
+        mUi->gamsTable->insertColumn(mUi->gamsTable->columnCount());
+        QSpinBox* PRN = new QSpinBox;
+        PRN->setReadOnly(true);
+        PRN->setValue(msg.mPRNAssignment[i]);
+        PRN->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        mUi->gamsTable->setCellWidget(0,
+          mUi->gamsTable->columnCount() - 1, PRN);
+        QSpinBox* slip = new QSpinBox;
+        slip->setReadOnly(true);
+        slip->setValue(slipBits[msg.mPRNAssignment[i] - 1]);
+        slip->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        mUi->gamsTable->setCellWidget(1,
+          mUi->gamsTable->columnCount() - 1, slip);
+        }
+      }
     }
   }
 }
