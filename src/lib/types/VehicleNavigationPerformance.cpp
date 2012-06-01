@@ -103,6 +103,21 @@ void VehicleNavigationPerformance::read(BinaryReader& stream) {
 }
 
 void VehicleNavigationPerformance::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mNorthPositionRMSError;
+  stream << mEastPositionRMSError;
+  stream << mDownPositionRMSError;
+  stream << mNorthVelocityRMSError;
+  stream << mEastVelocityRMSError;
+  stream << mDownVelocityRMSError;
+  stream << mRollRMSError;
+  stream << mPitchRMSError;
+  stream << mHeadingRMSError;
+  stream << mErrorEllipsoidSemiMajor;
+  stream << mErrorEllipsoidSemiMinor;
+  stream << mErrorEllipsoidOrientation;
 }
 
 void VehicleNavigationPerformance::read(std::istream& stream) {

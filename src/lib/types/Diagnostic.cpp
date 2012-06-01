@@ -19,6 +19,7 @@
 #include "types/Diagnostic.h"
 
 #include "base/BinaryReader.h"
+#include "base/BinaryWriter.h"
 #include "exceptions/IOException.h"
 
 /******************************************************************************/
@@ -61,13 +62,16 @@ void Diagnostic::read(BinaryReader& stream) {
   if (byteCount != mByteCount)
     throw IOException("Diagnostic::read(): wrong byte count");
   stream >> mTimeDistance;
-  uint8_t byte;
-  byteCount -= 30;
-  for (size_t i = 0; i < byteCount; i++)
-    stream >> byte;
+  for (size_t i = 0; i < sizeof(mData) / sizeof(mData[0]); i++)
+    stream >> mData[i];
 }
 
 void Diagnostic::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  for (size_t i = 0; i < sizeof(mData) / sizeof(mData[0]); i++)
+    stream << mData[i];
 }
 
 void Diagnostic::read(std::istream& stream) {

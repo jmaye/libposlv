@@ -16,84 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/RawPPS.h"
+#include "sensor/BinaryLogWriter.h"
 
-#include "base/BinaryReader.h"
-#include "base/BinaryWriter.h"
-#include "exceptions/IOException.h"
-
-/******************************************************************************/
-/* Statics                                                                    */
-/******************************************************************************/
-
-const RawPPS RawPPS::mProto;
+#include <iostream>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-RawPPS::RawPPS() :
-    Group(10003) {
+BinaryLogWriter::BinaryLogWriter(std::ostream& stream) :
+    mStream(stream) {
 }
 
-RawPPS::RawPPS(const RawPPS& other) :
-    Group(other),
-    mTimeDistance(other.mTimeDistance),
-    mPPSPulseCount(other.mPPSPulseCount) {
-}
-
-RawPPS& RawPPS::operator = (const RawPPS& other) {
-  if (this != &other) {
-    Group::operator=(other);
-    mTimeDistance = other.mTimeDistance;
-    mPPSPulseCount = other.mPPSPulseCount;
-  }
-  return *this;
-}
-
-RawPPS::~RawPPS() {
-}
-
-/******************************************************************************/
-/* Stream operations                                                          */
-/******************************************************************************/
-
-void RawPPS::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("RawPPS::read(): wrong byte count");
-  stream >> mTimeDistance;
-  stream >> mPPSPulseCount;
-}
-
-void RawPPS::write(BinaryWriter& stream) const {
-  stream << mTypeID;
-  stream << mByteCount;
-  stream << mTimeDistance;
-  stream << mPPSPulseCount;
-}
-
-void RawPPS::read(std::istream& stream) {
-}
-
-void RawPPS::write(std::ostream& stream) const {
-}
-
-void RawPPS::read(std::ifstream& stream) {
-}
-
-void RawPPS::write(std::ofstream& stream) const {
-  stream << mTypeID;
-  stream << " ";
-  stream << mTimeDistance;
-  stream << mPPSPulseCount;
+BinaryLogWriter::~BinaryLogWriter() {
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-RawPPS* RawPPS::clone() const {
-  return new RawPPS(*this);
+void BinaryLogWriter::write(const char* buffer, size_t numBytes) {
+  mStream.write(buffer, numBytes);
 }

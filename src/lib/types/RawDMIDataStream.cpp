@@ -78,6 +78,13 @@ void RawDMIDataStream::read(BinaryReader& stream) {
 }
 
 void RawDMIDataStream::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mUpDownPulseCount;
+  stream << mRectifiedPulseCount;
+  stream << mEventCount;
+  stream << mReservedCount;
 }
 
 void RawDMIDataStream::read(std::istream& stream) {

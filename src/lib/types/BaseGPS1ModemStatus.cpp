@@ -88,7 +88,7 @@ void BaseGPS1ModemStatus::read(BinaryReader& stream) {
     stream >> mModemResponse[i];
   for (size_t i = 0; i < sizeof(mConnectionStatus) /
       sizeof(mConnectionStatus[0]); i++)
-    stream >> mConnectionStatus[i];
+  stream >> mConnectionStatus[i];
   stream >> mNumberOfRedialsPerDisconnect;
   stream >> mMaximumNumberOfRedialsPerDisconnect;
   stream >> mNumberOfDisconnects;
@@ -97,6 +97,20 @@ void BaseGPS1ModemStatus::read(BinaryReader& stream) {
 }
 
 void BaseGPS1ModemStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  for (size_t i = 0; i < sizeof(mModemResponse) / sizeof(mModemResponse[0]);
+      i++)
+    stream << mModemResponse[i];
+  for (size_t i = 0; i < sizeof(mConnectionStatus) /
+      sizeof(mConnectionStatus[0]); i++)
+  stream << mConnectionStatus[i];
+  stream << mNumberOfRedialsPerDisconnect;
+  stream << mMaximumNumberOfRedialsPerDisconnect;
+  stream << mNumberOfDisconnects;
+  stream << mDataGapLength;
+  stream << mMaximumDataGapLength;
 }
 
 void BaseGPS1ModemStatus::read(std::istream& stream) {

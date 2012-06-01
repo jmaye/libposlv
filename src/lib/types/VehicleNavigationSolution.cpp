@@ -124,6 +124,28 @@ void VehicleNavigationSolution::read(BinaryReader& stream) {
 }
 
 void VehicleNavigationSolution::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mLatitude;
+  stream << mLongitude;
+  stream << mAltitude;
+  stream << mNorthVelocity;
+  stream << mEastVelocity;
+  stream << mDownVelocity;
+  stream << mRoll;
+  stream << mPitch;
+  stream << mHeading;
+  stream << mWanderAngle;
+  stream << mTrackAngle;
+  stream << mSpeed;
+  stream << mAngularRateLong;
+  stream << mAngularRateTrans;
+  stream << mAngularRateDown;
+  stream << mAccLong;
+  stream << mAccTrans;
+  stream << mAccDown;
+  stream << mAlignementStatus;
 }
 
 void VehicleNavigationSolution::read(std::istream& stream) {

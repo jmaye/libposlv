@@ -81,6 +81,15 @@ void Acknowledge::read(BinaryReader& stream) {
 }
 
 void Acknowledge::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTransactionNumber;
+  stream << mID;
+  stream << mResponseCode;
+  stream << mNewParamsStatus;
+  for (size_t i = 0; i < sizeof(mParameterName) / sizeof(mParameterName[0]);
+      i++)
+    stream << mParameterName[i];
 }
 
 void Acknowledge::read(std::istream& stream) {

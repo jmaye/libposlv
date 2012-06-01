@@ -16,43 +16,61 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Utils.h
-    \brief This file defines the Utils namespace which contains useful function
-           for the POS LV.
+/** \file BinaryLogWriter.h
+    \brief This file defines the BinaryLogWriter class intended for writing
+           Applanix packets to binary files.
   */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef BINARYLOGWRITER_H
+#define BINARYLOGWRITER_H
 
-/** The Utils namespace contains useful functions for the Applanix.
-    \brief Utilities for the Applanix.
+#include <iosfwd>
+
+#include "sensor/POSLVWriter.h"
+
+/** The BinaryLogWriter class implements a binary log writer.
+    \brief Binary log writer for Applanix packets
   */
-namespace Utils {
+class BinaryLogWriter :
+  public POSLVWriter {
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  BinaryLogWriter(const BinaryLogWriter& other);
+  /// Assignment operator
+  BinaryLogWriter& operator = (const BinaryLogWriter& other);
+  /** @}W
+    */
+
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Constructs the object
+  BinaryLogWriter(std::ostream& stream);
+  /// Destructor
+  virtual ~BinaryLogWriter();
+  /** @}
+    */
+
   /** \name Methods
     @{
     */
-  /// Converts WGS84 to LV03
-  void WGS84ToLV03(double latitude, double longitude, double altitude,
-    double& east, double& north, double& height);
-  /// Converts LV03 to WGS84
-  void LV03ToWGS84(double& latitude, double& longitude, double& altitude,
-    double east, double north, double height);
-  /** \brief Converts sexagesimal angle (degrees, minutes and seconds "dd.mmss")
-    to decimal angle (degrees) */
-  double sexToDecAngle(double dms);
-  /** \brief Converts decimal angle (degrees) to sexagesimal angle (degrees,
-    minutes and seconds dd.mmss,ss) */
-  double decToSexAngle(double dec);
-  /**  \brief Converts sexagesimal angle (degrees, minutes and
-    seconds dd.mmss,ss) to seconds */
-  double sexAngleToSeconds(double dms);
-  /// Degrees to radians
-  double deg2rad(double deg);
-  /// Radians to degrees
-  double rad2deg(double rad);
+  /// Performs write on the stream
+  virtual void write(const char* buffer, size_t numBytes);
+  /** @}
+    */
+
+protected:
+  /** \name Protected members
+    @{
+    */
+  /// Stream object
+  std::ostream& mStream;
   /** @}
     */
 
 };
 
-#endif // UTILS
+#endif // BINARYLOGWRITER_H

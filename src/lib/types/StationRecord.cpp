@@ -72,6 +72,14 @@ void StationRecord::read(BinaryReader& stream) {
 }
 
 void StationRecord::write(BinaryWriter& stream) const {
+  stream << mRecordIndexAndFlags;
+  stream << mStationID;
+  stream << mStationHealth;
+  stream << mDistance;
+  stream << mRange;
+  stream << mUSCGIndex;
+  stream << mSeconds;
+  stream << mModulationRate;
 }
 
 void StationRecord::read(std::istream& stream) {

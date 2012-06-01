@@ -84,6 +84,15 @@ void TimeTaggedDMIData::read(BinaryReader& stream) {
 }
 
 void TimeTaggedDMIData::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mSignedDistanceTraveled;
+  stream << mUnsignedDistanceTraveled;
+  stream << mDMIScaleFactor;
+  stream << mDataStatus;
+  stream << mDMIType;
+  stream << mDMIDataRate;
 }
 
 void TimeTaggedDMIData::read(std::istream& stream) {

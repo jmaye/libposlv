@@ -16,84 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "types/RawEvent2.h"
+#include "sensor/BinaryLogReader.h"
 
-#include "base/BinaryReader.h"
-#include "base/BinaryWriter.h"
-#include "exceptions/IOException.h"
-
-/******************************************************************************/
-/* Statics                                                                    */
-/******************************************************************************/
-
-const RawEvent2 RawEvent2::mProto;
+#include <iostream>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-RawEvent2::RawEvent2() :
-    Group(10005) {
+BinaryLogReader::BinaryLogReader(std::istream& stream) :
+    mStream(stream) {
 }
 
-RawEvent2::RawEvent2(const RawEvent2& other) :
-    Group(other),
-    mTimeDistance(other.mTimeDistance),
-    mEvent2PulseCount(other.mEvent2PulseCount) {
-}
-
-RawEvent2& RawEvent2::operator = (const RawEvent2& other) {
-  if (this != &other) {
-    Group::operator=(other);
-    mTimeDistance = other.mTimeDistance;
-    mEvent2PulseCount = other.mEvent2PulseCount;
-  }
-  return *this;
-}
-
-RawEvent2::~RawEvent2() {
+BinaryLogReader::~BinaryLogReader() {
 }
 
 /******************************************************************************/
-/* Stream operations                                                          */
+/* Accessors                                                                  */
 /******************************************************************************/
-
-void RawEvent2::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
-  if (byteCount != mByteCount)
-    throw IOException("RawEvent2::read(): wrong byte count");
-  stream >> mTimeDistance;
-  stream >> mEvent2PulseCount;
-}
-
-void RawEvent2::write(BinaryWriter& stream) const {
-  stream << mTypeID;
-  stream << mByteCount;
-  stream << mTimeDistance;
-  stream << mEvent2PulseCount;
-}
-
-void RawEvent2::read(std::istream& stream) {
-}
-
-void RawEvent2::write(std::ostream& stream) const {
-}
-
-void RawEvent2::read(std::ifstream& stream) {
-}
-
-void RawEvent2::write(std::ofstream& stream) const {
-  stream << mTypeID;
-  stream << " ";
-  stream << mTimeDistance;
-  stream << mEvent2PulseCount;
-}
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-RawEvent2* RawEvent2::clone() const {
-  return new RawEvent2(*this);
+void BinaryLogReader::read(char* buffer, size_t numBytes) {
+  mStream.read(buffer, numBytes);
 }

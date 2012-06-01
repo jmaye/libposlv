@@ -82,6 +82,13 @@ void UserTimeStatus::read(BinaryReader& stream) {
 }
 
 void UserTimeStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mNumberOfTimeSynchMessageRejections;
+  stream << mNumberOfUserTimeResynchronizations;
+  stream << mUserTimeValid;
+  stream << mTimeSynchMessageReceived;
 }
 
 void UserTimeStatus::read(std::istream& stream) {

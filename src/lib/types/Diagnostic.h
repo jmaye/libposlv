@@ -62,6 +62,8 @@ public:
   static const uint16_t mByteCount = 276;
   /// Time/Distance field
   TimeDistance mTimeDistance;
+  /// Data field
+  uint8_t mData[246];
   /// Prototype for this group
   static const Diagnostic mProto;
   /** @}

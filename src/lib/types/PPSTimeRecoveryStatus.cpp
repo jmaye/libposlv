@@ -73,6 +73,11 @@ void PPSTimeRecoveryStatus::read(BinaryReader& stream) {
 }
 
 void PPSTimeRecoveryStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mPPSCount;
+  stream << mTimeSynchroStatus;
 }
 
 void PPSTimeRecoveryStatus::read(std::istream& stream) {

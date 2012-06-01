@@ -16,43 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Utils.h
-    \brief This file defines the Utils namespace which contains useful function
-           for the POS LV.
+/** \file binaryReader.cpp
+    \brief This file is a testing binary for reading binary data from a log
+           file.
   */
 
-#ifndef UTILS_H
-#define UTILS_H
+#include <cstdlib>
 
-/** The Utils namespace contains useful functions for the Applanix.
-    \brief Utilities for the Applanix.
-  */
-namespace Utils {
-  /** \name Methods
-    @{
-    */
-  /// Converts WGS84 to LV03
-  void WGS84ToLV03(double latitude, double longitude, double altitude,
-    double& east, double& north, double& height);
-  /// Converts LV03 to WGS84
-  void LV03ToWGS84(double& latitude, double& longitude, double& altitude,
-    double east, double north, double height);
-  /** \brief Converts sexagesimal angle (degrees, minutes and seconds "dd.mmss")
-    to decimal angle (degrees) */
-  double sexToDecAngle(double dms);
-  /** \brief Converts decimal angle (degrees) to sexagesimal angle (degrees,
-    minutes and seconds dd.mmss,ss) */
-  double decToSexAngle(double dec);
-  /**  \brief Converts sexagesimal angle (degrees, minutes and
-    seconds dd.mmss,ss) to seconds */
-  double sexAngleToSeconds(double dms);
-  /// Degrees to radians
-  double deg2rad(double deg);
-  /// Radians to degrees
-  double rad2deg(double rad);
-  /** @}
-    */
+#include "types/Packet.h"
+#include "sensor/BinaryLogReader.h"
 
-};
-
-#endif // UTILS
+int main(int argc, char** argv) {
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <LogFilename>" << std::endl;
+    return -1;
+  }
+  std::ifstream logFile(argv[1]);
+  BinaryLogReader logReader(logFile);
+  while (!logFile.eof()) {
+    double timestamp;
+    logReader >> timestamp;
+    boost::shared_ptr<Packet> packet = logReader.readPacket();
+  }
+  return 0;
+}

@@ -16,43 +16,61 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Utils.h
-    \brief This file defines the Utils namespace which contains useful function
-           for the POS LV.
+/** \file BinaryLogReader.h
+    \brief This file defines the BinaryLogReader class intended for reading
+           Applanix packets from binary files.
   */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef BINARYLOGREADER_H
+#define BINARYLOGREADER_H
 
-/** The Utils namespace contains useful functions for the Applanix.
-    \brief Utilities for the Applanix.
+#include <iosfwd>
+
+#include "sensor/POSLVReader.h"
+
+/** The BinaryLogReader class implements a binary log reader.
+    \brief Binary log reader for Applanix packets
   */
-namespace Utils {
+class BinaryLogReader :
+  public POSLVReader {
+  /** \name Private constructors
+    @{
+    */
+  /// Copy constructor
+  BinaryLogReader(const BinaryLogReader& other);
+  /// Assignment operator
+  BinaryLogReader& operator = (const BinaryLogReader& other);
+  /** @}W
+    */
+
+public:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Constructs the object
+  BinaryLogReader(std::istream& stream);
+  /// Destructor
+  virtual ~BinaryLogReader();
+  /** @}
+    */
+
   /** \name Methods
     @{
     */
-  /// Converts WGS84 to LV03
-  void WGS84ToLV03(double latitude, double longitude, double altitude,
-    double& east, double& north, double& height);
-  /// Converts LV03 to WGS84
-  void LV03ToWGS84(double& latitude, double& longitude, double& altitude,
-    double east, double north, double height);
-  /** \brief Converts sexagesimal angle (degrees, minutes and seconds "dd.mmss")
-    to decimal angle (degrees) */
-  double sexToDecAngle(double dms);
-  /** \brief Converts decimal angle (degrees) to sexagesimal angle (degrees,
-    minutes and seconds dd.mmss,ss) */
-  double decToSexAngle(double dec);
-  /**  \brief Converts sexagesimal angle (degrees, minutes and
-    seconds dd.mmss,ss) to seconds */
-  double sexAngleToSeconds(double dms);
-  /// Degrees to radians
-  double deg2rad(double deg);
-  /// Radians to degrees
-  double rad2deg(double rad);
+  /// Performs read on the stream
+  virtual void read(char* buffer, size_t numBytes);
+  /** @}
+    */
+
+protected:
+  /** \name Protected members
+    @{
+    */
+  /// Stream object
+  std::istream& mStream;
   /** @}
     */
 
 };
 
-#endif // UTILS
+#endif // BINARYLOGREADER_H

@@ -94,6 +94,19 @@ void GAMSSolutionStatus::read(BinaryReader& stream) {
 }
 
 void GAMSSolutionStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mNumberOfSatellites;
+  stream << mAPrioriPDOP;
+  stream << mComputedAntennaSeparation;
+  stream << mSolutionStatus;
+  for (size_t i = 0; i < sizeof(mPRNAssignment) / sizeof(mPRNAssignment[0]);
+      i++)
+    stream << mPRNAssignment[i];
+  stream << mCycleSlipFlag;
+  stream << mGAMSHeading;
+  stream << mGAMSHeadingRMSError;
 }
 
 void GAMSSolutionStatus::read(std::istream& stream) {

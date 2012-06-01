@@ -154,6 +154,34 @@ void CalibratedInstallationParams::read(BinaryReader& stream) {
 }
 
 void CalibratedInstallationParams::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mCalibrationStatus;
+  stream << mReferenceToPrimaryGPSXLeverArm;
+  stream << mReferenceToPrimaryGPSYLeverArm;
+  stream << mReferenceToPrimaryGPSZLeverArm;
+  stream << mReferenceToPrimaryGPSLeverArmCalibrationFOM;
+  stream << mReferenceToAuxiliary1GPSXLeverArm;
+  stream << mReferenceToAuxiliary1GPSYLeverArm;
+  stream << mReferenceToAuxiliary1GPSZLeverArm;
+  stream << mReferenceToAuxiliary1GPSLeverArmCalibrationFOM;
+  stream << mReferenceToAuxiliary2GPSXLeverArm;
+  stream << mReferenceToAuxiliary2GPSYLeverArm;
+  stream << mReferenceToAuxiliary2GPSZLeverArm;
+  stream << mReferenceToAuxiliary2GPSLeverArmCalibrationFOM;
+  stream << mReferenceToDMIXLeverArm;
+  stream << mReferenceToDMIYLeverArm;
+  stream << mReferenceToDMIZLeverArm;
+  stream << mReferenceToDMILeverArmCalibrationFOM;
+  stream << mDMIScaleFactor;
+  stream << mDMIScaleFactorCalibrationFOM;
+  stream << mReserved1;
+  stream << mReserved2;
+  stream << mReserved3;
+  stream << mReserved4;
+  stream << mReserved5;
+  stream << mReserved6;
 }
 
 void CalibratedInstallationParams::read(std::istream& stream) {

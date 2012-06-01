@@ -81,6 +81,14 @@ void LoggingParamStatus::read(BinaryReader& stream) {
 }
 
 void LoggingParamStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mDiskKbytesRemaining;
+  stream << mDiskKbytesLogged;
+  stream << mDiskLoggingTimeRemaining;
+  stream << mDiskKbytesTotal;
+  stream << mLoggingState;
 }
 
 void LoggingParamStatus::read(std::istream& stream) {

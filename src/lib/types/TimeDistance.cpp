@@ -63,6 +63,11 @@ void TimeDistance::read(BinaryReader& stream) {
 }
 
 void TimeDistance::write(BinaryWriter& stream) const {
+  stream << mTime1;
+  stream << mTime2;
+  stream << mDistanceTag;
+  stream << mTimeType;
+  stream << mDistanceType;
 }
 
 void TimeDistance::read(std::istream& stream) {

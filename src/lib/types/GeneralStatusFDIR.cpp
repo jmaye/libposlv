@@ -96,6 +96,19 @@ void GeneralStatusFDIR::read(BinaryReader& stream) {
 }
 
 void GeneralStatusFDIR::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mGeneralStatusA;
+  stream << mGeneralStatusB;
+  stream << mGeneralStatusC;
+  stream << mFDIRLevel1Status;
+  stream << mFDIRLevel1Failures;
+  stream << mFDIRLevel2Status;
+  stream << mFDIRLevel3Status;
+  stream << mFDIRLevel4Status;
+  stream << mFDIRLevel5Status;
+  stream << mExtendedStatus;
 }
 
 void GeneralStatusFDIR::read(std::istream& stream) {

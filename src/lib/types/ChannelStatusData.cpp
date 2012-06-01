@@ -66,6 +66,12 @@ void ChannelStatusData::read(BinaryReader& stream) {
 }
 
 void ChannelStatusData::write(BinaryWriter& stream) const {
+  stream << mSVPRN;
+  stream << mChannelTrackingStatus;
+  stream << mSVAzimuth;
+  stream << mSVElevation;
+  stream << mSVL1SNR;
+  stream << mSVL2SNR;
 }
 
 void ChannelStatusData::read(std::istream& stream) {

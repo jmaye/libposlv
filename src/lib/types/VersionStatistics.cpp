@@ -102,6 +102,23 @@ void VersionStatistics::read(BinaryReader &stream) {
 }
 
 void VersionStatistics::write(BinaryWriter &stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  for (size_t i = 0; i < sizeof(mSystemVersion) / sizeof(mSystemVersion[0]);
+      i++)
+    stream << mSystemVersion[i];
+  for (size_t i = 0; i < sizeof(mPrimaryGPSVersion) /
+      sizeof(mPrimaryGPSVersion[0]); i++)
+    stream << mPrimaryGPSVersion[i];
+  for (size_t i = 0; i < sizeof(mSecondaryGPSversion) /
+      sizeof(mSecondaryGPSversion[0]); i++)
+    stream << mSecondaryGPSversion[i];
+  stream << mTotalHours;
+  stream << mNumberOfRuns;
+  stream << mAverageLengthOfRun;
+  stream << mLongestRun;
+  stream << mCurrentRun;
 }
 
 void VersionStatistics::read(std::istream& stream) {

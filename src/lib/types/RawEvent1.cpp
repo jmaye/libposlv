@@ -68,6 +68,10 @@ void RawEvent1::read(BinaryReader& stream) {
 }
 
 void RawEvent1::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mEvent1PulseCount;
 }
 
 void RawEvent1::read(std::istream& stream) {

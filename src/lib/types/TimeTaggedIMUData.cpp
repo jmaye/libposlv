@@ -96,6 +96,19 @@ void TimeTaggedIMUData::read(BinaryReader& stream) {
 }
 
 void TimeTaggedIMUData::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mXIncrementalVelocity;
+  stream << mYIncrementalVelocity;
+  stream << mZIncrementalVelocity;
+  stream << mXIncrementalAngle;
+  stream << mYIncrementalAngle;
+  stream << mZIncrementalAngle;
+  stream << mDataStatus;
+  stream << mIMUType;
+  stream << mPOSIMUDataRate;
+  stream << mIMUStatus;
 }
 
 void TimeTaggedIMUData::read(std::istream& stream) {
