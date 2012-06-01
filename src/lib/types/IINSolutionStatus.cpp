@@ -83,7 +83,7 @@ void IINSolutionStatus::read(BinaryReader& stream) {
   stream >> mAPrioriPDOP;
   stream >> mBaselineLength;
   stream >> mIINProcessingStatus;
-  for (size_t i = 0; i < sizeof(mPRNAssignment) /  sizeof(mPRNAssignment[0]);
+  for (size_t i = 0; i < sizeof(mPRNAssignment) / sizeof(mPRNAssignment[0]);
       i++)
   stream >> mPRNAssignment[i];
   stream >> mL1CycleSlipFlag;
@@ -98,7 +98,7 @@ void IINSolutionStatus::write(BinaryWriter& stream) const {
   stream << mAPrioriPDOP;
   stream << mBaselineLength;
   stream << mIINProcessingStatus;
-  for (size_t i = 0; i < sizeof(mPRNAssignment) /  sizeof(mPRNAssignment[0]);
+  for (size_t i = 0; i < sizeof(mPRNAssignment) / sizeof(mPRNAssignment[0]);
       i++)
   stream << mPRNAssignment[i];
   stream << mL1CycleSlipFlag;

@@ -138,6 +138,31 @@ void PrimaryGPSReceiverIntegratedDGPSStatus::read(BinaryReader& stream) {
 }
 
 void PrimaryGPSReceiverIntegratedDGPSStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mMobileDifferentialMode;
+  stream << mFrequency0;
+  stream << mAcquisitionMode0;
+  stream << mChannelStatus0;
+  stream << mRCTMUsedFlag0;
+  stream << mSNR0;
+  stream << mDataRateIndex0;
+  stream << mLockIndicator0;
+  stream << mDGPSSourceAutoSwitching0;
+  stream << mServiceProvider0;
+  stream << mFrequency1;
+  stream << mAcquisitionMode1;
+  stream << mChannelStatus1;
+  stream << mRCTMUsedFlag1;
+  stream << mSNR1;
+  stream << mDataRateIndex1;
+  stream << mLockIndicator1;
+  stream << mDGPSSourceAutoSwitching1;
+  stream << mServiceProvider1;
+  stream << mUserIDCode;
+  stream << mUserAccess;
+  stream << mDecoderState;
 }
 
 void PrimaryGPSReceiverIntegratedDGPSStatus::read(std::istream& stream) {

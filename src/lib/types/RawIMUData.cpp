@@ -42,6 +42,7 @@ RawIMUData::RawIMUData() :
 
 RawIMUData::RawIMUData(const RawIMUData& other) :
     Group(other),
+    mByteCount(other.mByteCount),
     mTimeDistance(other.mTimeDistance),
     mVariableMsgByteCount(other.mVariableMsgByteCount),
     mDataChecksum(other.mDataChecksum) {
@@ -57,6 +58,7 @@ RawIMUData::RawIMUData(const RawIMUData& other) :
 RawIMUData& RawIMUData::operator = (const RawIMUData& other) {
   if (this != &other) {
     Group::operator=(other);
+    mByteCount = other.mByteCount;
     mTimeDistance = other.mTimeDistance;
     memcpy(mIMUHeader, other.mIMUHeader, sizeof(mIMUHeader));
     mVariableMsgByteCount = other.mVariableMsgByteCount;
@@ -96,6 +98,15 @@ void RawIMUData::read(BinaryReader& stream) {
 }
 
 void RawIMUData::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  for (size_t i = 0; i < sizeof(mIMUHeader); i++)
+    stream << mIMUHeader[i];
+  stream << mVariableMsgByteCount;
+  for (size_t i = 0; i < mVariableMsgByteCount; i++)
+    stream << mIMURawData[i];
+  stream << mDataChecksum;
 }
 
 void RawIMUData::read(std::istream& stream) {

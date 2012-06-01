@@ -59,6 +59,8 @@ public:
   /** \name Members
     @{
     */
+  /// Byte count
+  uint16_t mByteCount;
   /// Time/Distance field of the message
   TimeDistance mTimeDistance;
   /// Reserved bytes

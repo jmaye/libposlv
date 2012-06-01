@@ -42,6 +42,7 @@ PrimaryGPSDataStream::PrimaryGPSDataStream() :
 
 PrimaryGPSDataStream::PrimaryGPSDataStream(const PrimaryGPSDataStream& other) :
     Group(other),
+    mByteCount(other.mByteCount),
     mTimeDistance(other.mTimeDistance),
     mGPSReceiverType(other.mGPSReceiverType),
     mReserved(other.mReserved),
@@ -59,6 +60,7 @@ PrimaryGPSDataStream& PrimaryGPSDataStream::operator =
     (const PrimaryGPSDataStream& other) {
   if (this != &other) {
     Group::operator=(other);
+    mByteCount = other.mByteCount;
     mTimeDistance = other.mTimeDistance;
     mGPSReceiverType = other.mGPSReceiverType;
     mReserved = other.mReserved;
@@ -84,8 +86,7 @@ PrimaryGPSDataStream::~PrimaryGPSDataStream() {
 /******************************************************************************/
 
 void PrimaryGPSDataStream::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mByteCount;
   stream >> mTimeDistance;
   stream >> mGPSReceiverType;
   stream >> mReserved;
@@ -98,6 +99,14 @@ void PrimaryGPSDataStream::read(BinaryReader& stream) {
 }
 
 void PrimaryGPSDataStream::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mGPSReceiverType;
+  stream << mReserved;
+  stream << mVariableMsgByteCount;
+  for (size_t i = 0; i < mVariableMsgByteCount; ++i)
+    stream << mGPSReceiverRawData[i];
 }
 
 void PrimaryGPSDataStream::read(std::istream& stream) {

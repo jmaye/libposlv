@@ -132,6 +132,24 @@ void Auxiliary1GPSStatus::read(BinaryReader& stream) {
 }
 
 void Auxiliary1GPSStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << (mByteCount + mChannelNumber * 20);
+  stream << mTimeDistance;
+  stream << mNavigationSolutionStatus;
+  stream << mNumberOfSVTracked;
+  stream << mChannelStatusByteCount;
+  for (size_t i = 0; i < mChannelNumber; ++i)
+    stream << mChannelStatusData[i];
+  stream << mHDOP;
+  stream << mVDOP;
+  stream << mDGPSCorrectionLatency;
+  stream << mDGPSReferenceID;
+  stream << mGPSUTCWeekNumber;
+  stream << mGPSUTCTimeOffset;
+  stream << mGPSNavigationMessageLatency;
+  stream << mGeoidalSeparation;
+  stream << mNMEAMessageReceived;
+  stream << mAux12InUse;
 }
 
 void Auxiliary1GPSStatus::read(std::istream& stream) {

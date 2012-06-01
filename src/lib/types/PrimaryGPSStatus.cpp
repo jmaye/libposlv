@@ -132,6 +132,24 @@ void PrimaryGPSStatus::read(BinaryReader& stream) {
 }
 
 void PrimaryGPSStatus::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << (mByteCount + mChannelNumber * 20);
+  stream << mTimeDistance;
+  stream << mNavigationSolutionStatus;
+  stream << mNumberOfSVTracked;
+  stream << mChannelStatusByteCount;
+  for (size_t i = 0; i < mChannelNumber; i++)
+    stream << mChannelStatusData[i];
+  stream << mHDOP;
+  stream << mVDOP;
+  stream << mDGPSCorrectionLatency;
+  stream << mDGPSReferenceID;
+  stream << mGPSUTCWeekNumber;
+  stream << mGPSUTCTimeOffset;
+  stream << mGPSNavigationMessageLatency;
+  stream << mGeoidalSeparation;
+  stream << mGPSReceiverType;
+  stream << mGPSStatus;
 }
 
 void PrimaryGPSStatus::read(std::istream& stream) {

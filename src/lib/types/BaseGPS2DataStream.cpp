@@ -42,6 +42,7 @@ BaseGPS2DataStream::BaseGPS2DataStream() :
 
 BaseGPS2DataStream::BaseGPS2DataStream(const BaseGPS2DataStream& other) :
     Group(other),
+    mByteCount(other.mByteCount),
     mTimeDistance(other.mTimeDistance),
     mVariableMsgByteCount(other.mVariableMsgByteCount) {
   memcpy(mReserved, other.mReserved, sizeof(mReserved));
@@ -58,6 +59,7 @@ BaseGPS2DataStream& BaseGPS2DataStream::operator =
     (const BaseGPS2DataStream& other) {
   if (this != &other) {
     Group::operator=(other);
+    mByteCount = other.mByteCount;
     mTimeDistance = other.mTimeDistance;
     memcpy(mReserved, other.mReserved, sizeof(mReserved));
     mVariableMsgByteCount = other.mVariableMsgByteCount;
@@ -82,8 +84,7 @@ BaseGPS2DataStream::~BaseGPS2DataStream() {
 /******************************************************************************/
 
 void BaseGPS2DataStream::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mByteCount;
   stream >> mTimeDistance;
   for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
     stream >> mReserved[i];
@@ -96,6 +97,14 @@ void BaseGPS2DataStream::read(BinaryReader& stream) {
 }
 
 void BaseGPS2DataStream::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
+    stream << mReserved[i];
+  stream << mVariableMsgByteCount;
+  for (size_t i = 0; i < mVariableMsgByteCount; i++)
+    stream << mGPSReceiverRawData[i];
 }
 
 void BaseGPS2DataStream::read(std::istream& stream) {

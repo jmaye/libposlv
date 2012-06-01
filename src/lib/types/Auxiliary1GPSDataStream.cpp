@@ -43,6 +43,7 @@ Auxiliary1GPSDataStream::Auxiliary1GPSDataStream() :
 Auxiliary1GPSDataStream::Auxiliary1GPSDataStream(const Auxiliary1GPSDataStream&
     other) :
     Group(other),
+    mByteCount(other.mByteCount),
     mTimeDistance(other.mTimeDistance),
     mVariableMsgByteCount(other.mVariableMsgByteCount) {
   if (mVariableMsgByteCount) {
@@ -59,6 +60,7 @@ Auxiliary1GPSDataStream& Auxiliary1GPSDataStream::operator =
     (const Auxiliary1GPSDataStream& other) {
   if (this != &other) {
     Group::operator=(other);
+    mByteCount = other.mByteCount;
     mTimeDistance = other.mTimeDistance;
     memcpy(mReserved, other.mReserved, sizeof(mReserved));
     mVariableMsgByteCount = other.mVariableMsgByteCount;
@@ -83,8 +85,7 @@ Auxiliary1GPSDataStream::~Auxiliary1GPSDataStream() {
 /******************************************************************************/
 
 void Auxiliary1GPSDataStream::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mByteCount;
   stream >> mTimeDistance;
   for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
     stream >> mReserved[i];
@@ -97,6 +98,14 @@ void Auxiliary1GPSDataStream::read(BinaryReader& stream) {
 }
 
 void Auxiliary1GPSDataStream::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  for (size_t i = 0; i < sizeof(mReserved) / sizeof(mReserved[0]); i++)
+    stream << mReserved[i];
+  stream << mVariableMsgByteCount;
+  for (size_t i = 0; i < mVariableMsgByteCount; i++)
+    stream << mGPSReceiverRawData[i];
 }
 
 void Auxiliary1GPSDataStream::read(std::istream& stream) {

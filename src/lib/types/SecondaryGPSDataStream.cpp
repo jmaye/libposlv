@@ -43,6 +43,7 @@ SecondaryGPSDataStream::SecondaryGPSDataStream() :
 SecondaryGPSDataStream::SecondaryGPSDataStream(const SecondaryGPSDataStream&
     other) :
     Group(other),
+    mByteCount(other.mByteCount),
     mTimeDistance(other.mTimeDistance),
     mGPSReceiverType(other.mGPSReceiverType),
     mReserved(other.mReserved),
@@ -60,6 +61,7 @@ SecondaryGPSDataStream& SecondaryGPSDataStream::operator =
     (const SecondaryGPSDataStream& other) {
   if (this != &other) {
     Group::operator=(other);
+    mByteCount = other.mByteCount;
     mTimeDistance = other.mTimeDistance;
     mGPSReceiverType = other.mGPSReceiverType;
     mReserved = other.mReserved;
@@ -85,8 +87,7 @@ SecondaryGPSDataStream::~SecondaryGPSDataStream() {
 /******************************************************************************/
 
 void SecondaryGPSDataStream::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mByteCount;
   stream >> mTimeDistance;
   stream >> mGPSReceiverType;
   stream >> mReserved;
@@ -99,6 +100,14 @@ void SecondaryGPSDataStream::read(BinaryReader& stream) {
 }
 
 void SecondaryGPSDataStream::write(BinaryWriter& stream) const {
+  stream << mTypeID;
+  stream << mByteCount;
+  stream << mTimeDistance;
+  stream << mGPSReceiverType;
+  stream << mReserved;
+  stream << mVariableMsgByteCount;
+  for (size_t i = 0; i < mVariableMsgByteCount; i++)
+    stream << mGPSReceiverRawData[i];
 }
 
 void SecondaryGPSDataStream::read(std::istream& stream) {

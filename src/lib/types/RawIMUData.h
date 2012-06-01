@@ -58,6 +58,8 @@ public:
   /** \name Members
     @{
     */
+  /// Byte count
+  uint16_t mByteCount;
   /// Time/Distance field
   TimeDistance mTimeDistance;
   /// IMU header
