@@ -9,59 +9,54 @@
  *                                                                            *
  * This program is distributed in the hope that it will be useful,            *
  * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               *
  * Lesser GNU General Public License for more details.                        *
  *                                                                            *
  * You should have received a copy of the Lesser GNU General Public License   *
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file AcknowledgeTab.h
-    \brief This file defines the AcknowledgeTab class which is the
-           control for acknowledge of the Applanix
+/** \file NTRIPClient.h
+    \brief This file defines the NTRIPClient class intended for receiving
+           GPS corrections from a NTRIP server.
   */
 
-#ifndef ACKNOWLEDGETAB_H
-#define ACKNOWLEDGETAB_H
+#ifndef NTRIPCLIENT_H
+#define NTRIPCLIENT_H
 
-#include <map>
 #include <string>
 
-#include <boost/shared_ptr.hpp>
-
-#include "visualization/Control.h"
-#include "base/Singleton.h"
-
-class Ui_AcknowledgeTab;
-class Packet;
-
-/** The AcknowledgeTab class is the control for the acknowledge messages
-    \brief Acknowledge messages control
+/** The NTRIPClient class communicates with an NTRIP server to receive GPS
+    corrections.
+    \brief NTRIP client
   */
-class AcknowledgeTab :
-  public Control,
-  public Singleton<AcknowledgeTab> {
-
-Q_OBJECT
-
+class NTRIPClient {
   /** \name Private constructors
     @{
     */
   /// Copy constructor
-  AcknowledgeTab(const AcknowledgeTab& other);
+  NTRIPClient(const NTRIPClient& other);
   /// Assignment operator
-  AcknowledgeTab& operator = (const AcknowledgeTab& other);
-  /** @}
+  NTRIPClient& operator = (const NTRIPClient& other);
+  /** @}W
     */
 
 public:
   /** \name Constructors/destructor
     @{
     */
-  /// Default constructor
-  AcknowledgeTab();
+  /// Constructs the object
+  NTRIPClient(const std::string &serverHost, short port, const std::string&
+    serverStream = "", const std::string& userName = "", const std::string&
+    password = "");
   /// Destructor
-  virtual ~AcknowledgeTab();
+  virtual ~NTRIPClient();
+  /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
   /** @}
     */
 
@@ -69,24 +64,19 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Pointer to the UI
-  Ui_AcknowledgeTab* mUi;
-  /// Mapping for the status messages
-  std::map<uint16_t, std::string> mStatusMsg;
-  /** @}
-    */
-
-protected slots:
-  /** \name Protected slots
-    @{
-    */
-  /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
-  /// Clear the window
-  void clearPressed();
+  /// Server host
+  std::string mServerHost;
+  /// Server port
+  short mPort;
+  /// Live stream (optional)
+  std::string mServerStream;
+  /// Username (optional)
+  std::string mUserName;
+  /// Password (optional)
+  std::string mPassword;
   /** @}
     */
 
 };
 
-#endif // ACKNOWLEDGETAB_H
+#endif // NTRIPCLIENT_H

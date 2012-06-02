@@ -16,37 +16,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/BinaryLogReader.h"
-
-#include <iostream>
+#include "sensor/NTRIPClient.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BinaryLogReader::BinaryLogReader(std::istream& stream) :
-    mStream(stream) {
+NTRIPClient::NTRIPClient(const std::string &serverHost, short port, const
+    std::string& serverStream, const std::string& userName, const std::string&
+    password) :
+    mServerHost(serverHost),
+    mPort(port),
+    mServerStream(serverStream),
+    mUserName(userName),
+    mPassword(password) {
 }
 
-BinaryLogReader::~BinaryLogReader() {
+NTRIPClient::~NTRIPClient() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-const std::istream& BinaryLogReader::getStream() const {
-  return mStream;
-}
-
-std::istream& BinaryLogReader::getStream() {
-  return mStream;
-}
-
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void BinaryLogReader::read(char* buffer, size_t numBytes) {
-  mStream.read(buffer, numBytes);
-}
+//  std::string httpRequest = "GET /ZIM20 HTTP/1.1\r\n"
+//    "Host: http://www.euref-ip.net/\r\n"
+//    "Authorization: BASIC YXNsdGVhbTphc2xldGh6\r\n"
+//    "Ntrip-Version: Ntrip/2.0\r\n"
+//    "User-Agent: NTRIP poslv-dgps\r\n"
+//    "Connection: close\r\n\r\n";

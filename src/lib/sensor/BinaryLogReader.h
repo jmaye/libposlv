@@ -54,6 +54,16 @@ public:
   /** @}
     */
 
+  /** \name Accessors
+    @{
+    */
+  /// Returns the stream
+  const std::istream& getStream() const;
+  /// Returns the stream
+  std::istream& getStream();
+  /** @}
+    */
+
   /** \name Methods
     @{
     */

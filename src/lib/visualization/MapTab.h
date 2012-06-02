@@ -16,31 +16,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file AcknowledgeTab.h
-    \brief This file defines the AcknowledgeTab class which is the
-           control for acknowledge of the Applanix
+/** \file MapTab.h
+    \brief This file defines the MapTab class which is the
+           control for displaying a map
   */
 
-#ifndef ACKNOWLEDGETAB_H
-#define ACKNOWLEDGETAB_H
+#ifndef MAPTAB_H
+#define MAPTAB_H
 
-#include <map>
-#include <string>
+#include <QtCore/QTimer>
 
 #include <boost/shared_ptr.hpp>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 
-class Ui_AcknowledgeTab;
+class Ui_MapTab;
 class Packet;
 
-/** The AcknowledgeTab class is the control for the acknowledge messages
-    \brief Acknowledge messages control
+/** The MapTab class is the control for the map displaying
+    \brief Map display
   */
-class AcknowledgeTab :
+class MapTab :
   public Control,
-  public Singleton<AcknowledgeTab> {
+  public Singleton<MapTab> {
 
 Q_OBJECT
 
@@ -48,9 +47,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  AcknowledgeTab(const AcknowledgeTab& other);
+  MapTab(const MapTab& other);
   /// Assignment operator
-  AcknowledgeTab& operator = (const AcknowledgeTab& other);
+  MapTab& operator = (const MapTab& other);
   /** @}
     */
 
@@ -59,9 +58,9 @@ public:
     @{
     */
   /// Default constructor
-  AcknowledgeTab();
+  MapTab();
   /// Destructor
-  virtual ~AcknowledgeTab();
+  virtual ~MapTab();
   /** @}
     */
 
@@ -70,9 +69,13 @@ protected:
     @{
     */
   /// Pointer to the UI
-  Ui_AcknowledgeTab* mUi;
-  /// Mapping for the status messages
-  std::map<uint16_t, std::string> mStatusMsg;
+  Ui_MapTab* mUi;
+  /// Refresh timer
+  QTimer mTimer;
+  /// Last latitude observed
+  double mLatitude;
+  /// Last longitude observed
+  double mLongitude;
   /** @}
     */
 
@@ -82,11 +85,11 @@ protected slots:
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
-  /// Clear the window
-  void clearPressed();
+  /// Timer timeout
+  void timerTimeout();
   /** @}
     */
 
 };
 
-#endif // ACKNOWLEDGETAB_H
+#endif // MAPTAB_H

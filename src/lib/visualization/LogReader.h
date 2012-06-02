@@ -16,31 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file AcknowledgeTab.h
-    \brief This file defines the AcknowledgeTab class which is the
-           control for acknowledge of the Applanix
+/** \file LogReader.h
+    \brief This file defines the LogReader class which handles UDP communication
+           with the POS.
   */
 
-#ifndef ACKNOWLEDGETAB_H
-#define ACKNOWLEDGETAB_H
+#ifndef LOGREADER_H
+#define LOGREADER_H
 
-#include <map>
-#include <string>
+#include <QtCore/QObject>
+#include <QtCore/QTimer>
 
 #include <boost/shared_ptr.hpp>
 
-#include "visualization/Control.h"
-#include "base/Singleton.h"
-
-class Ui_AcknowledgeTab;
+class BinaryLogReader;
 class Packet;
 
-/** The AcknowledgeTab class is the control for the acknowledge messages
-    \brief Acknowledge messages control
+/** The LogReader class handles playback from a log file
+    \brief Playback from a log file
   */
-class AcknowledgeTab :
-  public Control,
-  public Singleton<AcknowledgeTab> {
+class LogReader :
+  public QObject {
 
 Q_OBJECT
 
@@ -48,9 +44,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  AcknowledgeTab(const AcknowledgeTab& other);
+  LogReader(const LogReader& other);
   /// Assignment operator
-  AcknowledgeTab& operator = (const AcknowledgeTab& other);
+  LogReader& operator = (const LogReader& other);
   /** @}
     */
 
@@ -58,10 +54,20 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Default constructor
-  AcknowledgeTab();
+  /// Constructs reader with polling time and device
+  LogReader(BinaryLogReader& device, double pollingTime = 1);
   /// Destructor
-  virtual ~AcknowledgeTab();
+  virtual ~LogReader();
+  /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  /// Returns the polling time
+  double getPollingTime() const;
+  /// Sets the polling time
+  void setPollingTime(double pollingTime);
   /** @}
     */
 
@@ -69,24 +75,37 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Pointer to the UI
-  Ui_AcknowledgeTab* mUi;
-  /// Mapping for the status messages
-  std::map<uint16_t, std::string> mStatusMsg;
+  /// Device
+  BinaryLogReader& mDevice;
+  /// Timer
+  QTimer mTimer;
+  /// Polling time
+  double mPollingTime;
   /** @}
     */
 
 protected slots:
-  /** \name Protected slots
+  /** \name Qt slots
+    @{
+    */
+  /// Timeout of the timer
+  void timerTimeout();
+  /** @}
+    */
+
+signals:
+  /** \name Qt signals
     @{
     */
   /// Packet read
   void readPacket(boost::shared_ptr<Packet> packet);
-  /// Clear the window
-  void clearPressed();
+  /// Com exception
+  void comException(const std::string& msg);
+  /// Device connected
+  void deviceConnected(bool connected);
   /** @}
     */
 
 };
 
-#endif // ACKNOWLEDGETAB_H
+#endif // LOGREADER_H

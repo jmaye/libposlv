@@ -16,37 +16,55 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/BinaryLogReader.h"
+#include "visualization/MapTab.h"
 
-#include <iostream>
+#include <sstream>
+
+#include "types/Packet.h"
+#include "types/Group.h"
+#include "types/VehicleNavigationSolution.h"
+
+#include "ui_MapTab.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BinaryLogReader::BinaryLogReader(std::istream& stream) :
-    mStream(stream) {
+MapTab::MapTab() :
+    mUi(new Ui_MapTab()) {
+  mUi->setupUi(this);
+  mTimer.setInterval(1000);
+  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
 }
 
-BinaryLogReader::~BinaryLogReader() {
-}
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-const std::istream& BinaryLogReader::getStream() const {
-  return mStream;
-}
-
-std::istream& BinaryLogReader::getStream() {
-  return mStream;
+MapTab::~MapTab() {
+  delete mUi;
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void BinaryLogReader::read(char* buffer, size_t numBytes) {
-  mStream.read(buffer, numBytes);
+void MapTab::readPacket(boost::shared_ptr<Packet> packet) {
+    if (packet->instanceOfGroup())
+      if (packet->groupCast().instanceOf<VehicleNavigationSolution>()) {
+        const VehicleNavigationSolution& msg =
+          packet->groupCast().typeCast<VehicleNavigationSolution>();
+        mLatitude = msg.mLatitude;
+        mLongitude = msg.mLongitude;
+        mTimer.start();
+      }
+}
+
+void MapTab::timerTimeout() {
+  std::stringstream url;
+  std::cout << "Loading map" << std::endl;
+  if (mUi->openRadioButton->isChecked())
+    url << "http://www.openstreetmap.org/?mlat=" << mLatitude << "&mlon="
+      << mLongitude << "&zoom=12";
+  else
+    url << "http://maps.googleapis.com/maps/api/staticmap?center="
+      << mLongitude << "," << mLatitude << "&size=" << mUi->webView->width()
+      << "x" << mUi->webView->height() << "&zoom=17&sensor=true";
+  mUi->webView->load(QUrl(url.str().c_str()));
 }

@@ -16,37 +16,50 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/BinaryLogReader.h"
+#include "visualization/LogReader.h"
 
-#include <iostream>
+#include "sensor/BinaryLogReader.h"
+#include "types/Packet.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-BinaryLogReader::BinaryLogReader(std::istream& stream) :
-    mStream(stream) {
+LogReader::LogReader(BinaryLogReader& device, double pollingTime) :
+    mDevice(device),
+    mPollingTime(pollingTime) {
+  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+  mTimer.setInterval(pollingTime);
+  mTimer.start();
 }
 
-BinaryLogReader::~BinaryLogReader() {
+LogReader::~LogReader() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-const std::istream& BinaryLogReader::getStream() const {
-  return mStream;
+double LogReader::getPollingTime() const {
+  return mPollingTime;
 }
 
-std::istream& BinaryLogReader::getStream() {
-  return mStream;
+void LogReader::setPollingTime(double pollingTime) {
+  mPollingTime = pollingTime;
+  mTimer.setInterval(pollingTime);
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void BinaryLogReader::read(char* buffer, size_t numBytes) {
-  mStream.read(buffer, numBytes);
+void LogReader::timerTimeout() {
+  if (mDevice.getStream().good()) {
+    double timestamp;
+    mDevice >> timestamp;
+    emit readPacket(mDevice.readPacket());
+    emit deviceConnected(true);
+  }
+  else
+    emit comException("LogReader::timerTimeout(): stream not ready");
 }
