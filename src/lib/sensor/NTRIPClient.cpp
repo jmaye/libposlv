@@ -18,6 +18,10 @@
 
 #include "sensor/NTRIPClient.h"
 
+#include <sstream>
+
+#include "com/NetUtils.h"
+
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
@@ -26,10 +30,13 @@ NTRIPClient::NTRIPClient(const std::string &serverHost, short port, const
     std::string& serverStream, const std::string& userName, const std::string&
     password) :
     mServerHost(serverHost),
+    mServerIP(NetUtils::getHostIP(serverHost)),
     mPort(port),
     mServerStream(serverStream),
     mUserName(userName),
-    mPassword(password) {
+    mPassword(password),
+    mConnection(mServerIP, mPort),
+    mStream(mConnection) {
 }
 
 NTRIPClient::~NTRIPClient() {
@@ -39,13 +46,65 @@ NTRIPClient::~NTRIPClient() {
 /* Accessors                                                                  */
 /******************************************************************************/
 
+const BinaryStreamReader<TCPConnectionClient>& NTRIPClient::getStream() const {
+  return mStream;
+}
+
+const TCPConnectionClient& NTRIPClient::getConnection() const {
+  return mConnection;
+}
+
+TCPConnectionClient& NTRIPClient::getConnection() {
+  return mConnection;
+}
+
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-//  std::string httpRequest = "GET /ZIM20 HTTP/1.1\r\n"
-//    "Host: http://www.euref-ip.net/\r\n"
-//    "Authorization: BASIC YXNsdGVhbTphc2xldGh6\r\n"
-//    "Ntrip-Version: Ntrip/2.0\r\n"
-//    "User-Agent: NTRIP poslv-dgps\r\n"
-//    "Connection: close\r\n\r\n";
+void NTRIPClient::open() {
+  mConnection.open();
+  std::string httpRequest;
+  httpRequest.append(getHTTPRequestLine("GET", mServerStream.empty() ? "/" :
+    mServerStream));
+  httpRequest.append(getHTTPGeneralHeaders(mServerHost, "NTRIP NTRIPClient/1.0",
+    "BASIC YXNsdGVhbTphc2xldGh6"));
+  httpRequest.append(getHTTPNTRIPVersionHeader("2.0"));
+  httpRequest.append("\r\n");
+  mConnection.write(httpRequest.c_str(), httpRequest.size());
+  while (1) {
+    uint8_t byte;
+    mStream >> byte;
+    std::cout << (char)byte;
+  }
+}
+
+void NTRIPClient::close() {
+  mConnection.close();
+}
+
+std::string NTRIPClient::getHTTPRequestLine(const std::string& method,
+    const std::string& uri, const std::string& httpVersion) const {
+  std::stringstream httpRequestLine;
+  httpRequestLine << method << " " << uri << " " << "HTTP/" << httpVersion
+    << "\r\n";
+  return httpRequestLine.str();
+}
+
+std::string NTRIPClient::getHTTPGeneralHeaders(const std::string& host, const
+    std::string& userAgent, const std::string& authorization, const
+    std::string& connection) const {
+  std::stringstream httpHeader;
+  httpHeader << "Host: " << host << "\r\n"
+    << "User-Agent: " << userAgent << "\r\n"
+    << "Authorization: " << authorization << "\r\n"
+    << "Connection: " << connection << "\r\n";
+  return httpHeader.str();
+}
+
+std::string NTRIPClient::getHTTPNTRIPVersionHeader(const std::string&
+    ntripVersion) const {
+  std::stringstream httpNTRIPHeader;
+  httpNTRIPHeader << "Ntrip-Version: Ntrip/" << ntripVersion << "\r\n";
+  return httpNTRIPHeader.str();
+}

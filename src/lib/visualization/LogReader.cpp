@@ -21,6 +21,9 @@
 #include "sensor/BinaryLogReader.h"
 #include "types/Packet.h"
 
+#include "base/Factory.h"
+#include "types/VehicleNavigationSolution.h"
+
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
@@ -30,6 +33,7 @@ LogReader::LogReader(BinaryLogReader& device, double pollingTime) :
     mPollingTime(pollingTime) {
   connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
   mTimer.setInterval(pollingTime);
+  mTimer.setInterval(1000);
   mTimer.start();
 }
 
@@ -54,6 +58,16 @@ void LogReader::setPollingTime(double pollingTime) {
 /******************************************************************************/
 
 void LogReader::timerTimeout() {
+  static double latitude = 47.5;
+  boost::shared_ptr<Packet> packet(
+    Factory<uint16_t, Group>::getInstance().create(1));
+  VehicleNavigationSolution& msg =
+    packet->groupCast().typeCast<VehicleNavigationSolution>();
+  msg.mLatitude = latitude;
+  msg.mLongitude = 7.5;
+  emit readPacket(packet);
+  latitude += 0.0001;
+
   if (mDevice.getStream().good()) {
     double timestamp;
     mDevice >> timestamp;

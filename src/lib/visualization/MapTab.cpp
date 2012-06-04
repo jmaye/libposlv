@@ -35,6 +35,16 @@ MapTab::MapTab() :
   mUi->setupUi(this);
   mTimer.setInterval(1000);
   connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+  std::stringstream url;
+  std::cout << "Loading map" << std::endl;
+  if (mUi->openRadioButton->isChecked())
+    url << "http://www.openstreetmap.org/?mlat=" << 47.5 << "&mlon="
+      << 7.5 << "&zoom=12";
+  else
+    url << "http://maps.googleapis.com/maps/api/staticmap?center="
+      << 47.5 << "," << 47.5 << "&size=" << mUi->webView->width()
+      << "x" << mUi->webView->height() << "&zoom=17&sensor=true";
+  mUi->webView->load(QUrl(url.str().c_str()));
 }
 
 MapTab::~MapTab() {

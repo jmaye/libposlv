@@ -16,38 +16,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/******************************************************************************/
-/* Constructors and Destructor                                                */
-/******************************************************************************/
+/** \file NetUtils.h
+    \brief This file defines the NetUtils namespace which contains utilities
+           for networking.
+  */
 
-template <typename T>
-BinaryStreamWriter<T>::BinaryStreamWriter(T& stream) :
-    mStream(stream) {
-}
+#ifndef NETUTILS_H
+#define NETUTILS_H
 
-template <typename T>
-BinaryStreamWriter<T>::~BinaryStreamWriter() {
-}
+#include <string>
 
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
+/** The class NetUtils contains networking utilities.
+    \brief Networking utilities
+  */
+namespace NetUtils {
+  /** \name Members
+    @{
+    */
+  /// Static base64 characters
+  const std::string base64_chars = 
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "abcdefghijklmnopqrstuvwxyz"
+    "0123456789+/";
+ /** @}
+    */
 
-template <typename T>
-const T& BinaryStreamWriter<T>::getStream() const {
-  return mStream;
-}
+  /** \name Methods
+    @{
+    */
+  /// Returns a host's IP from its hostname
+  std::string getHostIP(const std::string &serverHost);
+  /// Check if a character is base64 encoded
+  bool isBase64(char c);
+  /// Encodes to base64 representation
+  std::string base64Encode(const std::string &input);
+  /// Decodes base64 representation
+  std::string base64Decode(const std::string &input);
+ /** @}
+    */
 
-template <typename T>
-T& BinaryStreamWriter<T>::getStream() {
-  return mStream;
-}
+};
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-template <typename T>
-void BinaryStreamWriter<T>::write(const char* buffer, size_t numBytes) {
-  mStream.write(buffer, numBytes);
-}
+#endif // NETUTILS_H
