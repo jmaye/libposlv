@@ -21,33 +21,57 @@
 #include <sstream>
 
 #include "com/NetUtils.h"
+#include "com/HTTPProtocol.h"
+#include "exceptions/IOException.h"
+#include "exceptions/BadArgumentException.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
 NTRIPClient::NTRIPClient(const std::string &serverHost, short port, const
-    std::string& serverStream, const std::string& userName, const std::string&
-    password) :
+    std::string& uri, const std::string& userName, const std::string&
+    password, const std::string& ntripVersion, const std::string& agentName) :
     mServerHost(serverHost),
     mServerIP(NetUtils::getHostIP(serverHost)),
     mPort(port),
-    mServerStream(serverStream),
+    mURI(uri),
     mUserName(userName),
     mPassword(password),
+    mNTRIPVersion(ntripVersion),
+    mNTRIPAgentName("NTRIP " + agentName),
     mConnection(mServerIP, mPort),
-    mStream(mConnection) {
+    mStreamReader(mConnection),
+    mStreamWriter(mConnection) {
+  if (mNTRIPVersion != "1.0" && mNTRIPVersion != "2.0")
+    throw BadArgumentException<std::string>(mNTRIPVersion,
+      "NTRIPClient::NTRIPClient(): only NTRIP version 1.0 or 2.0 supported");
 }
 
 NTRIPClient::~NTRIPClient() {
+  close();
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-const BinaryStreamReader<TCPConnectionClient>& NTRIPClient::getStream() const {
-  return mStream;
+const BinaryStreamReader<TCPConnectionClient>& NTRIPClient::getStreamReader()
+    const {
+  return mStreamReader;
+}
+
+BinaryStreamReader<TCPConnectionClient>& NTRIPClient::getStreamReader() {
+  return mStreamReader;
+}
+
+const BinaryStreamWriter<TCPConnectionClient>& NTRIPClient::getStreamWriter()
+    const {
+  return mStreamWriter;
+}
+
+BinaryStreamWriter<TCPConnectionClient>& NTRIPClient::getStreamWriter() {
+  return mStreamWriter;
 }
 
 const TCPConnectionClient& NTRIPClient::getConnection() const {
@@ -64,47 +88,125 @@ TCPConnectionClient& NTRIPClient::getConnection() {
 
 void NTRIPClient::open() {
   mConnection.open();
+}
+
+std::string NTRIPClient::requestSourceTable() {
   std::string httpRequest;
-  httpRequest.append(getHTTPRequestLine("GET", mServerStream.empty() ? "/" :
-    mServerStream));
-  httpRequest.append(getHTTPGeneralHeaders(mServerHost, "NTRIP NTRIPClient/1.0",
-    "BASIC YXNsdGVhbTphc2xldGh6"));
-  httpRequest.append(getHTTPNTRIPVersionHeader("2.0"));
-  httpRequest.append("\r\n");
-  mConnection.write(httpRequest.c_str(), httpRequest.size());
+  httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET,
+    mURI);
+  httpRequest += HTTPProtocol::writeGeneralHeaderLine(
+    HTTPProtocol::GeneralHeader::Connection, "close");
+  httpRequest += HTTPProtocol::writeRequestHeaderLine(
+    HTTPProtocol::RequestHeader::Host, mServerHost);
+  httpRequest += HTTPProtocol::writeRequestHeaderLine(
+    HTTPProtocol::RequestHeader::UserAgent, mNTRIPAgentName);
+  httpRequest += HTTPProtocol::writeUserHeaderLine("Ntrip-Version",
+    "Ntrip/" + mNTRIPVersion);
+  httpRequest += "\r\n";
+  mStreamWriter << httpRequest;
+  std::string responseStatusLine = HTTPProtocol::readLine(mStreamReader);
+  std::string protocol;
+  std::string statusCode;
+  std::string reasonPhrase;
+  HTTPProtocol::readResponseStatusLine(responseStatusLine, protocol, statusCode,
+    reasonPhrase);
+  if (statusCode != "200")
+    throw IOException("NTRIPClient::requestSourceTable(): \nstatus code: " +
+      statusCode + "\nreason: " + reasonPhrase);
+  if ((mNTRIPVersion == "1.0" && protocol != "SOURCETABLE") ||
+      (mNTRIPVersion == "2.0" && protocol != "HTTP/1.1"))
+    throw IOException(
+      "NTRIPClient::requestSourceTable(): wrong protocol response");
+  std::string responseHeaderLine;
+  size_t bytesToRead = 0;
   while (1) {
-    uint8_t byte;
-    mStream >> byte;
-    std::cout << (char)byte;
+    responseHeaderLine = HTTPProtocol::readLine(mStreamReader);
+    if (responseHeaderLine == "\r\n")
+      break;
+    std::string header;
+    std::string value;
+    HTTPProtocol::readHeaderLine(responseHeaderLine, header, value);
+    if (header ==
+        HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentLength])
+      bytesToRead = atoi(value.c_str());
+    if (header ==
+        HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentType] &&
+        mNTRIPVersion == "2.0" &&
+        value.compare(0, 16, "gnss/sourcetable", 0, 16))
+      throw IOException(
+        "NTRIPClient::requestSourceTable(): wrong server response");
+    if (header ==
+        HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentType] &&
+        mNTRIPVersion == "1.0" &&
+        value.compare(0, 10, "text/plain", 0, 10))
+      throw IOException(
+        "NTRIPClient::requestSourceTable(): wrong server response");
+  }
+  if (bytesToRead) {
+    char buffer[bytesToRead];
+    mStreamReader.read(buffer, bytesToRead);
+    return std::string(buffer, bytesToRead);
+  }
+  else
+    throw IOException(
+      "NTRIPClient::requestSourceTable(): wrong server response");
+}
+
+void NTRIPClient::requestLiveStream() {
+  std::string httpRequest;
+  httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET,
+    mURI);
+  httpRequest += HTTPProtocol::writeGeneralHeaderLine(
+    HTTPProtocol::GeneralHeader::Connection, "close");
+  httpRequest += HTTPProtocol::writeRequestHeaderLine(
+    HTTPProtocol::RequestHeader::Host, mServerHost);
+  httpRequest += HTTPProtocol::writeRequestHeaderLine(
+    HTTPProtocol::RequestHeader::UserAgent, mNTRIPAgentName);
+  if (!mUserName.empty() && !mPassword.empty())
+    httpRequest += HTTPProtocol::writeRequestHeaderLine(
+      HTTPProtocol::RequestHeader::Authorization, "Basic " +
+      NetUtils::base64Encode(mUserName + ":" + mPassword));
+  httpRequest += HTTPProtocol::writeUserHeaderLine("Ntrip-Version",
+    "Ntrip/" + mNTRIPVersion);
+  httpRequest += "\r\n";
+  mStreamWriter << httpRequest;
+  std::string responseStatusLine = HTTPProtocol::readLine(mStreamReader);
+  std::string protocol;
+  std::string statusCode;
+  std::string reasonPhrase;
+  HTTPProtocol::readResponseStatusLine(responseStatusLine, protocol, statusCode,
+    reasonPhrase);
+  if (statusCode != "200")
+    throw IOException("NTRIPClient::requestLiveStream(): \nstatus code: " +
+      statusCode + "\nreason: " + reasonPhrase);
+  if ((mNTRIPVersion == "1.0" && protocol != "ICY") ||
+      (mNTRIPVersion == "2.0" && protocol != "HTTP/1.1"))
+    throw IOException(
+      "NTRIPClient::requestLiveStream(): wrong protocol response");
+  std::string responseHeaderLine;
+  while (1) {
+    responseHeaderLine = HTTPProtocol::readLine(mStreamReader);
+    if (responseHeaderLine == "\r\n")
+      break;
+    std::string header;
+    std::string value;
+    HTTPProtocol::readHeaderLine(responseHeaderLine, header, value);
+    if (header ==
+        HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentType] &&
+        mNTRIPVersion == "2.0" &&
+        value.compare(0, 9, "gnss/data", 0, 9))
+      throw IOException(
+        "NTRIPClient::requestLiveStream(): wrong server response");
+    if (header ==
+        HTTPProtocol::generalHeaders[
+        HTTPProtocol::GeneralHeader::TransferEncoding] &&
+        mNTRIPVersion == "2.0" &&
+        value.compare(0, 7, "chunked", 0, 7))
+      throw IOException(
+        "NTRIPClient::requestLiveStream(): wrong server response");
   }
 }
 
 void NTRIPClient::close() {
   mConnection.close();
-}
-
-std::string NTRIPClient::getHTTPRequestLine(const std::string& method,
-    const std::string& uri, const std::string& httpVersion) const {
-  std::stringstream httpRequestLine;
-  httpRequestLine << method << " " << uri << " " << "HTTP/" << httpVersion
-    << "\r\n";
-  return httpRequestLine.str();
-}
-
-std::string NTRIPClient::getHTTPGeneralHeaders(const std::string& host, const
-    std::string& userAgent, const std::string& authorization, const
-    std::string& connection) const {
-  std::stringstream httpHeader;
-  httpHeader << "Host: " << host << "\r\n"
-    << "User-Agent: " << userAgent << "\r\n"
-    << "Authorization: " << authorization << "\r\n"
-    << "Connection: " << connection << "\r\n";
-  return httpHeader.str();
-}
-
-std::string NTRIPClient::getHTTPNTRIPVersionHeader(const std::string&
-    ntripVersion) const {
-  std::stringstream httpNTRIPHeader;
-  httpNTRIPHeader << "Ntrip-Version: Ntrip/" << ntripVersion << "\r\n";
-  return httpNTRIPHeader.str();
 }

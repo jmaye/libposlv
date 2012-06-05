@@ -19,8 +19,8 @@
 #include "com/HTTPProtocol.h"
 
 #include <sstream>
-#include <iostream>
 
+#include "base/BinaryReader.h"
 #include "exceptions/IOException.h"
 
 namespace HTTPProtocol {
@@ -32,12 +32,12 @@ namespace HTTPProtocol {
 std::string writeRequestLine(Method method, const std::string& uri, const
     std::string& httpVersion) {
   std::stringstream requestLine;
-  requestLine << methods[method] << " " << uri << " " << "HTTP/"
+  requestLine << methods[method] << " /" << uri << " " << "HTTP/"
     << httpVersion << "\r\n";
   return requestLine.str();
 }
 
-std::string writeResponseLine(const std::string& httpVersion, size_t statusCode,
+std::string writeResponseLine(std::string& httpVersion, size_t statusCode,
     const std::string& reasonPhrase) {
   std::stringstream responseLine;
   responseLine << "HTTP/" << httpVersion << " " << statusCode << " "
@@ -45,7 +45,7 @@ std::string writeResponseLine(const std::string& httpVersion, size_t statusCode,
   return responseLine.str();
 }
 
-void readResponseLine(const std::string& line, std::string& protocol,
+void readResponseStatusLine(const std::string& line, std::string& protocol,
     std::string& statusCode, std::string& reasonPhrase) {
   std::stringstream lineStream(line);
   lineStream >> protocol;
@@ -84,7 +84,33 @@ void readHeaderLine(const std::string& line, std::string& header, std::string&
     value) {
   std::stringstream lineStream(line);
   lineStream >> header;
-  lineStream >> value;
+  header.erase(header.size() - 1);
+  value = line.substr(lineStream.tellg());
+  value.erase(0, 1);
+}
+
+std::string readLine(BinaryReader& stream) {
+  uint8_t currentByte = 0;
+  uint8_t previousByte = 0;
+  std::string line;
+  do {
+    previousByte = currentByte;
+    stream >> currentByte;
+    line.push_back(currentByte);
+  }
+  while (currentByte != '\n' && previousByte != '\r');
+  return line;
+}
+
+std::string readDataChunk(BinaryReader& stream) {
+  std::string line = readLine(stream);
+  std::stringstream lineStream(line);
+  size_t bytes;
+  lineStream >> std::hex >> bytes;
+  char buffer[bytes];
+  stream.read(buffer, bytes);
+  readLine(stream);
+  return std::string(buffer, bytes);
 }
 
 }

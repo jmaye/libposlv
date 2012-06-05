@@ -27,6 +27,8 @@
 #include <string>
 #include <vector>
 
+class BinaryReader;
+
 /** The class HTTPProtocol contains HTTP protocol utilities.
     \brief HTTP protocol utilities
   */
@@ -188,12 +190,12 @@ namespace HTTPProtocol {
     */
   /// Write request line
   std::string writeRequestLine(Method method,
-    const std::string& uri = "/", const std::string& httpVersion = "1.1") ;
+    const std::string& uri = "", const std::string& httpVersion = "1.1") ;
   /// Write response line
   std::string writeResponseLine(const std::string& httpVersion, size_t
     statusCode, const std::string& reasonPhrase);
-  /// Read response line
-  void readResponseLine(const std::string& line, std::string& protocol,
+  /// Read response status line
+  void readResponseStatusLine(const std::string& line, std::string& protocol,
     std::string& statusCode, std::string& reasonPhrase);
   /// Write general header line
   std::string writeGeneralHeaderLine(GeneralHeader generalHeader, const
@@ -213,6 +215,10 @@ namespace HTTPProtocol {
   /// Read header line
   void readHeaderLine(const std::string& line, std::string& header, std::string&
     value);
+  /// Read line
+  std::string readLine(BinaryReader& stream);
+  /// Read data chunk
+  std::string readDataChunk(BinaryReader& stream);
  /** @}
     */
 

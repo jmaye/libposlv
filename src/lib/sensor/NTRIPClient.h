@@ -27,6 +27,7 @@
 #include <string>
 
 #include "base/BinaryStreamReader.h"
+#include "base/BinaryStreamWriter.h"
 #include "com/TCPConnectionClient.h"
 
 /** The NTRIPClient class communicates with an NTRIP server to receive GPS
@@ -50,8 +51,9 @@ public:
     */
   /// Constructs the object
   NTRIPClient(const std::string& serverHost, short port, const std::string&
-    serverStream = "", const std::string& userName = "", const std::string&
-    password = "");
+    uri = "", const std::string& userName = "", const std::string&
+    password = "", const std::string& ntripVersion = "2.0", const std::string&
+    agentName = "NTRIPClient");
   /// Destructor
   virtual ~NTRIPClient();
   /** @}
@@ -61,7 +63,13 @@ public:
     @{
     */
   /// Returns the stream for reading
-  const BinaryStreamReader<TCPConnectionClient>& getStream() const;
+  const BinaryStreamReader<TCPConnectionClient>& getStreamReader() const;
+  /// Returns the stream for reading
+  BinaryStreamReader<TCPConnectionClient>& getStreamReader();
+  /// Returns the stream for writing
+  const BinaryStreamWriter<TCPConnectionClient>& getStreamWriter() const;
+  /// Returns the stream for writing
+  BinaryStreamWriter<TCPConnectionClient>& getStreamWriter();
   /// Returns the connection
   const TCPConnectionClient& getConnection() const;
   /// Returns the connection
@@ -72,29 +80,18 @@ public:
   /** \name Methods
     @{
     */
-  /// Open and init the connection
+  /// Open the connection
   void open();
+  /// Request source table
+  std::string requestSourceTable();
+  /// Request live stream
+  void requestLiveStream();
   /// Close the connection
   void close();
   /** @}
     */
 
 protected:
-  /** \name Protected methods
-    @{
-    */
-  /// Create http request line
-  std::string getHTTPRequestLine(const std::string& method,
-    const std::string& uri, const std::string& httpVersion = "1.1") const;
-  /// Create http general headers
-  std::string getHTTPGeneralHeaders(const std::string& host, const std::string&
-    userAgent, const std::string& authentification = "", const std::string&
-    connection = "close") const;
-  /// Create http NTRIP version header
-  std::string getHTTPNTRIPVersionHeader(const std::string& ntripVersion) const;
-  /** @}
-    */
-
   /** \name Protected members
     @{
     */
@@ -105,15 +102,21 @@ protected:
   /// Server port
   short mPort;
   /// Live stream (optional)
-  std::string mServerStream;
+  std::string mURI;
   /// Username (optional)
   std::string mUserName;
   /// Password (optional)
   std::string mPassword;
+  /// NTRIP version (optional)
+  std::string mNTRIPVersion;
+  /// NTRIP agent name
+  std::string mNTRIPAgentName;
   /// TCP connection
   TCPConnectionClient mConnection;
   /// Binary sream reader
-  BinaryStreamReader<TCPConnectionClient> mStream;
+  BinaryStreamReader<TCPConnectionClient> mStreamReader;
+  /// Binary sream writer
+  BinaryStreamWriter<TCPConnectionClient> mStreamWriter;
   /** @}
     */
 

@@ -31,12 +31,14 @@ remake_pack_deb(
   COMPONENT dev
   DESCRIPTION "Development headers"
   libposlv
+  libboost-dev
 )
 
 remake_pack_deb(
   COMPONENT console-tools
   DESCRIPTION "Console tools"
   libposlv
+  libboost-program-options-dev
 )
 
 remake_pack_deb(
