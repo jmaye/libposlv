@@ -152,7 +152,7 @@ std::string NTRIPClient::requestSourceTable() {
       "NTRIPClient::requestSourceTable(): wrong server response");
 }
 
-void NTRIPClient::requestLiveStream() {
+void NTRIPClient::requestLiveStream(const std::string& nmeaMessage) {
   std::string httpRequest;
   httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET,
     mURI);
@@ -168,6 +168,9 @@ void NTRIPClient::requestLiveStream() {
       NetUtils::base64Encode(mUserName + ":" + mPassword));
   httpRequest += HTTPProtocol::writeUserHeaderLine("Ntrip-Version",
     "Ntrip/" + mNTRIPVersion);
+  if (!nmeaMessage.empty())
+    httpRequest += HTTPProtocol::writeUserHeaderLine("Ntrip-GGA",
+      nmeaMessage);
   httpRequest += "\r\n";
   mStreamWriter << httpRequest;
   std::string responseStatusLine = HTTPProtocol::readLine(mStreamReader);

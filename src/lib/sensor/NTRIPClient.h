@@ -85,7 +85,7 @@ public:
   /// Request source table
   std::string requestSourceTable();
   /// Request live stream
-  void requestLiveStream();
+  void requestLiveStream(const std::string& nmeaMessage = "");
   /// Close the connection
   void close();
   /** @}
