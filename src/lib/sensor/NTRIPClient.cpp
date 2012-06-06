@@ -30,12 +30,12 @@
 /******************************************************************************/
 
 NTRIPClient::NTRIPClient(const std::string &serverHost, short port, const
-    std::string& uri, const std::string& userName, const std::string&
+    std::string& mountPoint, const std::string& userName, const std::string&
     password, const std::string& ntripVersion, const std::string& agentName) :
     mServerHost(serverHost),
     mServerIP(NetUtils::getHostIP(serverHost)),
     mPort(port),
-    mURI(uri),
+    mMountPoint(mountPoint),
     mUserName(userName),
     mPassword(password),
     mNTRIPVersion(ntripVersion),
@@ -92,8 +92,7 @@ void NTRIPClient::open() {
 
 std::string NTRIPClient::requestSourceTable() {
   std::string httpRequest;
-  httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET,
-    mURI);
+  httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET);
   httpRequest += HTTPProtocol::writeGeneralHeaderLine(
     HTTPProtocol::GeneralHeader::Connection, "close");
   httpRequest += HTTPProtocol::writeRequestHeaderLine(
@@ -155,7 +154,7 @@ std::string NTRIPClient::requestSourceTable() {
 void NTRIPClient::requestLiveStream(const std::string& nmeaMessage) {
   std::string httpRequest;
   httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET,
-    mURI);
+    mMountPoint);
   httpRequest += HTTPProtocol::writeGeneralHeaderLine(
     HTTPProtocol::GeneralHeader::Connection, "close");
   httpRequest += HTTPProtocol::writeRequestHeaderLine(

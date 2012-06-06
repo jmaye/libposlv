@@ -42,7 +42,7 @@ class NTRIPClient {
   NTRIPClient(const NTRIPClient& other);
   /// Assignment operator
   NTRIPClient& operator = (const NTRIPClient& other);
-  /** @}W
+  /** @}
     */
 
 public:
@@ -51,7 +51,7 @@ public:
     */
   /// Constructs the object
   NTRIPClient(const std::string& serverHost, short port, const std::string&
-    uri = "", const std::string& userName = "", const std::string&
+    mountPoint = "", const std::string& userName = "", const std::string&
     password = "", const std::string& ntripVersion = "2.0", const std::string&
     agentName = "NTRIPClient");
   /// Destructor
@@ -101,8 +101,8 @@ protected:
   std::string mServerIP;
   /// Server port
   short mPort;
-  /// Live stream (optional)
-  std::string mURI;
+  /// Mountpoint (optional)
+  std::string mMountPoint;
   /// Username (optional)
   std::string mUserName;
   /// Password (optional)

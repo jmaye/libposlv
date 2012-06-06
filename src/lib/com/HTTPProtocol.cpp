@@ -32,8 +32,12 @@ namespace HTTPProtocol {
 std::string writeRequestLine(Method method, const std::string& uri, const
     std::string& httpVersion) {
   std::stringstream requestLine;
-  requestLine << methods[method] << " /" << uri << " " << "HTTP/"
-    << httpVersion << "\r\n";
+  requestLine << methods[method] << " ";
+  if (uri.empty())
+    requestLine << "/";
+  else
+    requestLine << uri;
+  requestLine << " HTTP/" << httpVersion << "\r\n";
   return requestLine.str();
 }
 
