@@ -58,15 +58,15 @@ void LogReader::setPollingTime(double pollingTime) {
 /******************************************************************************/
 
 void LogReader::timerTimeout() {
-  static double latitude = 47.5;
+  static double longitude = 6.433754;
   boost::shared_ptr<Packet> packet(
     Factory<uint16_t, Group>::getInstance().create(1));
   VehicleNavigationSolution& msg =
     packet->groupCast().typeCast<VehicleNavigationSolution>();
-  msg.mLatitude = latitude;
-  msg.mLongitude = 7.5;
+  msg.mLatitude = 46.930103;
+  msg.mLongitude = longitude;
   emit readPacket(packet);
-  latitude += 0.0001;
+  longitude += 0.1;
 
   if (mDevice.getStream().good()) {
     double timestamp;

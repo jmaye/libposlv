@@ -111,6 +111,7 @@ void NavigationTab::readPacket(boost::shared_ptr<Packet> packet) {
       mUi->accTransSpinBox->setValue(msg.mAccTrans);
       mUi->accDownSpinBox->setValue(msg.mAccDown);
       mUi->alignmentText->setText(mStatusMsg[msg.mAlignementStatus].c_str());
+      emit updatePosition(msg.mLatitude, msg.mLongitude, msg.mAltitude);
     }
     else if (group.instanceOf<VehicleNavigationPerformance>()) {
       const VehicleNavigationPerformance& msg =
@@ -127,6 +128,8 @@ void NavigationTab::readPacket(boost::shared_ptr<Packet> packet) {
       mUi->semiMajorSpinBox->setValue(msg.mErrorEllipsoidSemiMajor);
       mUi->semiMinorSpinBox->setValue(msg.mErrorEllipsoidSemiMinor);
       mUi->orientationSpinBox->setValue(msg.mErrorEllipsoidOrientation);
+      emit updateUncertainty(msg.mNorthPositionRMSError,
+        msg.mEastPositionRMSError, msg.mDownPositionRMSError);
     }
   }
 }

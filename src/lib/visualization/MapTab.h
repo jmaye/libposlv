@@ -17,22 +17,24 @@
  ******************************************************************************/
 
 /** \file MapTab.h
-    \brief This file defines the MapTab class which is the
-           control for displaying a map
+    \brief This file defines the MapTab class which is the control for
+           displaying a map
   */
 
 #ifndef MAPTAB_H
 #define MAPTAB_H
 
-#include <QtCore/QTimer>
+#include <string>
+#include <map>
+#include <vector>
 
-#include <boost/shared_ptr.hpp>
+#include <QtGui/QGraphicsItem>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
+#include "data-structures/MapGrid.h"
 
 class Ui_MapTab;
-class Packet;
 
 /** The MapTab class is the control for the map displaying
     \brief Map display
@@ -58,7 +60,7 @@ public:
     @{
     */
   /// Default constructor
-  MapTab();
+  MapTab(const std::string& mapFolder = "/home/jmaye/ETHZ/svn/libposlv/build/");
   /// Destructor
   virtual ~MapTab();
   /** @}
@@ -70,12 +72,12 @@ protected:
     */
   /// Pointer to the UI
   Ui_MapTab* mUi;
-  /// Refresh timer
-  QTimer mTimer;
-  /// Last latitude observed
-  double mLatitude;
-  /// Last longitude observed
-  double mLongitude;
+  /// Graphic items associated with this control
+  std::map<std::string, QGraphicsItem*> mGraphicsItems;
+  /// Map grids
+  std::vector<MapGrid> mMapGrids;
+  /// Maps folder
+  std::string mMapFolder;
   /** @}
     */
 
@@ -83,10 +85,10 @@ protected slots:
   /** \name Protected slots
     @{
     */
-  /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
-  /// Timer timeout
-  void timerTimeout();
+  /// Update position
+  void updatePosition(double latitude, double longitude, double altitude);
+  /// Update uncertainty
+  void updateUncertainty(double latitude, double longitude, double altitude);
   /** @}
     */
 

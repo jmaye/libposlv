@@ -18,11 +18,9 @@
 
 #include "visualization/MapTab.h"
 
-#include <sstream>
+#include <iostream>
 
-#include "types/Packet.h"
-#include "types/Group.h"
-#include "types/VehicleNavigationSolution.h"
+#include "visualization/View2d.h"
 #include "sensor/Utils.h"
 
 #include "ui_MapTab.h"
@@ -31,11 +29,25 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-MapTab::MapTab() :
-    mUi(new Ui_MapTab()) {
+MapTab::MapTab(const std::string& mapFolder) :
+    mUi(new Ui_MapTab()),
+    mMapFolder(mapFolder) {
   mUi->setupUi(this);
-  mTimer.setInterval(1);
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+  std::ifstream gridFile(mapFolder + "grid_sym_"
+    "468604_60945_853898_317923_32768_32768.bin");
+  MapGrid mapTiles(MapGrid::Coordinate(468604, 60945),
+    MapGrid::Coordinate(853898, 317923),
+    MapGrid::Coordinate(32768, 32768));
+  mapTiles.readBinary(gridFile);
+  mMapGrids.push_back(mapTiles);
+  size_t pos = 0;
+  for (MapGrid::Index i = MapGrid::Index::Zero();
+      i != mapTiles.getNumCells(); mapTiles.incrementIndex(i)) {
+    QImage image(mapTiles[i].c_str());
+    QGraphicsItem* imageItem =
+      View2d::getInstance().getScene().addPixmap(QPixmap::fromImage(image));
+    imageItem->setPos(i(0) * 256.0, i(1) * -256.0);
+  }
 }
 
 MapTab::~MapTab() {
@@ -46,32 +58,26 @@ MapTab::~MapTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void MapTab::readPacket(boost::shared_ptr<Packet> packet) {
-    if (packet->instanceOfGroup())
-      if (packet->groupCast().instanceOf<VehicleNavigationSolution>()) {
-        const VehicleNavigationSolution& msg =
-          packet->groupCast().typeCast<VehicleNavigationSolution>();
-        mLatitude = msg.mLatitude;
-        mLongitude = msg.mLongitude;
-        mTimer.start();
-      }
+void MapTab::updatePosition(double latitude, double longitude,
+    double altitude) {
+  double east, north, height;
+//  Utils::WGS84ToLV03(latitude, longitude, altitude, east, north, height);
+//  std::string fileName = mMapFolder +
+//    mMapGrids[0](MapGrid::Coordinate(east, north));
+//  MapGrid::Index index =
+//    mMapGrids[0].getIndex(MapGrid::Coordinate(east, north));
+//  QImage image(fileName.c_str());
+//  QGraphicsItem* imageItem =
+//    View2d::getInstance().getScene().addPixmap(QPixmap::fromImage(image));
+//  imageItem->setPos(index(0) * 256, index(1) * 256);
+//  View2d::getInstance().centerOn(index(0) * 256, index(1) * 256);
+//  if (mGraphicsItems.find("image") != mGraphicsItems.end()) {
+//    View2d::getInstance().getScene().removeItem(mGraphicsItems["image"]);
+//    delete mGraphicsItems["image"];
+//  }
+//  mGraphicsItems["image"]= imageItem;
 }
 
-void MapTab::timerTimeout() {
-  double east, north, height;
-  Utils::WGS84ToLV03(mLatitude, mLongitude, 500, east, north, height);
-  std::stringstream url;
-  std::cout << "Loading map" << std::endl;
-  url << "http://map.search.ch/chmap.en.png?x=0m&y=0m&w="
-    << mUi->webView->width() << "&h=" << mUi->webView->height() << "&base="
-    << east << "," << north << "&layer=sym&zd=32&n=0";
-  std::cout << url.str() << std::endl;
-//  if (mUi->openRadioButton->isChecked())
-//    url << "http://www.openstreetmap.org/?mlat=" << mLatitude << "&mlon="
-//      << mLongitude << "&zoom=12";
-//  else
-//    url << "http://maps.googleapis.com/maps/api/staticmap?center="
-//      << mLongitude << "," << mLatitude << "&size=" << mUi->webView->width()
-//      << "x" << mUi->webView->height() << "&zoom=17&sensor=true";
-  mUi->webView->load(QUrl(url.str().c_str()));
+void MapTab::updateUncertainty(double latitude, double longitude,
+    double altitude) {
 }

@@ -210,10 +210,14 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &autoCalibrationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+  QObject::connect(&navigationTab,
+    SIGNAL(updatePosition(double, double, double)),
     &mapTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(updatePosition(double, double, double)));
+  QObject::connect(&navigationTab,
+    SIGNAL(updateUncertainty(double, double, double)),
+    &mapTab,
+    SLOT(updateUncertainty(double, double, double)));
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&logReader,
@@ -300,10 +304,14 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &autoCalibrationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+  QObject::disconnect(&navigationTab,
+    SIGNAL(updatePosition(double, double, double)),
     &mapTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(updatePosition(double, double, double)));
+  QObject::disconnect(&navigationTab,
+    SIGNAL(updateUncertainty(double, double, double)),
+    &mapTab,
+    SLOT(updateUncertainty(double, double, double)));
   QObject::disconnect(&logReader,
     SIGNAL(comException(const std::string&)),
     &mainWindow,

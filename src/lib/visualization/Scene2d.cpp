@@ -16,52 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file MapGrid.h
-    \brief This file defines the MapGrid class, which represents a map grid.
-  */
+#include "visualization/Scene2d.h"
 
-#ifndef MAPGRID_H
-#define MAPGRID_H
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#include <string>
+Scene2d::Scene2d(QObject* parent) :
+    QGraphicsScene(parent) {
+}
 
-#include "data-structures/Grid.h"
+Scene2d::~Scene2d() {
+}
 
-/** The class MapGrid represents a map grid.
-    \brief Map grid
-  */
-class MapGrid :
-  public Grid<double, std::string, 2> {
-public:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Constructs MapGrid with parameters
-  inline MapGrid(const Coordinate& minimum, const Coordinate& maximum, const
-    Coordinate& resolution);
-  /// Copy constructor
-  inline MapGrid(const MapGrid& other);
-  /// Assignment operator
-  inline MapGrid& operator = (const MapGrid& other);
-  /// Destructor
-  inline virtual ~MapGrid();
-  /** @}
-    */
+/******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
 
-  /** \name Stream methods
-    @{
-    */
-  /// Stream the MapGrid into binary format
-  inline virtual void writeBinary(std::ostream& stream) const;
-  /// Reads the MapGrid from a binary format
-  inline virtual void readBinary(std::istream& stream);
-  /** @}
-    */
-
-protected:
-
-};
-
-#include "data-structures/MapGrid.tpp"
-
-#endif // MAPGRID_H
+/******************************************************************************/
+/*  Methods                                                                   */
+/******************************************************************************/

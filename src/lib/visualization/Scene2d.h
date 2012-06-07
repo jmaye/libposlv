@@ -16,32 +16,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file NavigationTab.h
-    \brief This file defines the NavigationTab class which is the control
-           for the navigation
+/** \file Scene2d.h
+    \brief This file contains a 2d scene implementation
   */
 
-#ifndef NAVIGATIONTAB_H
-#define NAVIGATIONTAB_H
+#ifndef SCENE2D_H
+#define SCENE2D_H
 
-#include <map>
-#include <string>
+#include <QtGui/QGraphicsScene>
 
-#include <boost/shared_ptr.hpp>
-
-#include "visualization/Control.h"
-#include "base/Singleton.h"
-
-class Ui_NavigationTab;
-class Packet;
-
-/** The NavigationTab class is the control for the navigation of the
-    Applanix.
-    \brief Navigation control
+/** The Scene2d class represents a 2d scene.
+    \brief 2d scene
   */
-class NavigationTab :
-  public Control,
-  public Singleton<NavigationTab> {
+class Scene2d :
+  public QGraphicsScene {
 
 Q_OBJECT
 
@@ -49,9 +37,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  NavigationTab(const NavigationTab& other);
+  Scene2d(const Scene2d& other);
   /// Assignment operator
-  NavigationTab& operator = (const NavigationTab& other);
+  Scene2d& operator = (const Scene2d& other);
   /** @}
     */
 
@@ -59,10 +47,22 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Default constructor
-  NavigationTab();
+  /// Constructs the scene
+  Scene2d(QObject* parent = 0);
   /// Destructor
-  virtual ~NavigationTab();
+  virtual ~Scene2d();
+  /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
   /** @}
     */
 
@@ -70,41 +70,22 @@ protected:
   /** \name Protected methods
     @{
     */
-  /// Enable the fields
-  void enableFields(bool enable);
   /** @}
     */
 
   /** \name Protected members
     @{
     */
-  /// Pointer to the UI
-  Ui_NavigationTab* mUi;
-  /// Mapping for the status messages
-  std::map<uint8_t, std::string> mStatusMsg;
-  /** @}
-    */
-
-protected slots:
-  /** \name Protected slots
-    @{
-    */
-  /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
   /** @}
     */
 
 signals:
-  /** \name Signals
+  /** \name Qt signals
     @{
     */
-  /// Update position
-  void updatePosition(double latitude, double longitude, double altitude);
-  /// Update uncertainty
-  void updateUncertainty(double latitude, double longitude, double altitude);
   /** @}
     */
 
 };
 
-#endif // NAVIGATIONTAB_H
+#endif // SCENE2D_H
