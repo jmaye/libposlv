@@ -46,7 +46,7 @@ MapTab::MapTab(const std::string& mapFolder) :
     QImage image(mapTiles[i].c_str());
     QGraphicsItem* imageItem =
       View2d::getInstance().getScene().addPixmap(QPixmap::fromImage(image));
-    imageItem->setPos(i(0) * 256.0, i(1) * -256.0);
+    imageItem->setPos(i(0) * 255.0, i(1) * -255.0);
   }
 }
 

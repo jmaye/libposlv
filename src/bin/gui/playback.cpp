@@ -48,11 +48,8 @@
 #include "visualization/GAMSInstallParamsTab.h"
 #include "visualization/AidingSensorInstallParamsTab.h"
 #include "visualization/UserAccuracySpecTab.h"
-#include "visualization/ZUPDControlTab.h"
 #include "visualization/IPControlTab.h"
-#include "visualization/GravityControlTab.h"
 #include "visualization/NavigationModeControlTab.h"
-#include "visualization/AutoCalibrationTab.h"
 #include "visualization/MapTab.h"
 
 Q_DECLARE_METATYPE(boost::shared_ptr<Packet>);
@@ -84,11 +81,8 @@ int main(int argc, char** argv) {
   GAMSInstallParamsTab gamsInstallParamsTab;
   AidingSensorInstallParamsTab aidingSensorInstallParamsTab;
   UserAccuracySpecTab userAccuracySpecTab;
-  ZUPDControlTab zupdControlTab;
   IPControlTab ipControlTab;
-  GravityControlTab gravityControlTab;
   NavigationModeControlTab navigationModeControlTab;
-  AutoCalibrationTab autoCalibrationTab;
   MapTab mapTab;
   mainWindow.addControl("Navigation Data", navigationTab);
   mainWindow.addControl("Primary GPS Status", primaryGPSStatusTab);
@@ -106,11 +100,8 @@ int main(int argc, char** argv) {
   mainWindow.addControl("GAMS Parameters", gamsInstallParamsTab);
   mainWindow.addControl("DMI Parameters", aidingSensorInstallParamsTab);
   mainWindow.addControl("User Accuracy", userAccuracySpecTab);
-  mainWindow.addControl("ZUPD Parameters", zupdControlTab);
   mainWindow.addControl("IP Setup", ipControlTab);
-  mainWindow.addControl("Gravity Setup", gravityControlTab);
   mainWindow.addControl("Navigation Mode", navigationModeControlTab);
-  mainWindow.addControl("Auto Calibration", autoCalibrationTab);
   mainWindow.addControl("Map", mapTab);
   std::ifstream logFile(argv[1]);
   BinaryLogReader binaryLogReader(logFile);
@@ -192,23 +183,11 @@ int main(int argc, char** argv) {
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&logReader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &zupdControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &ipControlTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&logReader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &gravityControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &navigationModeControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::connect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &autoCalibrationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::connect(&navigationTab,
     SIGNAL(updatePosition(double, double, double)),
@@ -286,23 +265,11 @@ int main(int argc, char** argv) {
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&logReader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &zupdControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &ipControlTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&logReader,
     SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &gravityControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
     &navigationModeControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
-  QObject::disconnect(&logReader,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
-    &autoCalibrationTab,
     SLOT(readPacket(boost::shared_ptr<Packet>)));
   QObject::disconnect(&navigationTab,
     SIGNAL(updatePosition(double, double, double)),
