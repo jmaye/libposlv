@@ -180,10 +180,13 @@ int main(int argc, char** argv) {
       std::ifstream inFile(options.inFile);
       BinaryStreamReader<std::ifstream> fileStreamReader(inFile);
       BinaryStreamReader<SerialConnection> serialStreamReader(serialDevice);
+      std::string nmeaMessage;
+      inFile.seekg (0, std::ios::end);
+      const int inFilelength = inFile.tellg();
+      inFile.seekg (0, std::ios::beg);
       while (1) {
         try {
-          std::string nmeaMessage;
-          if (inFile.good())
+          if (inFile.good() && inFile.tellg() != inFilelength)
             nmeaMessage = HTTPProtocol::readLine(fileStreamReader);
           if (options.nmea && serialDevice.isOpen())
             nmeaMessage = HTTPProtocol::readLine(serialStreamReader);
