@@ -31,7 +31,6 @@ remake_pack_deb(
   COMPONENT dev
   DESCRIPTION "Development headers"
   libposlv
-  libboost-dev
   libeigen2-dev
 )
 
@@ -40,6 +39,7 @@ remake_pack_deb(
   DESCRIPTION "Console tools"
   libposlv
   libboost-program-options-dev
+  libboost-filesystem-dev
 )
 
 remake_pack_deb(
