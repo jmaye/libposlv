@@ -131,13 +131,13 @@ std::string NTRIPClient::requestSourceTable() {
     if (header ==
         HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentType] &&
         mNTRIPVersion == "2.0" &&
-        value.compare(0, 16, "gnss/sourcetable", 0, 16))
+        value.compare(0, 15, "gnss/sourcetable", 0, 15))
       throw IOException(
         "NTRIPClient::requestSourceTable(): wrong server response");
     if (header ==
         HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentType] &&
         mNTRIPVersion == "1.0" &&
-        value.compare(0, 10, "text/plain", 0, 10))
+        value.compare(0, 9, "text/plain", 0, 9))
       throw IOException(
         "NTRIPClient::requestSourceTable(): wrong server response");
   }
@@ -196,14 +196,14 @@ void NTRIPClient::requestLiveStream(const std::string& nmeaMessage) {
     if (header ==
         HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentType] &&
         mNTRIPVersion == "2.0" &&
-        value.compare(0, 9, "gnss/data", 0, 9))
+        value.compare(0, 8, "gnss/data", 0, 8))
       throw IOException(
         "NTRIPClient::requestLiveStream(): wrong server response");
     if (header ==
         HTTPProtocol::generalHeaders[
         HTTPProtocol::GeneralHeader::TransferEncoding] &&
         mNTRIPVersion == "2.0" &&
-        value.compare(0, 7, "chunked", 0, 7))
+        value.compare(0, 6, "chunked", 0, 6))
       throw IOException(
         "NTRIPClient::requestLiveStream(): wrong server response");
   }

@@ -111,10 +111,14 @@ std::string readDataChunk(BinaryReader& stream) {
   std::stringstream lineStream(line);
   size_t bytes;
   lineStream >> std::hex >> bytes;
-  char buffer[bytes];
-  stream.read(buffer, bytes);
-  readLine(stream);
-  return std::string(buffer, bytes);
+  if (bytes) {
+    char buffer[bytes];
+    stream.read(buffer, bytes);
+    readLine(stream);
+    return std::string(buffer, bytes);
+  }
+  else
+    return std::string();
 }
 
 }
