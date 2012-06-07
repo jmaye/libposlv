@@ -66,7 +66,7 @@ void ZUPDControlTab::applyPressed() {
   static uint16_t transactionNumber = 0;
 }
 
-void ZUPDControlTab::readPacket(boost::shared_ptr<Packet> packet) {
+void ZUPDControlTab::readPacket(std::shared_ptr<Packet> packet) {
   if (mControlMode)
     return;
   if (packet->instanceOfMessage()) {

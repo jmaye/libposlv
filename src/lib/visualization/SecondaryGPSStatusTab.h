@@ -24,7 +24,7 @@
 #ifndef SECONDARYGPSSTATUSTAB_H
 #define SECONDARYGPSSTATUSTAB_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
@@ -91,7 +91,7 @@ protected slots:
     @{
     */
   /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
+  void readPacket(std::shared_ptr<Packet> packet);
   /** @}
     */
 

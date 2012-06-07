@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
   while (!logFile.eof()) {
     double timestamp;
     logReader >> timestamp;
-    boost::shared_ptr<Packet> packet = logReader.readPacket();
+    std::shared_ptr<Packet> packet = logReader.readPacket();
   }
   return 0;
 }

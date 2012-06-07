@@ -115,7 +115,7 @@ GeneralStatusTab::~GeneralStatusTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void GeneralStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
+void GeneralStatusTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<GeneralStatusFDIR>()) {

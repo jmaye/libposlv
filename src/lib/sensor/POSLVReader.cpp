@@ -80,7 +80,7 @@ std::string POSLVReader::readEndString(BinaryBufferReader& bufferReader) {
   return outputString;
 }
 
-boost::shared_ptr<Packet> POSLVReader::readPacket() {
+std::shared_ptr<Packet> POSLVReader::readPacket() {
   std::string start = readStartString();
   uint16_t id;
   *this >> id;
@@ -98,7 +98,7 @@ boost::shared_ptr<Packet> POSLVReader::readPacket() {
   if (sum)
     throw IOException("POSLVReader::readPacket(): wrong checksum");
   if (start == "$GRP") {
-    boost::shared_ptr<Packet>
+    std::shared_ptr<Packet>
       packet(Factory<uint16_t, Group>::getInstance().create(id));
     bufferReader >> *packet;
     const size_t padSize = bufferReader.getReadLeft() - 2 * sizeof(uint16_t);
@@ -116,7 +116,7 @@ boost::shared_ptr<Packet> POSLVReader::readPacket() {
     return packet;
   }
   else if (start == "$MSG") {
-    boost::shared_ptr<Packet>
+    std::shared_ptr<Packet>
       packet(Factory<uint16_t, Message>::getInstance().create(id));
     bufferReader >> *packet;
     const size_t padSize = bufferReader.getReadLeft() - 2 * sizeof(uint16_t);

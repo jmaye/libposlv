@@ -56,7 +56,7 @@ void IINStatusTab::enableFields(bool enable) {
   mUi->pdopSpinBox->setEnabled(enable);
 }
 
-void IINStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
+void IINStatusTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<IINSolutionStatus>()) {

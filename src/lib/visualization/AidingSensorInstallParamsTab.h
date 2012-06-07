@@ -24,7 +24,7 @@
 #ifndef AIDINGSENSORINSTALLPARAMSTAB_H
 #define AIDINGSENSORINSTALLPARAMSTAB_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
@@ -90,7 +90,7 @@ protected slots:
     @{
     */
   /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
+  void readPacket(std::shared_ptr<Packet> packet);
   /// Apply pressed
   void applyPressed();
   /// Device connected
@@ -103,7 +103,7 @@ signals:
     @{
     */
   /// Sends a packet to the POS
-  void writePacket(boost::shared_ptr<Packet> packet);
+  void writePacket(std::shared_ptr<Packet> packet);
   /** @}
     */
 

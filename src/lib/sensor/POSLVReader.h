@@ -25,8 +25,7 @@
 #define POSLVREADER_H
 
 #include <string>
-
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "base/BinaryReader.h"
 
@@ -64,7 +63,7 @@ public:
     @{
     */
   /// Reads a packet from the Applanix device
-  boost::shared_ptr<Packet> readPacket();
+  std::shared_ptr<Packet> readPacket();
   /** @}
     */
 

@@ -64,7 +64,7 @@ void GAMSInstallParamsTab::setReadOnlyFields(bool readonly) {
 
 void GAMSInstallParamsTab::applyPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(21));
   GAMSInstallParams& msg =
     packet->messageCast().typeCast<GAMSInstallParams>();
@@ -78,7 +78,7 @@ void GAMSInstallParamsTab::applyPressed() {
   emit writePacket(packet);
 }
 
-void GAMSInstallParamsTab::readPacket(boost::shared_ptr<Packet> packet) {
+void GAMSInstallParamsTab::readPacket(std::shared_ptr<Packet> packet) {
   if (mControlMode)
     return;
   if (packet->instanceOfMessage()) {

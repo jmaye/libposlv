@@ -56,7 +56,7 @@ void TCPCom::connect(bool connect) {
   }
 }
 
-void TCPCom::writePacket(boost::shared_ptr<Packet> packet) {
+void TCPCom::writePacket(std::shared_ptr<Packet> packet) {
   try {
     mDevice.writePacket(packet);
   }

@@ -72,7 +72,7 @@ void CalibratedInstallationParamsTab::enableFields(bool enable) {
   mUi->dmiScaleFOMSpinBox->setEnabled(enable);
 }
 
-void CalibratedInstallationParamsTab::readPacket(boost::shared_ptr<Packet>
+void CalibratedInstallationParamsTab::readPacket(std::shared_ptr<Packet>
     packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();

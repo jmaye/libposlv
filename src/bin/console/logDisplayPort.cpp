@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
   POSLVComUDP device(connection);
   while (true) {
     try {
-      boost::shared_ptr<Packet> packet = device.readPacket();
+      std::shared_ptr<Packet> packet = device.readPacket();
       std::ofstream logFile(argv[2], std::ios_base::app);
       logFile << std::fixed << Timestamp::now() << " ";
       logFile << *packet;

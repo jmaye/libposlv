@@ -56,7 +56,7 @@ void DMIDataTab::enableFields(bool enable) {
   mUi->typeText->setEnabled(enable);
 }
 
-void DMIDataTab::readPacket(boost::shared_ptr<Packet> packet) {
+void DMIDataTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<TimeTaggedDMIData>()) {

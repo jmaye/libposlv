@@ -85,7 +85,7 @@ void NavigationTab::enableFields(bool enable) {
   mUi->orientationSpinBox->setEnabled(enable);
 }
 
-void NavigationTab::readPacket(boost::shared_ptr<Packet> packet) {
+void NavigationTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<VehicleNavigationSolution>()) {

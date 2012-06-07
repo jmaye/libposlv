@@ -24,9 +24,9 @@
 #ifndef PROGRAMCONTROLTAB_H
 #define PROGRAMCONTROLTAB_H
 
-#include <QtCore/QTimer>
+#include <memory>
 
-#include <boost/shared_ptr.hpp>
+#include <QtCore/QTimer>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
@@ -104,7 +104,7 @@ signals:
   /// Connect to the POS
   void connect(bool connect);
   /// Sends a packet to the POS
-  void writePacket(boost::shared_ptr<Packet> packet);
+  void writePacket(std::shared_ptr<Packet> packet);
   /** @}
     */
 

@@ -76,7 +76,7 @@ PortTab::~PortTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void PortTab::readPacket(boost::shared_ptr<Packet> packet) {
+void PortTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfMessage()) {
     const Message& message = packet->messageCast();
     if (message.instanceOf<DisplayPortControl>()) {

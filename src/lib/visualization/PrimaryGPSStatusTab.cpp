@@ -90,7 +90,7 @@ void PrimaryGPSStatusTab::enableFields(bool enable) {
   mUi->timeStatusText->setEnabled(enable);
 }
 
-void PrimaryGPSStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
+void PrimaryGPSStatusTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<PrimaryGPSStatus>()) {

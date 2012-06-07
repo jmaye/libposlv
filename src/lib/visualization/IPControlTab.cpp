@@ -68,7 +68,7 @@ void IPControlTab::setReadOnlyFields(bool readonly) {
 
 void IPControlTab::applyPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(32));
   SetPOSIPAddress& msg =
     packet->messageCast().typeCast<SetPOSIPAddress>();
@@ -84,7 +84,7 @@ void IPControlTab::applyPressed() {
   emit writePacket(packet);
 }
 
-void IPControlTab::readPacket(boost::shared_ptr<Packet> packet) {
+void IPControlTab::readPacket(std::shared_ptr<Packet> packet) {
   if (mControlMode)
     return;
   if (packet->instanceOfMessage()) {

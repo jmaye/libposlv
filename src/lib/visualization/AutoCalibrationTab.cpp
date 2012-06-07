@@ -71,7 +71,7 @@ void AutoCalibrationTab::applyGeneralPressed() {
   if (mUi->posCheckBox->isChecked())
     selectBitSet.set(7);
   uint8_t select = selectBitSet.to_ulong();
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(57));
   InstallationCalibrationControl& calMsg =
     packet->messageCast().typeCast<InstallationCalibrationControl>();
@@ -94,7 +94,7 @@ void AutoCalibrationTab::applyGAMSPressed() {
     control = 3;
   else
     control = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(58));
   GAMSCalibrationControl& calMsg =
     packet->messageCast().typeCast<GAMSCalibrationControl>();
@@ -103,7 +103,7 @@ void AutoCalibrationTab::applyGAMSPressed() {
   emit writePacket(packet);
 }
 
-void AutoCalibrationTab::readPacket(boost::shared_ptr<Packet> packet) {
+void AutoCalibrationTab::readPacket(std::shared_ptr<Packet> packet) {
   if (mControlMode)
     return;
   if (packet->instanceOfMessage()) {

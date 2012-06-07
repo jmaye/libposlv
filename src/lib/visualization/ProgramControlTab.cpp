@@ -50,7 +50,7 @@ void ProgramControlTab::connectPressed() {
 
 void ProgramControlTab::disconnectPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 1;
@@ -61,7 +61,7 @@ void ProgramControlTab::disconnectPressed() {
 
 void ProgramControlTab::resetPOSPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 101;
@@ -71,7 +71,7 @@ void ProgramControlTab::resetPOSPressed() {
 
 void ProgramControlTab::resetGAMSPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 100;
@@ -81,7 +81,7 @@ void ProgramControlTab::resetGAMSPressed() {
 
 void ProgramControlTab::shutdownPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 102;
@@ -109,7 +109,7 @@ void ProgramControlTab::deviceConnected(bool connected) {
 }
 
 void ProgramControlTab::timerTimeout() {
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(90));
   ProgramControl& msg = packet->messageCast().typeCast<ProgramControl>();
   msg.mControl = 0;

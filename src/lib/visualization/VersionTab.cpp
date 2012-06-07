@@ -52,7 +52,7 @@ void VersionTab::enableFields(bool enable) {
   mUi->currentRunSpinBox->setEnabled(enable);
 }
 
-void VersionTab::readPacket(boost::shared_ptr<Packet> packet) {
+void VersionTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<VersionStatistics>()) {

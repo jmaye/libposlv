@@ -45,7 +45,7 @@ SaveRestoreControlTab::~SaveRestoreControlTab() {
 
 void SaveRestoreControlTab::applyPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(54));
   SaveRestoreControl& msg =
     packet->messageCast().typeCast<SaveRestoreControl>();

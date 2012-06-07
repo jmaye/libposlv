@@ -40,7 +40,7 @@ POSLVWriter::~POSLVWriter() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void POSLVWriter::writePacket(boost::shared_ptr<Packet> packet) {
+void POSLVWriter::writePacket(std::shared_ptr<Packet> packet) {
   BinaryBufferWriter bufferWriter;
   bufferWriter << packet->getStart();
   bufferWriter << *packet;

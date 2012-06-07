@@ -59,7 +59,7 @@ void LogReader::setPollingTime(double pollingTime) {
 
 void LogReader::timerTimeout() {
   static double longitude = 6.433754;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Group>::getInstance().create(1));
   VehicleNavigationSolution& msg =
     packet->groupCast().typeCast<VehicleNavigationSolution>();

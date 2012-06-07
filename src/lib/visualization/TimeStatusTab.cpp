@@ -47,7 +47,7 @@ void TimeStatusTab::enableFields(bool enable) {
   mUi->distanceSpinBox->setEnabled(enable);
 }
 
-void TimeStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
+void TimeStatusTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<PPSTimeRecoveryStatus>()) {

@@ -24,7 +24,7 @@
 #ifndef POSLVWRITER_H
 #define POSLVWRITER_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "base/BinaryWriter.h"
 
@@ -61,7 +61,7 @@ public:
     @{
     */
   /// Writes a packet to the Applanix device
-  void writePacket(boost::shared_ptr<Packet> packet);
+  void writePacket(std::shared_ptr<Packet> packet);
   /** @}
     */
 

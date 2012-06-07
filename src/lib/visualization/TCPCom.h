@@ -24,9 +24,9 @@
 #ifndef TCPCOM_H
 #define TCPCOM_H
 
-#include <QtCore/QObject>
+#include <memory>
 
-#include <boost/shared_ptr.hpp>
+#include <QtCore/QObject>
 
 class POSLVComTCP;
 class Packet;
@@ -86,7 +86,7 @@ protected slots:
   /// Connect to the Applanix
   void connect(bool connect);
   /// Send a packet to the Applanix
-  void writePacket(boost::shared_ptr<Packet> packet);
+  void writePacket(std::shared_ptr<Packet> packet);
   /** @}
     */
 
@@ -95,7 +95,7 @@ signals:
     @{
     */
   /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
+  void readPacket(std::shared_ptr<Packet> packet);
   /// Device connected
   void deviceConnected(bool connected);
   /// Com connection

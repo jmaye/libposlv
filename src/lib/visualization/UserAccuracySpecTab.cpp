@@ -60,7 +60,7 @@ void UserAccuracySpecTab::setReadOnlyFields(bool readonly) {
 
 void UserAccuracySpecTab::applyPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(24));
   UserAccuracySpec& msg =
     packet->messageCast().typeCast<UserAccuracySpec>();
@@ -72,7 +72,7 @@ void UserAccuracySpecTab::applyPressed() {
   emit writePacket(packet);
 }
 
-void UserAccuracySpecTab::readPacket(boost::shared_ptr<Packet> packet) {
+void UserAccuracySpecTab::readPacket(std::shared_ptr<Packet> packet) {
   if (mControlMode)
     return;
   if (packet->instanceOfMessage()) {

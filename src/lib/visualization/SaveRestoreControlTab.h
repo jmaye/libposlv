@@ -24,7 +24,7 @@
 #ifndef SAVERESTORECONTROLTAB_H
 #define SAVERESTORECONTROLTAB_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
@@ -90,7 +90,7 @@ signals:
     @{
     */
   /// Sends a packet to the POS
-  void writePacket(boost::shared_ptr<Packet> packet);
+  void writePacket(std::shared_ptr<Packet> packet);
   /** @}
     */
 

@@ -60,7 +60,7 @@ void AidingSensorInstallParamsTab::setReadOnlyFields(bool readonly) {
 
 void AidingSensorInstallParamsTab::applyPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(22));
   AidingSensorInstallParams& msg =
     packet->messageCast().typeCast<AidingSensorInstallParams>();
@@ -72,7 +72,7 @@ void AidingSensorInstallParamsTab::applyPressed() {
   emit writePacket(packet);
 }
 
-void AidingSensorInstallParamsTab::readPacket(boost::shared_ptr<Packet>
+void AidingSensorInstallParamsTab::readPacket(std::shared_ptr<Packet>
     packet) {
   if (mControlMode)
     return;

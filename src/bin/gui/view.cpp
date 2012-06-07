@@ -59,11 +59,11 @@
 #include "visualization/AutoCalibrationTab.h"
 #include "visualization/AcknowledgeTab.h"
 
-Q_DECLARE_METATYPE(boost::shared_ptr<Packet>);
+Q_DECLARE_METATYPE(std::shared_ptr<Packet>);
 Q_DECLARE_METATYPE(std::string);
 
 int main(int argc, char** argv) {
-  qRegisterMetaType<boost::shared_ptr<Packet> >();
+  qRegisterMetaType<std::shared_ptr<Packet> >();
   qRegisterMetaType<std::string>();
   QApplication application(argc, argv);
   MainWindow mainWindow;
@@ -193,138 +193,138 @@ int main(int argc, char** argv) {
     &mainWindow,
     SLOT(deviceConnected(bool)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &navigationTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &primaryGPSStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &secondaryGPSStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &gamsStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &imuDataTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &dmiDataTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &iinStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &generalStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &fdirTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &calibratedInstallationParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &versionTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &timeStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &generalInstallProcessParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &gamsInstallParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &aidingSensorInstallParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &userAccuracySpecTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &zupdControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &ipControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &gravityControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &navigationModeControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &autoCalibrationTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&tcpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &acknowledgeTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&programControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&autoCalibrationTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
 
   QObject::connect(&generalInstallProcessParamsTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&gamsInstallParamsTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&aidingSensorInstallParamsTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&userAccuracySpecTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&zupdControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&ipControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&gravityControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&navigationModeControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::connect(&saveRestoreControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&programControlTab,
@@ -384,137 +384,137 @@ int main(int argc, char** argv) {
     &autoCalibrationTab,
     SLOT(deviceConnected(bool)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &navigationTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &primaryGPSStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &secondaryGPSStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &gamsStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &imuDataTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &dmiDataTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &iinStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &generalStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &fdirTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &calibratedInstallationParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &versionTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &timeStatusTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &generalInstallProcessParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &gamsInstallParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &aidingSensorInstallParamsTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &userAccuracySpecTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &zupdControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &ipControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &gravityControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &navigationModeControlTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &autoCalibrationTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&tcpCom,
-    SIGNAL(readPacket(boost::shared_ptr<Packet>)),
+    SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &acknowledgeTab,
-    SLOT(readPacket(boost::shared_ptr<Packet>)));
+    SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&programControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&autoCalibrationTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&generalInstallProcessParamsTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&gamsInstallParamsTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&aidingSensorInstallParamsTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&userAccuracySpecTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&zupdControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&ipControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&gravityControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&navigationModeControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&saveRestoreControlTab,
-    SIGNAL(writePacket(boost::shared_ptr<Packet>)),
+    SIGNAL(writePacket(std::shared_ptr<Packet>)),
     &tcpCom,
-    SLOT(writePacket(boost::shared_ptr<Packet>)));
+    SLOT(writePacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&udpCom,
     SIGNAL(comException(const std::string&)),
     &mainWindow,

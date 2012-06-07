@@ -24,10 +24,10 @@
 #ifndef LOGREADER_H
 #define LOGREADER_H
 
+#include <memory>
+
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
-
-#include <boost/shared_ptr.hpp>
 
 class BinaryLogReader;
 class Packet;
@@ -98,7 +98,7 @@ signals:
     @{
     */
   /// Packet read
-  void readPacket(boost::shared_ptr<Packet> packet);
+  void readPacket(std::shared_ptr<Packet> packet);
   /// Com exception
   void comException(const std::string& msg);
   /// Device connected

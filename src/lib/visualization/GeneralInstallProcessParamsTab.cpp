@@ -90,7 +90,7 @@ void GeneralInstallProcessParamsTab::setReadOnlyFields(bool readonly) {
 
 void GeneralInstallProcessParamsTab::applyPressed() {
   static uint16_t transactionNumber = 0;
-  boost::shared_ptr<Packet> packet(
+  std::shared_ptr<Packet> packet(
     Factory<uint16_t, Message>::getInstance().create(20));
   GeneralInstallProcessParams& msg =
     packet->messageCast().typeCast<GeneralInstallProcessParams>();
@@ -139,7 +139,7 @@ void GeneralInstallProcessParamsTab::applyPressed() {
   emit writePacket(packet);
 }
 
-void GeneralInstallProcessParamsTab::readPacket(boost::shared_ptr<Packet>
+void GeneralInstallProcessParamsTab::readPacket(std::shared_ptr<Packet>
     packet) {
   if (mControlMode)
     return;

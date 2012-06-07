@@ -60,7 +60,7 @@ void GAMSStatusTab::enableFields(bool enable) {
   mUi->pdopSpinBox->setEnabled(enable);
 }
 
-void GAMSStatusTab::readPacket(boost::shared_ptr<Packet> packet) {
+void GAMSStatusTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<GAMSSolutionStatus>()) {

@@ -65,7 +65,7 @@ void GravityControlTab::applyPressed() {
   static uint16_t transactionNumber = 0;
 }
 
-void GravityControlTab::readPacket(boost::shared_ptr<Packet> packet) {
+void GravityControlTab::readPacket(std::shared_ptr<Packet> packet) {
   if (mControlMode)
     return;
   if (packet->instanceOfMessage()) {

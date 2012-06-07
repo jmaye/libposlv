@@ -55,7 +55,7 @@ AcknowledgeTab::~AcknowledgeTab() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void AcknowledgeTab::readPacket(boost::shared_ptr<Packet> packet) {
+void AcknowledgeTab::readPacket(std::shared_ptr<Packet> packet) {
     if (packet->instanceOfMessage())
       if (packet->messageCast().instanceOf<Acknowledge>()) {
         const Acknowledge& msg = packet->messageCast().typeCast<Acknowledge>();

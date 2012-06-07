@@ -95,7 +95,7 @@ void FDIRTab::enableFields(bool enable) {
   mUi->fdir1IMUSpinBox->setEnabled(enable);
 }
 
-void FDIRTab::readPacket(boost::shared_ptr<Packet> packet) {
+void FDIRTab::readPacket(std::shared_ptr<Packet> packet) {
   if (packet->instanceOfGroup()) {
     const Group& group = packet->groupCast();
     if (group.instanceOf<GeneralStatusFDIR>()) {
