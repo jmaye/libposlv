@@ -30,6 +30,9 @@
 #include "com/SerialConnection.h"
 #include "exceptions/IOException.h"
 #include "exceptions/SystemException.h"
+#include "exceptions/BadArgumentException.h"
+#include "base/Timer.h"
+#include "base/BinaryStreamReader.h"
 
 #include "config.h"
 
@@ -45,11 +48,13 @@ struct Options {
   size_t baudRate;
   size_t dataBits;
   size_t stopBits;
-  std::string parity;
-  std::string flowControl;
+  size_t parity;
+  size_t flowControl;
   std::string ntripVersion;
   std::string inFile;
   std::string outFile;
+  bool nmea;
+  size_t retry;
 };
 
 bool processCommandLine(int argc, char** argv, Options& options) {
@@ -75,20 +80,20 @@ bool processCommandLine(int argc, char** argv, Options& options) {
         "Set the serial databits")
       ("stopbits", po::value<size_t>(&options.stopBits)->default_value(1),
         "Set the serial stopbits")
-      ("parity", po::value<std::string>(&options.parity)->default_value("none"),
+      ("parity", po::value<size_t>(&options.parity)->default_value(0),
         "Set the serial parity")
-      ("flowcontrol",
-        po::value<std::string>(&options.flowControl)->default_value("no"),
+      ("flowcontrol", po::value<size_t>(&options.flowControl)->default_value(0),
         "Set the serial flow control")
       ("ntrip-version",
         po::value<std::string>(&options.ntripVersion)->default_value("2.0"),
         "Set the NTRIP protocol version")
-      ("infile",
-        po::value<std::string>(&options.inFile),
+      ("infile", po::value<std::string>(&options.inFile),
         "Set the NMEA input file")
-      ("outfile",
-        po::value<std::string>(&options.outFile),
-        "Set the RTCM/CMR output file");
+      ("outfile", po::value<std::string>(&options.outFile),
+        "Set the RTCM/CMR output file")
+      ("nmea", "Set the NMEA input from serial")
+      ("retry", po::value<size_t>(&options.retry)->default_value(1),
+        "Set the retry time in case of failure [s]");
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);
@@ -100,7 +105,7 @@ bool processCommandLine(int argc, char** argv, Options& options) {
     if (vm.count("version")) {
         std::cout << PROJECT_NAME << " " << PROJECT_MAJOR << "."
           << PROJECT_MINOR << "." << PROJECT_PATCH << std::endl
-          << "Copyright (C) 2011 by "
+          << "Copyright (C) 2012 by "
           << PROJECT_CONTACT << std::endl << PROJECT_LICENSE << std::endl;
         return false;
     }
@@ -108,6 +113,14 @@ bool processCommandLine(int argc, char** argv, Options& options) {
       std::cerr << "'host' parameter not set" << std::endl;
       return false;
     }
+    if (vm.count("nmea") && !(vm.count("serialdevice"))) {
+      std::cerr << "'serialdevice' not specified" << std::endl;
+      return false;
+    }
+    if (vm.count("nmea"))
+      options.nmea = true;
+    else
+      options.nmea = false;
   }
   catch (std::exception& e) {
     std::cerr << e.what() << std::endl;
@@ -137,37 +150,78 @@ int main(int argc, char** argv) {
       std::cerr << e.what() << std::endl;
       return 1;
     }
+    catch (BadArgumentException<std::string>& e) {
+      std::cerr << e.what() << std::endl;
+      return 1;
+    }
   }
   else {
     std::cout << "Fetching live stream: " << std::endl << std::endl;
     try {
       NTRIPClient ntripClient(options.host, options.port, options.mountPoint,
         options.userName, options.password, options.ntripVersion);
-      ntripClient.open();
-      ntripClient.requestLiveStream();
-      while (1) {
-        std::string chunk;
-        if (options.ntripVersion == "2.0")
-          chunk = HTTPProtocol::readDataChunk(ntripClient.getStreamReader());
-        else {
-          uint8_t byte;
-          ntripClient.getStreamReader() >> byte;
-          chunk.push_back(byte);
-        }
-        std::cout.flush();
-        std::cout << ".";
-        std::ofstream outFile(options.outFile, std::ios::app);
-        if (outFile.good())
-          outFile.write(chunk.c_str(), chunk.size());
-        outFile.close();
+      Timer timer;
+      SerialConnection serialDevice(options.serialDevice, options.baudRate,
+        options.dataBits, options.stopBits,
+        (SerialConnection::SerialParity)options.parity,
+        (SerialConnection::FlowControl)options.flowControl);
+      try {
+        if (!options.serialDevice.empty())
+          serialDevice.open();
       }
-      ntripClient.close();
+      catch (SystemException& e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+      }
+      catch (BadArgumentException<size_t>& e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+      }
+      std::ifstream inFile(options.inFile);
+      BinaryStreamReader<std::ifstream> fileStreamReader(inFile);
+      BinaryStreamReader<SerialConnection> serialStreamReader(serialDevice);
+      while (1) {
+        try {
+          std::string nmeaMessage;
+          if (inFile.good())
+            nmeaMessage = HTTPProtocol::readLine(fileStreamReader);
+          if (options.nmea && serialDevice.isOpen())
+            nmeaMessage = HTTPProtocol::readLine(serialStreamReader);
+          ntripClient.open();
+          ntripClient.requestLiveStream(nmeaMessage);
+          std::string chunk;
+          if (options.ntripVersion == "2.0")
+            chunk = HTTPProtocol::readDataChunk(ntripClient.getStreamReader());
+          else {
+            uint8_t byte;
+            ntripClient.getStreamReader() >> byte;
+            chunk.push_back(byte);
+          }
+          std::cout.flush();
+          std::cout << ".";
+          std::ofstream outFile(options.outFile, std::ios::app);
+          if (outFile.good())
+            outFile.write(chunk.c_str(), chunk.size());
+          outFile.close();
+          if (serialDevice.isOpen())
+            serialDevice.write(chunk.c_str(), chunk.size());
+          ntripClient.close();
+        }
+        catch (IOException& e) {
+          std::cerr << e.what() << std::endl;
+          std::cerr << "Retrying in " << options.retry << " [s]" << std::endl;
+          ntripClient.close();
+          timer.sleep(options.retry);
+        }
+        catch (SystemException& e) {
+          std::cerr << e.what() << std::endl;
+          std::cerr << "Retrying in " << options.retry << " [s]" << std::endl;
+          ntripClient.close();
+          timer.sleep(options.retry);
+        }
+      }
     }
-    catch (IOException& e) {
-      std::cerr << e.what() << std::endl;
-      return 1;
-    }
-    catch (SystemException& e) {
+    catch (BadArgumentException<std::string>& e) {
       std::cerr << e.what() << std::endl;
       return 1;
     }
