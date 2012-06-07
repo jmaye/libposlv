@@ -154,11 +154,11 @@ int main(int argc, char** argv) {
         << (int)mapTiles.getCoordinates(i)(0) << "_"
         << (int)mapTiles.getCoordinates(i)(1) << "_" << options.zoom << "."
         << options.format;
+      mapTiles[i] = imgFileName.str();
       if (boost::filesystem::exists(options.dir + imgFileName.str())) {
         std::cout << "skipping " << imgFileName.str() << std::endl;
         continue;
       }
-      mapTiles[i] = imgFileName.str();
       std::stringstream uri;
       uri << "/chmap.en." << options.format << "?x=0m&y=0m&w="
         << options.width << "&h=" << options.height << "&base="
