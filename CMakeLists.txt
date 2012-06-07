@@ -32,6 +32,7 @@ remake_pack_deb(
   DESCRIPTION "Development headers"
   libposlv
   libboost-dev
+  libeigen2-dev
 )
 
 remake_pack_deb(
