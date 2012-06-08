@@ -123,132 +123,144 @@ int main(int argc, char** argv) {
   Options options;
   if (!processCommandLine(argc, argv, options))
     return 1;
-  try {
-    MapGrid mapTiles(MapGrid::Coordinate(options.minEast, options.minNorth),
-      MapGrid::Coordinate(options.maxEast, options.maxNorth),
-      MapGrid::Coordinate(options.zoom * options.width,
-      options.zoom * options.height));
-    std::string mapType;
-    if (options.aerial)
-      mapType = "bg";
-    else
-      mapType = "sym";
-    if (options.info)
-      mapType = "fg";
-    std::stringstream gridFileName;
-    gridFileName << "grid_" << mapType << "_" << options.minEast << "_"
-      << options.minNorth << "_" << options.maxEast << "_" << options.maxNorth
-      << "_" << (int)(options.zoom * options.width) << "_"
-      << (int)(options.zoom * options.height) << ".bin";
-    if (boost::filesystem::exists(options.dir + gridFileName.str())) {
-      std::ifstream gridFile(options.dir + gridFileName.str());
-      std::cout << "skipping " << gridFileName.str() << std::endl;
-      mapTiles.readBinary(gridFile);
-      std::cout << "content: " << std::endl << mapTiles << std::endl;
-      return 0;
-    }
-    for (MapGrid::Index i = MapGrid::Index::Zero();
-        i != mapTiles.getNumCells(); mapTiles.incrementIndex(i)) {
-      std::stringstream imgFileName;
-      imgFileName << mapType << "_"
-        << (int)mapTiles.getCoordinates(i)(0) << "_"
-        << (int)mapTiles.getCoordinates(i)(1) << "_" << options.zoom << "."
-        << options.format;
-      mapTiles[i] = imgFileName.str();
-      if (boost::filesystem::exists(options.dir + imgFileName.str())) {
-        std::cout << "skipping " << imgFileName.str() << std::endl;
-        continue;
+  while (1) {
+    try {
+      MapGrid mapTiles(MapGrid::Coordinate(options.minEast, options.minNorth),
+        MapGrid::Coordinate(options.maxEast, options.maxNorth),
+        MapGrid::Coordinate(options.zoom * options.width,
+        options.zoom * options.height));
+      std::string mapType;
+      if (options.aerial)
+        mapType = "bg";
+      else
+        mapType = "sym";
+      if (options.info)
+        mapType = "fg";
+      std::stringstream gridFileName;
+      gridFileName << "grid_" << mapType << "_" << options.minEast << "_"
+        << options.minNorth << "_" << options.maxEast << "_" << options.maxNorth
+        << "_" << (int)(options.zoom * options.width) << "_"
+        << (int)(options.zoom * options.height) << ".bin";
+      if (boost::filesystem::exists(options.dir + gridFileName.str())) {
+        std::ifstream gridFile(options.dir + gridFileName.str());
+        std::cout << "skipping " << gridFileName.str() << std::endl;
+        mapTiles.readBinary(gridFile);
+        std::cout << "content: " << std::endl << mapTiles << std::endl;
+        return 0;
       }
-      std::stringstream uri;
-      uri << "/chmap.en." << options.format << "?x=0m&y=0m&w="
-        << options.width << "&h=" << options.height << "&base="
-        << mapTiles.getCoordinates(i)(0) << "," << mapTiles.getCoordinates(i)(1)
-        << "&layer=" << mapType << "&zd=" << options.zoom<< "&n=0";
-      std::string httpRequest;
-      httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET,
-        uri.str());
-      httpRequest += HTTPProtocol::writeGeneralHeaderLine(
-        HTTPProtocol::GeneralHeader::Connection, "close");
-      httpRequest += HTTPProtocol::writeRequestHeaderLine(
-        HTTPProtocol::RequestHeader::Host, options.host);
-      httpRequest += HTTPProtocol::writeRequestHeaderLine(
-        HTTPProtocol::RequestHeader::UserAgent, "swissMap");
-      httpRequest += "\r\n";
-      TCPConnectionClient com(NetUtils::getHostIP(options.host), options.port);
-      BinaryStreamReader<TCPConnectionClient> tcpStreamReader(com);
-      BinaryStreamWriter<TCPConnectionClient> tcpStreamWriter(com);
-      com.open();
-      tcpStreamWriter << httpRequest;
-      std::string responseStatusLine = HTTPProtocol::readLine(tcpStreamReader);
-      std::string protocol, statusCode, reasonPhrase;
-      HTTPProtocol::readResponseStatusLine(responseStatusLine, protocol,
-        statusCode, reasonPhrase);
-      if (statusCode != "200") {
-        std::cerr << "status code: " + statusCode + "\nreason: " + reasonPhrase
+      size_t counter = 0;
+      for (MapGrid::Index i = MapGrid::Index::Zero();
+          i != mapTiles.getNumCells(); mapTiles.incrementIndex(i)) {
+        counter++;
+        std::cout << (double)counter / mapTiles.getNumCellsTot() * 100 << "%"
           << std::endl;
-        return 1;
-      }
-      bool chunked = false;
-      size_t bytesToRead = 0;
-      while (1) {
-        std::string responseHeaderLine =
+        std::stringstream imgFileName;
+        imgFileName << mapType << "_"
+          << (int)mapTiles.getCoordinates(i)(0) << "_"
+          << (int)mapTiles.getCoordinates(i)(1) << "_" << options.zoom << "."
+          << options.format;
+        mapTiles[i] = imgFileName.str();
+        if (boost::filesystem::exists(options.dir + imgFileName.str())) {
+          std::cout << "skipping " << imgFileName.str() << std::endl;
+          continue;
+        }
+        std::stringstream uri;
+        uri << "/chmap.en." << options.format << "?x=0m&y=0m&w="
+          << options.width << "&h=" << options.height << "&base="
+          << mapTiles.getCoordinates(i)(0) << ","
+          << mapTiles.getCoordinates(i)(1) << "&layer=" << mapType << "&zd="
+          << options.zoom<< "&n=0";
+        std::string httpRequest;
+        httpRequest += HTTPProtocol::writeRequestLine(HTTPProtocol::Method::GET,
+          uri.str());
+        httpRequest += HTTPProtocol::writeGeneralHeaderLine(
+          HTTPProtocol::GeneralHeader::Connection, "close");
+        httpRequest += HTTPProtocol::writeRequestHeaderLine(
+          HTTPProtocol::RequestHeader::Host, options.host);
+        httpRequest += HTTPProtocol::writeRequestHeaderLine(
+          HTTPProtocol::RequestHeader::UserAgent, "swissMap");
+        httpRequest += "\r\n";
+        TCPConnectionClient com(NetUtils::getHostIP(options.host),
+          options.port);
+        BinaryStreamReader<TCPConnectionClient> tcpStreamReader(com);
+        BinaryStreamWriter<TCPConnectionClient> tcpStreamWriter(com);
+        com.open();
+        tcpStreamWriter << httpRequest;
+        std::string responseStatusLine =
           HTTPProtocol::readLine(tcpStreamReader);
-        if (responseHeaderLine == "\r\n")
-          break;
-        std::string header;
-        std::string value;
-        HTTPProtocol::readHeaderLine(responseHeaderLine, header, value);
-        if (header ==
-            HTTPProtocol::entityHeaders[HTTPProtocol::EntityHeader::ContentType]
-            &&
-            value.compare(0, 8, "image/" + options.format, 0, 8)) {
-          std::cerr << "wrong image format returned" << std::endl;
+        std::string protocol, statusCode, reasonPhrase;
+        HTTPProtocol::readResponseStatusLine(responseStatusLine, protocol,
+          statusCode, reasonPhrase);
+        if (statusCode != "200") {
+          std::cerr
+            << "status code: " + statusCode + "\nreason: " + reasonPhrase
+            << std::endl;
           return 1;
         }
-        if (header ==
-            HTTPProtocol::generalHeaders[
-            HTTPProtocol::GeneralHeader::TransferEncoding] &&
-            !value.compare(0, 6, "chunked", 0, 6))
-          chunked = true;
-        if (header ==
-            HTTPProtocol::entityHeaders[
-            HTTPProtocol::EntityHeader::ContentLength])
-          bytesToRead = atoi(value.c_str());
-      }
-      std::string image;
-      if (chunked)
+        bool chunked = false;
+        size_t bytesToRead = 0;
         while (1) {
-          std::string chunk = HTTPProtocol::readDataChunk(tcpStreamReader);
-          if (chunk.empty())
+          std::string responseHeaderLine =
+            HTTPProtocol::readLine(tcpStreamReader);
+          if (responseHeaderLine == "\r\n")
             break;
-          image.append(chunk);
+          std::string header;
+          std::string value;
+          HTTPProtocol::readHeaderLine(responseHeaderLine, header, value);
+          if (header ==
+              HTTPProtocol::entityHeaders[
+              HTTPProtocol::EntityHeader::ContentType]
+              &&
+              value.compare(0, 8, "image/" + options.format, 0, 8)) {
+            std::cerr << "wrong image format returned" << std::endl;
+            return 1;
+          }
+          if (header ==
+              HTTPProtocol::generalHeaders[
+              HTTPProtocol::GeneralHeader::TransferEncoding] &&
+              !value.compare(0, 6, "chunked", 0, 6))
+            chunked = true;
+          if (header ==
+              HTTPProtocol::entityHeaders[
+              HTTPProtocol::EntityHeader::ContentLength])
+            bytesToRead = atoi(value.c_str());
         }
-      else {
-        char buffer[bytesToRead];
-        tcpStreamReader.read(buffer, bytesToRead);
-        image.assign(buffer, bytesToRead);
+        std::string image;
+        if (chunked)
+          while (1) {
+            std::string chunk = HTTPProtocol::readDataChunk(tcpStreamReader);
+            if (chunk.empty())
+              break;
+            image.append(chunk);
+          }
+        else {
+          char buffer[bytesToRead];
+          tcpStreamReader.read(buffer, bytesToRead);
+          image.assign(buffer, bytesToRead);
+        }
+        std::ofstream imageFile(options.dir + imgFileName.str());
+        imageFile.write(image.c_str(), image.size());
+        imageFile.close();
+        std::cout << imgFileName.str() << std::endl;
+        com.close();
       }
-      std::ofstream imageFile(options.dir + imgFileName.str());
-      imageFile.write(image.c_str(), image.size());
-      imageFile.close();
-      std::cout << imgFileName.str() << std::endl;
-      com.close();
+      std::ofstream gridFile(options.dir + gridFileName.str());
+      mapTiles.writeBinary(gridFile);
+      gridFile.close();
+      return 0;
     }
-    std::ofstream gridFile(options.dir + gridFileName.str());
-    mapTiles.writeBinary(gridFile);
-    gridFile.close();
-  }
-  catch (IOException& e) {
-    std::cerr << e.what() << std::endl;
-    return 1;
-  }
-  catch (SystemException& e) {
-    std::cerr << e.what() << std::endl;
-    return 1;
-  }
-  catch (BadArgumentException<MapGrid::Coordinate>& e) {
-    std::cerr << e.what() << std::endl;
-    return 1;
+    catch (IOException& e) {
+      std::cerr << e.what() << std::endl;
+      continue;
+    }
+    catch (SystemException& e) {
+      std::cerr << e.what() << std::endl;
+      continue;
+    }
+    catch (BadArgumentException<MapGrid::Coordinate>& e) {
+      std::cerr << e.what() << std::endl;
+      return 1;
+    }
   }
   return 0;
 }

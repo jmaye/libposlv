@@ -41,7 +41,6 @@
 #include "visualization/IINStatusTab.h"
 #include "visualization/GeneralStatusTab.h"
 #include "visualization/FDIRTab.h"
-#include "visualization/CalibratedInstallationParamsTab.h"
 #include "visualization/VersionTab.h"
 #include "visualization/TimeStatusTab.h"
 #include "visualization/GeneralInstallProcessParamsTab.h"
@@ -74,7 +73,6 @@ int main(int argc, char** argv) {
   IINStatusTab iinStatusTab;
   GeneralStatusTab generalStatusTab;
   FDIRTab fdirTab;
-  CalibratedInstallationParamsTab calibratedInstallationParamsTab;
   VersionTab versionTab;
   TimeStatusTab timeStatusTab;
   GeneralInstallProcessParamsTab generalInstallProcessParamsTab;
@@ -93,7 +91,6 @@ int main(int argc, char** argv) {
   mainWindow.addControl("IIN Status", iinStatusTab);
   mainWindow.addControl("General Status", generalStatusTab);
   mainWindow.addControl("FDIR", fdirTab);
-  mainWindow.addControl("Calibration", calibratedInstallationParamsTab);
   mainWindow.addControl("Version", versionTab);
   mainWindow.addControl("Time", timeStatusTab);
   mainWindow.addControl("General Parameters", generalInstallProcessParamsTab);
@@ -152,10 +149,6 @@ int main(int argc, char** argv) {
   QObject::connect(&logReader,
     SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &fdirTab,
-    SLOT(readPacket(std::shared_ptr<Packet>)));
-  QObject::connect(&logReader,
-    SIGNAL(readPacket(std::shared_ptr<Packet>)),
-    &calibratedInstallationParamsTab,
     SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::connect(&logReader,
     SIGNAL(readPacket(std::shared_ptr<Packet>)),
@@ -234,10 +227,6 @@ int main(int argc, char** argv) {
   QObject::disconnect(&logReader,
     SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &fdirTab,
-    SLOT(readPacket(std::shared_ptr<Packet>)));
-  QObject::disconnect(&logReader,
-    SIGNAL(readPacket(std::shared_ptr<Packet>)),
-    &calibratedInstallationParamsTab,
     SLOT(readPacket(std::shared_ptr<Packet>)));
   QObject::disconnect(&logReader,
     SIGNAL(readPacket(std::shared_ptr<Packet>)),

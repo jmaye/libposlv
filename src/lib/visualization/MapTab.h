@@ -27,7 +27,9 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <array>
 
+#include <QtCore/QString>
 #include <QtGui/QGraphicsItem>
 
 #include "visualization/Control.h"
@@ -60,9 +62,19 @@ public:
     @{
     */
   /// Default constructor
-  MapTab(const std::string& mapFolder = "/home/jmaye/ETHZ/svn/libposlv/build/");
+  MapTab();
   /// Destructor
   virtual ~MapTab();
+  /** @}
+    */
+
+  /** \name Accessors
+    @{
+    */
+  /// Sets the map folder
+  void setMapFolder(const QString& folderName);
+  /// Sets the slider position
+  void setSliderPosition(int pos);
   /** @}
     */
 
@@ -74,10 +86,16 @@ protected:
   Ui_MapTab* mUi;
   /// Graphic items associated with this control
   std::map<std::string, QGraphicsItem*> mGraphicsItems;
-  /// Map grids
+  /// Map grids structures for each zoom level
   std::vector<MapGrid> mMapGrids;
-  /// Maps folder
-  std::string mMapFolder;
+  /// Zoom levels
+  static const std::array<double, 9> mZoomLevels;
+  /// Pixel width
+  static const int mPixelWidth = 256;
+  /// Pixel height
+  static const int mPixelHeight = 256;
+  /// Image format
+  static const std::string mImageFormat;
   /** @}
     */
 
@@ -89,6 +107,14 @@ protected slots:
   void updatePosition(double latitude, double longitude, double altitude);
   /// Update uncertainty
   void updateUncertainty(double latitude, double longitude, double altitude);
+  /// Map folder browse clicked
+  void mapBrowseClicked();
+  /// Aerial view toggled
+  void aerialToggled(bool checked);
+  /// Info view toggled
+  void infoToggled(bool checked);
+  /// Zoom level changed
+  void zoomChanged(int value);
   /** @}
     */
 
