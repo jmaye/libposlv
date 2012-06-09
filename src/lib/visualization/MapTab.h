@@ -25,7 +25,6 @@
 #define MAPTAB_H
 
 #include <string>
-#include <map>
 #include <vector>
 #include <array>
 
@@ -34,7 +33,7 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "data-structures/MapGrid.h"
+#include "data-structures/Grid.h"
 
 class Ui_MapTab;
 
@@ -58,6 +57,16 @@ Q_OBJECT
     */
 
 public:
+  /** \name Types definitions
+    @{
+    */
+  /// Map grid for queries
+  typedef Grid<double, int, 2> MapGrid;
+  /// Display grid
+  typedef Grid<double, QGraphicsItem*, 2> DisplayGrid;
+  /** @}
+    */
+
   /** \name Constructors/destructor
     @{
     */
@@ -78,24 +87,61 @@ public:
   /** @}
     */
 
+  /** \name Methods
+    @{
+    */
+  /// Center display on given LV03 coordinates
+  void centerDisplayOnLV03(double east, double north);
+  /// Center display on given WGS84 coordinates
+  void centerDisplayOnWGS84(double latitude, double longitude);
+  /// Download map tile
+  bool downloadMapTile(double east, double north, const std::string& mapType,
+    double zoomLevel, const std::string& format);
+  /** @}
+    */
+
 protected:
   /** \name Protected members
     @{
     */
   /// Pointer to the UI
   Ui_MapTab* mUi;
-  /// Graphic items associated with this control
-  std::map<std::string, QGraphicsItem*> mGraphicsItems;
   /// Map grids structures for each zoom level
   std::vector<MapGrid> mMapGrids;
+  /// Canvas display
+  DisplayGrid mCanvasDisplay;
+  /// Symbolic map display
+  DisplayGrid mSymMapDisplay;
+  /// Aerial map display
+  DisplayGrid mAerialMapDisplay;
+  /// Info map display
+  DisplayGrid mInfoMapDisplay;
+  /// Position
+  QGraphicsItem* mPositionDisplay;
+  /// Last center east
+  double mLastCenterEast;
+  /// Last center north
+  double mLastCenterNorth;
   /// Zoom levels
-  static const std::array<double, 9> mZoomLevels;
+  static const std::array<double, 9> mZoomLevels; 
   /// Pixel width
   static const int mPixelWidth = 256;
   /// Pixel height
   static const int mPixelHeight = 256;
   /// Image format
   static const std::string mImageFormat;
+  /// Symbolic map query
+  static const std::string mSymMap;
+  /// Aerial map query
+  static const std::string mAerialMap;
+  /// Info map query
+  static const std::string mInfoMap;
+  /// Zurich east
+  static const double mZurichEast;
+  /// Zurich north
+  static const double mZurichNorth;
+  /// Server host from swissmap
+  static const std::string mServerHost;
   /** @}
     */
 

@@ -31,7 +31,6 @@
 #include "com/HTTPProtocol.h"
 #include "com/NetUtils.h"
 #include "data-structures/Grid.h"
-#include "data-structures/MapGrid.h"
 #include "base/BinaryStreamWriter.h"
 #include "base/BinaryStreamReader.h"
 #include "exceptions/IOException.h"
@@ -39,6 +38,8 @@
 #include "exceptions/BadArgumentException.h"
 
 #include "config.h"
+
+typedef Grid<double, int, 2> MapGrid;
 
 namespace po = boost::program_options;
 
@@ -136,18 +137,6 @@ int main(int argc, char** argv) {
         mapType = "sym";
       if (options.info)
         mapType = "fg";
-      std::stringstream gridFileName;
-      gridFileName << "grid_" << mapType << "_" << options.minEast << "_"
-        << options.minNorth << "_" << options.maxEast << "_" << options.maxNorth
-        << "_" << (int)(options.zoom * options.width) << "_"
-        << (int)(options.zoom * options.height) << ".bin";
-      if (boost::filesystem::exists(options.dir + gridFileName.str())) {
-        std::ifstream gridFile(options.dir + gridFileName.str());
-        std::cout << "skipping " << gridFileName.str() << std::endl;
-        mapTiles.readBinary(gridFile);
-        std::cout << "content: " << std::endl << mapTiles << std::endl;
-        return 0;
-      }
       size_t counter = 0;
       for (MapGrid::Index i = MapGrid::Index::Zero();
           i != mapTiles.getNumCells(); mapTiles.incrementIndex(i)) {
@@ -159,7 +148,6 @@ int main(int argc, char** argv) {
           << (int)mapTiles.getCoordinates(i)(0) << "_"
           << (int)mapTiles.getCoordinates(i)(1) << "_" << options.zoom << "."
           << options.format;
-        mapTiles[i] = imgFileName.str();
         if (boost::filesystem::exists(options.dir + imgFileName.str())) {
           std::cout << "skipping " << imgFileName.str() << std::endl;
           continue;
@@ -244,9 +232,6 @@ int main(int argc, char** argv) {
         std::cout << imgFileName.str() << std::endl;
         com.close();
       }
-      std::ofstream gridFile(options.dir + gridFileName.str());
-      mapTiles.writeBinary(gridFile);
-      gridFile.close();
       return 0;
     }
     catch (IOException& e) {
