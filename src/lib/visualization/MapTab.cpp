@@ -78,7 +78,9 @@ MapTab::MapTab() :
     mInfoMapDisplay(DisplayGrid::Coordinate(0, 0),
       DisplayGrid::Coordinate(3 * mPixelWidth, 3 * mPixelHeight),
       DisplayGrid::Coordinate(mPixelWidth, mPixelHeight)),
-    mPositionDisplay(0) {
+    mPositionDisplay(0),
+    mLastUncertaintyEast(15),
+    mLastUncertaintyNorth(15) {
   mUi->setupUi(this);
   setMapFolder(QDir::current().path() + QString("/maps"));
   for (DisplayGrid::Index i = DisplayGrid::Index::Zero();
@@ -264,7 +266,9 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
     const double pixelX = position(0);
     const double pixelY = 3 * mPixelHeight - position(1);
     mPositionDisplay =
-      View2d::getInstance().getScene().addEllipse(pixelX, pixelY, 10, 10,
+      View2d::getInstance().getScene().addEllipse(pixelX, pixelY,
+      mLastUncertaintyEast / mZoomLevels[mUi->zoomSlider->sliderPosition()],
+      mLastUncertaintyNorth / mZoomLevels[mUi->zoomSlider->sliderPosition()],
       QPen(Qt::red));
   }
   catch (...) {
@@ -308,6 +312,8 @@ void MapTab::updatePosition(double latitude, double longitude,
 
 void MapTab::updateUncertainty(double latitude, double longitude,
     double altitude) {
+  mLastUncertaintyEast = longitude;
+  mLastUncertaintyNorth = latitude;
 }
 
 bool MapTab::downloadMapTile(double east, double north, const std::string&

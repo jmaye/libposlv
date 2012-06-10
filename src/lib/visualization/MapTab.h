@@ -122,6 +122,10 @@ protected:
   double mLastCenterEast;
   /// Last center north
   double mLastCenterNorth;
+  /// Last uncertainty east
+  double mLastUncertaintyEast;
+  /// Last uncertainty north
+  double mLastUncertaintyNorth;
   /// Zoom levels
   static const std::array<double, 9> mZoomLevels; 
   /// Pixel width
