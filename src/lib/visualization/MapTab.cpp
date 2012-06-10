@@ -54,9 +54,9 @@ const std::string MapTab::mAerialMap = "bg";
 
 const std::string MapTab::mInfoMap = "fg";
 
-const double MapTab::mZurichEast = 683263;
+const double MapTab::mZurichEast = 683682;
 
-const double MapTab::mZurichNorth = 248036;
+const double MapTab::mZurichNorth = 248034;
 
 const std::string MapTab::mServerHost = "map.search.ch";
 
@@ -170,9 +170,9 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
       mInfoMapDisplay[i] = 0;
     }
     try {
-      auto index = mMapGrids[mUi->zoomSlider->sliderPosition()].
+      const auto index = mMapGrids[mUi->zoomSlider->sliderPosition()].
         getIndex(subMap.getCoordinates(i));
-      auto coordinate = mMapGrids[mUi->zoomSlider->sliderPosition()].
+      const auto coordinate = mMapGrids[mUi->zoomSlider->sliderPosition()].
         getCoordinates(index);
       std::stringstream symMapFileName;
       symMapFileName << mUi->folderEdit->text().toStdString() << "/";
@@ -191,9 +191,9 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
         mSymMapDisplay[i] =
           View2d::getInstance().getScene().addPixmap(
           QPixmap::fromImage(symMapimage));
-        mSymMapDisplay[i]->setPos(mCanvasDisplay.getCoordinates(i)(0) -
+        mSymMapDisplay[i]->setPos(mSymMapDisplay.getCoordinates(i)(0) -
           mPixelWidth / 2,
-          3 * mPixelHeight - mCanvasDisplay.getCoordinates(i)(1) -
+          3 * mPixelHeight - mSymMapDisplay.getCoordinates(i)(1) -
           mPixelHeight / 2);
         mSymMapDisplay[i]->setVisible(mUi->symbolicRadioButton->isChecked());
       }
@@ -214,9 +214,9 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
         mAerialMapDisplay[i] =
           View2d::getInstance().getScene().addPixmap(
           QPixmap::fromImage(aerialMapimage));
-        mAerialMapDisplay[i]->setPos(mCanvasDisplay.getCoordinates(i)(0) -
+        mAerialMapDisplay[i]->setPos(mAerialMapDisplay.getCoordinates(i)(0) -
           mPixelWidth / 2,
-          3 * mPixelHeight - mCanvasDisplay.getCoordinates(i)(1) -
+          3 * mPixelHeight - mAerialMapDisplay.getCoordinates(i)(1) -
           mPixelHeight / 2);
         mAerialMapDisplay[i]->setVisible(mUi->aerialRadioButton->isChecked());
       }
@@ -237,32 +237,37 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
         mInfoMapDisplay[i] =
           View2d::getInstance().getScene().addPixmap(
           QPixmap::fromImage(infoMapimage));
-        mInfoMapDisplay[i]->setPos(mCanvasDisplay.getCoordinates(i)(0) -
+        mInfoMapDisplay[i]->setPos(mInfoMapDisplay.getCoordinates(i)(0) -
           mPixelWidth / 2,
-          3 * mPixelHeight - mCanvasDisplay.getCoordinates(i)(1) -
+          3 * mPixelHeight - mInfoMapDisplay.getCoordinates(i)(1) -
           mPixelHeight / 2);
         mInfoMapDisplay[i]->setVisible(mUi->infoCheckBox->isChecked());
-      }
-      if (subMap.isInRange(MapGrid::Coordinate(east, north))) {
-        if (mPositionDisplay) {
-          View2d::getInstance().getScene().removeItem(mPositionDisplay);
-          delete mPositionDisplay;
-        }
-//        std::cout << subMap.getMinimum() << std::endl << std::endl;
-//        std::cout << MapGrid::Coordinate(east, north) << std::endl << std::endl;
-//        auto position = (MapGrid::Coordinate(east, north) - subMap.getMinimum()) /
-//          mZoomLevels[mUi->zoomSlider->sliderPosition()];
-//        std::cout << position << std::endl << std::endl;
-        mPositionDisplay =
-          View2d::getInstance().getScene().addEllipse(
-          mCanvasDisplay.getCoordinates(i)(0),
-          3 * mPixelHeight - mCanvasDisplay.getCoordinates(i)(1),
-          10, 10, QPen(Qt::red));
       }
     }
     catch (...) {
       continue;
     }
+  }
+  if (mPositionDisplay) {
+    View2d::getInstance().getScene().removeItem(mPositionDisplay);
+    delete mPositionDisplay;
+    mPositionDisplay = 0;
+  }
+  try {
+    const auto minIndex = mMapGrids[mUi->zoomSlider->sliderPosition()].
+      getIndex(subMap.getCoordinates(MapGrid::Index(0, 0)));
+    const auto minCoordinate = mMapGrids[mUi->zoomSlider->sliderPosition()].
+      getCoordinates(minIndex) -
+      mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution() / 2;
+    const auto position = (MapGrid::Coordinate(east, north) - minCoordinate) /
+      mZoomLevels[mUi->zoomSlider->sliderPosition()];
+    const double pixelX = position(0);
+    const double pixelY = 3 * mPixelHeight - position(1);
+    mPositionDisplay =
+      View2d::getInstance().getScene().addEllipse(pixelX, pixelY, 10, 10,
+      QPen(Qt::red));
+  }
+  catch (...) {
   }
 }
 
