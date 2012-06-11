@@ -165,6 +165,14 @@ protected slots:
   void infoToggled(bool checked);
   /// Zoom level changed
   void zoomChanged(int value);
+  /// Left clicked
+  void leftClicked();
+  /// Right clicked
+  void rightClicked();
+  /// Up clicked
+  void upClicked();
+  /// Down clicked
+  void downClicked();
   /** @}
     */
 

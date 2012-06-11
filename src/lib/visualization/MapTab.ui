@@ -22,6 +22,74 @@
      <height>791</height>
     </rect>
    </property>
+   <widget class="QPushButton" name="leftButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>380</y>
+      <width>31</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-left.png</normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-left.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rightButton">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>380</y>
+      <width>31</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-right.png</normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-right.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="upButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>0</y>
+      <width>31</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-up.png</normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-up.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="downButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>764</y>
+      <width>31</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-down.png</normaloff>../../../../../../../../usr/share/icons/oxygen/32x32/actions/arrow-down.png</iconset>
+    </property>
+   </widget>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
@@ -288,11 +356,79 @@ p, li { white-space: pre-wrap; }
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>upButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MapTab</receiver>
+   <slot>upClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>465</x>
+     <y>73</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>downButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MapTab</receiver>
+   <slot>downClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>465</x>
+     <y>837</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rightButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MapTab</receiver>
+   <slot>rightClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>905</x>
+     <y>453</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>leftButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MapTab</receiver>
+   <slot>leftClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>25</x>
+     <y>453</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>mapBrowseClicked()</slot>
   <slot>aerialToggled(bool)</slot>
   <slot>infoToggled(bool)</slot>
   <slot>zoomChanged(int)</slot>
+  <slot>upClicked()</slot>
+  <slot>downClicked()</slot>
+  <slot>leftClicked()</slot>
+  <slot>rightClicked()</slot>
  </slots>
 </ui>

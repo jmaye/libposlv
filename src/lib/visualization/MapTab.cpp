@@ -198,6 +198,7 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
           3 * mPixelHeight - mSymMapDisplay.getCoordinates(i)(1) -
           mPixelHeight / 2);
         mSymMapDisplay[i]->setVisible(mUi->symbolicRadioButton->isChecked());
+        mSymMapDisplay[i]->setZValue(0.7);
       }
       std::stringstream aerialMapFileName;
       aerialMapFileName << mUi->folderEdit->text().toStdString() << "/";
@@ -221,6 +222,7 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
           3 * mPixelHeight - mAerialMapDisplay.getCoordinates(i)(1) -
           mPixelHeight / 2);
         mAerialMapDisplay[i]->setVisible(mUi->aerialRadioButton->isChecked());
+        mAerialMapDisplay[i]->setZValue(0.7);
       }
       std::stringstream infoMapFileName;
       infoMapFileName << mUi->folderEdit->text().toStdString() << "/";
@@ -236,14 +238,17 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
         std::cerr << "Cannot load " << infoMapFileName.str() << std::endl;
       }
       else {
-        mInfoMapDisplay[i] =
-          View2d::getInstance().getScene().addPixmap(
-          QPixmap::fromImage(infoMapimage));
-        mInfoMapDisplay[i]->setPos(mInfoMapDisplay.getCoordinates(i)(0) -
-          mPixelWidth / 2,
-          3 * mPixelHeight - mInfoMapDisplay.getCoordinates(i)(1) -
-          mPixelHeight / 2);
-        mInfoMapDisplay[i]->setVisible(mUi->infoCheckBox->isChecked());
+        if (infoMapimage.colorCount() > 2) {
+          mInfoMapDisplay[i] =
+            View2d::getInstance().getScene().addPixmap(
+            QPixmap::fromImage(infoMapimage));
+          mInfoMapDisplay[i]->setPos(mInfoMapDisplay.getCoordinates(i)(0) -
+            mPixelWidth / 2,
+            3 * mPixelHeight - mInfoMapDisplay.getCoordinates(i)(1) -
+            mPixelHeight / 2);
+          mInfoMapDisplay[i]->setVisible(mUi->infoCheckBox->isChecked());
+          mInfoMapDisplay[i]->setZValue(0.8);
+        }
       }
     }
     catch (...) {
@@ -270,6 +275,7 @@ void MapTab::centerDisplayOnLV03(double east, double north) {
       mLastUncertaintyEast / mZoomLevels[mUi->zoomSlider->sliderPosition()],
       mLastUncertaintyNorth / mZoomLevels[mUi->zoomSlider->sliderPosition()],
       QPen(Qt::red));
+    mPositionDisplay->setZValue(1.0);
   }
   catch (...) {
   }
@@ -411,4 +417,28 @@ bool MapTab::downloadMapTile(double east, double north, const std::string&
     std::cerr << e.what() << std::endl;
     return false;
   }
+}
+
+void MapTab::leftClicked() {
+  auto resolution =
+    mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution();
+  centerDisplayOnLV03(mLastCenterEast - resolution(0), mLastCenterNorth);
+}
+
+void MapTab::rightClicked() {
+  auto resolution =
+    mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution();
+  centerDisplayOnLV03(mLastCenterEast + resolution(0), mLastCenterNorth);
+}
+
+void MapTab::upClicked() {
+  auto resolution =
+    mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution();
+  centerDisplayOnLV03(mLastCenterEast, mLastCenterNorth + resolution(1));
+}
+
+void MapTab::downClicked() {
+  auto resolution =
+    mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution();
+  centerDisplayOnLV03(mLastCenterEast, mLastCenterNorth - resolution(1));
 }
