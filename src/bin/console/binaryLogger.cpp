@@ -46,7 +46,6 @@ int main(int argc, char** argv) {
       BinaryLogWriter logWriter(logFile);
       logWriter << Timestamp::now();
       logWriter.writePacket(packet);
-      logFile.close();
     }
     catch (IOException& e) {
       std::cerr << e.what() << std::endl;

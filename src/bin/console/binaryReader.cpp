@@ -33,7 +33,10 @@ int main(int argc, char** argv) {
   }
   std::ifstream logFile(argv[1]);
   BinaryLogReader logReader(logFile);
-  while (!logFile.eof()) {
+  logFile.seekg (0, std::ios::end);
+  const int length = logFile.tellg();
+  logFile.seekg (0, std::ios::beg);
+  while (logFile.tellg() != length) {
     double timestamp;
     logReader >> timestamp;
     std::shared_ptr<Packet> packet = logReader.readPacket();
