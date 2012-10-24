@@ -46,7 +46,7 @@ remake_pack_deb(
   COMPONENT gui-tools
   DESCRIPTION "GUI tools"
   libposlv
-  libqt4-gui
+  libqtgui4
 )
 
 remake_pack_deb(
