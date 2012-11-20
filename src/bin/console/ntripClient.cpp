@@ -55,6 +55,8 @@ struct Options {
   std::string outFile;
   bool nmea;
   size_t retry;
+  size_t timeoutSerial;
+  size_t timeoutNMEA;
 };
 
 bool processCommandLine(int argc, char** argv, Options& options) {
@@ -93,7 +95,14 @@ bool processCommandLine(int argc, char** argv, Options& options) {
         "Set the RTCM/CMR output file")
       ("nmea", "Set the NMEA input from serial")
       ("retry", po::value<size_t>(&options.retry)->default_value(1),
-        "Set the retry time in case of failure [s]");
+        "Set the retry time in case of failure [s]")
+      ("timeoutserial",
+        po::value<size_t>(&options.timeoutSerial)->default_value(3),
+        "Set the serial timeout [s]")
+      ("timeoutnmea",
+        po::value<size_t>(&options.timeoutNMEA)->
+        default_value(std::numeric_limits<size_t>::max()),
+        "Set the NMEA timeout [s]");
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);
@@ -164,7 +173,8 @@ int main(int argc, char** argv) {
       SerialConnection serialDevice(options.serialDevice, options.baudRate,
         options.dataBits, options.stopBits,
         (SerialConnection::SerialParity)options.parity,
-        (SerialConnection::FlowControl)options.flowControl);
+        (SerialConnection::FlowControl)options.flowControl,
+        options.timeoutSerial);
       try {
         if (!options.serialDevice.empty())
           serialDevice.open();
@@ -190,24 +200,34 @@ int main(int argc, char** argv) {
             nmeaMessage = HTTPProtocol::readLine(fileStreamReader);
           if (options.nmea && serialDevice.isOpen())
             nmeaMessage = HTTPProtocol::readLine(serialStreamReader);
+          if (!nmeaMessage.empty() &&
+              nmeaMessage.compare(0, 5, "$GPGGA", 0, 5)) {
+            std::cerr << "Wrong NMEA message: " << std::endl << nmeaMessage
+              << std::endl;
+            continue;
+          }
           ntripClient.open();
           ntripClient.requestLiveStream(nmeaMessage);
-          std::string chunk;
-          if (options.ntripVersion == "2.0")
-            chunk = HTTPProtocol::readDataChunk(ntripClient.getStreamReader());
-          else {
-            uint8_t byte;
-            ntripClient.getStreamReader() >> byte;
-            chunk.push_back(byte);
+          timer.start();
+          while (timer.getLeft(options.timeoutNMEA) > 0) {
+            std::string chunk;
+            if (options.ntripVersion == "2.0") {
+              chunk = HTTPProtocol::readDataChunk(ntripClient.getStreamReader());
+            }
+            else {
+              uint8_t byte;
+              ntripClient.getStreamReader() >> byte;
+              chunk.push_back(byte);
+            }
+            std::cout.flush();
+            std::cout << ".";
+            std::ofstream outFile(options.outFile, std::ios::app);
+            if (outFile.good())
+              outFile.write(chunk.c_str(), chunk.size());
+            outFile.close();
+            if (serialDevice.isOpen())
+              serialDevice.write(chunk.c_str(), chunk.size());
           }
-          std::cout.flush();
-          std::cout << ".";
-          std::ofstream outFile(options.outFile, std::ios::app);
-          if (outFile.good())
-            outFile.write(chunk.c_str(), chunk.size());
-          outFile.close();
-          if (serialDevice.isOpen())
-            serialDevice.write(chunk.c_str(), chunk.size());
           ntripClient.close();
         }
         catch (IOException& e) {
