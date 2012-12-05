@@ -166,12 +166,8 @@ void Path3DTab::start() {
 }
 
 void Path3DTab::path(const std::vector<Eigen::Matrix<double, 3, 1> >& path) {
-  PointCloud<>::Point centroid;
-  for (size_t i = 0; i < path.size(); ++i) {
+  for (size_t i = 0; i < path.size(); ++i)
     mPointCloud.insertPoint(path[i]);
-    centroid += path[i];
-  }
-  centroid /= mPointCloud.getNumPoints();
-  View3d::getInstance().getScene().setTranslation(-centroid(0), -centroid(1), -centroid(2));
-  std::cout << "Point cloud received: " << mPointCloud.getNumPoints() << std::endl;
+  View3d::getInstance().getScene().setTranslation(-path[0](0), -path[0](1),
+    -path[0](2));
 }
