@@ -16,74 +16,61 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/LogReader.h"
+#include "visualization/PathBuilder.h"
 
-#include "sensor/BinaryLogReader.h"
+#include <iomanip>
+
+#include "types/VehicleNavigationPerformance.h"
+#include "types/VehicleNavigationSolution.h"
+#include "types/Group.h"
 #include "types/Packet.h"
-#include "exceptions/IOException.h"
+#include "sensor/Utils.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-LogReader::LogReader(BinaryLogReader& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime),
-    mDone(false) {
-  mDevice.getStream().seekg (0, std::ios::end);
-  mFileLength = mDevice.getStream().tellg();
-  mDevice.getStream().seekg (0, std::ios::beg);
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mTimer.setInterval(pollingTime);
-  mTimer.start();
+PathBuilder::PathBuilder(bool dump, const std::string& filename) :
+    mDump(dump),
+    mFilename(filename) {
 }
 
-LogReader::~LogReader() {
-}
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-double LogReader::getPollingTime() const {
-  return mPollingTime;
-}
-
-void LogReader::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mTimer.setInterval(pollingTime);
-}
-
-int LogReader::getFileLength() const {
-  return mFileLength;
+PathBuilder::~PathBuilder() {
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-void LogReader::timerTimeout() {
-  if (mDevice.getStream().tellg() >= mFileLength) {
-    if (!mDone) {
-      emit eof();
-      mDone = true;
+void PathBuilder::readPacket(std::shared_ptr<Packet> packet) {
+  if (packet->instanceOfGroup()) {
+    const Group& group = packet->groupCast();
+    if (group.instanceOf<VehicleNavigationSolution>()) {
+      const VehicleNavigationSolution& msg =
+        group.typeCast<VehicleNavigationSolution>();
+      double east, north, height;
+      Utils::WGS84ToLV03(msg.mLatitude, msg.mLongitude, msg.mAltitude, east,
+        north, height);
+      mPath.push_back(Eigen::Matrix<double, 3, 1>(east, north, height));
     }
-    return;
-  }
-  if (mDevice.getStream().good()) {
-    if (mDevice.getStream().tellg() == 0)
-      emit start();
-    double timestamp;
-    mDevice >> timestamp;
-    try {
-      emit readPacket(mDevice.readPacket());
-      emit deviceConnected(true);
-    }
-    catch (IOException& e) {
-      emit comException(e.what());
-      emit deviceConnected(false);
+    else if (group.instanceOf<VehicleNavigationPerformance>()) {
+      const VehicleNavigationPerformance& msg =
+        group.typeCast<VehicleNavigationPerformance>();
     }
   }
-  else
-    emit comException("LogReader::timerTimeout(): stream not ready");
+}
+
+void PathBuilder::start() {
+  mPath.clear();
+}
+
+void PathBuilder::eof() {
+  if (mDump) {
+    std::ofstream pathFile(mFilename);
+    for (size_t i = 0; i < mPath.size(); ++i)
+      pathFile << std::fixed << std::setprecision(16) << mPath[i].transpose()
+        << std::endl;
+    pathFile.close();
+  }
+  emit path(mPath);
 }

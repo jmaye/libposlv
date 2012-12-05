@@ -16,26 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file LogReader.h
-    \brief This file defines the LogReader class which handles reading from a
-           log file.
+/** \file PathBuilder.h
+    \brief This file defines the PathBuilder class which builds a path in Swiss
+           coordinates.
   */
 
-#ifndef LOGREADER_H
-#define LOGREADER_H
+#ifndef PATHBUILDER_H
+#define PATHBUILDER_H
 
 #include <memory>
+#include <vector>
+#include <string>
+
+#include <Eigen/Core>
 
 #include <QtCore/QObject>
-#include <QtCore/QTimer>
 
-class BinaryLogReader;
 class Packet;
 
-/** The LogReader class handles playback from a log file
-    \brief Playback from a log file
+/** The PathBuilder class builds a path in Swiss coordinates from Applanix
+    data.
+    \brief Path builder
   */
-class LogReader :
+class PathBuilder :
   public QObject {
 
 Q_OBJECT
@@ -44,9 +47,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  LogReader(const LogReader& other);
+  PathBuilder(const PathBuilder& other);
   /// Assignment operator
-  LogReader& operator = (const LogReader& other);
+  PathBuilder& operator = (const PathBuilder& other);
   /** @}
     */
 
@@ -54,22 +57,10 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs reader with polling time and device
-  LogReader(BinaryLogReader& device, double pollingTime = 1);
+  /// Default constructor
+  PathBuilder(bool dump = true, const std::string& filename = "path.txt");
   /// Destructor
-  virtual ~LogReader();
-  /** @}
-    */
-
-  /** \name Accessors
-    @{
-    */
-  /// Returns the polling time
-  double getPollingTime() const;
-  /// Sets the polling time
-  void setPollingTime(double pollingTime);
-  /// Returns the file length
-  int getFileLength() const;
+  virtual ~PathBuilder();
   /** @}
     */
 
@@ -77,25 +68,25 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Device
-  BinaryLogReader& mDevice;
-  /// Timer
-  QTimer mTimer;
-  /// Polling time
-  double mPollingTime;
-  /// Length of the file
-  int mFileLength;
-  /// Done reading file
-  bool mDone;
+  /// Data points of the path
+  std::vector<Eigen::Matrix<double, 3, 1> > mPath;
+  /// Dump into file when done reading
+  bool mDump;
+  /// Filename to dump the data
+  std::string mFilename;
   /** @}
     */
 
 protected slots:
-  /** \name Qt slots
+  /** \name Protected slots
     @{
     */
-  /// Timeout of the timer
-  void timerTimeout();
+  /// Packet read
+  void readPacket(std::shared_ptr<Packet> packet);
+  /// Start receiving a path
+  void start();
+  /// EOF
+  void eof();
   /** @}
     */
 
@@ -103,19 +94,11 @@ signals:
   /** \name Qt signals
     @{
     */
-  /// Packet read
-  void readPacket(std::shared_ptr<Packet> packet);
-  /// Com exception
-  void comException(const std::string& msg);
-  /// Start reading file
-  void start();
-  /// EOF
-  void eof();
-  /// Device connected
-  void deviceConnected(bool connected);
+  /// Path ready
+  void path(const std::vector<Eigen::Matrix<double, 3, 1> >& path);
   /** @}
     */
 
 };
 
-#endif // LOGREADER_H
+#endif // PATHBUILDER_H

@@ -139,9 +139,11 @@ void TCPConnectionClient::read(char* buffer, size_t numBytes) {
     if (FD_ISSET(mSocket, &readFlags)) {
       FD_CLR(mSocket, &readFlags);
       res = ::read(mSocket, &buffer[bytesRead], numBytes - bytesRead);
-      if (res <= 0)
+      if (res < 0)
         throw SystemException(errno,
           "TCPConnectionClient::read()::read()");
+      if (res == 0)
+        throw IOException("TCPConnectionClient::read(): connection reset");
       bytesRead += res;
     }
     else
@@ -173,6 +175,8 @@ void TCPConnectionClient::write(const char* buffer, size_t numBytes) {
       if (res < 0)
         throw SystemException(errno,
           "TCPConnectionClient::write()::write()");
+      if (res == 0)
+        throw IOException("TCPConnectionClient::write(): connection reset");
       bytesWritten += res;
     }
     else

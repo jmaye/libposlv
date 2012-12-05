@@ -16,74 +16,52 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/LogReader.h"
+#include "visualization/Palette.h"
 
-#include "sensor/BinaryLogReader.h"
-#include "types/Packet.h"
-#include "exceptions/IOException.h"
+#include "exceptions/OutOfBoundException.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-LogReader::LogReader(BinaryLogReader& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime),
-    mDone(false) {
-  mDevice.getStream().seekg (0, std::ios::end);
-  mFileLength = mDevice.getStream().tellg();
-  mDevice.getStream().seekg (0, std::ios::beg);
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mTimer.setInterval(pollingTime);
-  mTimer.start();
+Palette::Palette() {
 }
 
-LogReader::~LogReader() {
+Palette::~Palette() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-double LogReader::getPollingTime() const {
-  return mPollingTime;
+Palette::Iterator Palette::getColorBegin() const {
+  return mColors.begin();
 }
 
-void LogReader::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mTimer.setInterval(pollingTime);
+Palette::Iterator Palette::getColorEnd() const {
+  return mColors.end();
 }
 
-int LogReader::getFileLength() const {
-  return mFileLength;
+const QString& Palette::getRole(const Iterator& it) const {
+  return it->first;
 }
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-void LogReader::timerTimeout() {
-  if (mDevice.getStream().tellg() >= mFileLength) {
-    if (!mDone) {
-      emit eof();
-      mDone = true;
-    }
-    return;
+void Palette::setColor(const QString& role, const QColor& color) {
+  if (mColors[role] != color) {
+    mColors[role] = color;
+    emit colorChanged(role, color);
   }
-  if (mDevice.getStream().good()) {
-    if (mDevice.getStream().tellg() == 0)
-      emit start();
-    double timestamp;
-    mDevice >> timestamp;
-    try {
-      emit readPacket(mDevice.readPacket());
-      emit deviceConnected(true);
-    }
-    catch (IOException& e) {
-      emit comException(e.what());
-      emit deviceConnected(false);
-    }
-  }
+}
+
+const QColor& Palette::getColor(const Iterator& it) const {
+  return it->second;
+}
+
+const QColor& Palette::getColor(const QString& role) const {
+  auto it = mColors.find(role);
+  if (it != mColors.end())
+    return it->second;
   else
-    emit comException("LogReader::timerTimeout(): stream not ready");
+    throw OutOfBoundException<std::string>(role.toStdString(),
+      "Palette::getColor(): color role undefined", __FILE__, __LINE__);
 }

@@ -16,26 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file LogReader.h
-    \brief This file defines the LogReader class which handles reading from a
-           log file.
+/** \file Camera.h
+    \brief This file contains a camera implementation
   */
 
-#ifndef LOGREADER_H
-#define LOGREADER_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
-#include <memory>
+#include <vector>
 
 #include <QtCore/QObject>
-#include <QtCore/QTimer>
 
-class BinaryLogReader;
-class Packet;
+class View3d;
 
-/** The LogReader class handles playback from a log file
-    \brief Playback from a log file
+/** The Camera class represents a camera.
+    \brief Camera
   */
-class LogReader :
+class Camera :
   public QObject {
 
 Q_OBJECT
@@ -44,9 +41,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  LogReader(const LogReader& other);
+  Camera(const Camera& other);
   /// Assignment operator
-  LogReader& operator = (const LogReader& other);
+  Camera& operator = (const Camera& other);
   /** @}
     */
 
@@ -54,22 +51,41 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs reader with polling time and device
-  LogReader(BinaryLogReader& device, double pollingTime = 1);
+  /// Constructs camera from parameters
+  Camera(double x = -20.0, double y = 0.0, double z = 0.0, double near = 0.1,
+    double far = 1000.0);
   /// Destructor
-  virtual ~LogReader();
+  virtual ~Camera();
   /** @}
     */
 
   /** \name Accessors
     @{
     */
-  /// Returns the polling time
-  double getPollingTime() const;
-  /// Sets the polling time
-  void setPollingTime(double pollingTime);
-  /// Returns the file length
-  int getFileLength() const;
+  /// Sets position of the camera
+  void setPosition(double x, double y, double z);
+  /// Returns position of the camera
+  const std::vector<double>& getPosition() const;
+  /// Sets viewpoint of the camera
+  void setViewpoint(double x, double y, double z);
+  /// Returns viewpoint of the camera
+  const std::vector<double>& getViewpoint() const;
+  /// Sets range of the camera
+  void setRange(double near, double far);
+  /// Returns range of the camera
+  const std::vector<double>& getRange() const;
+  /// Returns projection of the camera
+  const std::vector<double>& getProjection() const;
+  /// Returns viewpoint distance of the camera
+  double getViewpointDistance() const;
+  /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
+  /// Setup the camera
+  void setup(View3d& view, double width, double height);
   /** @}
     */
 
@@ -77,25 +93,14 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Device
-  BinaryLogReader& mDevice;
-  /// Timer
-  QTimer mTimer;
-  /// Polling time
-  double mPollingTime;
-  /// Length of the file
-  int mFileLength;
-  /// Done reading file
-  bool mDone;
-  /** @}
-    */
-
-protected slots:
-  /** \name Qt slots
-    @{
-    */
-  /// Timeout of the timer
-  void timerTimeout();
+  /// Position of the camera
+  std::vector<double> mPosition;
+  /// Viewpoint of the camera
+  std::vector<double> mViewpoint;
+  /// Range of the camera
+  std::vector<double> mRange;
+  /// Projection of the camera
+  std::vector<double> mProjection;
   /** @}
     */
 
@@ -103,19 +108,15 @@ signals:
   /** \name Qt signals
     @{
     */
-  /// Packet read
-  void readPacket(std::shared_ptr<Packet> packet);
-  /// Com exception
-  void comException(const std::string& msg);
-  /// Start reading file
-  void start();
-  /// EOF
-  void eof();
-  /// Device connected
-  void deviceConnected(bool connected);
+  /// Camera position updated
+  void positionChanged(const std::vector<double>& position);
+  /// Camera viewpoint updated
+  void viewpointChanged(const std::vector<double>& viewpoint);
+  /// Camera range updated
+  void rangeChanged(const std::vector<double>& range);
   /** @}
     */
 
 };
 
-#endif // LOGREADER_H
+#endif // CAMERA_H

@@ -39,7 +39,6 @@ remake_pack_deb(
   DESCRIPTION "Console tools"
   libposlv
   libboost-program-options-dev
-  libboost-filesystem-dev
 )
 
 remake_pack_deb(

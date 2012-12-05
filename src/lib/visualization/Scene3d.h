@@ -16,26 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file LogReader.h
-    \brief This file defines the LogReader class which handles reading from a
-           log file.
+/** \file Scene3d.h
+    \brief This file contains a 3d scene implementation
   */
 
-#ifndef LOGREADER_H
-#define LOGREADER_H
+#ifndef SCENE3D_H
+#define SCENE3D_H
 
-#include <memory>
+#include <vector>
 
 #include <QtCore/QObject>
-#include <QtCore/QTimer>
 
-class BinaryLogReader;
-class Packet;
+class View3d;
 
-/** The LogReader class handles playback from a log file
-    \brief Playback from a log file
+/** The Scene3d class represents a 3d scene.
+    \brief 3d scene
   */
-class LogReader :
+class Scene3d :
   public QObject {
 
 Q_OBJECT
@@ -44,9 +41,9 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  LogReader(const LogReader& other);
+  Scene3d(const Scene3d& other);
   /// Assignment operator
-  LogReader& operator = (const LogReader& other);
+  Scene3d& operator = (const Scene3d& other);
   /** @}
     */
 
@@ -54,48 +51,59 @@ public:
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs reader with polling time and device
-  LogReader(BinaryLogReader& device, double pollingTime = 1);
+  /// Default constructor
+  Scene3d();
   /// Destructor
-  virtual ~LogReader();
+  virtual ~Scene3d();
   /** @}
     */
 
   /** \name Accessors
     @{
     */
-  /// Returns the polling time
-  double getPollingTime() const;
-  /// Sets the polling time
-  void setPollingTime(double pollingTime);
-  /// Returns the file length
-  int getFileLength() const;
+  /// Sets the scene translation
+  void setTranslation(double x, double y, double z);
+  /// Returns the scene translation
+  const std::vector<double>& getTranslation() const;
+  /// Sets the scene rotation
+  void setRotation(double yaw, double pitch, double roll);
+  /// Returns the scene rotation
+  const std::vector<double>& getRotation() const;
+  /// Sets the scene scale
+  void setScale(double scale);
+  /// Returns the scene scale
+  double getScale() const;
+  /** @}
+    */
+
+  /** \name Methods
+    @{
+    */
+  /// Setup view
+  void setup(View3d& view);
+  /// Render the scene
+  void render(View3d& view);
   /** @}
     */
 
 protected:
-  /** \name Protected members
+  /** \name Protected methods
     @{
     */
-  /// Device
-  BinaryLogReader& mDevice;
-  /// Timer
-  QTimer mTimer;
-  /// Polling time
-  double mPollingTime;
-  /// Length of the file
-  int mFileLength;
-  /// Done reading file
-  bool mDone;
+  /// Correct angles
+  double correctAngle(double angle) const;
   /** @}
     */
 
-protected slots:
-  /** \name Qt slots
+  /** \name Protected members
     @{
     */
-  /// Timeout of the timer
-  void timerTimeout();
+  /// Scene translation
+  std::vector<double> mTranslation;
+  /// Scene rotation
+  std::vector<double> mRotation;
+  /// Scene scale
+  double mScale;
   /** @}
     */
 
@@ -103,19 +111,17 @@ signals:
   /** \name Qt signals
     @{
     */
-  /// Packet read
-  void readPacket(std::shared_ptr<Packet> packet);
-  /// Com exception
-  void comException(const std::string& msg);
-  /// Start reading file
-  void start();
-  /// EOF
-  void eof();
-  /// Device connected
-  void deviceConnected(bool connected);
+  /// Translation has changed
+  void translationChanged(const std::vector<double>& translation);
+  /// Rotation has changed
+  void rotationChanged(const std::vector<double>& rotation);
+  /// Scale has changed
+  void scaleChanged(double scale);
+  /// Render the scene
+  void render(View3d& view, Scene3d& scene);
   /** @}
     */
 
 };
 
-#endif // LOGREADER_H
+#endif // SCENE3D_H

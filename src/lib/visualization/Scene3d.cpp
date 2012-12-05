@@ -16,74 +16,92 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/LogReader.h"
+#include "visualization/Scene3d.h"
 
-#include "sensor/BinaryLogReader.h"
-#include "types/Packet.h"
-#include "exceptions/IOException.h"
+#include <cmath>
+
+#include "visualization/View3d.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-LogReader::LogReader(BinaryLogReader& device, double pollingTime) :
-    mDevice(device),
-    mPollingTime(pollingTime),
-    mDone(false) {
-  mDevice.getStream().seekg (0, std::ios::end);
-  mFileLength = mDevice.getStream().tellg();
-  mDevice.getStream().seekg (0, std::ios::beg);
-  connect(&mTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-  mTimer.setInterval(pollingTime);
-  mTimer.start();
+Scene3d::Scene3d() :
+    mTranslation(3, 0.0),
+    mRotation(3, 0.0),
+    mScale(1.0) {
+  setTranslation(0.0, 0.0, 0.0);
+  setRotation(-10.0 * M_PI / 180.0, -5.0 * M_PI / 180.0, 0.0);
+  setScale(1.0);
 }
 
-LogReader::~LogReader() {
+Scene3d::~Scene3d() {
 }
 
 /******************************************************************************/
 /* Accessors                                                                  */
 /******************************************************************************/
 
-double LogReader::getPollingTime() const {
-  return mPollingTime;
+void Scene3d::setTranslation(double x, double y, double z) {
+  if ((x != mTranslation[0]) || (y != mTranslation[1]) ||
+      (z != mTranslation[2])) {
+    mTranslation[0] = x;
+    mTranslation[1] = y;
+    mTranslation[2] = z;
+    emit translationChanged(mTranslation);
+  }
 }
 
-void LogReader::setPollingTime(double pollingTime) {
-  mPollingTime = pollingTime;
-  mTimer.setInterval(pollingTime);
+const std::vector<double>& Scene3d::getTranslation() const {
+  return mTranslation;
 }
 
-int LogReader::getFileLength() const {
-  return mFileLength;
+void Scene3d::setRotation(double yaw, double pitch, double roll) {
+  if ((yaw != mRotation[0]) || (pitch != mRotation[1]) ||
+      (roll != mRotation[2])) {
+    mRotation[0] = correctAngle(yaw);
+    mRotation[1] = correctAngle(pitch);
+    mRotation[2] = correctAngle(roll);
+    emit rotationChanged(mRotation);
+  }
+}
+
+const std::vector<double>& Scene3d::getRotation() const {
+  return mRotation;
+}
+
+void Scene3d::setScale(double scale) {
+  if (mScale != scale) {
+    mScale = scale;
+    emit scaleChanged(mScale);
+  }
+}
+
+double Scene3d::getScale() const {
+  return mScale;
 }
 
 /******************************************************************************/
-/* Methods                                                                    */
+/*  Methods                                                                   */
 /******************************************************************************/
 
-void LogReader::timerTimeout() {
-  if (mDevice.getStream().tellg() >= mFileLength) {
-    if (!mDone) {
-      emit eof();
-      mDone = true;
-    }
-    return;
-  }
-  if (mDevice.getStream().good()) {
-    if (mDevice.getStream().tellg() == 0)
-      emit start();
-    double timestamp;
-    mDevice >> timestamp;
-    try {
-      emit readPacket(mDevice.readPacket());
-      emit deviceConnected(true);
-    }
-    catch (IOException& e) {
-      emit comException(e.what());
-      emit deviceConnected(false);
-    }
-  }
+void Scene3d::setup(View3d& view) {
+  glMatrixMode(GL_MODELVIEW);
+  glScalef(mScale, mScale, mScale);
+  glRotatef(mRotation[2] * 180.0 / M_PI, 1, 0, 0);
+  glRotatef(mRotation[1] * 180.0 / M_PI, 0, 1, 0);
+  glRotatef(mRotation[0] * 180.0 / M_PI, 0, 0, 1);
+  glTranslatef(mTranslation[0], mTranslation[1], mTranslation[2]);
+}
+
+void Scene3d::render(View3d& view) {
+  emit render(view, *this);
+}
+
+double Scene3d::correctAngle(double angle) const {
+  if (angle >= 0.0)
+    while (angle >= M_PI) angle -= 2.0 * M_PI;
   else
-    emit comException("LogReader::timerTimeout(): stream not ready");
+    while (angle < -M_PI) angle += 2.0 * M_PI;
+  return angle;
 }

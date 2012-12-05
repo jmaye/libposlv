@@ -16,26 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file LogReader.h
-    \brief This file defines the LogReader class which handles reading from a
-           log file.
+/** \file Palette.h
+    \brief This file contains a color palette implementation
   */
 
-#ifndef LOGREADER_H
-#define LOGREADER_H
+#ifndef PALETTE_H
+#define PALETTE_H
 
-#include <memory>
+#include <map>
 
 #include <QtCore/QObject>
-#include <QtCore/QTimer>
+#include <QtCore/QString>
+#include <QtGui/QColor>
 
-class BinaryLogReader;
-class Packet;
-
-/** The LogReader class handles playback from a log file
-    \brief Playback from a log file
+/** The Palette class represents a color palette.
+    \brief Color palette
   */
-class LogReader :
+class Palette :
   public QObject {
 
 Q_OBJECT
@@ -44,32 +41,46 @@ Q_OBJECT
     @{
     */
   /// Copy constructor
-  LogReader(const LogReader& other);
+  Palette(const Palette& other);
   /// Assignment operator
-  LogReader& operator = (const LogReader& other);
+  Palette& operator = (const Palette& other);
   /** @}
     */
 
 public:
+  /** \name Type definitions
+    @{
+    */
+  /// Iterator for the palette
+  typedef std::map<QString, QColor>::const_iterator Iterator;
+  /** @}
+    */
+
   /** \name Constructors/destructor
     @{
     */
-  /// Constructs reader with polling time and device
-  LogReader(BinaryLogReader& device, double pollingTime = 1);
+  /// Default constructor
+  Palette();
   /// Destructor
-  virtual ~LogReader();
+  virtual ~Palette();
   /** @}
     */
 
   /** \name Accessors
     @{
     */
-  /// Returns the polling time
-  double getPollingTime() const;
-  /// Sets the polling time
-  void setPollingTime(double pollingTime);
-  /// Returns the file length
-  int getFileLength() const;
+  /// Returns iterator at the start of the map
+  Iterator getColorBegin() const;
+  /// Returns iterator at the end of the map
+  Iterator getColorEnd() const;
+  /// Returns color role
+  const QString& getRole(const Iterator& it) const;
+  /// Sets color role
+  void setColor(const QString& role, const QColor& color);
+  /// Returns a color
+  const QColor& getColor(const Iterator& it) const;
+  /// Returns a color
+  const QColor& getColor(const QString& role) const;
   /** @}
     */
 
@@ -77,25 +88,8 @@ protected:
   /** \name Protected members
     @{
     */
-  /// Device
-  BinaryLogReader& mDevice;
-  /// Timer
-  QTimer mTimer;
-  /// Polling time
-  double mPollingTime;
-  /// Length of the file
-  int mFileLength;
-  /// Done reading file
-  bool mDone;
-  /** @}
-    */
-
-protected slots:
-  /** \name Qt slots
-    @{
-    */
-  /// Timeout of the timer
-  void timerTimeout();
+  /// Mapping between colors and role
+  std::map<QString, QColor> mColors;
   /** @}
     */
 
@@ -103,19 +97,11 @@ signals:
   /** \name Qt signals
     @{
     */
-  /// Packet read
-  void readPacket(std::shared_ptr<Packet> packet);
-  /// Com exception
-  void comException(const std::string& msg);
-  /// Start reading file
-  void start();
-  /// EOF
-  void eof();
-  /// Device connected
-  void deviceConnected(bool connected);
+  /// Color has changed
+  void colorChanged(const QString& role, const QColor& color);
   /** @}
     */
 
 };
 
-#endif // LOGREADER_H
+#endif // PALETTE_H

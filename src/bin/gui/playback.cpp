@@ -49,7 +49,6 @@
 #include "visualization/UserAccuracySpecTab.h"
 #include "visualization/IPControlTab.h"
 #include "visualization/NavigationModeControlTab.h"
-#include "visualization/MapTab.h"
 
 Q_DECLARE_METATYPE(std::shared_ptr<Packet>);
 Q_DECLARE_METATYPE(std::string);
@@ -81,7 +80,6 @@ int main(int argc, char** argv) {
   UserAccuracySpecTab userAccuracySpecTab;
   IPControlTab ipControlTab;
   NavigationModeControlTab navigationModeControlTab;
-  MapTab mapTab;
   mainWindow.addControl("Navigation Data", navigationTab);
   mainWindow.addControl("Primary GPS Status", primaryGPSStatusTab);
   mainWindow.addControl("Secondary GPS Status", secondaryGPSStatusTab);
@@ -99,7 +97,6 @@ int main(int argc, char** argv) {
   mainWindow.addControl("User Accuracy", userAccuracySpecTab);
   mainWindow.addControl("IP Setup", ipControlTab);
   mainWindow.addControl("Navigation Mode", navigationModeControlTab);
-  mainWindow.addControl("Map", mapTab);
   std::ifstream logFile(argv[1]);
   BinaryLogReader binaryLogReader(logFile);
   LogReader logReader(binaryLogReader);
@@ -182,14 +179,6 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &navigationModeControlTab,
     SLOT(readPacket(std::shared_ptr<Packet>)));
-  QObject::connect(&navigationTab,
-    SIGNAL(updatePosition(double, double, double)),
-    &mapTab,
-    SLOT(updatePosition(double, double, double)));
-  QObject::connect(&navigationTab,
-    SIGNAL(updateUncertainty(double, double, double)),
-    &mapTab,
-    SLOT(updateUncertainty(double, double, double)));
   mainWindow.show();
   const int ret = application.exec();
   QObject::disconnect(&logReader,
@@ -260,14 +249,6 @@ int main(int argc, char** argv) {
     SIGNAL(readPacket(std::shared_ptr<Packet>)),
     &navigationModeControlTab,
     SLOT(readPacket(std::shared_ptr<Packet>)));
-  QObject::disconnect(&navigationTab,
-    SIGNAL(updatePosition(double, double, double)),
-    &mapTab,
-    SLOT(updatePosition(double, double, double)));
-  QObject::disconnect(&navigationTab,
-    SIGNAL(updateUncertainty(double, double, double)),
-    &mapTab,
-    SLOT(updateUncertainty(double, double, double)));
   QObject::disconnect(&logReader,
     SIGNAL(comException(const std::string&)),
     &mainWindow,

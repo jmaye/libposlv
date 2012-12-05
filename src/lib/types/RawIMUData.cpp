@@ -83,8 +83,7 @@ RawIMUData::~RawIMUData() {
 /******************************************************************************/
 
 void RawIMUData::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mByteCount;
   stream >> mTimeDistance;
   for (size_t i = 0; i < sizeof(mIMUHeader); i++)
     stream >> mIMUHeader[i];

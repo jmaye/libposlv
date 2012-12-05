@@ -133,6 +133,8 @@ size_t UDPConnectionServer::read(char* buffer, size_t numBytes) {
     if (res < 0)
         throw SystemException(errno,
           "UDPConnectionServer::read()::read()");
+      if (res == 0)
+        throw IOException("UDPConnectionServer::read(): connection reset");
     return res;
   }
   else
@@ -167,6 +169,8 @@ void UDPConnectionServer::write(const char* buffer, size_t numBytes) {
       if (res < 0)
         throw SystemException(errno,
           "UDPConnectionServer::write()::write()");
+      if (res == 0)
+        throw IOException("UDPConnectionServer::write(): connection reset");
       bytesWritten += res;
     }
     else
