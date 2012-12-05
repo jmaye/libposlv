@@ -42,6 +42,7 @@ PrimaryGPSStatus::PrimaryGPSStatus() :
 
 PrimaryGPSStatus::PrimaryGPSStatus(const PrimaryGPSStatus& other) :
     Group(other),
+    mReadByteCount(other.mReadByteCount),
     mTimeDistance(other.mTimeDistance),
     mNavigationSolutionStatus(other.mNavigationSolutionStatus),
     mNumberOfSVTracked(other.mNumberOfSVTracked),
@@ -70,6 +71,7 @@ PrimaryGPSStatus& PrimaryGPSStatus::operator =
     (const PrimaryGPSStatus& other) {
   if (this != &other) {
     Group::operator=(other);
+    mReadByteCount = other.mReadByteCount;
     mTimeDistance = other.mTimeDistance;
     mNavigationSolutionStatus = other.mNavigationSolutionStatus;
     mNumberOfSVTracked = other.mNumberOfSVTracked;
@@ -106,13 +108,12 @@ PrimaryGPSStatus::~PrimaryGPSStatus() {
 /******************************************************************************/
 
 void PrimaryGPSStatus::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mReadByteCount;
   stream >> mTimeDistance;
   stream >> mNavigationSolutionStatus;
   stream >> mNumberOfSVTracked;
   stream >> mChannelStatusByteCount;
-  mChannelNumber = (byteCount - mByteCount) / 20;
+  mChannelNumber = (mReadByteCount - mByteCount) / 20;
   if (mChannelStatusData)
     delete []mChannelStatusData;
   if (mChannelNumber > 0)
@@ -133,7 +134,7 @@ void PrimaryGPSStatus::read(BinaryReader& stream) {
 
 void PrimaryGPSStatus::write(BinaryWriter& stream) const {
   stream << mTypeID;
-  stream << (mByteCount + mChannelNumber * 20);
+  stream << mReadByteCount;
   stream << mTimeDistance;
   stream << mNavigationSolutionStatus;
   stream << mNumberOfSVTracked;

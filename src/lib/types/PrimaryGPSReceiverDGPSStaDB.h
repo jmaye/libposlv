@@ -63,6 +63,8 @@ public:
     */
   /// Nominal number of bytes in the message
   static const uint16_t mByteCount = 30;
+  /// Read byte count
+  uint16_t mReadByteCount;
   /// Time/Distance field
   TimeDistance mTimeDistance;
   /// Station records

@@ -39,6 +39,7 @@ SecondaryDataPortControl::SecondaryDataPortControl() :
 SecondaryDataPortControl::SecondaryDataPortControl(const
     SecondaryDataPortControl& other) :
     Message(other),
+    mReadByteCount(other.mReadByteCount),
     mTransactionNumber(other.mTransactionNumber),
     mNumGroups(other.mNumGroups),
     mGroupsIDVector(other.mGroupsIDVector),
@@ -49,6 +50,7 @@ SecondaryDataPortControl& SecondaryDataPortControl::operator =
     (const SecondaryDataPortControl& other) {
   if (this != &other) {
     Message::operator=(other);
+    mReadByteCount = other.mReadByteCount;
     mTransactionNumber = other.mTransactionNumber;
     mNumGroups = other.mNumGroups;
     mGroupsIDVector = other.mGroupsIDVector;
@@ -65,12 +67,11 @@ SecondaryDataPortControl::~SecondaryDataPortControl() {
 /******************************************************************************/
 
 void SecondaryDataPortControl::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mReadByteCount;
   stream >> mTransactionNumber;
   stream >> mNumGroups;
   size_t padSize = (mNumGroups % 2) ? 0 : 2;
-  if (byteCount != (mByteCount + (2 * mNumGroups) + padSize))
+  if (mReadByteCount != (mByteCount + (2 * mNumGroups) + padSize))
     throw IOException("SecondaryDataPortControl::read(): wrong byte count");
   for (size_t i = 0; i < mNumGroups; i++) {
     uint16_t groupID;
@@ -85,8 +86,7 @@ void SecondaryDataPortControl::write(BinaryWriter& stream) const {
     throw IOException("SecondaryDataPortControl::write(): wrong number of "
       "groups");
   stream << mTypeID;
-  size_t padSize = (mNumGroups % 2) ? 0 : 2;
-  stream << mByteCount + (2 * mNumGroups) + padSize;
+  stream << mReadByteCount;
   stream << mTransactionNumber;
   stream << mNumGroups;
   for (size_t i = 0; i < mGroupsIDVector.size(); i++)

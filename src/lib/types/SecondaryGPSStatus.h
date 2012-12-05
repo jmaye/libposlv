@@ -62,6 +62,8 @@ public:
     */
   /// Nominal number of bytes in the message
   static const uint16_t mByteCount = 76;
+  /// Read byte count
+  uint16_t mReadByteCount;
   /// Time/Distance field
   TimeDistance mTimeDistance;
   /// Navigation solution status

@@ -41,6 +41,7 @@ PrimaryGPSReceiverDGPSStaDB::PrimaryGPSReceiverDGPSStaDB() :
 PrimaryGPSReceiverDGPSStaDB::PrimaryGPSReceiverDGPSStaDB(const
     PrimaryGPSReceiverDGPSStaDB& other) :
     Group(other),
+    mReadByteCount(other.mReadByteCount),
     mTimeDistance(other.mTimeDistance),
     mStationNbr(other.mStationNbr) {
   memcpy(mStationRecord, other.mStationRecord, sizeof(mStationRecord));
@@ -50,6 +51,7 @@ PrimaryGPSReceiverDGPSStaDB& PrimaryGPSReceiverDGPSStaDB::operator =
     (const PrimaryGPSReceiverDGPSStaDB& other) {
   if (this != &other) {
     Group::operator=(other);
+    mReadByteCount = other.mReadByteCount;
     mTimeDistance = other.mTimeDistance;
     memcpy(mStationRecord, other.mStationRecord, sizeof(mStationRecord));
     mStationNbr = other.mStationNbr;
@@ -65,17 +67,16 @@ PrimaryGPSReceiverDGPSStaDB::~PrimaryGPSReceiverDGPSStaDB() {
 /******************************************************************************/
 
 void PrimaryGPSReceiverDGPSStaDB::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mReadByteCount;
   stream >> mTimeDistance;
-  mStationNbr = (byteCount - mByteCount) / 24;
+  mStationNbr = (mReadByteCount - mByteCount) / 24;
   for (size_t i = 0; i < mStationNbr; i++)
     stream >> mStationRecord[i];
 }
 
 void PrimaryGPSReceiverDGPSStaDB::write(BinaryWriter& stream) const {
   stream << mTypeID;
-  stream << (mByteCount + mStationNbr * 24);
+  stream << mReadByteCount;
   stream << mTimeDistance;
   for (size_t i = 0; i < mStationNbr; i++)
     stream << mStationRecord[i];

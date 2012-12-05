@@ -40,6 +40,7 @@ COMPortSetup::COMPortSetup() :
 
 COMPortSetup::COMPortSetup(const COMPortSetup& other) :
     Message(other),
+    mReadByteCount(other.mReadByteCount),
     mTransactionNumber(other.mTransactionNumber),
     mNumPorts(other.mNumPorts),
     mPortMask(other.mPortMask) {
@@ -49,6 +50,7 @@ COMPortSetup::COMPortSetup(const COMPortSetup& other) :
 COMPortSetup& COMPortSetup::operator = (const COMPortSetup& other) {
   if (this != &other) {
     Message::operator=(other);
+    mReadByteCount = other.mReadByteCount;
     mTransactionNumber = other.mTransactionNumber;
     mNumPorts = other.mNumPorts;
     memcpy(mpParameters, other.mpParameters, sizeof(mpParameters));
@@ -65,11 +67,10 @@ COMPortSetup::~COMPortSetup() {
 /******************************************************************************/
 
 void COMPortSetup::read(BinaryReader& stream) {
-  uint16_t byteCount;
-  stream >> byteCount;
+  stream >> mReadByteCount;
   stream >> mTransactionNumber;
   stream >> mNumPorts;
-  if (byteCount != mByteCount + (8 * mNumPorts))
+  if (mReadByteCount != mByteCount + (8 * mNumPorts))
     throw IOException("COMPortSetup::read(): wrong byte count");
   for (size_t i = 0; i < mNumPorts; i++)
     stream >> mpParameters[i];
@@ -80,7 +81,7 @@ void COMPortSetup::write(BinaryWriter& stream) const {
   if (mNumPorts > 10)
     throw IOException("COMPortSetup::write(): 10 COM ports maximum");
   stream << mTypeID;
-  stream << mByteCount + (8 * mNumPorts);
+  stream << mReadByteCount;
   stream << mTransactionNumber;
   stream << mNumPorts;
   for (size_t i = 0; i < mNumPorts; i++)

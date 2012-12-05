@@ -61,6 +61,8 @@ public:
     */
   /// Nominal number of bytes in the message
   static const uint16_t mByteCount = 12;
+  /// Read byte count
+  uint16_t mReadByteCount;
   /// Transaction number
   uint16_t mTransactionNumber;
   /// Number of COM ports
