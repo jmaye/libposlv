@@ -161,6 +161,11 @@ const typename PointCloud<X, M>::Container& PointCloud<X, M>::getPoints()
 }
 
 template <typename X, size_t M>
+typename PointCloud<X, M>::Container& PointCloud<X, M>::getPoints() {
+  return mPoints;
+}
+
+template <typename X, size_t M>
 void PointCloud<X, M>::reserve(size_t numPoints) {
   mPoints.reserve(numPoints);
 }

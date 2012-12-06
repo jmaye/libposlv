@@ -98,8 +98,14 @@ void Path2DTab::setSliderPosition(int pos) {
 }
 
 void Path2DTab::setPath(const PointCloud<>& path) {
-  mPath.clear();
-  mPath.merge(path);
+  for (size_t i = 0; i < Utils::zoomLevels.size(); ++i) {
+    for (auto it = path.getPointBegin(); it != path.getPointEnd();
+        ++it) {
+      PointCloud<>& pointcloud =
+        mMapGrids[i](MapGrid::Coordinate((*it)(0), (*it)(1)));
+      pointcloud.insertPoint(*it);
+    }
+  }
   centerDisplayOnLV03(path[0](0), path[0](1), true);
 }
 
@@ -129,6 +135,11 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
     std::cerr << "wrong submap" << std::endl;
     return;
   }
+  for (size_t j = 0; j < mPathDisplay.size(); ++j) {
+    View2d::getInstance().getScene().removeItem(mPathDisplay[j]);
+    delete mPathDisplay[j];
+  }
+  mPathDisplay.clear();
   for (DisplayGrid::Index i = DisplayGrid::Index::Zero();
       i != mSymMapDisplay.getNumCells(); mSymMapDisplay.incrementIndex(i)) {
     if (mSymMapDisplay[i]) {
@@ -216,24 +227,10 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
         mInfoMapDisplay[i]->setVisible(mUi->infoCheckBox->isChecked());
         mInfoMapDisplay[i]->setZValue(0.8);
       }
-    }
-    catch (...) {
-      continue;
-    }
-  }
-  if (pos) {
-    mLastPosEast = east;
-    mLastPosNorth = north;
-  }
-  for (size_t j = 0; j < mPathDisplay.size(); ++j) {
-    View2d::getInstance().getScene().removeItem(mPathDisplay[j]);
-    delete mPathDisplay[j];
-  }
-  mPathDisplay.clear();
-  try {
-    for (auto it = mPath.getPointBegin(); it != mPath.getPointEnd();
-        ++it) {
-      if (subMap.isInRange(MapGrid::Coordinate((*it)(0), (*it)(1)))) {
+      const auto pointcloud =
+        mMapGrids[mUi->zoomSlider->sliderPosition()].getCell(index);
+      for (auto it = pointcloud.getPointBegin(); it != pointcloud.getPointEnd();
+          ++it) {
         const auto minIndex = mMapGrids[mUi->zoomSlider->sliderPosition()].
           getIndex(subMap.getCoordinates(MapGrid::Index(0, 0)));
         const auto minCoordinate = mMapGrids[mUi->zoomSlider->sliderPosition()].
@@ -250,8 +247,13 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
         mPathDisplay.push_back(ellipse);
       }
     }
+    catch (...) {
+      continue;
+    }
   }
-  catch (...) {
+  if (pos) {
+    mLastPosEast = east;
+    mLastPosNorth = north;
   }
 }
 

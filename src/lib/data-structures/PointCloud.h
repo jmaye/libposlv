@@ -91,6 +91,8 @@ public:
   PointIterator getPointEnd();
   /// Returns the container
   const Container& getPoints() const;
+  /// Returns the container
+  Container& getPoints();
   /// Reserve memory for a point cloud
   void reserve(size_t numPoints);
   /** @}

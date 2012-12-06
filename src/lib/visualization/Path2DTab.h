@@ -62,7 +62,7 @@ public:
     @{
     */
   /// Map grid for queries
-  typedef Grid<double, char, 2> MapGrid;
+  typedef Grid<double, PointCloud<>, 2> MapGrid;
   /// Display grid
   typedef Grid<double, QGraphicsItem*, 2> DisplayGrid;
   /** @}
@@ -126,8 +126,6 @@ protected:
   double mLastPosEast;
   /// Last position north
   double mLastPosNorth;
-  /// Path to display
-  PointCloud<> mPath;
   /** @}
     */
 

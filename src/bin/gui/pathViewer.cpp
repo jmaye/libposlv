@@ -49,8 +49,10 @@ int main(int argc, char** argv) {
     pointCloud.insertPoint(point);
     logFile >> point(0) >> point(1) >> point(2);
   }
+  pointCloud.getPoints().pop_back();
   path3DTab.setPath(pointCloud);
   path2DTab.setPath(pointCloud);
+  pointCloud.clear();
   mainWindow.addControl("2D Path", path2DTab);
   mainWindow.addControl("3D Path", path3DTab);
   mainWindow.show();
