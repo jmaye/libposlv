@@ -54,8 +54,7 @@ Path2DTab::Path2DTab() :
       DisplayGrid::Coordinate(3.0 * Utils::pixelWidth,
       3 * Utils::pixelHeight),
       DisplayGrid::Coordinate((double)Utils::pixelWidth,
-      Utils::pixelHeight)),
-    mPositionDisplay(0) {
+      Utils::pixelHeight)) {
   mUi->setupUi(this);
   setMapFolder(QDir::current().path());
   mMapGrids.clear();
@@ -65,21 +64,21 @@ Path2DTab::Path2DTab() :
       MapGrid::Coordinate(Utils::maxEast, Utils::maxNorth),
       MapGrid::Coordinate(Utils::zoomLevels[i] * Utils::pixelWidth,
       Utils::zoomLevels[i] * Utils::pixelHeight)));
-  for (DisplayGrid::Index i = DisplayGrid::Index::Zero();
-      i != mCanvasDisplay.getNumCells(); mCanvasDisplay.incrementIndex(i)) {
-    const auto coordinate = mCanvasDisplay.getCoordinates(i) -
-      DisplayGrid::Coordinate(Utils::pixelWidth / 2.0,
-      Utils::pixelHeight / 2.0);
-    mCanvasDisplay[i] = View2d::getInstance().getScene().addRect(
-      coordinate(0), coordinate(1), Utils::pixelWidth,
-      Utils::pixelHeight);
-    std::stringstream number;
-    number << "(" << i(0) << ", " << i(1) << ")";
-    QGraphicsSimpleTextItem* text = 
-      View2d::getInstance().getScene().addSimpleText(number.str().c_str());
-    text->setPos(mCanvasDisplay.getCoordinates(i)(0),
-      3 * Utils::pixelHeight - mCanvasDisplay.getCoordinates(i)(1));
-  }
+//  for (DisplayGrid::Index i = DisplayGrid::Index::Zero();
+//      i != mCanvasDisplay.getNumCells(); mCanvasDisplay.incrementIndex(i)) {
+//    const auto coordinate = mCanvasDisplay.getCoordinates(i) -
+//      DisplayGrid::Coordinate(Utils::pixelWidth / 2.0,
+//      Utils::pixelHeight / 2.0);
+//    mCanvasDisplay[i] = View2d::getInstance().getScene().addRect(
+//      coordinate(0), coordinate(1), Utils::pixelWidth,
+//      Utils::pixelHeight);
+//    std::stringstream number;
+//    number << "(" << i(0) << ", " << i(1) << ")";
+//    QGraphicsSimpleTextItem* text = 
+//      View2d::getInstance().getScene().addSimpleText(number.str().c_str());
+//    text->setPos(mCanvasDisplay.getCoordinates(i)(0),
+//      3 * Utils::pixelHeight - mCanvasDisplay.getCoordinates(i)(1));
+//  }
 }
 
 Path2DTab::~Path2DTab() {
@@ -96,6 +95,12 @@ void Path2DTab::setMapFolder(const QString& folderName) {
 
 void Path2DTab::setSliderPosition(int pos) {
   mUi->zoomSlider->setSliderPosition(pos);
+}
+
+void Path2DTab::setPath(const PointCloud<>& path) {
+  mPath.clear();
+  mPath.merge(path);
+  centerDisplayOnLV03(path[0](0), path[0](1), true);
 }
 
 /******************************************************************************/
@@ -115,10 +120,10 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
   const auto mapResolution =
     mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution();
   MapGrid subMap(
-    MapGrid::Coordinate(east - 1.1 * mapResolution(0),
-    north - 1.1 * mapResolution(1)),
-    MapGrid::Coordinate(east + 1.1 * mapResolution(0),
-    north + 1.1 * mapResolution(1)),
+    MapGrid::Coordinate(east - 1.5 * mapResolution(0),
+    north - 1.5 * mapResolution(1)),
+    MapGrid::Coordinate(east + 1.5 * mapResolution(0),
+    north + 1.5 * mapResolution(1)),
     mapResolution);
   if (subMap.getNumCells() != MapGrid::Index(3, 3)) {
     std::cerr << "wrong submap" << std::endl;
@@ -220,25 +225,31 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
     mLastPosEast = east;
     mLastPosNorth = north;
   }
-  if (mPositionDisplay) {
-    View2d::getInstance().getScene().removeItem(mPositionDisplay);
-    delete mPositionDisplay;
-    mPositionDisplay = 0;
+  for (size_t j = 0; j < mPathDisplay.size(); ++j) {
+    View2d::getInstance().getScene().removeItem(mPathDisplay[j]);
+    delete mPathDisplay[j];
   }
+  mPathDisplay.clear();
   try {
-    const auto minIndex = mMapGrids[mUi->zoomSlider->sliderPosition()].
-      getIndex(subMap.getCoordinates(MapGrid::Index(0, 0)));
-    const auto minCoordinate = mMapGrids[mUi->zoomSlider->sliderPosition()].
-      getCoordinates(minIndex) -
-      mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution() / 2;
-    const auto position = (MapGrid::Coordinate(mLastPosEast, mLastPosNorth) -
-      minCoordinate) / Utils::zoomLevels[mUi->zoomSlider->sliderPosition()];
-    const double pixelX = position(0);
-    const double pixelY = 3 * Utils::pixelHeight - position(1);
-    mPositionDisplay =
-      View2d::getInstance().getScene().addEllipse(pixelX, pixelY, 50, 50,
-      QPen(Qt::red));
-    mPositionDisplay->setZValue(1.0);
+    for (auto it = mPath.getPointBegin(); it != mPath.getPointEnd();
+        ++it) {
+      if (subMap.isInRange(MapGrid::Coordinate((*it)(0), (*it)(1)))) {
+        const auto minIndex = mMapGrids[mUi->zoomSlider->sliderPosition()].
+          getIndex(subMap.getCoordinates(MapGrid::Index(0, 0)));
+        const auto minCoordinate = mMapGrids[mUi->zoomSlider->sliderPosition()].
+          getCoordinates(minIndex) -
+        mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution() / 2;
+        const auto position = (MapGrid::Coordinate((*it)(0), (*it)(1)) -
+          minCoordinate) / Utils::zoomLevels[mUi->zoomSlider->sliderPosition()];
+        const double pixelX = position(0);
+        const double pixelY = 3 * Utils::pixelHeight - position(1);
+        QGraphicsItem* ellipse =
+          View2d::getInstance().getScene().addEllipse(pixelX, pixelY, 1, 1,
+          QPen(Qt::red));
+        ellipse->setZValue(1.0);
+        mPathDisplay.push_back(ellipse);
+      }
+    }
   }
   catch (...) {
   }

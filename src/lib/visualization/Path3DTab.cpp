@@ -18,6 +18,8 @@
 
 #include "visualization/Path3DTab.h"
 
+#include <iomanip>
+
 #include "ui_Path3DTab.h"
 
 /******************************************************************************/
@@ -29,10 +31,10 @@ Path3DTab::Path3DTab() :
   mUi->setupUi(this);
   connect(&View3d::getInstance().getScene(), SIGNAL(render(View3d&, Scene3d&)),
     this, SLOT(render(View3d&, Scene3d&)));
-  setPointColor(Qt::gray);
+  setPointColor(Qt::red);
   setPointSize(1.0);
   setShowPoints(true);
-  setSmoothPoints(true);
+  setSmoothPoints(false);
   setBackgroundColor(Qt::white);
   setFogColor(Qt::white);
   setGroundColor(Qt::lightGray);
@@ -51,17 +53,16 @@ void Path3DTab::setPointColor(const QColor& color) {
 }
 
 void Path3DTab::setPointSize(double pointSize) {
-//  mUi->pointSizeSpinBox->setValue(pointSize);
+  mUi->pointSizeSpinBox->setValue(pointSize);
   View3d::getInstance().update();
 }
 
 void Path3DTab::setShowPoints(bool showPoints) {
-//  mUi->showPointsCheckBox->setChecked(showPoints);
   View3d::getInstance().update();
 }
 
 void Path3DTab::setSmoothPoints(bool smoothPoints) {
-//  mUi->smoothPointsCheckBox->setChecked(smoothPoints);
+  mUi->smoothPointsCheckBox->setChecked(smoothPoints);
   View3d::getInstance().update();
 }
 
@@ -75,6 +76,13 @@ void Path3DTab::setFogColor(const QColor& color) {
 
 void Path3DTab::setGroundColor(const QColor& color) {
   mPalette.setColor("Ground", color);
+}
+
+void Path3DTab::setPath(const PointCloud<>& path) {
+  mPointCloud.clear();
+  mPointCloud.merge(path);
+  View3d::getInstance().getScene().setTranslation(-mPointCloud[0](0),
+    -mPointCloud[0](1), -mPointCloud[0](2));
 }
 
 /******************************************************************************/
@@ -155,19 +163,21 @@ void Path3DTab::renderPoints(double size, bool smooth) {
 
 void Path3DTab::render(View3d& view, Scene3d& Scene3d) {
   renderBackground();
-  glEnable(GL_FOG);
-  renderFog(10, 2.0 * 10, 1.0);
+  //glEnable(GL_FOG);
+  //renderFog(10, 2.0 * 10, 1.0);
   renderAxes(2.5);
-  renderPoints(1.0, true);
+  renderPoints(mUi->pointSizeSpinBox->value(),
+    mUi->smoothPointsCheckBox->isChecked());
 }
 
-void Path3DTab::start() {
-  mPointCloud.clear();
+void Path3DTab::colorChanged(const QString& role, const QColor& color) {
+  View3d::getInstance().update();
 }
 
-void Path3DTab::path(const std::vector<Eigen::Matrix<double, 3, 1> >& path) {
-  for (size_t i = 0; i < path.size(); ++i)
-    mPointCloud.insertPoint(path[i]);
-  View3d::getInstance().getScene().setTranslation(-path[0](0), -path[0](1),
-    -path[0](2));
+void Path3DTab::pointSizeChanged(double pointSize) {
+  setPointSize(pointSize);
+}
+
+void Path3DTab::smoothPointsToggled(bool checked) {
+  setSmoothPoints(checked);
 }

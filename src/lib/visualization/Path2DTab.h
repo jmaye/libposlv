@@ -34,6 +34,7 @@
 #include "visualization/Control.h"
 #include "base/Singleton.h"
 #include "data-structures/Grid.h"
+#include "data-structures/PointCloud.h"
 
 class Ui_Path2DTab;
 
@@ -84,6 +85,8 @@ public:
   void setMapFolder(const QString& folderName);
   /// Sets the slider position
   void setSliderPosition(int pos);
+  /// Sets the path
+  void setPath(const PointCloud<>& path);
   /** @}
     */
 
@@ -113,8 +116,8 @@ protected:
   DisplayGrid mAerialMapDisplay;
   /// Info map display
   DisplayGrid mInfoMapDisplay;
-  /// Position
-  QGraphicsItem* mPositionDisplay;
+  /// Path display
+  std::vector<QGraphicsItem*> mPathDisplay;
   /// Last center east
   double mLastCenterEast;
   /// Last center north
@@ -123,6 +126,8 @@ protected:
   double mLastPosEast;
   /// Last position north
   double mLastPosNorth;
+  /// Path to display
+  PointCloud<> mPath;
   /** @}
     */
 

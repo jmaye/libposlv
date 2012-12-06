@@ -83,6 +83,8 @@ public:
   void setFogColor(const QColor& color);
   /// Sets the ground color
   void setGroundColor(const QColor& color);
+  /// Sets the path
+  void setPath(const PointCloud<>& path);
   /** @}
     */
 
@@ -119,10 +121,12 @@ protected slots:
     */
   /// Render the scene
   void render(View3d& view, Scene3d& scene);
-  /// Start receiving a path
-  void start();
-  /// Path ready
-  void path(const std::vector<Eigen::Matrix<double, 3, 1> >& path);
+  /// Color changed
+  void colorChanged(const QString& role, const QColor& color);
+  /// Point size changed
+  void pointSizeChanged(double pointSize);
+  /// Smooth points toggled
+  void smoothPointsToggled(bool checked);
   /** @}
     */
 

@@ -23,9 +23,80 @@
    <property name="geometry">
     <rect>
      <x>7</x>
-     <y>20</y>
+     <y>50</y>
      <width>911</width>
-     <height>771</height>
+     <height>741</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="pointSizeLayout">
+    <item>
+     <widget class="QLabel" name="pointSizeTextLabel">
+      <property name="text">
+       <string>Point size:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QDoubleSpinBox" name="pointSizeSpinBox">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
+      </property>
+      <property name="decimals">
+       <number>2</number>
+      </property>
+      <property name="maximum">
+       <double>100.000000000000000</double>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="smoothPointsCheckBox">
+      <property name="text">
+       <string>Smooth</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="ColorChooser" name="colorChooser" native="true">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>10</y>
+     <width>621</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -37,7 +108,50 @@
    <header>visualization/View3d.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>ColorChooser</class>
+   <extends>QWidget</extends>
+   <header>visualization/ColorChooser.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pointSizeSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>Path3DTab</receiver>
+   <slot>pointSizeChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>139</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>smoothPointsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Path3DTab</receiver>
+   <slot>smoothPointsToggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>230</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>pointSizeChanged(double)</slot>
+  <slot>smoothPointsToggled(bool)</slot>
+ </slots>
 </ui>

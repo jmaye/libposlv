@@ -203,10 +203,10 @@
      <number>1</number>
     </property>
     <property name="value">
-     <number>0</number>
+     <number>8</number>
     </property>
     <property name="sliderPosition">
-     <number>0</number>
+     <number>8</number>
     </property>
     <property name="tracking">
      <bool>true</bool>

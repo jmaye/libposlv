@@ -29,6 +29,7 @@
 #include "visualization/MainWindow.h"
 #include "visualization/Path3DTab.h"
 #include "visualization/Path2DTab.h"
+#include "data-structures/PointCloud.h"
 
 int main(int argc, char** argv) {
   if (argc != 2) {
@@ -41,6 +42,15 @@ int main(int argc, char** argv) {
   std::ifstream logFile(argv[1]);
   Path2DTab path2DTab;
   Path3DTab path3DTab;
+  PointCloud<> pointCloud;
+  while (!logFile.eof()) {
+    PointCloud<>::Point point;
+    logFile >> point(0) >> point(1) >> point(2);
+    pointCloud.insertPoint(point);
+    logFile >> point(0) >> point(1) >> point(2);
+  }
+  path3DTab.setPath(pointCloud);
+  path2DTab.setPath(pointCloud);
   mainWindow.addControl("2D Path", path2DTab);
   mainWindow.addControl("3D Path", path3DTab);
   mainWindow.show();
