@@ -16,11 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file binaryLogToASCII.cpp
+/** \file binaryToCSV.cpp
     \brief This file is a testing binary for converting a binary log file
-           into a text file.
+           into a CSV file.
   */
 
+#include <sstream>
 #include <iomanip>
 
 #include "types/Packet.h"
@@ -29,7 +30,7 @@
 #include "types/VehicleNavigationSolution.h"
 #include "types/Group.h"
 #include "types/Packet.h"
-#include "sensor/Utils.h"
+#include "base/Timestamp.h"
 
 int main(int argc, char** argv) {
   if (argc != 3) {
@@ -43,8 +44,9 @@ int main(int argc, char** argv) {
   const int length = logFile.tellg();
   logFile.seekg (0, std::ios::beg);
   std::ofstream outFile(argv[2]);
+  outFile << "latitude,longitude,altitude" << std::endl;
   while (logFile.tellg() != length) {
-    std::cout << std::fixed << std::setw(3)
+    std::cout << std::fixed
       << logFile.tellg() / (double)length * 100 << " %" << '\r';
     double timestamp;
     logReader >> timestamp;
@@ -55,12 +57,8 @@ int main(int argc, char** argv) {
         if (group.instanceOf<VehicleNavigationSolution>()) {
           const VehicleNavigationSolution& msg =
             group.typeCast<VehicleNavigationSolution>();
-          double east, north, height;
-          Utils::WGS84ToLV03(msg.mLatitude, msg.mLongitude, msg.mAltitude, east,
-            north, height);
-          outFile << std::fixed << std::setprecision(16) << east << " "
-            << north << " " << height << " " << msg.mRoll << " " << msg.mPitch
-            << " " << msg.mHeading << std::endl;
+          outFile << std::setprecision(16) << msg.mLatitude
+            << "," << msg.mLongitude << "," << msg.mAltitude << std::endl;
         }
       }
     }

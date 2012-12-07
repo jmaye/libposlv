@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file binaryLogToKML.cpp
+/** \file binaryToKML.cpp
     \brief This file is a testing binary for converting a binary log file
            into a KML file.
   */
