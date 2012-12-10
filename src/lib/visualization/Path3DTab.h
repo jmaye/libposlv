@@ -33,6 +33,7 @@
 #include "visualization/View3d.h"
 #include "visualization/Scene3d.h"
 #include "data-structures/PointCloud.h"
+#include "data-structures/Grid.h"
 
 class Ui_Path3DTab;
 
@@ -56,6 +57,14 @@ Q_OBJECT
     */
 
 public:
+  /** \name Types definitions
+    @{
+    */
+  /// Map grid for queries
+  typedef Grid<double, GLuint, 2> MapGrid;
+  /** @}
+    */
+
   /** \name Constructors/destructor
     @{
     */
@@ -100,6 +109,8 @@ protected:
   void renderFog(double start, double end, double density);
   /// Render axes
   void renderAxes(double length);
+  /// Render tiles
+  void renderTiles();
   /** @}
     */
 
@@ -112,6 +123,10 @@ protected:
   Palette mPalette;
   /// Point cloud to render
   PointCloud<> mPointCloud;
+  /// Tile mapping
+  MapGrid mTileMap;
+  /// Texture mapping
+  MapGrid mTextureMap;
   /** @}
     */
 

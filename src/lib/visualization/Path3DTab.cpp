@@ -18,16 +18,22 @@
 
 #include "visualization/Path3DTab.h"
 
-#include <iomanip>
-
 #include "ui_Path3DTab.h"
+
+#include "sensor/Utils.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
 Path3DTab::Path3DTab() :
-    mUi(new Ui_Path3DTab()) {
+    mUi(new Ui_Path3DTab()),
+    mTileMap(
+      MapGrid::Coordinate(Utils::minEast, Utils::minNorth),
+      MapGrid::Coordinate(Utils::maxEast, Utils::maxNorth),
+      MapGrid::Coordinate(Utils::zoomLevels[7] * Utils::pixelWidth,
+      Utils::zoomLevels[7] * Utils::pixelHeight)),
+    mTextureMap(mTileMap) {
   mUi->setupUi(this);
   connect(&View3d::getInstance().getScene(), SIGNAL(render(View3d&, Scene3d&)),
     this, SLOT(render(View3d&, Scene3d&)));
@@ -81,6 +87,26 @@ void Path3DTab::setGroundColor(const QColor& color) {
 void Path3DTab::setPath(const PointCloud<>& path) {
   mPointCloud.clear();
   mPointCloud.merge(path);
+  double minEast = std::numeric_limits<double>::infinity();
+  double maxEast = -std::numeric_limits<double>::infinity();
+  double minNorth = std::numeric_limits<double>::infinity();
+  double maxNorth = -std::numeric_limits<double>::infinity();
+  for (auto it = mPointCloud.getPointBegin(); it != mPointCloud.getPointEnd();
+      ++it) {
+    if ((*it)(0) < minEast)
+      minEast = (*it)(0);
+    if ((*it)(0) > maxEast)
+      maxEast = (*it)(0);
+    if ((*it)(1) < minNorth)
+      minNorth = (*it)(1);
+    if ((*it)(1) > maxNorth)
+      maxNorth = (*it)(1);
+  }
+  mTextureMap = MapGrid(
+    MapGrid::Coordinate(minEast, minNorth),
+    MapGrid::Coordinate(maxEast, maxNorth),
+    MapGrid::Coordinate(Utils::zoomLevels[7] * Utils::pixelWidth,
+    Utils::zoomLevels[7] * Utils::pixelHeight));
   View3d::getInstance().getScene().setTranslation(-mPointCloud[0](0),
     -mPointCloud[0](1), -mPointCloud[0](2));
 }
@@ -154,11 +180,36 @@ void Path3DTab::renderPoints(double size, bool smooth) {
   View3d::getInstance().setColor(mPalette, "Point");
   for (auto it = mPointCloud.getPointBegin(); it != mPointCloud.getPointEnd();
       ++it)
-    glVertex3f((*it)(0), (*it)(1), (*it)(2));
+//    glVertex3f((*it)(0), (*it)(1), (*it)(2));
+    glVertex2f((*it)(0), (*it)(1));
   glEnd();
   glPointSize(1.0);
   glDisable(GL_POINT_SMOOTH);
   glPopAttrib();
+}
+
+void Path3DTab::renderTiles() {
+  const auto resolution = mTextureMap.getResolution();
+  const auto halfRes = resolution / 2;
+  for (MapGrid::Index i = MapGrid::Index::Zero();
+      i != mTextureMap.getNumCells(); mTextureMap.incrementIndex(i)) {
+    const auto index = mTileMap.getIndex(mTextureMap.getCoordinates(i));
+    const auto coordinate = mTileMap.getCoordinates(index);
+    if (mTextureMap[i] == 0) {
+      std::string tileFile = "maps/" +
+        Utils::downloadMapTile(coordinate(0), coordinate(1),
+        Utils::zoomLevels[7],
+        "maps", Utils::pixelWidth, Utils::pixelHeight, Utils::MapType::aerial,
+        Utils::MapFormat::png);
+      QImage tileImage(tileFile.c_str());
+      QImage tileImageTrans = tileImage.mirrored();
+      GLuint textureID = View3d::getInstance().bindTexture(tileImageTrans);
+      mTextureMap[i] = textureID;
+    }
+    const auto upperLeft = coordinate - halfRes;
+    View3d::getInstance().drawTexture(QRectF(upperLeft(0),
+      upperLeft(1), resolution(0), resolution(1)), mTextureMap[i]);
+  }
 }
 
 void Path3DTab::render(View3d& view, Scene3d& Scene3d) {
@@ -168,6 +219,7 @@ void Path3DTab::render(View3d& view, Scene3d& Scene3d) {
   renderAxes(2.5);
   renderPoints(mUi->pointSizeSpinBox->value(),
     mUi->smoothPointsCheckBox->isChecked());
+  renderTiles();
 }
 
 void Path3DTab::colorChanged(const QString& role, const QColor& color) {
