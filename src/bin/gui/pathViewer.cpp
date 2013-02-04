@@ -40,20 +40,25 @@ int main(int argc, char** argv) {
   MainWindow mainWindow;
   mainWindow.setWindowTitle("Applanix POS LV Path Viewer");
   std::ifstream logFile(argv[1]);
-  Path2DTab path2DTab;
+//  Path2DTab path2DTab;
   Path3DTab path3DTab;
   PointCloud<> pointCloud;
   while (!logFile.eof()) {
+    double timestamp;
+    logFile >> timestamp;
     PointCloud<>::Point point;
     logFile >> point(0) >> point(1) >> point(2);
     pointCloud.insertPoint(point);
     logFile >> point(0) >> point(1) >> point(2);
+    logFile >> point(0) >> point(1) >> point(2);
+    logFile >> point(0) >> point(1) >> point(2);
+    logFile >> point(0) >> point(1) >> point(2);
   }
   pointCloud.getPoints().pop_back();
   path3DTab.setPath(pointCloud);
-  path2DTab.setPath(pointCloud);
+//  path2DTab.setPath(pointCloud);
   pointCloud.clear();
-  mainWindow.addControl("2D Path", path2DTab);
+//  mainWindow.addControl("2D Path", path2DTab);
   mainWindow.addControl("3D Path", path3DTab);
   mainWindow.show();
   const int ret = application.exec();

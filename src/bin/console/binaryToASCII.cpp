@@ -58,9 +58,24 @@ int main(int argc, char** argv) {
           double east, north, height;
           Utils::WGS84ToLV03(msg.mLatitude, msg.mLongitude, msg.mAltitude, east,
             north, height);
-          outFile << std::fixed << std::setprecision(16) << east << " "
-            << north << " " << height << " " << msg.mRoll << " " << msg.mPitch
-            << " " << msg.mHeading << std::endl;
+          outFile << std::fixed << std::setprecision(16)
+            << msg.mTimeDistance.mTime1
+            << " " << east
+            << " " << north
+            << " " << height
+            << " " << Utils::deg2rad(msg.mHeading)
+            << " " << Utils::deg2rad(msg.mPitch)
+            << " " << Utils::deg2rad(msg.mRoll)
+            << " " << msg.mEastVelocity
+            << " " << msg.mNorthVelocity
+            << " " << msg.mDownVelocity
+            << " " << Utils::deg2rad(msg.mAngularRateLong)
+            << " " << Utils::deg2rad(msg.mAngularRateTrans)
+            << " " << Utils::deg2rad(msg.mAngularRateDown)
+            << " " << msg.mAccLong
+            << " " << msg.mAccTrans
+            << " " << msg.mAccDown
+            << std::endl;
         }
       }
     }
