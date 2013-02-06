@@ -63,18 +63,18 @@ int main(int argc, char** argv) {
             << " " << east
             << " " << north
             << " " << height
-            << " " << Utils::deg2rad(msg.mHeading)
-            << " " << Utils::deg2rad(msg.mPitch)
+            << " " << -Utils::deg2rad(msg.mHeading)
+            << " " << -Utils::deg2rad(msg.mPitch)
             << " " << Utils::deg2rad(msg.mRoll)
             << " " << msg.mEastVelocity
             << " " << msg.mNorthVelocity
-            << " " << msg.mDownVelocity
+            << " " << -msg.mDownVelocity
             << " " << Utils::deg2rad(msg.mAngularRateLong)
-            << " " << Utils::deg2rad(msg.mAngularRateTrans)
-            << " " << Utils::deg2rad(msg.mAngularRateDown)
+            << " " << -Utils::deg2rad(msg.mAngularRateTrans)
+            << " " << -Utils::deg2rad(msg.mAngularRateDown)
             << " " << msg.mAccLong
-            << " " << msg.mAccTrans
-            << " " << msg.mAccDown
+            << " " << -msg.mAccTrans
+            << " " << -msg.mAccDown
             << std::endl;
         }
       }
