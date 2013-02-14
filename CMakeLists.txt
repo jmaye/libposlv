@@ -64,7 +64,7 @@ remake_pack_deb(
 remake_distribute_deb(
   SECTION libs
   DISTRIBUTION lucid
-  DEPENDS remake doxygen libqt4-opengl-dev libftgl-dev libboost-dev
+  DEPENDS remake doxygen libqt4-opengl-dev libftgl-dev libboost-all-dev
   PASS CMAKE_BUILD_TYPE LIBPOSLV_SUBVERSION_REVISION
   UPLOAD ppa:jmaye/ethz
 )

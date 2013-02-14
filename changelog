@@ -1,3 +1,9 @@
+libposlv (1.0-146) lucid; urgency=low
+
+  * boost dependency
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 14 Feb 2013 17:17:29 +0100
+
 libposlv (1.0-145) lucid; urgency=low
 
   * bug in CMakeLists
