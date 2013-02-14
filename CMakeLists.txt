@@ -38,18 +38,33 @@ remake_pack_deb(
   COMPONENT console-tools
   DESCRIPTION "Console tools"
   libposlv
-  libboost-program-options-dev
 )
 
 remake_pack_deb(
   COMPONENT gui-tools
   DESCRIPTION "GUI tools"
   libposlv
-  libqtgui4
+  libqt4-opengl
+  libftgl2
+)
+
+remake_pack_deb(
+  COMPONENT gui-tools-dev
+  DESCRIPTION "GUI tools development headers"
+  libposlv-dev
+  libqt4-opengl-dev
 )
 
 remake_pack_deb(
   COMPONENT doc
   DESCRIPTION "Documentation"
   libposlv
+)
+
+remake_distribute_deb(
+  SECTION libs
+  DISTRIBUTION lucid
+  DEPENDS remake doxygen libqt4-opengl-dev libftgl-dev libboost-dev
+  PASS CMAKE_BUILD_TYPE LIBPOSLV_SUBVERSION_REVISION
+  UPLOAD ppa:jmaye/ethz
 )

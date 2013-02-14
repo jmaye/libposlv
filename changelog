@@ -1,0 +1,853 @@
+libposlv (1.0-142) unstable; urgency=low
+
+  * update output
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Feb 2013 16:38:26 +0100
+
+libposlv (1-141) unstable; urgency=low
+
+  * update some stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Feb 2013 17:49:34 +0100
+
+libposlv (1-140) unstable; urgency=low
+
+  * compatibility
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 18 Dec 2012 13:25:33 +0100
+
+libposlv (1-139) unstable; urgency=low
+
+  * update 3d
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 10 Dec 2012 13:55:56 +0100
+
+libposlv (1-138) unstable; urgency=low
+
+  * KML done
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 07 Dec 2012 13:13:06 +0100
+
+libposlv (1-137) unstable; urgency=low
+
+  * file changed
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 07 Dec 2012 11:15:01 +0100
+
+libposlv (1-136) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 07 Dec 2012 11:12:44 +0100
+
+libposlv (1-135) unstable; urgency=low
+
+  * update visualization
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 06 Dec 2012 20:19:53 +0100
+
+libposlv (1-134) unstable; urgency=low
+
+  * added some weird visualization stuff:
+    - improve 2d visualizer
+    - correct KML file
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 06 Dec 2012 16:56:49 +0100
+
+libposlv (1-133) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 06 Dec 2012 13:41:06 +0100
+
+libposlv (1-132) unstable; urgency=low
+
+  * update map view
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 05 Dec 2012 22:38:40 +0100
+
+libposlv (1-131) unstable; urgency=low
+
+  * some corrections in binary writing
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 05 Dec 2012 22:05:11 +0100
+
+libposlv (1-130) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 05 Dec 2012 19:41:30 +0100
+
+libposlv (1-129) unstable; urgency=low
+
+  * update tcp read
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 20 Nov 2012 21:41:19 +0100
+
+libposlv (1-128) unstable; urgency=low
+
+  * update DGPS/RTK stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 20 Nov 2012 14:12:07 +0100
+
+libposlv (1-127) unstable; urgency=low
+
+  * CMakelists updated
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 24 Oct 2012 16:36:57 +0200
+
+libposlv (1-126) unstable; urgency=low
+
+  * update compatibility
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 16 Oct 2012 12:16:46 +0200
+
+libposlv (1-125) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 16 Jul 2012 11:45:34 +0200
+
+libposlv (1-124) unstable; urgency=low
+
+  * update reader
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 13 Jun 2012 14:01:39 +0200
+
+libposlv (1-123) unstable; urgency=low
+
+  * small update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jun 2012 10:49:03 +0200
+
+libposlv (1-122) unstable; urgency=low
+
+  * update cmakelists.txt
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 10 Jun 2012 14:55:21 +0200
+
+libposlv (1-121) unstable; urgency=low
+
+  * added uncertainty
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 10 Jun 2012 14:53:02 +0200
+
+libposlv (1-120) unstable; urgency=low
+
+  * update maps
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 10 Jun 2012 14:30:35 +0200
+
+libposlv (1-119) unstable; urgency=low
+
+  * maps nearly done
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 10 Jun 2012 00:05:45 +0200
+
+libposlv (1-118) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 08 Jun 2012 21:30:50 +0200
+
+libposlv (1-117) unstable; urgency=low
+
+  * cmake updated
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 08 Jun 2012 00:04:36 +0200
+
+libposlv (1-116) unstable; urgency=low
+
+  * update stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 08 Jun 2012 00:03:16 +0200
+
+libposlv (1-115) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 23:14:40 +0200
+
+libposlv (1-114) unstable; urgency=low
+
+  * map stuff on the good way
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 19:58:20 +0200
+
+libposlv (1-113) unstable; urgency=low
+
+  * small bug
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 17:38:40 +0200
+
+libposlv (1-112) unstable; urgency=low
+
+  * swissmapfetcher done
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 17:08:01 +0200
+
+libposlv (1-111) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 12:58:02 +0200
+
+libposlv (1-110) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 12:57:10 +0200
+
+libposlv (1-109) unstable; urgency=low
+
+  * small revision concerning files
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 12:02:18 +0200
+
+libposlv (1-108) unstable; urgency=low
+
+  * ntripClient done
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jun 2012 11:26:53 +0200
+
+libposlv (1-107) unstable; urgency=low
+
+  * update ntrip
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jun 2012 18:46:52 +0200
+
+libposlv (1-106) unstable; urgency=low
+
+  * added NMEA string
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jun 2012 11:20:33 +0200
+
+libposlv (1-105) unstable; urgency=low
+
+  * nearly done
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jun 2012 18:56:25 +0200
+
+libposlv (1-104) unstable; urgency=low
+
+  * update net
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Jun 2012 23:17:46 +0200
+
+libposlv (1-103) unstable; urgency=low
+
+  * new features
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sat, 02 Jun 2012 19:15:04 +0200
+
+libposlv (1-102) unstable; urgency=low
+
+  * removed sendCtrlMsg
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 01 Jun 2012 12:11:23 +0200
+
+libposlv (1-101) unstable; urgency=low
+
+  * finished streaming
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 01 Jun 2012 12:08:47 +0200
+
+libposlv (1-100) unstable; urgency=low
+
+  * added log reader/writer
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 01 Jun 2012 11:05:22 +0200
+
+libposlv (1-99) unstable; urgency=low
+
+  * included conversions
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 31 May 2012 14:25:39 +0200
+
+libposlv (1-98) unstable; urgency=low
+
+  * added some features
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 31 May 2012 11:33:20 +0200
+
+libposlv (1-97) unstable; urgency=low
+
+  * added transaction number
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 30 May 2012 12:22:19 +0200
+
+libposlv (1-96) unstable; urgency=low
+
+  * added port
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 30 May 2012 11:43:49 +0200
+
+libposlv (1-95) unstable; urgency=low
+
+  * added port control
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 30 May 2012 11:20:39 +0200
+
+libposlv (1-94) unstable; urgency=low
+
+  * update ui
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 30 May 2012 11:04:56 +0200
+
+libposlv (1-93) unstable; urgency=low
+
+  * update ui
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 30 May 2012 10:50:55 +0200
+
+libposlv (1-92) unstable; urgency=low
+
+  * ui nearly done
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 May 2012 23:20:22 +0200
+
+libposlv (1-91) unstable; urgency=low
+
+  * ui revised
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 May 2012 14:49:19 +0200
+
+libposlv (1-90) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 May 2012 14:31:32 +0200
+
+libposlv (1-89) unstable; urgency=low
+
+  * ui revised
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 May 2012 14:27:08 +0200
+
+libposlv (1-88) unstable; urgency=low
+
+  * update ui
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 May 2012 14:10:59 +0200
+
+libposlv (1-87) unstable; urgency=low
+
+  * ui revised
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 May 2012 13:32:42 +0200
+
+libposlv (1-86) unstable; urgency=low
+
+  * UI revised
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 28 May 2012 19:03:16 +0200
+
+libposlv (1-85) unstable; urgency=low
+
+  * code revision
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 28 May 2012 13:03:19 +0200
+
+libposlv (1-84) unstable; urgency=low
+
+  * types revised
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 28 May 2012 11:06:22 +0200
+
+libposlv (1-83) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 27 May 2012 17:59:26 +0200
+
+libposlv (1-82) unstable; urgency=low
+
+  * revision
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 24 May 2012 19:37:55 +0200
+
+libposlv (1-81) unstable; urgency=low
+
+  * corrections
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 24 May 2012 17:30:07 +0200
+
+libposlv (1-80) unstable; urgency=low
+
+  * small mistake
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 24 May 2012 12:44:44 +0200
+
+libposlv (1-79) unstable; urgency=low
+
+  * updade code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 23 May 2012 19:16:37 +0200
+
+libposlv (1-78) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 23 May 2012 16:49:22 +0200
+
+libposlv (1-77) unstable; urgency=low
+
+  * ui revised
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 23 May 2012 12:13:52 +0200
+
+libposlv (1-76) unstable; urgency=low
+
+  * added control GUI
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 22 May 2012 17:14:12 +0200
+
+libposlv (1-75) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 22 May 2012 17:10:40 +0200
+
+libposlv (1-74) unstable; urgency=low
+
+  * revision
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 22 May 2012 15:59:48 +0200
+
+libposlv (1-73) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 22 May 2012 14:29:37 +0200
+
+libposlv (1-72) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 22 May 2012 14:29:25 +0200
+
+libposlv (1-71) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 21 May 2012 14:16:06 +0200
+
+libposlv (1-70) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 21 May 2012 13:06:21 +0200
+
+libposlv (1-69) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 21 May 2012 12:29:55 +0200
+
+libposlv (0.1-68) unstable; urgency=low
+
+  * update code
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 21 May 2012 12:29:45 +0200
+
+libposlv (0.1-67) unstable; urgency=low
+
+  * Abstraction of binary reader/writer
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 21 Jul 2011 20:19:23 +0200
+
+libposlv (0.1-66) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 20 Jul 2011 10:11:20 +0200
+
+libposlv (0.1-65) unstable; urgency=low
+
+  * doc
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 19 Jul 2011 17:32:39 +0200
+
+libposlv (0.1-64) unstable; urgency=low
+
+  * some changes
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 19 Jul 2011 17:26:39 +0200
+
+libposlv (0.1-63) unstable; urgency=low
+
+  * update some stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 15 Jul 2011 16:42:51 +0200
+
+libposlv (0.1-62) unstable; urgency=low
+
+  * update stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 15 Jul 2011 13:29:59 +0200
+
+libposlv (0.1-61) unstable; urgency=low
+
+  * some other GUI stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 14 Jul 2011 18:11:41 +0200
+
+libposlv (0.1-60) unstable; urgency=low
+
+  * some more stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 14 Jul 2011 18:11:29 +0200
+
+libposlv (0.1-59) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 14 Jul 2011 13:36:16 +0200
+
+libposlv (0.1-58) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 14 Jul 2011 13:10:42 +0200
+
+libposlv (0.1-57) unstable; urgency=low
+
+  * minor update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 13 Jul 2011 17:52:49 +0200
+
+libposlv (0.1-56) unstable; urgency=low
+
+  * small bug
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 13 Jul 2011 17:35:14 +0200
+
+libposlv (0.1-55) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 13 Jul 2011 17:33:16 +0200
+
+libposlv (0.1-54) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 13 Jul 2011 10:43:50 +0200
+
+libposlv (0.1-53) unstable; urgency=low
+
+  * update UPD stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 12 Jul 2011 15:27:16 +0200
+
+libposlv (0.1-52) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 12 Jul 2011 14:12:07 +0200
+
+libposlv (0.1-51) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 12 Jul 2011 12:18:23 +0200
+
+libposlv (0.1-50) unstable; urgency=low
+
+  * some more update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 12 Jul 2011 10:50:41 +0200
+
+libposlv (0.1-49) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 22:52:37 +0200
+
+libposlv (0.1-48) unstable; urgency=low
+
+  * some more changes
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 21:31:24 +0200
+
+libposlv (0.1-47) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 21:06:12 +0200
+
+libposlv (0.1-46) unstable; urgency=low
+
+  * update some stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 18:10:28 +0200
+
+libposlv (0.1-45) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 16:35:03 +0200
+
+libposlv (0.1-44) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 15:44:32 +0200
+
+libposlv (0.1-43) unstable; urgency=low
+
+  * some more stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 13:15:52 +0200
+
+libposlv (0.1-42) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 11 Jul 2011 10:05:43 +0200
+
+libposlv (0.1-41) unstable; urgency=low
+
+  * update GUI
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 10 Jul 2011 23:06:58 +0200
+
+libposlv (0.1-40) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 10 Jul 2011 19:23:53 +0200
+
+libposlv (0.1-39) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sat, 09 Jul 2011 16:55:48 +0200
+
+libposlv (0.1-38) unstable; urgency=low
+
+  * some more GUI components
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 08 Jul 2011 16:03:46 +0200
+
+libposlv (0.1-37) unstable; urgency=low
+
+  * update GUI
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 22:04:55 +0200
+
+libposlv (0.1-36) unstable; urgency=low
+
+  * some stuff updated
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 18:45:48 +0200
+
+libposlv (0.1-35) unstable; urgency=low
+
+  * update stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 17:39:52 +0200
+
+libposlv (0.1-34) unstable; urgency=low
+
+  * update bytes
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 15:33:57 +0200
+
+libposlv (0.1-33) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 14:25:42 +0200
+
+libposlv (0.1-32) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 13:51:47 +0200
+
+libposlv (0.1-31) unstable; urgency=low
+
+  * update minor mistake
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 13:12:57 +0200
+
+libposlv (0.1-30) unstable; urgency=low
+
+  * update GUI
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 12:56:25 +0200
+
+libposlv (0.1-29) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 12:11:58 +0200
+
+libposlv (0.1-28) unstable; urgency=low
+
+  * some more fancy networking programs
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 10:44:14 +0200
+
+libposlv (0.1-27) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 09:39:04 +0200
+
+libposlv (0.1-26) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 09:38:55 +0200
+
+libposlv (0.1-25) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 07 Jul 2011 09:11:21 +0200
+
+libposlv (0.1-24) unstable; urgency=low
+
+  * some more changes
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jul 2011 23:09:29 +0200
+
+libposlv (0.1-23) unstable; urgency=low
+
+  * update some stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jul 2011 22:38:58 +0200
+
+libposlv (0.1-22) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jul 2011 20:24:50 +0200
+
+libposlv (0.1-21) unstable; urgency=low
+
+  * update stuff
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jul 2011 17:27:11 +0200
+
+libposlv (0.1-20) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jul 2011 14:56:05 +0200
+
+libposlv (0.1-19) unstable; urgency=low
+
+  * First draft
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 06 Jul 2011 13:12:45 +0200
+
+libposlv (0.1-18) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 23:11:24 +0200
+
+libposlv (0.1-17) unstable; urgency=low
+
+  * TCP/UDP working
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 17:08:10 +0200
+
+libposlv (0.1-16) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 16:37:09 +0200
+
+libposlv (0.1-15) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 13:19:40 +0200
+
+libposlv (0.1-14) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 13:05:52 +0200
+
+libposlv (0.1-13) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 10:37:18 +0200
+
+libposlv (0.1-12) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 10:37:11 +0200
+
+libposlv (0.1-11) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 05 Jul 2011 10:27:08 +0200
+
+libposlv (0.1-10) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Jul 2011 22:31:15 +0200
+
+libposlv (0.1-9) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Jul 2011 22:01:01 +0200
+
+libposlv (0.1-8) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Jul 2011 20:45:31 +0200
+
+libposlv (0.1-7) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Jul 2011 20:31:20 +0200
+
+libposlv (0.1-6) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Jul 2011 19:02:15 +0200
+
+libposlv (0.1-5) unstable; urgency=low
+
+  * update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 04 Jul 2011 18:23:28 +0200
+
+libposlv (0.1-4) unstable; urgency=low
+
+  * Starting control part
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 31 Aug 2010 09:40:49 +0200
+
+libposlv (0.1-3) unstable; urgency=low
+
+  * Update
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 13 Aug 2010 16:10:50 +0200
+
+libposlv (0.1-2) unstable; urgency=low
+
+  * Streaming operators in files
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 13 Aug 2010 11:25:34 +0200
+
+libposlv (0.1-1) unstable; urgency=low
+
+  * First commit
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 11 Aug 2010 14:07:54 +0200
