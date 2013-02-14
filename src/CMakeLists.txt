@@ -10,7 +10,7 @@ remake_find_library(ftgl FTGL/ftgl.h PACKAGE libfreetype6-dev)
 
 remake_project_header(config.h.remake)
 
-remake_include(${Boost_INCLUDE_DIR} ${LIBEIGEN2_DEV_FILE}/eigen2
+remake_include(${Boost_INCLUDE_DIR} ${LIBEIGEN2_DEV_PATH}/eigen2
   ${FREETYPE_INCLUDE_DIRS})
 
 remake_add_directories(lib)
