@@ -30,35 +30,31 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT dev
   DESCRIPTION "Development headers"
-  libposlv
-  libeigen2-dev
+  DEPENDS libposlv libeigen2-dev
 )
 
 remake_pack_deb(
   COMPONENT console-tools
   DESCRIPTION "Console tools"
-  libposlv
+  DEPENDS libposlv
 )
 
 remake_pack_deb(
   COMPONENT gui-tools
   DESCRIPTION "GUI tools"
-  libposlv
-  libqt4-opengl
-  libftgl2
+  DEPENDS libposlv libqt4-opengl libftgl2
 )
 
 remake_pack_deb(
   COMPONENT gui-tools-dev
   DESCRIPTION "GUI tools development headers"
-  libposlv-dev
-  libqt4-opengl-dev
+  DEPENDS libposlv-dev libqt4-opengl-dev
 )
 
 remake_pack_deb(
   COMPONENT doc
   DESCRIPTION "Documentation"
-  libposlv
+  DEPENDS libposlv
 )
 
 remake_distribute_deb(
