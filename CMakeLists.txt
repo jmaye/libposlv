@@ -25,6 +25,7 @@ remake_doc(
 
 remake_pack_deb(
   DESCRIPTION "Main library"
+  DEPENDS libboost-system[0-9.]* libboost-filesystem[0-9.]*
 )
 
 remake_pack_deb(
@@ -36,7 +37,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT console-tools
   DESCRIPTION "Console tools"
-  DEPENDS libposlv
+  DEPENDS libposlv libboost-program-options[0-9.]*
 )
 
 remake_pack_deb(
