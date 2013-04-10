@@ -1,3 +1,9 @@
+libposlv (1.0-152) lucid; urgency=low
+
+  * remake change 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 10 Apr 2013 12:54:55 +0200
+
 libposlv (1.0-151) lucid; urgency=low
 
   * fixed dependencies 

@@ -15,6 +15,7 @@ remake_project(
   LICENSE "GNU Lesser General Public License (LGPL)"
   PREFIX poslv-
   INSTALL /usr/
+  EXTRA_CXX_FLAGS -std=c++0x
 )
 
 remake_doc(
