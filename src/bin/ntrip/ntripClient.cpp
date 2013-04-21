@@ -25,7 +25,7 @@
 
 #include <boost/program_options.hpp>
 
-#include "sensor/NTRIPClient.h"
+#include "ntrip/NTRIPClient.h"
 #include "com/HTTPProtocol.h"
 #include "com/SerialConnection.h"
 #include "exceptions/IOException.h"

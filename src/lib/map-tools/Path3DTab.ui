@@ -34,7 +34,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>261</width>
+     <width>266</width>
      <height>31</height>
     </rect>
    </property>
@@ -105,13 +105,13 @@
   <customwidget>
    <class>View3d</class>
    <extends>QWidget</extends>
-   <header>visualization/View3d.h</header>
+   <header>map-tools/View3d.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ColorChooser</class>
    <extends>QWidget</extends>
-   <header>visualization/ColorChooser.h</header>
+   <header>map-tools/ColorChooser.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -16,11 +16,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/Scene3d.h"
+#include "map-tools/Scene3d.h"
 
 #include <cmath>
 
-#include "visualization/View3d.h"
+#include "map-tools/View3d.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */

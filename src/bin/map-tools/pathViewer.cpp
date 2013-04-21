@@ -27,8 +27,8 @@
 #include <QtGui/QApplication>
 
 #include "visualization/MainWindow.h"
-#include "visualization/Path3DTab.h"
-#include "visualization/Path2DTab.h"
+#include "map-tools/Path3DTab.h"
+#include "map-tools/Path2DTab.h"
 #include "data-structures/PointCloud.h"
 
 int main(int argc, char** argv) {

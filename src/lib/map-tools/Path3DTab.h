@@ -30,8 +30,8 @@
 
 #include "visualization/Control.h"
 #include "base/Singleton.h"
-#include "visualization/View3d.h"
-#include "visualization/Scene3d.h"
+#include "map-tools/View3d.h"
+#include "map-tools/Scene3d.h"
 #include "data-structures/PointCloud.h"
 #include "data-structures/Grid.h"
 

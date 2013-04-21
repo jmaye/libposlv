@@ -24,69 +24,10 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <vector>
-#include <array>
-#include <string>
-
 /** The Utils namespace contains useful functions for the Applanix.
     \brief Utilities for the Applanix.
   */
 namespace Utils {
-  /** \name Type definitions
-    @{
-    */
-  /// Map type
-  enum MapType {
-    symbolic,
-    aerial,
-    info
-  };
-  /// Map format
-  enum MapFormat {
-    jpg,
-    gif,
-    png
-  };
-  /** @}
-    */
-
-  /** \name Constants
-    @{
-    */
-  /// Host for fetching maps
-  static const std::string serverHost = "map.search.ch";
-  /// Port for fetching maps
-  static const size_t serverPort = 80;
-  /// Map type string
-  static const std::vector<std::string> mapTypes = {
-    "sym",
-    "bg",
-    "fg"
-  };
-  /// Map format string
-  static const std::vector<std::string> mapFormats = {
-    "jpg",
-    "gif",
-    "png"
-  };
-  /// Standard pixel width
-  static const size_t pixelWidth = 256;
-  /// Standard pixel height
-  static const size_t pixelHeight = 256;
-  /// Recognized zoom levels
-  static const std::array<double, 9> zoomLevels =
-  {{512, 128, 32, 8, 4, 2, 1, 0.5, 0.25}};
-  /// Min Swiss east coordinate in LV03
-  static const double minEast = 468604;
-  /// Max Swiss east coordinate in LV03
-  static const double maxEast = 853898;
-  /// Min Swiss north coordinate in LV03
-  static const double minNorth = 60945;
-  /// Max Swiss north coordinate in LV03
-  static const double maxNorth = 317923;
-  /** @}
-    */
-
   /** \name Methods
     @{
     */
@@ -109,19 +50,9 @@ namespace Utils {
   double deg2rad(double deg);
   /// Radians to degrees
   double rad2deg(double rad);
-  /// Download map tile centered in east/north to the specified directory
-  std::string downloadMapTile(double east, double north, double zoomLevel,
-    const std::string& dir = "", size_t width = pixelWidth,
-    size_t height = pixelHeight, const MapType type = MapType::symbolic,
-    const MapFormat format = MapFormat::png);
-  /// Fetch map tile centered in east/north to a string buffer
-  void fetchMapTile(double east, double north, double zoomLevel,
-    std::string& image, size_t width = pixelWidth, size_t height = pixelHeight,
-    const MapType type = MapType::symbolic,
-    const MapFormat format = MapFormat::png);
   /** @}
     */
 
 };
 
-#endif // UTILS
+#endif // UTILS_H

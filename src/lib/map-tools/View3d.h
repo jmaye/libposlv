@@ -32,9 +32,9 @@
 #include <QtCore/QPoint>
 
 #include "base/Singleton.h"
-#include "visualization/Palette.h"
-#include "visualization/Camera.h"
-#include "visualization/Scene3d.h"
+#include "map-tools/Palette.h"
+#include "map-tools/Camera.h"
+#include "map-tools/Scene3d.h"
 
 class FTPolygonFont;
 

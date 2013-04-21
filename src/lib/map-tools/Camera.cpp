@@ -16,11 +16,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/Camera.h"
+#include "map-tools/Camera.h"
 
 #include <cmath>
 
-#include "visualization/View3d.h"
+#include "map-tools/View3d.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */

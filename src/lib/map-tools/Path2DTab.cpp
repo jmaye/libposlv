@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/Path2DTab.h"
+#include "map-tools/Path2DTab.h"
 
 #include <iostream>
 #include <sstream>
@@ -24,7 +24,8 @@
 #include <QtCore/QDir>
 #include <QtGui/QFileDialog>
 
-#include "visualization/View2d.h"
+#include "map-tools/View2d.h"
+#include "map-tools/Tools.h"
 #include "sensor/Utils.h"
 
 #include "ui_Path2DTab.h"
@@ -36,48 +37,48 @@
 Path2DTab::Path2DTab() :
     mUi(new Ui_Path2DTab()),
     mCanvasDisplay(DisplayGrid::Coordinate(0, 0),
-      DisplayGrid::Coordinate(3.0 * Utils::pixelWidth,
-      3 * Utils::pixelHeight),
-      DisplayGrid::Coordinate((double)Utils::pixelWidth,
-      Utils::pixelHeight)),
+      DisplayGrid::Coordinate(3.0 * Tools::pixelWidth,
+      3 * Tools::pixelHeight),
+      DisplayGrid::Coordinate((double)Tools::pixelWidth,
+      Tools::pixelHeight)),
     mSymMapDisplay(DisplayGrid::Coordinate(0, 0),
-      DisplayGrid::Coordinate(3.0 * Utils::pixelWidth,
-      3 * Utils::pixelHeight),
-      DisplayGrid::Coordinate((double)Utils::pixelWidth,
-      Utils::pixelHeight)),
+      DisplayGrid::Coordinate(3.0 * Tools::pixelWidth,
+      3 * Tools::pixelHeight),
+      DisplayGrid::Coordinate((double)Tools::pixelWidth,
+      Tools::pixelHeight)),
     mAerialMapDisplay(DisplayGrid::Coordinate(0, 0),
-      DisplayGrid::Coordinate(3.0 * Utils::pixelWidth,
-      3 * Utils::pixelHeight),
-      DisplayGrid::Coordinate((double)Utils::pixelWidth,
-      Utils::pixelHeight)),
+      DisplayGrid::Coordinate(3.0 * Tools::pixelWidth,
+      3 * Tools::pixelHeight),
+      DisplayGrid::Coordinate((double)Tools::pixelWidth,
+      Tools::pixelHeight)),
     mInfoMapDisplay(DisplayGrid::Coordinate(0, 0),
-      DisplayGrid::Coordinate(3.0 * Utils::pixelWidth,
-      3 * Utils::pixelHeight),
-      DisplayGrid::Coordinate((double)Utils::pixelWidth,
-      Utils::pixelHeight)) {
+      DisplayGrid::Coordinate(3.0 * Tools::pixelWidth,
+      3 * Tools::pixelHeight),
+      DisplayGrid::Coordinate((double)Tools::pixelWidth,
+      Tools::pixelHeight)) {
   mUi->setupUi(this);
   setMapFolder(QDir::current().path());
   mMapGrids.clear();
-  for (size_t i = 0; i < Utils::zoomLevels.size(); ++i)
+  for (size_t i = 0; i < Tools::zoomLevels.size(); ++i)
     mMapGrids.push_back(MapGrid(
-      MapGrid::Coordinate(Utils::minEast, Utils::minNorth),
-      MapGrid::Coordinate(Utils::maxEast, Utils::maxNorth),
-      MapGrid::Coordinate(Utils::zoomLevels[i] * Utils::pixelWidth,
-      Utils::zoomLevels[i] * Utils::pixelHeight)));
+      MapGrid::Coordinate(Tools::minEast, Tools::minNorth),
+      MapGrid::Coordinate(Tools::maxEast, Tools::maxNorth),
+      MapGrid::Coordinate(Tools::zoomLevels[i] * Tools::pixelWidth,
+      Tools::zoomLevels[i] * Tools::pixelHeight)));
 //  for (DisplayGrid::Index i = DisplayGrid::Index::Zero();
 //      i != mCanvasDisplay.getNumCells(); mCanvasDisplay.incrementIndex(i)) {
 //    const auto coordinate = mCanvasDisplay.getCoordinates(i) -
-//      DisplayGrid::Coordinate(Utils::pixelWidth / 2.0,
-//      Utils::pixelHeight / 2.0);
+//      DisplayGrid::Coordinate(Tools::pixelWidth / 2.0,
+//      Tools::pixelHeight / 2.0);
 //    mCanvasDisplay[i] = View2d::getInstance().getScene().addRect(
-//      coordinate(0), coordinate(1), Utils::pixelWidth,
-//      Utils::pixelHeight);
+//      coordinate(0), coordinate(1), Tools::pixelWidth,
+//      Tools::pixelHeight);
 //    std::stringstream number;
 //    number << "(" << i(0) << ", " << i(1) << ")";
 //    QGraphicsSimpleTextItem* text = 
 //      View2d::getInstance().getScene().addSimpleText(number.str().c_str());
 //    text->setPos(mCanvasDisplay.getCoordinates(i)(0),
-//      3 * Utils::pixelHeight - mCanvasDisplay.getCoordinates(i)(1));
+//      3 * Tools::pixelHeight - mCanvasDisplay.getCoordinates(i)(1));
 //  }
 }
 
@@ -98,7 +99,7 @@ void Path2DTab::setSliderPosition(int pos) {
 }
 
 void Path2DTab::setPath(const PointCloud<>& path) {
-  for (size_t i = 0; i < Utils::zoomLevels.size(); ++i) {
+  for (size_t i = 0; i < Tools::zoomLevels.size(); ++i) {
     for (auto it = path.getPointBegin(); it != path.getPointEnd();
         ++it) {
       PointCloud<>& pointcloud =
@@ -163,11 +164,11 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
       const auto coordinate = mMapGrids[mUi->zoomSlider->sliderPosition()].
         getCoordinates(index);
       std::string symMapFileName = mUi->folderEdit->text().toStdString() + "/" +
-        Utils::downloadMapTile(coordinate(0), coordinate(1),
-          Utils::zoomLevels[mUi->zoomSlider->sliderPosition()],
-          mUi->folderEdit->text().toStdString(), Utils::pixelWidth,
-          Utils::pixelHeight, Utils::MapType::symbolic,
-          Utils::MapFormat::png);
+        Tools::downloadMapTile(coordinate(0), coordinate(1),
+          Tools::zoomLevels[mUi->zoomSlider->sliderPosition()],
+          mUi->folderEdit->text().toStdString(), Tools::pixelWidth,
+          Tools::pixelHeight, Tools::MapType::symbolic,
+          Tools::MapFormat::png);
       QImage symMapimage(symMapFileName.c_str());
       if (symMapimage.isNull()) {
         std::cerr << "Cannot load " << symMapFileName << std::endl;
@@ -177,19 +178,19 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
           View2d::getInstance().getScene().addPixmap(
           QPixmap::fromImage(symMapimage));
         mSymMapDisplay[i]->setPos(mSymMapDisplay.getCoordinates(i)(0) -
-          Utils::pixelWidth / 2,
-          3 * Utils::pixelHeight - mSymMapDisplay.getCoordinates(i)(1) -
-          Utils::pixelHeight / 2);
+          Tools::pixelWidth / 2,
+          3 * Tools::pixelHeight - mSymMapDisplay.getCoordinates(i)(1) -
+          Tools::pixelHeight / 2);
         mSymMapDisplay[i]->setVisible(mUi->symbolicRadioButton->isChecked());
         mSymMapDisplay[i]->setZValue(0.7);
       }
       std::string aerialMapFileName =
         mUi->folderEdit->text().toStdString() + "/" +
-        Utils::downloadMapTile(coordinate(0), coordinate(1),
-          Utils::zoomLevels[mUi->zoomSlider->sliderPosition()],
-          mUi->folderEdit->text().toStdString(), Utils::pixelWidth,
-          Utils::pixelHeight, Utils::MapType::aerial,
-          Utils::MapFormat::png);
+        Tools::downloadMapTile(coordinate(0), coordinate(1),
+          Tools::zoomLevels[mUi->zoomSlider->sliderPosition()],
+          mUi->folderEdit->text().toStdString(), Tools::pixelWidth,
+          Tools::pixelHeight, Tools::MapType::aerial,
+          Tools::MapFormat::png);
       QImage aerialMapimage(aerialMapFileName.c_str());
       if (aerialMapimage.isNull()) {
         std::cerr << "Cannot load " << aerialMapFileName << std::endl;
@@ -199,19 +200,19 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
           View2d::getInstance().getScene().addPixmap(
           QPixmap::fromImage(aerialMapimage));
         mAerialMapDisplay[i]->setPos(mAerialMapDisplay.getCoordinates(i)(0) -
-          Utils::pixelWidth / 2,
-          3 * Utils::pixelHeight - mAerialMapDisplay.getCoordinates(i)(1) -
-          Utils::pixelHeight / 2);
+          Tools::pixelWidth / 2,
+          3 * Tools::pixelHeight - mAerialMapDisplay.getCoordinates(i)(1) -
+          Tools::pixelHeight / 2);
         mAerialMapDisplay[i]->setVisible(mUi->aerialRadioButton->isChecked());
         mAerialMapDisplay[i]->setZValue(0.7);
       }
       std::string infoMapFileName = 
         mUi->folderEdit->text().toStdString() + "/" +
-        Utils::downloadMapTile(coordinate(0), coordinate(1),
-          Utils::zoomLevels[mUi->zoomSlider->sliderPosition()],
-          mUi->folderEdit->text().toStdString(), Utils::pixelWidth,
-          Utils::pixelHeight, Utils::MapType::info,
-          Utils::MapFormat::png);
+        Tools::downloadMapTile(coordinate(0), coordinate(1),
+          Tools::zoomLevels[mUi->zoomSlider->sliderPosition()],
+          mUi->folderEdit->text().toStdString(), Tools::pixelWidth,
+          Tools::pixelHeight, Tools::MapType::info,
+          Tools::MapFormat::png);
       QImage infoMapimage(infoMapFileName.c_str());
       if (infoMapimage.isNull()) {
         std::cerr << "Cannot load " << infoMapFileName << std::endl;
@@ -221,9 +222,9 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
           View2d::getInstance().getScene().addPixmap(
           QPixmap::fromImage(infoMapimage));
         mInfoMapDisplay[i]->setPos(mInfoMapDisplay.getCoordinates(i)(0) -
-          Utils::pixelWidth / 2,
-          3 * Utils::pixelHeight - mInfoMapDisplay.getCoordinates(i)(1) -
-          Utils::pixelHeight / 2);
+          Tools::pixelWidth / 2,
+          3 * Tools::pixelHeight - mInfoMapDisplay.getCoordinates(i)(1) -
+          Tools::pixelHeight / 2);
         mInfoMapDisplay[i]->setVisible(mUi->infoCheckBox->isChecked());
         mInfoMapDisplay[i]->setZValue(0.8);
       }
@@ -237,9 +238,9 @@ void Path2DTab::centerDisplayOnLV03(double east, double north, bool pos) {
           getCoordinates(minIndex) -
         mMapGrids[mUi->zoomSlider->sliderPosition()].getResolution() / 2;
         const auto position = (MapGrid::Coordinate((*it)(0), (*it)(1)) -
-          minCoordinate) / Utils::zoomLevels[mUi->zoomSlider->sliderPosition()];
+          minCoordinate) / Tools::zoomLevels[mUi->zoomSlider->sliderPosition()];
         const double pixelX = position(0);
-        const double pixelY = 3 * Utils::pixelHeight - position(1);
+        const double pixelY = 3 * Tools::pixelHeight - position(1);
         QGraphicsItem* ellipse =
           View2d::getInstance().getScene().addEllipse(pixelX, pixelY, 1, 1,
           QPen(Qt::red));

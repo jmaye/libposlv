@@ -28,7 +28,7 @@
 #include <QtGui/QGraphicsView>
 
 #include "base/Singleton.h"
-#include "visualization/Scene2d.h"
+#include "map-tools/Scene2d.h"
 
 /** The View2d class represents a 2d view.
     \brief 2d view

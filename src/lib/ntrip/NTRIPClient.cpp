@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "sensor/NTRIPClient.h"
+#include "ntrip/NTRIPClient.h"
 
 #include <sstream>
 

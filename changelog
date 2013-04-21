@@ -1,3 +1,9 @@
+libposlv (1.0-154) lucid; urgency=low
+
+  * restructuring 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Sun, 21 Apr 2013 18:31:45 +0200
+
 libposlv (1.0-153) lucid; urgency=low
 
   * small bug 

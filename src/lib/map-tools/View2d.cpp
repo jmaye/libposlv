@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/View2d.h"
+#include "map-tools/View2d.h"
 
 #include <QtGui/QMouseEvent>
 #include <QtGui/QWheelEvent>

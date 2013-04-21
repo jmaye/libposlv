@@ -16,11 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/Path3DTab.h"
+#include "map-tools/Path3DTab.h"
 
 #include "ui_Path3DTab.h"
 
 #include "sensor/Utils.h"
+#include "map-tools/Tools.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
@@ -29,10 +30,10 @@
 Path3DTab::Path3DTab() :
     mUi(new Ui_Path3DTab()),
     mTileMap(
-      MapGrid::Coordinate(Utils::minEast, Utils::minNorth),
-      MapGrid::Coordinate(Utils::maxEast, Utils::maxNorth),
-      MapGrid::Coordinate(Utils::zoomLevels[7] * Utils::pixelWidth,
-      Utils::zoomLevels[7] * Utils::pixelHeight)),
+      MapGrid::Coordinate(Tools::minEast, Tools::minNorth),
+      MapGrid::Coordinate(Tools::maxEast, Tools::maxNorth),
+      MapGrid::Coordinate(Tools::zoomLevels[7] * Tools::pixelWidth,
+      Tools::zoomLevels[7] * Tools::pixelHeight)),
     mTextureMap(mTileMap) {
   mUi->setupUi(this);
   connect(&View3d::getInstance().getScene(), SIGNAL(render(View3d&, Scene3d&)),
@@ -105,8 +106,8 @@ void Path3DTab::setPath(const PointCloud<>& path) {
   mTextureMap = MapGrid(
     MapGrid::Coordinate(minEast, minNorth),
     MapGrid::Coordinate(maxEast, maxNorth),
-    MapGrid::Coordinate(Utils::zoomLevels[7] * Utils::pixelWidth,
-    Utils::zoomLevels[7] * Utils::pixelHeight));
+    MapGrid::Coordinate(Tools::zoomLevels[7] * Tools::pixelWidth,
+    Tools::zoomLevels[7] * Tools::pixelHeight));
   View3d::getInstance().getScene().setTranslation(-mPointCloud[0](0),
     -mPointCloud[0](1), -mPointCloud[0](2));
 }
@@ -197,10 +198,10 @@ void Path3DTab::renderTiles() {
     const auto coordinate = mTileMap.getCoordinates(index);
     if (mTextureMap[i] == 0) {
       std::string tileFile = "maps/" +
-        Utils::downloadMapTile(coordinate(0), coordinate(1),
-        Utils::zoomLevels[7],
-        "maps", Utils::pixelWidth, Utils::pixelHeight, Utils::MapType::aerial,
-        Utils::MapFormat::png);
+        Tools::downloadMapTile(coordinate(0), coordinate(1),
+        Tools::zoomLevels[7],
+        "maps", Tools::pixelWidth, Tools::pixelHeight, Tools::MapType::aerial,
+        Tools::MapFormat::png);
       QImage tileImage(tileFile.c_str());
       QImage tileImageTrans = tileImage.mirrored();
       GLuint textureID = View3d::getInstance().bindTexture(tileImageTrans);

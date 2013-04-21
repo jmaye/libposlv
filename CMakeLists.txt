@@ -24,31 +24,55 @@ remake_doc(
 
 remake_pack_deb(
   DESCRIPTION "Main library"
-  DEPENDS libboost-system[0-9.]* libboost-filesystem[0-9.]*
 )
 
 remake_pack_deb(
   COMPONENT dev
   DESCRIPTION "Development headers"
-  DEPENDS libposlv libeigen2-dev
+  DEPENDS libposlv
 )
 
 remake_pack_deb(
   COMPONENT console-tools
   DESCRIPTION "Console tools"
-  DEPENDS libposlv libboost-program-options[0-9.]*
+  DEPENDS libposlv
 )
 
 remake_pack_deb(
   COMPONENT gui-tools
   DESCRIPTION "GUI tools"
-  DEPENDS libposlv libqt4-opengl libftgl2
+  DEPENDS libposlv libqtgui4
 )
 
 remake_pack_deb(
   COMPONENT gui-tools-dev
   DESCRIPTION "GUI tools development headers"
-  DEPENDS libposlv-dev libqt4-opengl-dev
+  DEPENDS libposlv-dev libqt4-dev
+)
+
+remake_pack_deb(
+  COMPONENT map-tools
+  DESCRIPTION "Map tools"
+  DEPENDS libposlv-gui-tools libboost-system[0-9.]* libboost-filesystem[0-9.]*
+    libqt4-opengl libftgl2
+)
+
+remake_pack_deb(
+  COMPONENT map-tools-dev
+  DESCRIPTION "Map tools development headers"
+  DEPENDS libposlv-dev libeigen2-dev libqt4-opengl-dev
+)
+
+remake_pack_deb(
+  COMPONENT ntrip
+  DESCRIPTION "NTRIP client"
+  DEPENDS libposlv libboost-program-options[0-9.]*
+)
+
+remake_pack_deb(
+  COMPONENT ntrip-dev
+  DESCRIPTION "NTRIP client development headers"
+  DEPENDS libposlv-dev
 )
 
 remake_pack_deb(

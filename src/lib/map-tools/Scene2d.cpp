@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/Scene2d.h"
+#include "map-tools/Scene2d.h"
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */

@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "visualization/View3d.h"
+#include "map-tools/View3d.h"
 
 #include <cmath>
 
