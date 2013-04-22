@@ -1,3 +1,9 @@
+libposlv (1.0-155) lucid; urgency=low
+
+  * porting to GIT 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Mon, 22 Apr 2013 10:31:59 +0200
+
 libposlv (1.0-154) lucid; urgency=low
 
   * restructuring 

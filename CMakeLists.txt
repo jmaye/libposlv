@@ -9,7 +9,7 @@ remake_project(
   SUMMARY "A C++ based Applanix POS LV interfacing library"
   AUTHOR "Jerome Maye"
   CONTACT "jerome.maye@mavt.ethz.ch"
-  HOME "http://aslforge.ethz.ch/projects/libposlv"
+  HOME "https://github.com/jmaye/libposlv"
   LICENSE "GNU Lesser General Public License (LGPL)"
   PREFIX poslv-
   INSTALL /usr/
@@ -87,7 +87,7 @@ remake_distribute_deb(
   UPLOAD ppa:jmaye/ethz
   DEPENDS remake doxygen libqt4-opengl-dev libftgl-dev libboost-all-dev
     libeigen2-dev
-  PASS CMAKE_BUILD_TYPE LIBPOSLV_SUBVERSION_REVISION
+  PASS CMAKE_BUILD_TYPE LIBPOSLV_GIT_REVISION
 )
 
 remake_distribute_deb(
@@ -96,5 +96,5 @@ remake_distribute_deb(
   UPLOAD ppa:jmaye/ethz
   DEPENDS remake doxygen libqt4-opengl-dev libftgl-dev libboost-all-dev
     libeigen2-dev
-  PASS CMAKE_BUILD_TYPE LIBPOSLV_SUBVERSION_REVISION
+  PASS CMAKE_BUILD_TYPE LIBPOSLV_GIT_REVISION
 )
