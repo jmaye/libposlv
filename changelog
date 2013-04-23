@@ -1,3 +1,9 @@
+libposlv (1.0-157) lucid; urgency=low
+
+  * adding README.md
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 23 Apr 2013 10:40:01 +0200
+
 libposlv (1.0-156) lucid; urgency=low
 
   * git ignore added
