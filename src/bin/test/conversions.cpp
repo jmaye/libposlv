@@ -20,26 +20,74 @@
     \brief This file is a testing binary for the conversions.
   */
 
-#include <iostream>
-
 #include <cmath>
 
-#include "sensor/Utils.h"
+#include <iostream>
+
+#include <Eigen/Array>
+
+#include "geo-tools/Geo.h"
 
 int main(int argc, char** argv) {
   double east, north, height;
-  Utils::WGS84ToLV03(46.044131, 8.730497, 650.60, east, north, height);
+  Geo::wgs84ToLv03Approx(46.044131, 8.730497, 650.60, east, north, height);
   std::cout  << "East: " << east << " North: " << north
     << " Height: " << height << std::endl;
-  if (fabs(east - 700000) > 5e-1 || fabs(north - 100000) > 5e-1 ||
-      fabs(height - 600) > 5e-1)
+  if (std::fabs(east - 700000) > 5e-1 || std::fabs(north - 100000) > 5e-1 ||
+      std::fabs(height - 600) > 5e-1)
     return 1;
   double latitude, longitude, altitude;
-  Utils::LV03ToWGS84(latitude, longitude, altitude, 700000, 100000, 600);
+  Geo::lv03ToWgs84Approx(latitude, longitude, altitude, 700000, 100000, 600);
   std::cout << "Latitude: " << latitude << " Longitude: " << longitude
     << " Altitude: " << altitude << std::endl;
-  if (fabs(latitude - 46.044131) > 5e-1 || fabs(longitude - 8.730497) > 5e-1 ||
-      fabs(altitude - 650.60) > 5e-1)
+  if (std::fabs(latitude - 46.044131) > 5e-1 ||
+      std::fabs(longitude - 8.730497) > 5e-1 ||
+      std::fabs(altitude - 650.60) > 5e-1)
     return 1;
+  Geo::R_ENU_NED& R_ENU = Geo::R_ENU_NED::getInstance();
+  Eigen::Matrix3d R = Eigen::Matrix3d::Random();
+  if (R * R_ENU * R_ENU != R)
+    return 1;
+  if (R_ENU * R_ENU * R != R)
+    return 1;
+  double xe, ye, ze;
+  Geo::wgs84ToEcef(46.044131, 8.730497, 650.60, xe, ye, ze);
+  std::cout << std::fixed << "xe: " << xe << " ye: " << ye << " ze: "
+    << ze << std::endl;
+  Geo::ecefToWgs84(latitude, longitude, altitude, xe, ye, ze);
+  std::cout << "Latitude: " << latitude << " Longitude: " << longitude
+    << " Altitude: " << altitude << std::endl;
+  if (std::fabs(latitude - 46.044131) > 5e-1 ||
+      std::fabs(longitude - 8.730497) > 5e-1 ||
+      std::fabs(altitude - 650.60) > 5e-1)
+    return 1;
+  double xned, yned, zned;
+  Geo::ecefToNed(xe, ye, ze, 47.37807435, 8.54664177, 500, xned, yned, zned);
+  std::cout << "xned: " << xned << " yned: " << yned << " zned: " << zned
+    << std::endl;
+  double xecef, yecef, zecef;
+  Geo::nedToEcef(xecef, yecef, zecef, 47.37807435, 8.54664177, 500, xned, yned,
+    zned);
+  if (std::fabs(xecef - xe) > 5e-1 ||
+      std::fabs(yecef - ye) > 5e-1 ||
+      std::fabs(zecef - ze) > 5e-1)
+    return 1;
+  std::cout << "xecef: " << xecef << " yecef: " << yecef << " zecef: "
+    << zecef << std::endl;
+  double xenu, yenu, zenu;
+  Geo::ecefToEnu(xe, ye, ze, 47.37807435, 8.54664177, 500, xenu, yenu, zenu);
+  std::cout << "xenu: " << xenu << " yenu: " << yenu << " zenu: " << zenu
+    << std::endl;
+  Geo::enuToEcef(xecef, yecef, zecef, 47.37807435, 8.54664177, 500, xenu, yenu,
+    zenu);
+  if (std::fabs(xecef - xe) > 5e-1 ||
+      std::fabs(yecef - ye) > 5e-1 ||
+      std::fabs(zecef - ze) > 5e-1)
+    return 1;
+  std::cout << "xecef: " << xecef << " yecef: " << yecef << " zecef: "
+    << zecef << std::endl;
+  Geo::wgs84ToLv03Rigorous(46.044131, 8.730497, 650.60, east, north, height);
+  std::cout  << "East: " << east << " North: " << north
+    << " Height: " << height << std::endl;
   return 0;
 }

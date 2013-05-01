@@ -1,1 +1,1 @@
-remake_add_executables(TESTING LINK sensor)
+remake_add_executables(TESTING LINK geo-tools)

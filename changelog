@@ -1,3 +1,9 @@
+libposlv (1.0-158) lucid; urgency=low
+
+  * adding geo-tools component 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 01 May 2013 20:51:30 +0200
+
 libposlv (1.0-157) lucid; urgency=low
 
   * adding README.md

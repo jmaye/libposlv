@@ -64,6 +64,18 @@ remake_pack_deb(
 )
 
 remake_pack_deb(
+  COMPONENT geo-tools
+  DESCRIPTION "Geodetic tools"
+  DEPENDS libposlv
+)
+
+remake_pack_deb(
+  COMPONENT geo-tools-dev
+  DESCRIPTION "Geodetic tools development headers"
+  DEPENDS libposlv-dev libeigen2-dev
+)
+
+remake_pack_deb(
   COMPONENT ntrip
   DESCRIPTION "NTRIP client"
   DEPENDS libposlv libboost-program-options[0-9.]*

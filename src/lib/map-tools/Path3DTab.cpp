@@ -20,7 +20,6 @@
 
 #include "ui_Path3DTab.h"
 
-#include "sensor/Utils.h"
 #include "map-tools/Tools.h"
 
 /******************************************************************************/

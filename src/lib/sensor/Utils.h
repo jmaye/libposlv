@@ -28,15 +28,10 @@
     \brief Utilities for the Applanix.
   */
 namespace Utils {
+
   /** \name Methods
     @{
     */
-  /// Converts WGS84 to LV03
-  void WGS84ToLV03(double latitude, double longitude, double altitude,
-    double& east, double& north, double& height);
-  /// Converts LV03 to WGS84
-  void LV03ToWGS84(double& latitude, double& longitude, double& altitude,
-    double east, double north, double height);
   /** \brief Converts sexagesimal angle (degrees, minutes and seconds "dd.mmss")
     to decimal angle (degrees) */
   double sexToDecAngle(double dms);

@@ -55,26 +55,23 @@ int main(int argc, char** argv) {
         if (group.instanceOf<VehicleNavigationSolution>()) {
           const VehicleNavigationSolution& msg =
             group.typeCast<VehicleNavigationSolution>();
-          double east, north, height;
-          Utils::WGS84ToLV03(msg.mLatitude, msg.mLongitude, msg.mAltitude, east,
-            north, height);
           outFile << std::fixed << std::setprecision(16)
             << msg.mTimeDistance.mTime1
-            << " " << east
-            << " " << north
-            << " " << height
-            << " " << -Utils::deg2rad(msg.mHeading)
-            << " " << -Utils::deg2rad(msg.mPitch)
+            << " " << msg.mLatitude
+            << " " << msg.mLongitude
+            << " " << msg.mAltitude
+            << " " << Utils::deg2rad(msg.mHeading)
+            << " " << Utils::deg2rad(msg.mPitch)
             << " " << Utils::deg2rad(msg.mRoll)
-            << " " << msg.mEastVelocity
             << " " << msg.mNorthVelocity
-            << " " << -msg.mDownVelocity
+            << " " << msg.mEastVelocity
+            << " " << msg.mDownVelocity
             << " " << Utils::deg2rad(msg.mAngularRateLong)
-            << " " << -Utils::deg2rad(msg.mAngularRateTrans)
-            << " " << -Utils::deg2rad(msg.mAngularRateDown)
+            << " " << Utils::deg2rad(msg.mAngularRateTrans)
+            << " " << Utils::deg2rad(msg.mAngularRateDown)
             << " " << msg.mAccLong
-            << " " << -msg.mAccTrans
-            << " " << -msg.mAccDown
+            << " " << msg.mAccTrans
+            << " " << msg.mAccDown
             << std::endl;
         }
       }

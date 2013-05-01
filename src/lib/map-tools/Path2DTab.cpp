@@ -26,7 +26,7 @@
 
 #include "map-tools/View2d.h"
 #include "map-tools/Tools.h"
-#include "sensor/Utils.h"
+#include "geo-tools/Geo.h"
 
 #include "ui_Path2DTab.h"
 
@@ -117,7 +117,7 @@ void Path2DTab::setPath(const PointCloud<>& path) {
 void Path2DTab::centerDisplayOnWGS84(double latitude, double longitude,
     bool pos) {
   double east, north, height;
-  Utils::WGS84ToLV03(latitude, longitude, 0, east, north, height);
+  Geo::wgs84ToLv03Approx(latitude, longitude, 0, east, north, height);
   centerDisplayOnLV03(east, north, pos);
 }
 

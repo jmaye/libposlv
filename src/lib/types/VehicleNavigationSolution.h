@@ -64,41 +64,41 @@ public:
   static const uint16_t mByteCount = 132;
   /// Time/Distance field
   TimeDistance mTimeDistance;
-  /// Latitude
+  /// Latitude [deg]
   double mLatitude;
-  /// Longitude
+  /// Longitude [deg]
   double mLongitude;
-  /// Altitude
+ /// Altitude [m], ellipsoid height
   double mAltitude;
-  /// North velocity
+  /// North velocity [m/s]
   float mNorthVelocity;
-  /// East velocity
+  /// East velocity [m/s]
   float mEastVelocity;
-  /// Down velocity
+  /// Down velocity [m/s]
   float mDownVelocity;
-  /// Roll
+  /// Roll [deg], NED, [-180, 180]
   double mRoll;
-  /// Pitch
+  /// Pitch [deg], NED, [-90, 90]
   double mPitch;
-  /// Heading
+  /// Heading [deg], NED, [0, 360]
   double mHeading;
-  /// Wander angel
+  /// Wander angle [deg], NED, [-180, 180]
   double mWanderAngle;
-  /// Track angle
+  /// Track angle [deg], NED, [0, 360]
   float mTrackAngle;
-  /// Speed
+  /// Speed [m/s]
   float mSpeed;
-  /// Angular rate longitude
+  /// Angular rate longitudinal [deg/s]
   float mAngularRateLong;
-  /// Angular rate transverse
+  /// Angular rate transverse [deg/s]
   float mAngularRateTrans;
-  /// Angular rate down
+  /// Angular rate down [deg/s]
   float mAngularRateDown;
-  /// Acceleration longitude
+  /// Acceleration longitudinal [m/s^2]
   float mAccLong;
-  /// Acceleration transverse
+  /// Acceleration transverse [m/s^2]
   float mAccTrans;
-  /// Acceleration down
+  /// Acceleration down [m/s^2]
   float mAccDown;
   /// Alignment status
   uint8_t mAlignementStatus;
