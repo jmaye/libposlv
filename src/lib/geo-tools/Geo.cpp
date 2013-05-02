@@ -77,10 +77,6 @@ Eigen::Matrix3d R_ENU_NED::leftMultiply(const Eigen::Matrix3d& R) const {
   return R * mR;
 }
 
-Eigen::Vector3d R_ENU_NED::operator * (const Eigen::Vector3d& v) {
-  return mR * v;
-}
-
 Eigen::Matrix3d operator * (const Eigen::Matrix3d& R, const R_ENU_NED& R_ENU) {
   return R_ENU.leftMultiply(R);
 }
@@ -239,7 +235,7 @@ void lv03ToWgs84Approx(double& latitude, double& longitude, double& altitude,
 }
 
 void wgs84ToLv03Rigorous(double latitude, double longitude, double altitude,
-    double& east, double& north, double& height) {
+    double& east, double& north) {
   const double a = aBessel1841;
   const double b = bBessel1841;
   const double E2 = (a * a - b * b) / (a * a);

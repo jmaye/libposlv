@@ -50,6 +50,7 @@ int main(int argc, char** argv) {
     return 1;
   if (R_ENU * R_ENU * R != R)
     return 1;
+  std::cout << R_ENU * R << std::endl;
   double xe, ye, ze;
   Geo::wgs84ToEcef(46.044131, 8.730497, 650.60, xe, ye, ze);
   std::cout << std::fixed << "xe: " << xe << " ye: " << ye << " ze: "
@@ -86,7 +87,7 @@ int main(int argc, char** argv) {
     return 1;
   std::cout << "xecef: " << xecef << " yecef: " << yecef << " zecef: "
     << zecef << std::endl;
-  Geo::wgs84ToLv03Rigorous(46.044131, 8.730497, 650.60, east, north, height);
+  Geo::wgs84ToLv03Rigorous(46.044131, 8.730497, 650.60, east, north);
   std::cout  << "East: " << east << " North: " << north
     << " Height: " << height << std::endl;
   return 0;

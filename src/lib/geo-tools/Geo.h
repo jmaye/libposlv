@@ -68,8 +68,6 @@ namespace Geo {
     Eigen::Matrix3d operator * (const Eigen::Matrix3d& R);
     /// Multiplication with itself
     Eigen::Matrix3d operator * (const R_ENU_NED& R);
-    /// Right multiplication: R_ENU_NED * v
-    Eigen::Vector3d operator * (const Eigen::Vector3d& v);
     /** @}
       */
 
@@ -169,7 +167,7 @@ namespace Geo {
     double east, double north, double height);
   /// Converts WGS84 to LV03 (rigorous), lat./long. in deg.
   void wgs84ToLv03Rigorous(double latitude, double longitude, double altitude,
-    double& east, double& north, double& height);
+    double& east, double& north);
   /** @}
     */
 
