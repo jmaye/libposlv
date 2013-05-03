@@ -47,7 +47,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT gui-tools-dev
   DESCRIPTION "GUI tools development headers"
-  DEPENDS libposlv-dev libqt4-dev
+  DEPENDS libposlv-dev libposlv-gui-tools libqt4-dev
 )
 
 remake_pack_deb(
@@ -60,7 +60,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT map-tools-dev
   DESCRIPTION "Map tools development headers"
-  DEPENDS libposlv-dev libeigen2-dev libqt4-opengl-dev
+  DEPENDS libposlv-dev libposlv-map-tools libeigen2-dev libqt4-opengl-dev
 )
 
 remake_pack_deb(
@@ -72,7 +72,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT geo-tools-dev
   DESCRIPTION "Geodetic tools development headers"
-  DEPENDS libposlv-dev libeigen2-dev
+  DEPENDS libposlv-dev libposlv-geo-tools libeigen2-dev
 )
 
 remake_pack_deb(
@@ -84,7 +84,7 @@ remake_pack_deb(
 remake_pack_deb(
   COMPONENT ntrip-dev
   DESCRIPTION "NTRIP client development headers"
-  DEPENDS libposlv-dev
+  DEPENDS libposlv-dev libposlv-ntrip
 )
 
 remake_pack_deb(
