@@ -1,3 +1,9 @@
+libposlv (1.0-161) precise; urgency=low
+
+  * changed map into unordered_map 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Wed, 08 May 2013 08:22:36 +0000
+
 libposlv (1.0-160) lucid; urgency=low
 
   * dependency  
