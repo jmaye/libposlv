@@ -1,3 +1,9 @@
+libposlv (1.0-163) lucid; urgency=low
+
+  * modifying pkg-config 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Fri, 26 Jul 2013 14:09:39 +0200
+
 libposlv (1.0-162) lucid; urgency=low
 
   * adding pkg-config 
