@@ -29,6 +29,11 @@ TypeCreationException<X>::TypeCreationException(const X& argument,
     mArg(argument),
     mFilename(filename),
     mLine(line) {
+  std::stringstream stream;
+  stream << mMsg << " [argument = " << mArg << "]";
+  if (mFilename != " ")
+    stream << " [file = " << mFilename << "]" << "[line = " << mLine << "]";
+  mOutputMessage = stream.str();
 }
 
 template <typename X>
@@ -37,7 +42,8 @@ TypeCreationException<X>::TypeCreationException(const TypeCreationException&
     mMsg(other.mMsg),
     mArg(other.mArg),
     mFilename(other.mFilename),
-    mLine(other.mLine) {
+    mLine(other.mLine),
+    mOutputMessage(other.mOutputMessage) {
 }
 
 template <typename X>
@@ -48,6 +54,7 @@ TypeCreationException<X>& TypeCreationException<X>::operator =
     mArg = other.mArg;
     mFilename = other.mFilename;
     mLine = other.mLine;
+    mOutputMessage = other.mOutputMessage;
   }
   return *this;
 }
@@ -61,9 +68,5 @@ TypeCreationException<X>::~TypeCreationException() throw () {
 /******************************************************************************/
 template <typename X>
 const char* TypeCreationException<X>::what() const throw () {
-  std::stringstream stream;
-  stream << mMsg << " [argument = " << mArg << "]";
-  if (mFilename != " ")
-    stream << " [file = " << mFilename << "]" << "[line = " << mLine << "]";
-  return stream.str().c_str();
+  return mOutputMessage.c_str();
 }

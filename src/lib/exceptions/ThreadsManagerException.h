@@ -70,6 +70,8 @@ protected:
   std::string mFilename;
   /// Line number where the exception occurs
   size_t mLine;
+  /// Output message
+  std::string mOutputMessage;
   /** @}
     */
 

@@ -32,8 +32,8 @@ TimeDistance::TimeDistance(const TimeDistance& other) :
     mTime1(other.mTime1),
     mTime2(other.mTime2),
     mDistanceTag(other.mDistanceTag),
-    mTimeType(mTimeType),
-    mDistanceType(mDistanceType) {
+    mTimeType(other.mTimeType),
+    mDistanceType(other.mDistanceType) {
 }
 
 TimeDistance& TimeDistance::operator = (const TimeDistance& other) {
@@ -41,8 +41,8 @@ TimeDistance& TimeDistance::operator = (const TimeDistance& other) {
     mTime1 = other.mTime1;
     mTime2 = other.mTime2;
     mDistanceTag = other.mDistanceTag;
-    mTimeType = mTimeType;
-    mDistanceType = mDistanceType;
+    mTimeType = other.mTimeType;
+    mDistanceType = other.mDistanceType;
   }
   return *this;
 }

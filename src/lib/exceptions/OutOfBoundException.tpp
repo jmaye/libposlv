@@ -29,6 +29,11 @@ OutOfBoundException<X>::OutOfBoundException(const X& argument, const
     mArg(argument),
     mFilename(filename),
     mLine(line) {
+  std::stringstream stream;
+  stream << mMsg << " [argument = " << mArg << "]";
+  if (mFilename != " ")
+    stream << " [file = " << mFilename << "]" << "[line = " << mLine << "]";
+  mOutputMessage = stream.str();
 }
 
 template <typename X>
@@ -37,7 +42,8 @@ OutOfBoundException<X>::OutOfBoundException(const OutOfBoundException& other)
     mMsg(other.mMsg),
     mArg(other.mArg),
     mFilename(other.mFilename),
-    mLine(other.mLine) {
+    mLine(other.mLine),
+    mOutputMessage(other.mOutputMessage) {
 }
 
 template <typename X>
@@ -48,6 +54,7 @@ OutOfBoundException<X>& OutOfBoundException<X>::operator =
     mArg = other.mArg;
     mFilename = other.mFilename;
     mLine = other.mLine;
+    mOutputMessage = other.mOutputMessage;
   }
   return *this;
 }
@@ -62,9 +69,5 @@ OutOfBoundException<X>::~OutOfBoundException() throw() {
 
 template <typename X>
 const char* OutOfBoundException<X>::what() const throw() {
-  std::stringstream stream;
-  stream << mMsg << " [argument = " << mArg << "]";
-  if (mFilename != " ")
-    stream << " [file = " << mFilename << "]" << "[line = " << mLine << "]";
-  return stream.str().c_str();
+  return mOutputMessage.c_str();
 }

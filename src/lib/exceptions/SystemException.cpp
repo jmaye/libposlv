@@ -32,13 +32,21 @@ SystemException::SystemException(int errNo, const
     mErrno(errNo),
     mFilename(filename),
     mLine(line) {
+  std::stringstream stream;
+  stream << mMsg << ": " << strerror(mErrno);
+  if (mFilename != " ")
+    stream << " [file = " << mFilename << "]";
+  if (mLine)
+    stream << "[line = " << mLine << "]";
+  mOutputMessage = stream.str();
 }
 
 SystemException::SystemException(const SystemException& other) throw() :
     mMsg(other.mMsg),
     mErrno(other.mErrno),
     mFilename(other.mFilename),
-    mLine(other.mLine) {
+    mLine(other.mLine),
+    mOutputMessage(other.mOutputMessage) {
 }
 
 SystemException& SystemException::operator =
@@ -48,6 +56,7 @@ SystemException& SystemException::operator =
     mErrno = other.mErrno;
     mFilename = other.mFilename;
     mLine = other.mLine;
+    mOutputMessage = other.mOutputMessage;
   }
   return *this;
 }
@@ -60,9 +69,5 @@ SystemException::~SystemException() throw() {
 /******************************************************************************/
 
 const char* SystemException::what() const throw() {
-  std::stringstream stream;
-  stream << mMsg << ": " << strerror(mErrno);
-  if (mFilename != " ")
-    stream << " [file = " << mFilename << "]" << "[line = " << mLine << "]";
-  return stream.str().c_str();
+  return mOutputMessage.c_str();
 }
