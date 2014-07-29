@@ -1,3 +1,9 @@
+libposlv (1.0-166) precise; urgency=low
+
+  * trusty build
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 Jul 2014 09:48:09 +0200
+
 libposlv (1.0-165) precise; urgency=low
 
   * fixing minor bugs reported by joy.you (yjcpui@gmail.com) 

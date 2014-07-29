@@ -110,3 +110,12 @@ remake_distribute_deb(
     libeigen2-dev pkg-config
   PASS CMAKE_BUILD_TYPE LIBPOSLV_GIT_REVISION
 )
+
+remake_distribute_deb(
+  DISTRIBUTION trusty
+  SECTION libs
+  UPLOAD ppa:jmaye/ethz
+  DEPENDS remake doxygen libqt4-opengl-dev libftgl-dev libboost-all-dev
+    libeigen2-dev pkg-config
+  PASS CMAKE_BUILD_TYPE LIBPOSLV_GIT_REVISION
+)
