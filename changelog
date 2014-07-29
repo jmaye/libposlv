@@ -1,3 +1,9 @@
+libposlv (1.0-167) precise; urgency=low
+
+  * correcting missing headers
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 Jul 2014 10:09:58 +0200
+
 libposlv (1.0-166) precise; urgency=low
 
   * trusty build
