@@ -1,3 +1,9 @@
+libposlv (1.0-170) precise; urgency=low
+
+  * correcting qt linking 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Tue, 29 Jul 2014 13:01:09 +0200
+
 libposlv (1.0-169) precise; urgency=low
 
   * correcting missing headers 
