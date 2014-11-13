@@ -1,3 +1,9 @@
+libposlv (1.0-172) precise; urgency=low
+
+  * pkg-config for eigen2 does not exist in lucid 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 13 Nov 2014 14:34:37 +0100
+
 libposlv (1.0-171) precise; urgency=low
 
   * fixing pkg-config 
