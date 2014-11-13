@@ -1,3 +1,9 @@
+libposlv (1.0-171) precise; urgency=low
+
+  * fixing pkg-config 
+
+ -- Jerome Maye <jerome.maye@mavt.ethz.ch>  Thu, 13 Nov 2014 14:24:50 +0100
+
 libposlv (1.0-170) precise; urgency=low
 
   * correcting qt linking 
